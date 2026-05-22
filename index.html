@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghost Protocol | Trader Profile</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Share Tech Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(10, 10, 10, 0.95);
+            
+            /* Color Tiers */
+            --tier-top: #00ff41;   /* Hijau Matrix - Top Tier */
+            --tier-strong: #00f3ff; /* Cyan - Strong */
+            --tier-normal: #888888; /* Abu - Normal */
+            
+            --border-color: #333;
+            --text-main: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background-image: 
+                linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* --- LAYOUT --- */
+        .container {
+            max-width: 1000px;
+            width: 100%;            display: grid;
+            grid-template-columns: 1fr 2fr; /* Kolom kanan lebih lebar */
+            gap: 2rem;
+        }
+
+        /* --- IDENTITY CARD (KIRI) --- */
+        .profile-card {
+            background: var(--card-bg);
+            border: 1px solid var(--tier-top);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.05);
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .avatar-container {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed var(--tier-top);
+            border-radius: 50%;
+        }
+
+        .avatar-icon {
+            font-size: 50px;
+            color: var(--tier-top);
+            text-shadow: 0 0 10px var(--tier-top);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--tier-top);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .alias {
+            font-size: 0.8rem;
+            color: #555;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .data-list {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .label { color: #555; }
+        .value { color: var(--text-main); }
+
+        /* --- TOMBOL BARU: ACCESS EDGE SYSTEM --- */
+        .action-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 255, 65, 0.05);
+            border: 1px solid var(--tier-top);
+            color: var(--tier-top);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            margin-top: auto; /* Mendorong tombol ke paling bawah */
+        }
+
+        .action-btn:hover {
+            background: var(--tier-top);
+            color: #000;
+            box-shadow: 0 0 20px var(--tier-top);
+            text-shadow: none;
+        }
+
+        .action-btn i {
+            margin-right: 8px;
+        }
+
+        /* --- SKILLS PANEL (KANAN) --- */        .skills-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .panel-header {
+            border-bottom: 1px solid var(--tier-top);
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+        }
+
+        .panel-title {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* GRAFIK RATA-RATA DI ATAS */
+        .avg-graph-container {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid #333;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .graph-title {
+            font-size: 0.7rem;
+            color: #666;
+            margin-bottom: 10px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .bars-wrapper {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 60px;
+            gap: 10px;
+        }
+
+        .bar-group {            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 30%;
+            height: 100%;
+            justify-content: flex-end;
+        }
+
+        .stat-bar {
+            width: 100%;
+            background: #222;
+            transition: height 1s ease-out;
+            height: 0;
+            position: relative;
+        }
+        
+        .bar-top { background: var(--tier-top); box-shadow: 0 0 10px var(--tier-top); }
+        .bar-strong { background: var(--tier-strong); box-shadow: 0 0 10px var(--tier-strong); }
+        .bar-normal { background: var(--tier-normal); }
+
+        .bar-label {
+            font-size: 0.6rem;
+            margin-top: 5px;
+            color: #888;
+        }
+        
+        .bar-value {
+            font-size: 0.7rem;
+            margin-bottom: 2px;
+            color: #fff;
+        }
+
+        /* LIST SKILL & PROGRESS BARS */
+        .group-label {
+            font-size: 0.75rem;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            border-left: 3px solid;
+            padding-left: 10px;
+        }
+        
+        .group-top { color: var(--tier-top); border-color: var(--tier-top); }
+        .group-strong { color: var(--tier-strong); border-color: var(--tier-strong); }
+        .group-normal { color: var(--tier-normal); border-color: var(--tier-normal); }
+
+        .skill-item {
+            margin-bottom: 0.8rem;        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3px;
+            font-size: 0.8rem;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 6px;
+            background: #1a1a1a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+        }
+
+        .fill-top { background: var(--tier-top); box-shadow: 0 0 5px var(--tier-top); }
+        .fill-strong { background: var(--tier-strong); box-shadow: 0 0 5px var(--tier-strong); }
+        .fill-normal { background: var(--tier-normal); }
+
+        /* Decoration Corner */
+        .corner-deco {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 1px solid var(--tier-top);
+        }
+        .c-tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+        .c-br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- LEFT: ANONYMOUS ID -->
+        <div class="profile-card">            <div class="corner-deco c-tl"></div>
+            <div class="corner-deco c-br"></div>
+
+            <div>
+                <div class="avatar-container">
+                    <i class="fas fa-user-secret avatar-icon"></i>
+                </div>
+                
+                <h1 id="typewriter">STRADE</h1>
+                <p class="alias">// DISCRETIONARY_SYSTEMS // QUANTITATIVE_FRAMEWORK</p>
+
+                <div class="data-list">
+                    <div class="data-row">
+                        <span class="label">EXECUTION_MODE:</span>
+                        <span class="value">HYBRID</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="label">REGION:</span>
+                        <span class="value">INDONESIAN</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="label">FOCUS:</span>
+                        <span class="value">SYSTEMATIC_EDGE</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="label">STATUS:</span>
+                        <span class="value" style="color:var(--tier-top)">CONNECTED</span>
+                    </div>
+                </div>
+            </div>
+
+          <a href="static/static.html" target="_blank" class="action-btn">
+                <i class="fas fa-terminal"></i> ACCESS EDGE SYSTEM
+            </a>
+        </div>
+
+        <!-- RIGHT: SKILLS MATRIX -->
+        <div class="skills-panel">
+            <div class="panel-header">
+                <span class="panel-title"><i class="fas fa-chart-bar"></i> SYSTEM_PROFILE</span>
+                <span style="font-size:0.7rem; color:#555;">VER_3.0.1</span>
+            </div>
+
+            <!-- FITUR: GRAFIK RATA-RATA DI ATAS -->
+            <div class="avg-graph-container">
+                <span class="graph-title">/// AVERAGE_SKILL_DISTRIBUTION</span>
+                <div class="bars-wrapper">
+                    <!-- Batang 1: Core Systems (Avg ~72%) -->                    <div class="bar-group">
+                        <span class="bar-value">72%</span>
+                        <div class="stat-bar bar-top" data-height="72%"></div>
+                        <span class="bar-label">CORE</span>
+                    </div>
+                    <!-- Batang 2: Analysis (Avg ~64%) -->
+                    <div class="bar-group">
+                        <span class="bar-value">64%</span>
+                        <div class="stat-bar bar-strong" data-height="64%"></div>
+                        <span class="bar-label">ANALYSIS</span>
+                    </div>
+                    <!-- Batang 3: Support (Avg ~58%) -->
+                    <div class="bar-group">
+                        <span class="bar-value">58%</span>
+                        <div class="stat-bar bar-normal" data-height="58%"></div>
+                        <span class="bar-label">SUPPORT</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GROUP 1: TOP TIER (ELITE) -->
+            <div class="group-label group-top">/// CORE_SYSTEMS [TOP_TIER]</div>
+            
+            <div class="skill-item">
+                <div class="skill-info" style="color:var(--tier-top)">
+                    <span>SYSTEMATIC_EXECUTION</span>
+                    <span>74%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill fill-top" data-width="74%"></div>
+                </div>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-info" style="color:var(--tier-top)">
+                    <span>STATISTICAL_EDGE</span>
+                    <span>72%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill fill-top" data-width="72%"></div>
+                </div>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-info" style="color:var(--tier-top)">
+                    <span>MARKET_STRUCTURE</span>
+                    <span>71%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill fill-top" data-width="71%"></div>                </div>
+            </div>
+
+
+            <!-- GROUP 2: STRONG (ADVANCED) -->
+            <div class="group-label group-strong">/// ANALYSIS_MODULES [STRONG]</div>
+
+            <div class="skill-item">
+                <div class="skill-info" style="color:var(--tier-strong)">
+                    <span>LIQUIDITY_ANALYSIS</span>
+                    <span>68%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill fill-strong" data-width="68%"></div>
+                </div>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-info" style="color:var(--tier-strong)">
+                    <span>RISK_MODELING</span>
+                    <span>67%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill fill-strong" data-width="67%"></div>
+                </div>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-info" style="color:var(--tier-strong)">
+                    <span>VOLATILITY_READING</span>
+                    <span>63%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill fill-strong" data-width="63%"></div>
+                </div>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-info" style="color:var(--tier-strong)">
+                    <span>ORDER_FLOW</span>
+                    <span>61%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill fill-strong" data-width="61%"></div>
+                </div>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-info" style="color:var(--tier-strong)">
+                    <span>VOLATILITY_MAPPING</span>                    <span>61%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill fill-strong" data-width="61%"></div>
+                </div>
+            </div>
+
+
+            <!-- GROUP 3: NORMAL (GENERIC) -->
+            <div class="group-label group-normal">/// SUPPORT_PROTOCOLS [NORMAL]</div>
+
+            <div class="skill-item">
+                <div class="skill-info" style="color:var(--tier-normal)">
+                    <span>POSITION_SCALING</span>
+                    <span>58%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill fill-normal" data-width="58%"></div>
+                </div>
+            </div>
+
+            <div class="skill-item">
+                <div class="skill-info" style="color:var(--tier-normal)">
+                    <span>CAPITAL_ALLOCATION</span>
+                    <span>58%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill fill-normal" data-width="58%"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Animasi Bar Skills (Horizontal)
+            const skillBars = document.querySelectorAll('.progress-fill');
+            setTimeout(() => {
+                skillBars.forEach(bar => {
+                    const width = bar.getAttribute('data-width');
+                    bar.style.width = width;
+                });
+            }, 500);
+
+            // 2. Animasi Grafik Rata-rata (Vertikal)
+            const statBars = document.querySelectorAll('.stat-bar');
+            setTimeout(() => {
+                statBars.forEach(bar => {                    const height = bar.getAttribute('data-height');
+                    bar.style.height = height;
+                });
+            }, 800); 
+
+            // 3. Efek Mengetik Nama
+            const nameElement = document.getElementById('typewriter');
+            const originalText = nameElement.innerText;
+            nameElement.innerText = '';
+            
+            let i = 0;
+            function typeWriter() {
+                if (i < originalText.length) {
+                    nameElement.innerText += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                }
+            }
+            setTimeout(typeWriter, 800);
+        });
+    </script>
+</body>
+</html>
