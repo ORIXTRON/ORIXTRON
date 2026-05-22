@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fitur Belum Tersedia</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body{
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:
+      radial-gradient(circle at top left,#1e293b,#020617 60%);
+      overflow:hidden;
+      color:white;
+    }
+
+    .glow{
+      position:absolute;
+      width:300px;
+      height:300px;
+      border-radius:50%;
+      background:#3b82f6;
+      filter:blur(120px);
+      opacity:0.25;
+      animation:float 6s ease-in-out infinite;
+    }
+
+    .glow:nth-child(2){
+      background:#06b6d4;
+      right:10%;
+      top:10%;
+      animation-delay:2s;
+    }
+
+    @keyframes float{
+      0%{transform:translateY(0px);}
+      50%{transform:translateY(-20px);}
+      100%{transform:translateY(0px);}
+    }
+
+    .card{
+      position:relative;
+      z-index:2;
+      width:90%;
+      max-width:500px;
+      padding:50px 40px;
+      border-radius:28px;
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.15);
+      backdrop-filter:blur(14px);
+      text-align:center;
+      box-shadow:
+      0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    .icon{
+      font-size:70px;
+      margin-bottom:20px;
+      animation:pulse 2s infinite;
+    }
+
+    @keyframes pulse{
+      0%{transform:scale(1);}
+      50%{transform:scale(1.08);}
+      100%{transform:scale(1);}
+    }
+
+    h1{
+      font-size:34px;
+      margin-bottom:15px;
+      font-weight:700;
+    }
+
+    p{
+      color:#cbd5e1;
+      font-size:16px;
+      line-height:1.7;
+      margin-bottom:30px;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:14px 28px;
+      border-radius:14px;
+      text-decoration:none;
+      color:white;
+      background:linear-gradient(135deg,#3b82f6,#06b6d4);
+      transition:0.3s;
+      font-weight:bold;
+      box-shadow:0 0 20px rgba(59,130,246,0.4);
+    }
+
+    .btn:hover{
+      transform:translateY(-3px);
+      box-shadow:0 0 30px rgba(6,182,212,0.6);
+    }
+
+    .footer{
+      margin-top:25px;
+      font-size:13px;
+      color:#94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow"></div>
+  <div class="glow"></div>
+
+  <div class="card">
+    <div class="icon">🚧</div>
+
+    <h1>Fitur Ini Belum Tersedia</h1>
+
+    <p>
+      Sistem sedang dalam tahap pengembangan.
+      Nantikan update berikutnya dengan fitur yang lebih lengkap,
+      cepat, dan modern.
+    </p>
+
+    <a href="../index.html" class="btn">Coming Soon</a>
+
+    <div class="footer">
+      © 2026 ORIXTRON Development
+    </div>
+  </div>
+
+</body>
+</html>
