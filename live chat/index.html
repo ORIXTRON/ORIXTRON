@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ROOM ORIXTRON CHAT & TRADE</title>
+  
+  <!-- Google Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      --bg-dark: #0f172a;
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-bg: rgba(15, 23, 42, 0.6);
+      --msg-me-grad: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      --msg-other: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      /* Trading Colors */
+      --bullish: #10b981; 
+      --bearish: #ef4444; 
+      --running: #f59e0b; 
+      --card-bg: rgba(30, 41, 59, 0.95);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #020617;
+      color: var(--text-main);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Animated Background Mesh */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 150%; height: 150%;
+      background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #020617 60%);
+      animation: pulseBg 10s infinite alternate;      z-index: -1;
+    }
+
+    @keyframes pulseBg {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.1); opacity: 1; }
+    }
+
+    /* --- LOGIN SCREEN --- */
+    #login-screen {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(10px);
+      z-index: 1000; display: flex; justify-content: center; align-items: center;
+    }
+
+    .login-card {
+      background: rgba(30, 41, 59, 0.7); padding: 40px 30px; border-radius: 24px;
+      width: 90%; max-width: 380px; text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--glass-border);
+    }
+
+    input[type="text"], select, input[type="number"] {
+      width: 100%; padding: 14px 16px;
+      background: rgba(15, 23, 42, 0.6); border: 1px solid var(--glass-border);
+      border-radius: 12px; color: white; font-size: 15px; outline: none;
+      transition: all 0.3s; font-family: inherit;
+    }
+    
+    input:focus, select:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); }
+    
+    .btn-primary {
+      width: 100%; padding: 14px; background: var(--primary-gradient); 
+      border: none; border-radius: 12px; color: white; font-weight: 600;
+      cursor: pointer; box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+    }
+
+    /* --- CHAT UI --- */
+    .chat-container {
+      width: 100%; max-width: 480px; height: 100vh;
+      max-height: 90vh; background: var(--glass-bg);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      display: flex; flex-direction: column; overflow: hidden;
+      border-left: 1px solid var(--glass-border); border-right: 1px solid var(--glass-border);
+    }
+
+    @media (min-width: 481px) {
+      .chat-container { border-radius: 24px; border: 1px solid var(--glass-border); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+    }
+    /* Header & Ticker */
+    .header {
+      padding: 10px 15px; background: rgba(15, 23, 42, 0.95);
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--glass-border); z-index: 10;
+    }
+
+    .ticker-wrap {
+      width: 100%; background: #020617; overflow: hidden; white-space: nowrap;
+      padding: 5px 0; border-bottom: 1px solid var(--glass-border);
+      font-size: 12px; color: #cbd5e1;
+    }
+    .ticker-item { display: inline-block; padding: 0 2rem; animation: ticker 15s linear infinite; }
+    @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+    .header-controls { display: flex; gap: 8px; align-items: center; }
+    
+    .icon-btn {
+      background: rgba(255,255,255,0.1); border: none; color: white;
+      width: 32px; height: 32px; border-radius: 8px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.2); }
+    .logout-btn { background: rgba(239, 68, 68, 0.2); color: #ef4444; width: auto; padding: 0 10px; font-size: 12px; font-weight: bold;}
+
+    /* Messages Area */
+    #messages {
+      flex: 1; padding: 20px; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth;
+    }
+
+    /* Message Bubbles */
+    .message-row {
+      display: flex; align-items: flex-end; gap: 10px; max-width: 85%;
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .message-row.me { align-self: flex-end; flex-direction: row-reverse; }
+
+    .avatar {
+      width: 32px; height: 32px; border-radius: 50%; object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.05);
+    }
+
+    .bubble-wrapper { display: flex; flex-direction: column; max-width: calc(100% - 45px); }
+    .sender-name { font-size: 11px; font-weight: 600; margin-bottom: 4px; margin-left: 2px; color: var(--text-muted); }
+    
+    .bubble {
+      padding: 10px 16px; border-radius: 18px; font-size: 14px; line-height: 1.5;
+      position: relative; word-wrap: break-word; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }    .me .bubble { background: var(--msg-me-grad); color: white; border-bottom-right-radius: 4px; }
+    .other .bubble { background: var(--msg-other); color: #f1f5f9; border-bottom-left-radius: 4px; }
+    
+    .meta { font-size: 10px; opacity: 0.7; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+    .me .meta { justify-content: flex-end; }
+
+    /* POLLING CARD STYLE */
+    .poll-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 15px;
+      width: 100%;
+      min-width: 260px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .poll-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .poll-token { font-weight: 800; font-size: 18px; letter-spacing: 1px; }
+    .poll-type { 
+      font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; text-transform: uppercase;
+    }
+    .type-bull { background: rgba(16, 185, 129, 0.2); color: var(--bullish); }
+    .type-bear { background: rgba(239, 68, 68, 0.2); color: var(--bearish); }
+
+    .poll-details { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .detail-item span { display: block; font-size: 10px; color: var(--text-muted); }
+    .detail-item strong { font-size: 13px; color: white; }
+    .timer-text { font-family: monospace; color: var(--running); font-weight: bold; }
+
+    .poll-status-bar {
+      background: rgba(255,255,255,0.05); height: 6px; border-radius: 3px; margin-bottom: 8px; overflow: hidden;
+    }
+    .progress-fill { height: 100%; border-radius: 3px; width: 0%; transition: width 0.5s ease; }
+    
+    .result-badge {
+      text-align: center; font-size: 11px; font-weight: bold; padding: 6px; border-radius: 6px;
+      background: rgba(255,255,255,0.05); margin-top: 5px;
+    }
+    
+    /* Status Colors */
+    .status-hit { color: var(--bullish); border: 1px solid rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.1); }
+    .status-missed { color: var(--bearish); border: 1px solid rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.1); }
+    .status-running { color: var(--running); border: 1px solid rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.1); }
+
+    /* Input Area */
+    .input-area {
+      padding: 15px; background: rgba(15, 23, 42, 0.9);
+      border-top: 1px solid var(--glass-border); display: flex; gap: 12px; align-items: center;    }
+    .send-btn {
+      width: 48px; height: 48px; border-radius: 50%; background: var(--primary-gradient); 
+      border: none; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+
+    /* Modal Styles */
+    .modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8); z-index: 2000; display: none;
+      justify-content: center; align-items: center; backdrop-filter: blur(5px);
+    }
+    .modal-content {
+      background: #1e293b; padding: 25px; border-radius: 20px; width: 90%; max-width: 350px;
+      border: 1px solid var(--glass-border);
+    }
+    .form-group { margin-bottom: 15px; }
+    .form-label { display: block; font-size: 12px; margin-bottom: 5px; color: var(--text-muted); }
+    .row { display: flex; gap: 10px; }
+
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+
+<body>
+
+  <!-- LOGIN -->
+  <div id="login-screen">
+    <div class="login-card">
+      <div style="font-size: 40px; margin-bottom: 10px;">📈</div>
+      <h2 style="margin-bottom: 20px; color:white;">ORIXTRON ROOM</h2>
+      <div style="margin-bottom: 20px;">
+        <input type="text" id="usernameInput" placeholder="Nama Trader..." autocomplete="off">
+      </div>
+      <button class="btn-primary" onclick="handleLogin()">MASUK MARKET 🚀</button>
+    </div>
+  </div>
+
+  <!-- MODAL POLLING -->
+  <div id="pollModal" class="modal">
+    <div class="modal-content">
+      <h3 style="margin-bottom: 20px; color:white;">Buat Prediksi Market</h3>
+      
+      <div class="form-group">
+        <label class="form-label">Token / Pair</label>
+        <select id="pollToken">
+          <option value="BTCUSDT">BTC/USDT</option>
+          <option value="ETHUSDT">ETH/USDT</option>
+          <option value="SOLUSDT">SOL/USDT</option>          <option value="BNBUSDT">BNB/USDT</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Target Harga ($)</label>
+        <input type="number" id="pollTarget" placeholder="Contoh: 65000">
+        <small style="color:#64748b; font-size:10px; display:block; margin-top:5px;">*Arah Bullish/Bearish ditentukan otomatis</small>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Durasi Waktu</label>
+        <select id="pollTime">
+          <option value="15">15 Menit</option>
+          <option value="60">1 Jam</option>
+          <option value="240">4 Jam</option>
+          <option value="1440">1 Hari</option>
+        </select>
+      </div>
+
+      <div class="row" style="margin-top: 20px;">
+        <button onclick="closePollModal()" style="flex:1; padding:12px; background:#334155; border:none; border-radius:10px; color:white; cursor:pointer;">Batal</button>
+        <button onclick="submitPoll()" style="flex:1; padding:12px; background:var(--primary-gradient); border:none; border-radius:10px; color:white; font-weight:bold; cursor:pointer;">Kirim Sinyal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT INTERFACE -->
+  <div class="chat-container">
+    <!-- Crypto Ticker -->
+    <div class="ticker-wrap">
+      <div class="ticker-item" id="cryptoTicker">Loading Market Data...</div>
+    </div>
+
+    <div class="header">
+      <div style="font-weight: 700; font-size: 16px;">ROOM SIGNAL</div>
+      <div class="header-controls">
+        <button class="icon-btn" onclick="openPollModal()" title="Buat Polling">
+          <span class="material-icons-round">bar_chart</span>
+        </button>
+        <button class="icon-btn logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+    
+    <div id="messages"></div>
+
+    <div class="input-area">
+      <input id="msgInput" type="text" placeholder="Diskusi market..." onkeypress="if(event.key==='Enter') sendMessage()">
+      <button class="send-btn" onclick="sendMessage()">
+        <span class="material-icons-round">send</span>      </button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+    import { getDatabase, ref, push, onValue, query, limitToLast, serverTimestamp, remove, get } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCJzvlEOPnsaHGqBDOI6HO2iuzHFX08OXA",
+      authDomain: "orixtron-chat.firebaseapp.com",
+      databaseURL: "https://orixtron-chat-default-rtdb.firebaseio.com",
+      projectId: "orixtron-chat",
+      storageBucket: "orixtron-chat.firebasestorage.app",
+      messagingSenderId: "1076288082994",
+      appId: "1:1076288082994:web:a26f88330b43b3314a582b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const chatsQuery = query(ref(db, "chats"), limitToLast(50));
+
+    let currentUser = null;
+    let livePrices = {}; 
+
+    // --- BINANCE API INTEGRATION ---
+    async function fetchCryptoPrices() {
+      try {
+        const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbols=["BTCUSDT","ETHUSDT","SOLUSDT","BNBUSDT"]');
+        const data = await response.json();
+        
+        let tickerText = "";
+        data.forEach(item => {
+          const price = parseFloat(item.price).toFixed(2);
+          livePrices[item.symbol] = parseFloat(item.price); 
+          tickerText += `${item.symbol.replace('USDT','')} : $${price}   •   `;
+        });
+        
+        document.getElementById('cryptoTicker').innerText = tickerText + tickerText; 
+        
+        updatePollVisuals(); 
+
+      } catch (error) {
+        console.error("Gagal ambil data Binance", error);
+      }
+    }
+
+    setInterval(fetchCryptoPrices, 5000);
+    fetchCryptoPrices(); 
+    // --- AUTH & SYSTEM ---
+    window.onload = () => {
+      const saved = localStorage.getItem('orixtron_lite_user');
+      if (saved) {
+        currentUser = JSON.parse(saved);
+        document.getElementById('login-screen').style.display = 'none';
+        loadChat();
+      }
+    };
+
+    window.handleLogin = () => {
+      const name = document.getElementById('usernameInput').value.trim();
+      if (!name) return alert("Isi nama dulu!");
+      const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff`;
+      currentUser = { name, avatar: avatarUrl };
+      localStorage.setItem('orixtron_lite_user', JSON.stringify(currentUser));      
+      document.getElementById('login-screen').style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('login-screen').style.display = 'none';
+        loadChat();
+      }, 300);
+    };
+
+    window.logout = () => {
+      localStorage.removeItem('orixtron_lite_user');
+      location.reload();
+    };
+
+    // --- CHAT FUNCTIONS ---
+    window.sendMessage = async () => {
+      const input = document.getElementById('msgInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      await push(ref(db, "chats"), {
+        u: currentUser.name, a: currentUser.avatar, t: text,
+        type: 'text', ts: serverTimestamp()
+      });
+      input.value = "";
+      cleanupOldMessages();
+    };
+
+    // --- POLLING FUNCTIONS ---
+    window.openPollModal = () => document.getElementById('pollModal').style.display = 'flex';
+    window.closePollModal = () => document.getElementById('pollModal').style.display = 'none';
+
+    window.submitPoll = async () => {
+      const token = document.getElementById('pollToken').value;
+      const targetPrice = parseFloat(document.getElementById('pollTarget').value);
+      const durationMinutes = parseInt(document.getElementById('pollTime').value); // Ambil nilai menit
+      if (!targetPrice || targetPrice <= 0) return alert("Masukkan target harga yang valid!");
+      
+      const entryPrice = livePrices[token];
+      if (!entryPrice) return alert("Gagal mengambil harga pasar. Coba lagi.");
+      if (targetPrice === entryPrice) return alert("Target harga tidak boleh sama dengan harga sekarang!");
+
+      // LOGIKA OTOMATIS MENENTUKAN ARAH
+      let type = (targetPrice > entryPrice) ? "BULLISH" : "BEARISH";
+
+      // Hitung waktu berakhir (Timestamp saat ini + durasi dalam milidetik)
+      const now = Date.now();
+      const endTime = now + (durationMinutes * 60 * 1000);
+
+      await push(ref(db, "chats"), {
+        u: currentUser.name,
+        a: currentUser.avatar,
+        type: 'poll',
+        data: {
+          token, type, targetPrice, entryPrice, endTime,
+          createdAt: now
+        },
+        ts: serverTimestamp()
+      });
+
+      closePollModal();
+      cleanupOldMessages();
+    };
+
+    // --- RENDER CHAT ---
+    function loadChat() {
+      onValue(chatsQuery, (snapshot) => {
+        const box = document.getElementById('messages');
+        box.innerHTML = "";
+        const data = snapshot.val();
+        if (!data) return;
+
+        Object.values(data).forEach(msg => {
+          const isMe = msg.u === currentUser.name;
+          const div = document.createElement('div');
+          div.className = `message-row ${isMe ? 'me' : 'other'}`;
+          
+          const date = new Date(msg.ts);
+          const time = date.getHours().toString().padStart(2,'0') + ':' + date.getMinutes().toString().padStart(2,'0');
+
+          let contentHtml = '';
+
+          if (msg.type === 'poll') {
+            const p = msg.data;
+            const isBull = p.type === 'BULLISH';            const colorClass = isBull ? 'type-bull' : 'type-bear';
+            
+            const cardId = `poll-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+            
+            contentHtml = `
+              <div class="poll-card" id="${cardId}" 
+                   data-target="${p.targetPrice}" 
+                   data-entry="${p.entryPrice}" 
+                   data-type="${p.type}" 
+                   data-token="${p.token}"
+                   data-endtime="${p.endTime}">
+                
+                <div class="poll-header">
+                  <span class="poll-token">${p.token}</span>
+                  <span class="poll-type ${colorClass}">${p.type}</span>
+                </div>
+                
+                <div class="poll-details">
+                  <div class="detail-item"><span>Entry Price</span><strong>$${p.entryPrice}</strong></div>
+                  <div class="detail-item"><span>Target Price</span><strong>$${p.targetPrice}</strong></div>
+                  <div class="detail-item">
+                    <span>Sisa Waktu</span>
+                    <strong class="timer-text">--:--:--</strong>
+                  </div>
+                  <div class="detail-item"><span>Harga Now</span><strong class="live-price">Loading...</strong></div>
+                </div>
+                
+                <div class="poll-status-bar">
+                  <div class="progress-fill" style="width: 0%; background: ${isBull ? '#10b981' : '#ef4444'};"></div>
+                </div>
+                
+                <div class="result-badge status-running">⏳ RUNNING</div>
+              </div>
+            `;
+          } else {
+            contentHtml = `
+              <div class="bubble-wrapper">
+                ${!isMe ? `<span class="sender-name">${msg.u}</span>` : ''}
+                <div class="bubble">
+                  ${msg.t}
+                  <div class="meta">${time} ${isMe ? '<span class="material-icons-round" style="font-size:12px;">done_all</span>' : ''}</div>
+                </div>
+              </div>
+            `;
+          }
+
+          div.innerHTML = `
+            <img src="${msg.a}" class="avatar">
+            ${contentHtml}
+          `;          box.appendChild(div);
+        });
+        box.scrollTop = box.scrollHeight;
+        updatePollVisuals();
+      });
+    }
+
+    // Fungsi Logic HIT / MISSED / RUNNING dengan TIMER
+    function updatePollVisuals() {
+      const cards = document.querySelectorAll('.poll-card');
+      const now = Date.now();
+
+      cards.forEach(card => {
+        const token = card.dataset.token;
+        const target = parseFloat(card.dataset.target);
+        const entry = parseFloat(card.dataset.entry);
+        const type = card.dataset.type; 
+        const endTime = parseInt(card.dataset.endtime);
+        const currentPrice = livePrices[token];
+
+        if (!currentPrice) return;
+
+        const badgeEl = card.querySelector('.result-badge');
+        const progressEl = card.querySelector('.progress-fill');
+        const livePriceEl = card.querySelector('.live-price');
+        const timerEl = card.querySelector('.timer-text');
+
+        livePriceEl.innerText = `$${currentPrice.toFixed(2)}`;
+
+        // 1. Cek Timer
+        const timeLeft = endTime - now;
+        
+        if (timeLeft > 0) {
+          // WAKTU MASIH ADA -> UPDATE COUNTDOWN & STATUS RUNNING
+          const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+          timerEl.innerText = `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+          
+          badgeEl.className = 'result-badge status-running';
+          badgeEl.innerHTML = '⏳ RUNNING...';
+          
+          // Progress bar visualisasi pergerakan harga (opsional)
+          let percent = 0;
+          if(type === 'BULLISH') {
+             percent = ((currentPrice - entry) / (target - entry)) * 100;
+          } else {
+             percent = ((entry - currentPrice) / (entry - target)) * 100;
+          }          progressEl.style.width = Math.max(10, Math.min(90, percent)) + '%';
+
+        } else {
+          // WAKTU HABIS -> CEK HASIL (HIT / MISSED)
+          timerEl.innerText = "00:00:00";
+          
+          let isHit = false;
+
+          if (type === 'BULLISH') {
+            if (currentPrice >= target) isHit = true;
+          } else {
+            if (currentPrice <= target) isHit = true;
+          }
+
+          if (isHit) {
+            badgeEl.className = 'result-badge status-hit';
+            badgeEl.innerHTML = '🎯 TARGET HIT!';
+            progressEl.style.width = '100%';
+          } else {
+            badgeEl.className = 'result-badge status-missed';
+            badgeEl.innerHTML = '❌ MISSED TARGET';
+            progressEl.style.width = '100%'; // Bar penuh menandakan selesai
+            progressEl.style.background = '#ef4444';
+          }
+        }
+      });
+    }
+
+    async function cleanupOldMessages() {
+      const allChatsRef = ref(db, "chats");
+      const snapshot = await get(allChatsRef);
+      if (snapshot.exists()) {
+        const now = Date.now();
+        const oneWeekMs = 7 * 24 * 60 * 60 * 1000; 
+        snapshot.forEach((childSnapshot) => {
+          const msgData = childSnapshot.val();
+          if (msgData.ts && (now - msgData.ts > oneWeekMs)) {
+            remove(childSnapshot.ref);
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>
