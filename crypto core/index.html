@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STATISTICAL_EDGE V29 - Crypto Edition (Patched)</title>
+    <!-- TradingView Widget -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+/* --- STATISTICAL_EDGE TERMINAL THEME VARIABLES --- */
+:root {
+    --bg-app: #000000;
+    --bg-panel: #121212;
+    --bg-header: #1e1e1e;
+    --bg-input: #2d2d2d;
+    --border-grid: #333333;
+    --border-highlight: #505050;
+    
+    /* Professional Trading Colors */
+    --bull-color: #00c853; /* Solid Green */
+    --bear-color: #ff3d00; /* Solid Red/Orange */
+    --neutral-color: #9e9e9e;
+    --accent-blue: #2962ff;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --gold-accent: #ffd700;
+
+    --font-ui: 'Inter', sans-serif;
+    --font-data: 'Roboto Mono', monospace;
+}
+
+* { box-sizing: border-box; outline: none; }
+
+body {
+    margin: 0;
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+    font-size: 13px;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-app); }
+::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #666; }
+
+#app-container { display: flex; width: 100%; height: 100%; }
+
+/* --- CHART AREA --- */
+#chart-area { 
+    flex: 1; 
+    position: relative; 
+    border-right: 1px solid var(--border-grid);
+    z-index: 1;
+}
+/* --- SIDEBAR (TERMINAL STYLE) --- */
+#sidebar {
+    width: 400px;
+    background: var(--bg-panel);
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border-grid);
+    z-index: 10;
+}
+
+/* HEADER SECTION */
+.sidebar-header {
+    padding: 15px;
+    background: var(--bg-header);
+    border-bottom: 1px solid var(--border-grid);
+    flex-shrink: 0;
+}
+
+.brand-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    text-transform: uppercase;
+}
+
+.version-tag {
+    font-family: var(--font-data);
+    font-size: 10px;
+    background: var(--accent-blue);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 2px;
+}
+
+.search-wrapper { display: flex; gap: 8px; margin-bottom: 12px; }
+
+input#symbolInput {
+    background: var(--bg-input);
+    border: 1px solid var(--border-grid);
+    color: white; 
+    padding: 8px 12px;
+    font-family: var(--font-data);
+    font-size: 13px;
+    border-radius: 2px;     width: 100%; 
+    text-transform: uppercase;
+    transition: border 0.2s;
+}        
+
+input#symbolInput:focus { border-color: var(--accent-blue); }
+
+button.btn-scan {
+    background: var(--bg-input);
+    color: white;
+    border: 1px solid var(--border-highlight);
+    padding: 0 15px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 12px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+button.btn-scan:hover { background: #3d3d3d; border-color: #666; }
+button.btn-scan:disabled { opacity: 0.5; cursor: wait; }
+
+/* TICKER & SESSIONS */
+.ticker-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #000;
+    border: 1px solid var(--border-grid);
+    border-radius: 2px;
+    margin-top: 10px;
+}
+.ticker-info h2 { 
+    margin: 0; 
+    font-size: 20px; 
+    line-height: 1;             
+    font-family: var(--font-data); 
+    font-weight: 700;
+    color: white;        
+}
+.ticker-info span {             
+    font-size: 10px; 
+    color: var(--text-secondary); 
+    text-transform: uppercase; 
+    font-weight: 600; 
+    display: block;
+    margin-bottom: 2px;}
+
+.trend-pill {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: var(--font-data);
+}
+.pill-up { background: rgba(0, 200, 83, 0.15); color: var(--bull-color); border: 1px solid rgba(0, 200, 83, 0.3); }
+.pill-down { background: rgba(255, 61, 0, 0.15); color: var(--bear-color); border: 1px solid rgba(255, 61, 0, 0.3); }                
+.pill-neutral { background: rgba(158, 158, 158, 0.15); color: var(--neutral-color); border: 1px solid rgba(158, 158, 158, 0.3); }
+
+.session-tracker {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 8px;
+    background: var(--bg-input);
+    border-radius: 2px;
+}
+.sess-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.3;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: var(--font-data);
+}
+.sess-dot {
+    width: 6px; height: 6px; border-radius: 50%; margin-bottom: 3px; background: #555;
+}
+.sess-item.active { opacity: 1; }
+.sess-item.active .sess-dot { background: currentColor; box-shadow: 0 0 5px currentColor; }
+
+/* SCROLLABLE CONTENT */
+.scroll-content { flex: 1; overflow-y: auto; padding: 0; }
+
+.section-header {
+    background: #1a1a1a;            
+    padding: 8px 15px;
+    font-size: 11px;
+    font-weight: 700;            
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border-grid);    border-top: 1px solid var(--border-grid);
+    display: flex;
+    justify-content: space-between;
+}
+
+/* MATRIX GRID */
+.tf-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border-grid); /* Creates the grid lines */
+    border-bottom: 1px solid var(--border-grid);
+    margin-bottom: 0;
+}
+
+.tf-card {
+    background: var(--bg-panel);
+    padding: 10px 5px;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.2s;
+}
+.tf-card:hover { background: #1f1f1f; }
+.tf-card.best-choice { background: #252525; }
+
+.tf-label { 
+    font-size: 11px; 
+    font-weight: 600; 
+    color: var(--text-secondary); 
+    margin-bottom: 4px; 
+    font-family: var(--font-data);
+}                
+
+.signal-badge { 
+    font-size: 9px;             
+    font-weight: 700; 
+    padding: 2px 4px; 
+    border-radius: 2px; 
+    text-transform: uppercase; 
+    font-family: var(--font-data);            
+    min-width: 35px;
+}
+.sig-buy { color: var(--bull-color); background: rgba(0, 200, 83, 0.1); }
+.sig-sell { color: var(--bear-color); background: rgba(255, 61, 0, 0.1); }                
+.sig-wait { color: var(--neutral-color); }
+.prob-meter {
+    height: 2px;
+    background: #333;
+    margin-top: 6px;
+    width: 60%;
+    border-radius: 0;
+}
+.prob-fill { height: 100%; width: 0%; transition: width 0.5s ease; }
+.fill-high { background: var(--bull-color); }
+.fill-med { background: var(--gold-accent); }
+.fill-low { background: var(--bear-color); }
+
+/* STRATEGIC GRID (SMC) */
+.strat-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* List view for terminal style */
+    gap: 1px;
+    background: var(--border-grid);
+    padding-bottom: 1px;
+}
+.strat-card {
+    background: var(--bg-panel);
+    padding: 12px 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 3px solid transparent;
+    transition: background 0.2s;
+}
+.strat-card:hover { background: #1a1a1a; }
+.strat-card[data-type="QM"] { border-left-color: #e91e63; }
+.strat-card[data-type="LIQ"] { border-left-color: #ff9800; }
+.strat-card[data-type="SNIPER"] { border-left-color: var(--accent-blue); }
+
+.strat-info { display: flex; flex-direction: column; }
+.strat-type { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; margin-bottom: 2px; }
+.strat-desc { font-size: 12px; color: white; font-weight: 500; }
+.wick-valid { font-size: 9px; color: var(--gold-accent); margin-top: 2px; font-weight: bold; }        
+.strat-price-box { text-align: right; }
+.strat-price { font-family: var(--font-data); font-size: 14px; font-weight: 700; color: white; }
+.strat-tf { font-family: var(--font-data); font-size: 10px; color: var(--text-secondary); background: #333; padding: 1px 4px; border-radius: 2px; margin-left: 5px; }
+
+/* ANALYSIS PANEL (MAIN SETUP) */
+.analysis-card {
+    background: var(--bg-panel);
+    margin: 15px;
+    border: 1px solid var(--border-grid);
+    border-radius: 2px;            
+    padding: 0;    position: relative;
+}
+.analysis-header {
+    padding: 10px 15px;
+    background: #1a1a1a;
+    border-bottom: 1px solid var(--border-grid);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.ai-badge { font-size: 10px; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 1px; }
+
+.setup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border-grid);
+}
+.setup-item {
+    padding: 12px 15px;
+    border-right: 1px solid var(--border-grid);
+}
+.setup-item:nth-child(2n) { border-right: none; }
+
+.label-text { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; display: block; margin-bottom: 4px; }
+.val-entry { color: var(--accent-blue); font-family: var(--font-data); font-size: 16px; font-weight: 700; }
+.val-tp { color: var(--bull-color); font-family: var(--font-data); font-size: 14px; font-weight: 500; }
+.val-sl { color: var(--bear-color); font-family: var(--font-data); font-size: 14px; font-weight: 500; }
+
+.logic-box {
+    padding: 12px 15px;
+    background: rgba(0,0,0,0.2);
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    border-top: 1px solid var(--border-grid);
+}
+
+.fresh-badge {             
+    font-size: 9px; 
+    padding: 2px 6px; 
+    border-radius: 2px; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    float: right;
+}        
+.fresh-ok { background: rgba(0, 200, 83, 0.2); color: var(--bull-color); }
+.fresh-late { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+.fresh-bad { background: rgba(255, 61, 0, 0.2); color: var(--bear-color); }
+
+.action-area { padding: 15px; background: #151515; border-top: 1px solid var(--border-grid); }        .btn-action {            
+    width: 100%; 
+    padding: 12px; 
+    border: none; 
+    border-radius: 2px; 
+    font-weight: 700;
+    font-size: 12px; 
+    cursor: pointer; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+    font-family: var(--font-ui);
+}
+.btn-ready { background: var(--accent-blue); color: white; }
+.btn-ready:hover { background: #1e53db; }
+.btn-taken { background: #333; color: #888; border: 1px solid #444; cursor: default; }
+
+/* MODAL */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000; display: none; justify-content: center; align-items: center;
+}
+.modal-overlay.active { display: flex; }        
+.modal-box {
+    background: var(--bg-panel); border: 1px solid var(--border-highlight);
+    width: 90%; max-width: 450px; padding: 0; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+}
+.modal-header { padding: 15px; border-bottom: 1px solid var(--border-grid); display: flex; justify-content: space-between; align-items: center; }
+.modal-body { padding: 20px; }
+.modal-close { background: none; border: none; color: #666; font-size: 18px; cursor: pointer; }
+.modal-close:hover { color: white; }
+
+/* TOAST */
+#toast-container { position: fixed; top: 20px; left: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }        
+.toast-alert {
+    background: #1e1e1e; border-left: 3px solid var(--accent-blue);
+    padding: 12px 15px; border-radius: 2px; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    display: flex; align-items: center; gap: 12px; min-width: 280px; transform: translateX(-120%);
+    transition: transform 0.3s; pointer-events: auto; border: 1px solid #333;
+}
+.toast-alert.show { transform: translateX(0); }
+.toast-alert.alert-success { border-color: var(--bull-color); }
+.toast-alert.alert-danger { border-color: var(--bear-color); }
+.toast-content h4 { margin: 0; font-size: 12px; font-weight: 700; }
+.toast-content p { margin: 2px 0 0; font-size: 11px; color: #aaa; }
+
+/* LOADER */
+#loader {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; z-index: 100; display: none;    flex-direction: column; justify-content: center; align-items: center;
+}
+.spinner-ring { width: 30px; height: 30px; border: 2px solid #333;
+    border-top-color: var(--accent-blue); border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 900px) {
+    #app-container { flex-direction: column; overflow-y: auto; height: auto; }
+    #chart-area { height: 50vh; border-right: none; border-bottom: 1px solid #333; }
+    #sidebar { width: 100%; height: auto; border-left: none; }
+}
+
+
+    </style>
+</head>
+<body>
+    <!-- TOAST NOTIFICATION AREA -->
+    <div id="toast-container"></div>
+    
+    <!-- LOADING SCREEN -->
+    <div id="loader">
+        <div class="spinner-ring"></div>
+        <p style="margin-top:15px; font-size:11px; color:#888; font-weight:bold; letter-spacing:1px;">INITIALIZING V29 PATCH...</p>
+    </div>
+        
+    <!-- MAIN APP -->
+    <div id="app-container">
+        
+        <!-- CHART SECTION -->
+        <div id="chart-area">
+            <div id="tradingview_chart" style="height:100%; width:100%"></div>
+        </div>
+        
+        <!-- SIDEBAR SECTION -->
+        <div id="sidebar">            
+            <div class="sidebar-header">
+                <div class="brand-title">
+                    <span><i class="fas fa-terminal"></i> STATISTICAL_EDGE</span>
+                    <span class="version-tag">V29</span>
+                </div>
+                
+                <div class="search-wrapper">
+                    <input type="text" id="symbolInput" placeholder="PAIR (BTC, ETH...)" value="BTCUSDT">
+                    <button class="btn-scan" id="scanBtn" onclick="startNewScan()">
+                        SCAN
+                    </button>
+                </div>
+
+                <div class="ticker-display">
+                    <div class="ticker-info">                        <span id="mainSymbolDisplay">BTCUSDT</span>
+                        <h2 id="mainPrice">---</h2>
+                    </div>
+                    <div id="trendBadge" class="trend-pill pill-neutral">NEUTRAL</div>
+                </div>
+
+                <!-- SESSION TRACKER -->
+                <div class="session-tracker" id="sessionContainer">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+            
+            <div class="scroll-content">
+                <!-- MATRIX GRID HEADER -->
+                <div class="section-header">
+                    <span>Timeframe Matrix</span>
+                    <div id="scanStatus"><i class="fas fa-circle" style="font-size:8px; color:#666;"></i></div>
+                </div>
+                
+                <!-- MATRIX GRID -->
+                <div class="tf-grid" id="tfContainer">
+                    <!-- Cards injected via JS -->
+                </div>
+
+                <!-- KEY LEVELS HEADER -->
+                <div class="section-header" style="margin-top:10px;">
+                    <span>Institutional Models</span>
+                    <span style="color:var(--gold-accent)">LOGIC CHECKED</span>
+                </div>
+                
+                <!-- STRATEGIC GRID -->
+                <div class="strat-grid" id="stratContainer">
+                    <!-- Strategy Cards Injected Here -->
+                </div>
+
+                <!-- BEST SETUP PANEL -->
+                <div class="section-header" style="margin-top:10px;">
+                    <span>AI Probability Engine</span>
+                    <span>LIVE</span>
+                </div>
+
+                <div class="analysis-card" id="mainPanel">
+                    <div class="analysis-header">
+                        <div class="ai-badge"><i class="fas fa-microchip"></i> SYSTEM RECOMMENDATION</div>                        
+                        <div id="signalType" style="font-weight:700; font-size:12px; color:var(--text-secondary)">WAIT</div>                    
+                    </div>
+                    
+                    <div class="setup-grid">
+                        <div class="setup-item">
+                            <span class="label-text">Entry Zone</span>                            <span id="recEntry" class="val-entry">-</span>
+                        </div>
+                        <div class="setup-item">
+                            <span class="label-text">Risk Ratio</span>
+                            <span id="recRR" style="color:white; font-family:var(--font-data); font-weight:700;">-</span>
+                        </div>
+                        <div class="setup-item">
+                            <span class="label-text">Take Profit</span>
+                            <span id="recTP" class="val-tp">-</span>
+                        </div>
+                        <div class="setup-item">
+                            <span class="label-text">Stop Loss</span>
+                            <span id="recSL" class="val-sl">-</span>
+                        </div>
+                    </div>
+
+                    <div class="logic-box">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                            <span style="font-weight:bold; color:#fff;">LOGIC:</span>
+                            <span id="recFreshness" class="fresh-badge fresh-late">CHECKING</span>
+                        </div>
+                        <span id="recLogic">System ready. Waiting for market structure alignment...</span>
+                    </div>
+
+                    <div class="action-area">
+                        <button id="confirmBtn" class="btn-action btn-ready" onclick="toggleConfirmSetup()" disabled>
+                            CONFIRM ENTRY
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETAILS -->
+    <div id="signalModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span id="modalTf" style="background:var(--accent-blue); color:white; padding:2px 6px; border-radius:2px; font-size:10px; font-weight:bold;">TF</span>
+                    <h2 id="modalSignalTitle" style="margin:0; font-size:14px; text-transform:uppercase;">SIGNAL</h2>
+                </div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalDesc" style="font-style:italic; color:#aaa; margin-bottom:20px; font-size:12px;">Description...</div>
+                
+                <div class="setup-grid" style="margin-bottom:15px; border:1px solid #333;">
+                    <div class="setup-item">
+                        <span class="label-text">Entry</span>                        <span id="modalEntry" class="val-entry">-</span>
+                    </div>
+                    <div class="setup-item">
+                        <span class="label-text">Ratio</span>
+                        <span id="modalRR" style="color:white; font-family:var(--font-data); font-weight:700;">-</span>
+                    </div>
+                    <div class="setup-item">
+                        <span class="label-text">Target</span>
+                        <span id="modalTP" class="val-tp">-</span>
+                    </div>
+                    <div class="setup-item">
+                        <span class="label-text">Invalidation</span>
+                        <span id="modalSL" class="val-sl">-</span>
+                    </div>
+                </div>
+
+                <div style="text-align:right; margin-bottom:15px;">
+                    Status: <span id="modalFresh" class="fresh-badge fresh-ok">FRESH</span>
+                </div>
+                <button onclick="applyToChart()" style="width:100%; padding:10px; background:#333; color:white; border:1px solid #555; border-radius:2px; cursor:pointer; font-weight:bold; text-transform:uppercase; font-size:11px;">                
+                    Load Chart Layout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script>
+        // --- CONFIGURATION (UPDATED FOR V29 CRYPTO FOCUS) ---
+        let currentSymbol = "BTCUSDT";
+        let assetType = "crypto"; 
+        let tvWidget = null;
+        let scanResultsData = {}; 
+        let strategicLevels = []; 
+        let globalTrend = "NEUTRAL";         let bestSetupId = null;
+        let priceInterval = null; 
+        let currentLivePrice = 0;         
+        let activeSessions = [];
+        
+        const TIMEFRAMES = [
+            { label: 'M1', interval: '1m' },
+            { label: 'M5', interval: '5m' },
+            { label: 'M15', interval: '15m' },
+            { label: 'M30', interval: '30m' },
+            { label: 'H1', interval: '1h' },
+            { label: 'H4', interval: '4h' }
+        ];
+
+        // SYMBOL MAP (UPDATED FOR BINANCE CRYPTO & PAXG)
+        const SYMBOL_MAP = {
+            // Gold / Commodities on Binance
+            "XAUUSD": { tv: "BINANCE:PAXGUSDT", api: "PAXGUSDT", type: "commodity", decimals: 2 }, 
+            "PAXGUSDT": { tv: "BINANCE:PAXGUSDT", api: "PAXGUSDT", type: "commodity", decimals: 2 },
+            "PAXG": { tv: "BINANCE:PAXGUSDT", api: "PAXGUSDT", type: "commodity", decimals: 2 },
+            
+            // Major Crypto
+            "BTCUSDT": { tv: "BINANCE:BTCUSDT", api: "BTCUSDT", type: "crypto", decimals: 2 },
+            "BTC": { tv: "BINANCE:BTCUSDT", api: "BTCUSDT", type: "crypto", decimals: 2 },
+            "ETHUSDT": { tv: "BINANCE:ETHUSDT", api: "ETHUSDT", type: "crypto", decimals: 2 },
+            "ETH": { tv: "BINANCE:ETHUSDT", api: "ETHUSDT", type: "crypto", decimals: 2 },
+            "BNBUSDT": { tv: "BINANCE:BNBUSDT", api: "BNBUSDT", type: "crypto", decimals: 2 },
+            "SOLUSDT": { tv: "BINANCE:SOLUSDT", api: "SOLUSDT", type: "crypto", decimals: 3 },
+            "ETCUSDT": { tv: "BINANCE:ETCUSDT", api: "ETCUSDT", type: "crypto", decimals: 3 },
+            "XRPUSDT": { tv: "BINANCE:XRPUSDT", api: "XRPUSDT", type: "crypto", decimals: 4 },
+            "ADAUSDT": { tv: "BINANCE:ADAUSDT", api: "ADAUSDT", type: "crypto", decimals: 4 },
+            "DOGEUSDT": { tv: "BINANCE:DOGEUSDT", api: "DOGEUSDT", type: "crypto", decimals: 5 },
+            "TRXUSDT": { tv: "BINANCE:TRXUSDT", api: "TRXUSDT", type: "crypto", decimals: 5 },
+            
+            // Altcoins
+            "DOTUSDT": { tv: "BINANCE:DOTUSDT", api: "DOTUSDT", type: "crypto", decimals: 3 },
+            "MATICUSDT": { tv: "BINANCE:MATICUSDT", api: "MATICUSDT", type: "crypto", decimals: 4 },
+            "LTCUSDT": { tv: "BINANCE:LTCUSDT", api: "LTCUSDT", type: "crypto", decimals: 2 },
+            "AVAXUSDT": { tv: "BINANCE:AVAXUSDT", api: "AVAXUSDT", type: "crypto", decimals: 3 },            "LINKUSDT": { tv: "BINANCE:LINKUSDT", api: "LINKUSDT", type: "crypto", decimals: 3 },
+            "UNIUSDT": { tv: "BINANCE:UNIUSDT", api: "UNIUSDT", type: "crypto", decimals: 3 },
+            "ATOMUSDT": { tv: "BINANCE:ATOMUSDT", api: "ATOMUSDT", type: "crypto", decimals: 3 },
+            "FILUSDT": { tv: "BINANCE:FILUSDT", api: "FILUSDT", type: "crypto", decimals: 3 },
+            "NEARUSDT": { tv: "BINANCE:NEARUSDT", api: "NEARUSDT", type: "crypto", decimals: 3 },
+            "APTUSDT": { tv: "BINANCE:APTUSDT", api: "APTUSDT", type: "crypto", decimals: 3 },
+            "OPUSDT": { tv: "BINANCE:OPUSDT", api: "OPUSDT", type: "crypto", decimals: 4 },
+            "ARBUSDT": { tv: "BINANCE:ARBUSDT", api: "ARBUSDT", type: "crypto", decimals: 4 },
+            "SUIUSDT": { tv: "BINANCE:SUIUSDT", api: "SUIUSDT", type: "crypto", decimals: 4 },
+            "PEPEUSDT": { tv: "BINANCE:PEPEUSDT", api: "PEPEUSDT", type: "crypto", decimals: 7 },
+            "SHIBUSDT": { tv: "BINANCE:SHIBUSDT", api: "SHIBUSDT", type: "crypto", decimals: 7 },
+            "FETUSDT": { tv: "BINANCE:FETUSDT", api: "FETUSDT", type: "crypto", decimals: 4 },            "RNDRUSDT": { tv: "BINANCE:RNDRUSDT", api: "RNDRUSDT", type: "crypto", decimals: 4 },
+        };
+
+        const SESSIONS = [
+            { name: 'ASIA', start: 0, end: 9, color: '#ff4081' }, // Simplified for Crypto
+            { name: 'EUROPE', start: 8, end: 17, color: '#3d5afe' },
+            { name: 'USA', start: 13, end: 22, color: '#00e676' }
+        ];
+
+        // --- INIT TRADINGVIEW ---
+        function initTV(symbol = "BTCUSDT", interval = "15") {
+            if(tvWidget) document.getElementById('tradingview_chart').innerHTML = "";
+            
+            // Determine TV Symbol
+            let tvSymbol = "BINANCE:BTCUSDT"; // Default
+            
+            if(SYMBOL_MAP[symbol]) {
+                tvSymbol = SYMBOL_MAP[symbol].tv;
+            } else {
+                // Auto-detect logic for unknown inputs
+                let cleanSym = symbol.toUpperCase().trim();
+                if(!cleanSym.endsWith("USDT")) cleanSym += "USDT";
+                tvSymbol = `BINANCE:${cleanSym}`;
+            }
+
+            tvWidget = new TradingView.widget({
+                "autosize": true, "symbol": tvSymbol, "interval": interval, "timezone": "Etc/UTC",
+                "theme": "dark", "style": "1", "locale": "en", "toolbar_bg": "#000000",
+                "enable_publishing": false, "hide_top_toolbar": false, "save_image": false,
+                "container_id": "tradingview_chart", "studies": ["RSI@tv-basicstudies"],
+                "backgroundColor": "#000000", "gridLineColor": "#1e1e1e"
+            });
+        }
+
+        // --- CORE LOGIC: INDICATORS (UNCHANGED) ---
+        function getSeries(candles) {
+            return {
+                open: candles.map(c => parseFloat(c[1])),                high: candles.map(c => parseFloat(c[2])),
+                low: candles.map(c => parseFloat(c[3])),
+                close: candles.map(c => parseFloat(c[4]))
+            };
+        }
+
+        function findFractalPivots(series, range = 5) {
+            let pivots = []; 
+            for (let i = range; i < series.high.length - range; i++) {
+                let isHigh = true;
+                let isLow = true;
+                for (let j = 1; j <= range; j++) {
+                    if (series.high[i] <= series.high[i-j] || series.high[i] <= series.high[i+j]) isHigh = false;                    if (series.low[i] >= series.low[i-j] || series.low[i] >= series.low[i+j]) isLow = false;
+                }
+                if (isHigh) pivots.push({ index: i, price: series.high[i], type: 'high' });
+                if (isLow) pivots.push({ index: i, price: series.low[i], type: 'low' });            }
+            return pivots;
+        }
+
+        // --- V29 STRATEGY ENGINE (FIXED & OPTIMIZED) ---
+        function detectPatterns(series, pivots, atr, tfLabel) {
+            const currentPrice = series.close[series.close.length - 1];
+            const lastCloseIdx = series.close.length - 1;
+            let patterns = [];
+
+            // V29 FIX: Added validation helper to prevent inverted TP/SL
+            const addPattern = (type, name, baseScore, entry, sl, tp, desc, category, wickConfirmed) => {
+                // 1. Validate Price Levels immediately
+                let risk, reward, rr;
+                
+                if (type === 'BUY') {
+                    // Force Logic: SL must be below Entry, TP must be above Entry
+                    if (sl >= entry) sl = entry - (atr * 1.5); // Auto-fix SL if wrong
+                    if (tp <= entry) tp = entry + (entry - sl) * 1.5; // Auto-fix TP if wrong
+                    
+                    risk = entry - sl;
+                    reward = tp - entry;
+                } else { // SELL
+                    // Force Logic: SL must be above Entry, TP must be below Entry
+                    if (sl <= entry) sl = entry + (atr * 1.5); // Auto-fix SL if wrong
+                    if (tp >= entry) tp = entry - (sl - entry) * 1.5; // Auto-fix TP if wrong
+                    
+                    risk = sl - entry;
+                    reward = entry - tp;
+                }
+
+                rr = reward / risk;
+                
+                // Filter: Only show if RR is decent and levels are valid
+                if(rr < 1.2) return; 
+
+                // V29 FIX: Distance Check (Don't show signal if price is way too far from entry)
+                const distPercent = Math.abs(currentPrice - entry) / currentPrice * 100;
+                if(distPercent > 2.0) return; // Ignore if entry is > 2% away
+
+                patterns.push({
+                    type, name, score: Math.min(100, baseScore + (wickConfirmed ? 5 : 0)),
+                    entry, sl, tp, desc, tf: tfLabel, rr: rr.toFixed(2),
+                    category: category, wickConfirmed: wickConfirmed
+                });
+            };
+            function checkWickTouch(level, type, lookback = 10) {
+                let touched = false;
+                const buffer = atr * 0.5;
+                for(let k = lastCloseIdx; k > lastCloseIdx - lookback; k--) {
+                    const cOpen = series.open[k];
+                    const cClose = series.close[k];
+                    const cHigh = series.high[k];
+                    const cLow = series.low[k];
+                    if(type === 'BUY') {
+                        if(cLow <= level + buffer && cLow >= level - (buffer*2) && cClose > level) { touched = true; break; }
+                    } else {
+                        if(cHigh >= level - buffer && cHigh <= level + (buffer*2) && cClose < level) { touched = true; break; }                    }
+                }
+                return touched;
+            }
+
+            // QM Logic
+            if(pivots.length >= 4) {
+                for(let i = pivots.length - 4; i >= Math.max(0, pivots.length - 15); i--) {
+                    const p1 = pivots[i]; const p2 = pivots[i+1]; const p3 = pivots[i+2]; const p4 = pivots[i+3];
+                    if(p1.type === 'high' && p2.type === 'low' && p3.type === 'high' && p4.type === 'low') {
+                        if(p3.price > p1.price && p4.price < p2.price) {
+                            const qmLevel = p1.price;
+                            if(currentPrice < qmLevel + (atr * 1.5) && currentPrice > qmLevel - (atr * 0.5)) {
+                                const target = p4.price;
+                                const wickTouch = checkWickTouch(qmLevel, 'SELL');
+                                // V29: Ensure Target is actually below QM Level for Sell
+                                let finalTp = target;
+                                if(finalTp >= qmLevel) finalTp = qmLevel - (qmLevel - p4.price); 
+                                
+                                addPattern('SELL', 'Bearish QM', wickTouch ? 98 : 90, qmLevel, p3.price + (atr * 0.5), finalTp, wickTouch ? "QM with Liquidity Sweep." : "Standard QM.", 'SCALP', wickTouch);                            }
+                        }
+                    }
+                    if(p1.type === 'low' && p2.type === 'high' && p3.type === 'low' && p4.type === 'high') {
+                        if(p3.price < p1.price && p4.price > p2.price) {
+                            const qmLevel = p1.price;
+                            if(currentPrice > qmLevel - (atr * 1.5) && currentPrice < qmLevel + (atr * 0.5)) {
+                                const target = p4.price;
+                                const wickTouch = checkWickTouch(qmLevel, 'BUY');
+                                // V29: Ensure Target is actually above QM Level for Buy
+                                let finalTp = target;
+                                if(finalTp <= qmLevel) finalTp = qmLevel + (p4.price - qmLevel);
+
+                                addPattern('BUY', 'Bullish QM', wickTouch ? 98 : 90, qmLevel, p3.price - (atr * 0.5), finalTp, wickTouch ? "QM with Liquidity Sweep." : "Standard QM.", 'SCALP', wickTouch);
+                            }
+                        }
+                    }
+                }
+            }
+            // OB Logic
+            for(let i = pivots.length - 2; i >= Math.max(0, pivots.length - 10); i--) {
+                const p = pivots[i];
+                if(p.type === 'low') {
+                    const moveSize = series.high[p.index + 5] - p.price; 
+                    if(moveSize > atr * 2.5) { 
+                        const obPrice = series.low[p.index]; const obHigh = series.high[p.index];
+                        if(currentPrice > obPrice && currentPrice < obHigh + (atr * 0.5)) {
+                             let nextHigh = 0;
+                             for(let k=pivots.length-1; k>i; k++) { if(pivots[k].type === 'high' && pivots[k].price > currentPrice) { nextHigh = pivots[k].price; break; } }
+                             if(nextHigh === 0) nextHigh = currentPrice + (moveSize * 0.618); 
+                             const wickTouch = checkWickTouch(obHigh, 'BUY');
+                             addPattern('BUY', 'Bullish OB', wickTouch ? 99 : 92, obHigh, obPrice - (atr * 0.5), nextHigh, wickTouch ? "OB Tapped & Rejected." : "Unmitigated OB.", 'SNIPER', wickTouch);
+                        }
+                    }
+                }
+                if(p.type === 'high') {
+                    const moveSize = p.price - series.low[p.index + 5];
+                    if(moveSize > atr * 2.5) {                        const obPrice = series.high[p.index]; const obLow = series.low[p.index];
+                        if(currentPrice < obPrice && currentPrice > obLow - (atr * 0.5)) {
+                             let nextLow = 99999999;
+                             for(let k=pivots.length-1; k>i; k--) { if(pivots[k].type === 'low' && pivots[k].price < currentPrice) { nextLow = pivots[k].price; break; } }
+                             if(nextLow === 99999999) nextLow = currentPrice - (moveSize * 0.618);
+                             const wickTouch = checkWickTouch(obLow, 'SELL');
+                             addPattern('SELL', 'Bearish OB', wickTouch ? 99 : 92, obLow, obPrice + (atr * 0.5), nextLow, wickTouch ? "OB Tapped & Rejected." : "Unmitigated OB.", 'SNIPER', wickTouch);
+                        }
+                    }
+                }
+            }
+            // SBR/RBS Logic
+            for(let i = 0; i < pivots.length - 3; i++) {
+                const p = pivots[i];
+                if(p.type === 'high') {                    const resLevel = p.price; let broken = false;
+                    for(let j = i+1; j < lastCloseIdx; j++) { if(series.close[j] > resLevel) { broken = true; break; } }
+                    if(broken && currentPrice > resLevel && currentPrice < resLevel + (atr * 1.5)) {
+                        let target = 0; for(let k=i+1; k<pivots.length; k++) { if(pivots[k].type === 'high') { target = pivots[k].price; break; } }
+                        if(target === 0) target = currentPrice + (atr * 5);
+                        const wickTouch = checkWickTouch(resLevel, 'BUY');
+                        addPattern('BUY', 'RBS Reversal', wickTouch ? 95 : 85, resLevel, resLevel - (atr * 2), target, wickTouch ? "Resistance flipped Support." : "Standard RBS.", 'SCALP', wickTouch);
+                    }
+                }
+                if(p.type === 'low') {
+                    const supLevel = p.price; let broken = false;
+                    for(let j = i+1; j < lastCloseIdx; j++) { if(series.close[j] < supLevel) { broken = true; break; } }
+                    if(broken && currentPrice < supLevel && currentPrice > supLevel - (atr * 1.5)) {
+                        let target = 99999999; for(let k=i+1; k<pivots.length; k++) { if(pivots[k].type === 'low') { target = pivots[k].price; break; } }
+                        if(target === 99999999) target = currentPrice - (atr * 5);
+                        const wickTouch = checkWickTouch(supLevel, 'SELL');
+                        addPattern('SELL', 'SBR Reversal', wickTouch ? 95 : 85, supLevel, supLevel + (atr * 2), target, wickTouch ? "Support flipped Resistance." : "Standard SBR.", 'SCALP', wickTouch);
+                    }                }
+            }
+            return patterns;
+        }
+
+        function formatPrice(price) {
+            if(!price) return "-";
+            if(price > 100) return price.toFixed(2);
+            if(price > 1) return price.toFixed(3);
+            return price.toFixed(5);
+        }
+
+        function checkFreshness(setup, currentPrice) {
+            if (!setup || !currentPrice) return { status: 'UNKNOWN', text: 'WAITING PRICE', class: 'fresh-late' };
+            const buffer = Math.abs(setup.entry - setup.sl) * 0.3; 
+            if (setup.type === 'BUY') {
+                if (currentPrice < setup.sl) return { status: 'INVALID', text: 'SL HIT', class: 'fresh-bad' };
+                if (currentPrice > setup.tp) return { status: 'INVALID', text: 'TP HIT', class: 'fresh-bad' };                if (currentPrice >= setup.entry && currentPrice <= (setup.entry + buffer * 2)) return { status: 'FRESH', text: 'LIMIT READY', class: 'fresh-ok' };
+                if (currentPrice < setup.entry && currentPrice > setup.sl) return { status: 'ACTIVE', text: 'IN TRADE', class: 'fresh-ok' };
+                if (currentPrice > setup.entry + buffer * 2) return { status: 'LATE', text: 'TOO FAR', class: 'fresh-late' };
+            } else {
+                if (currentPrice > setup.sl) return { status: 'INVALID', text: 'SL HIT', class: 'fresh-bad' };
+                if (currentPrice < setup.tp) return { status: 'INVALID', text: 'TP HIT', class: 'fresh-bad' };
+                if (currentPrice <= setup.entry && currentPrice >= (setup.entry - buffer * 2)) return { status: 'FRESH', text: 'LIMIT READY', class: 'fresh-ok' };
+                if (currentPrice > setup.entry && currentPrice < setup.sl) return { status: 'ACTIVE', text: 'IN TRADE', class: 'fresh-ok' };
+                if (currentPrice < setup.entry - buffer * 2) return { status: 'LATE', text: 'TOO FAR', class: 'fresh-late' };
+            }
+            return { status: 'UNKNOWN', text: 'CALCULATING...', class: 'fresh-late' };
+        }
+
+        function showToast(title, message, type = 'info') {            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');            
+            let iconClass = 'fa-info-circle';
+            let alertClass = 'alert-success';
+            if (type === 'error') { iconClass = 'fa-exclamation-triangle'; alertClass = 'alert-danger'; }
+            toast.className = `toast-alert ${alertClass}`;
+            toast.innerHTML = `
+                <div class="toast-icon"><i class="fas ${iconClass}"></i></div>
+                <div class="toast-content">
+                    <h4>${title}</h4>
+                    <p>${message}</p>
+                </div>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
+        async function startNewScan() {
+            const input = document.getElementById('symbolInput');
+            let rawSymbol = input.value.toUpperCase().trim();
+            
+            // Normalize Input for Crypto Focus
+            if(SYMBOL_MAP[rawSymbol]) { 
+                currentSymbol = rawSymbol; 
+                assetType = SYMBOL_MAP[rawSymbol].type; 
+            } else {
+                // If user types "BTC", assume "BTCUSDT"
+                if(!rawSymbol.endsWith("USDT")) {
+                    rawSymbol += "USDT";
+                }
+                currentSymbol = rawSymbol;
+                assetType = "crypto";
+            }            
+            document.getElementById('mainSymbolDisplay').innerText = currentSymbol;
+            document.getElementById('loader').style.display = 'flex';
+            document.getElementById('scanBtn').disabled = true;
+            document.getElementById('scanStatus').innerHTML = '<i class="fas fa-circle" style="font-size:8px; color:var(--accent-blue);"></i>';
+            resetValues();
+
+            if(priceInterval) clearInterval(priceInterval);
+
+            try {
+                updateSessionTracker();
+                initTV(currentSymbol);
+                await updateLivePrice();
+                priceInterval = setInterval(updateLivePrice, 3000);
+                const promises = TIMEFRAMES.map(tf => fetchTimeframeData(tf));
+                const results = await Promise.all(promises);
+                renderCards(results);
+                renderStrategicGrid(results); 
+                showToast("SCAN COMPLETE", `Analysis for ${currentSymbol} finished.`, "timeframe");
+            } catch (e) {
+                console.error(e);
+                showToast("SYSTEM ERROR", "Failed to fetch market data.", "error");
+            } finally {
+                document.getElementById('loader').style.display = 'none';                document.getElementById('scanBtn').disabled = false;
+                document.getElementById('scanStatus').innerHTML = '<i class="fas fa-circle" style="font-size:8px; color:var(--bull-color);"></i>';
+            }
+        }
+
+        async function updateLivePrice() {
+            try {
+                let fetchedPrice = 0;
+                const mapData = SYMBOL_MAP[currentSymbol];
+                let apiSymbol = "";
+                if(mapData) { apiSymbol = mapData.api; }                 else {
+                    // Fallback for any crypto pair
+                    apiSymbol = currentSymbol.endsWith("USDT") ? currentSymbol : currentSymbol + "USDT";
+                }
+
+                const ticker = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${apiSymbol}`);
+                if(ticker.ok) {
+                    const priceJson = await ticker.json();
+                    fetchedPrice = parseFloat(priceJson.price);
+                }
+                                
+                if(fetchedPrice > 0) {
+                    currentLivePrice = fetchedPrice;
+                    const dec = mapData ? mapData.decimals : 2;
+                    document.getElementById('mainPrice').innerText = fetchedPrice.toLocaleString('en-US', {minimumFractionDigits: dec, maximumFractionDigits: dec});
+                    checkAndRefreshSetup();                    updateMainPanelFreshness();
+                }
+            } catch(e) { console.log("Ticker error", e); }
+        }
+
+        function checkAndRefreshSetup() {
+            const recEntry = document.getElementById('recEntry').innerText;
+            const recTP = document.getElementById('recTP').innerText;
+            const recSL = document.getElementById('recSL').innerText;
+            const sigType = document.getElementById('signalType').innerText;
+
+            if(recEntry !== '-' && currentLivePrice > 0) {
+                const entry = parseFloat(recEntry.replace(/,/g, ''));
+                const tp = parseFloat(recTP.replace(/,/g, ''));
+                const sl = parseFloat(recSL.replace(/,/g, ''));
+                let hitTarget = false; let reason = "";
+                if(sigType.includes("BUY")) {
+                    if(currentLivePrice >= tp) { hitTarget = true; reason = "TP HIT"; }
+                    if(currentLivePrice <= sl) { hitTarget = true; reason = "SL HIT"; }
+                } else if (sigType.includes("SELL")) {
+                    if(currentLivePrice <= tp) { hitTarget = true; reason = "TP HIT"; }
+                    if(currentLivePrice >= sl) { hitTarget = true; reason = "SL HIT"; }
+                }                if(hitTarget) {
+                    showToast("TARGET REACHED", `${reason}: Searching for new opportunity...`, "warning");
+                    resetValues(); bestSetupId = null; updateConfirmButton(null);
+                }
+            }
+        }
+
+        async function fetchTimeframeData(tfObj) {
+            try {
+                let rawData = [];
+                const mapData = SYMBOL_MAP[currentSymbol];
+                let apiSymbol = "";
+                if(mapData) { apiSymbol = mapData.api; }                 else {
+                    apiSymbol = currentSymbol.endsWith("USDT") ? currentSymbol : currentSymbol + "USDT";
+                }
+                
+                const url = `https://api.binance.com/api/v3/klines?symbol=${apiSymbol}&interval=${tfObj.interval}&limit=1000`;
+                const response = await fetch(url);
+                if(!response.ok) return null;
+                rawData = await response.json();
+                if(!rawData || rawData.length < 50) return null;
+
+                const series = getSeries(rawData);
+                let trs = [];
+                for(let i=1; i<series.close.length; i++) {
+                    let tr1 = series.high[i] - series.low[i];
+                    let tr2 = Math.abs(series.high[i] - series.close[i-1]);                    let tr3 = Math.abs(series.low[i] - series.close[i-1]);
+                    trs.push(Math.max(tr1, tr2, tr3));
+                }
+                const atr = trs.slice(-14).reduce((a,b)=>a+b,0) / 14 || 0.0001;
+                const pivotRange = ['1m','5m'].includes(tfObj.label) ? 3 : 5;
+                const pivots = findFractalPivots(series, pivotRange);
+                const patterns = detectPatterns(series, pivots, atr, tfObj.label);
+                const bestPattern = patterns.sort((a,b) => b.score - a.score)[0];
+                return { tf: tfObj.label, price: series.close[series.close.length-1], pattern: bestPattern || null, allPatterns: patterns, series: series, pivots: pivots, atr: atr };
+            } catch (e) { console.error("Fetch Error:", e); return null; }
+        }
+
+        function renderCards(allData) {
+            const container = document.getElementById('tfContainer');
+            container.innerHTML = '';
+            scanResultsData = {}; 
+            let globalBestSetup = null; let highestScore = 0; let buyCount = 0; let sellCount = 0;
+
+            allData.forEach(d => {
+                if(!d) return;
+                const p = d.pattern;                scanResultsData[d.tf] = d;
+                let badgeClass = 'sig-wait'; let cardClass = ''; let signalText = 'Wait'; let probClass = 'fill-low';
+                if (p) {
+                    signalText = p.name.split(' ')[0];
+                    badgeClass = p.type === 'BUY' ? 'sig-buy' : 'sig-sell';
+                    cardClass = 'has-pattern';
+                    if(p.type === 'BUY') buyCount++;
+                    if(p.type === 'SELL') sellCount++;
+                    if(p.score >= 80) probClass = 'fill-high';
+                    else if(p.score >= 60) probClass = 'fill-med';
+                    if(p.score > highestScore) { highestScore = p.score; globalBestSetup = { ...p, tf: d.tf }; }
+                }
+                const card = document.createElement('div');
+                card.className = `tf-card ${cardClass}`;
+                if(globalBestSetup && globalBestSetup.tf === d.tf) card.classList.add('best-choice');
+                card.onclick = () => openModal(d.tf);                card.innerHTML = `
+                    <div class="tf-label">${d.tf}</div>
+                    <span class="signal-badge ${badgeClass}">${signalText}</span>
+                    <div class="prob-meter"><div class="prob-fill ${probClass}" style="width:${p ? p.score : 0}%"></div></div>
+                `;
+                container.appendChild(card);
+            });
+            updateMainPanel(globalBestSetup, buyCount, sellCount);
+        }
+
+        function renderStrategicGrid(allData) {
+            const container = document.getElementById('stratContainer');
+            container.innerHTML = '';
+            strategicLevels = [];            allData.forEach(d => {
+                if(!d || !d.allPatterns) return;
+                d.allPatterns.forEach(pat => { if(pat.score > 85) strategicLevels.push(pat); });
+            });
+            strategicLevels.sort((a,b) => b.score - a.score);
+            const topLevels = strategicLevels.slice(0, 4);
+            if(topLevels.length === 0) {
+                container.innerHTML = `<div style="padding:15px; text-align:center; color:#555; font-size:11px;">NO INSTITUTIONAL LEVELS DETECTED</div>`;
+                return;
+            }
+            if(strategicLevels.length > 0) showToast("LEVELS FOUND", `${strategicLevels.length} Institutional setups detected.`, "smc");
+
+            topLevels.forEach((lvl, index) => {
+                const card = document.createElement('div');
+                card.className = 'strat-card';
+                if(lvl.name.includes("QM")) card.setAttribute('data-type', 'QM');
+                else if(lvl.name.includes("Block")) card.setAttribute('data-type', 'SNIPER');
+                card.onclick = () => openStratModal(index);
+                const isBuy = lvl.type === 'BUY';
+                const color = isBuy ? 'var(--bull-color)' : 'var(--bear-color)';                const freshData = checkFreshness(lvl, currentLivePrice);
+                card.innerHTML = `
+                    <div class="strat-info">
+                        <span class="strat-type" style="color:${color}">${lvl.type} • ${lvl.category}</span>
+                        <span class="strat-desc">${lvl.name}</span>
+                        ${lvl.wickConfirmed ? '<span class="wick-valid"><i class="fas fa-check"></i> WICK CONFIRMED</span>' : ''}
+                    </div>
+                    <div class="strat-price-box">
+                        <div class="strat-price">${formatPrice(lvl.entry)}</div>
+                        <span class="strat-tf">${lvl.tf}</span>
+                        <div style="margin-top:4px;"><span class="fresh-badge ${freshData.class}">${freshData.text}</span></div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateMainPanel(setup, buyCount, sellCount) {            const typeEl = document.getElementById('signalType');
+            const panel = document.getElementById('mainPanel');
+            const trendBadge = document.getElementById('trendBadge');
+            let bias = "NEUTRAL";
+            if(buyCount > sellCount + 1) { bias = "UPTREND"; trendBadge.className = "trend-pill pill-up"; trendBadge.innerText = "BULLISH"; } 
+            else if (sellCount > buyCount + 1) { bias = "DOWNTREND"; trendBadge.className = "trend-pill pill-down"; trendBadge.innerText = "BEARISH"; } 
+            else { bias = "SIDEWAYS"; trendBadge.className = "trend-pill pill-neutral"; trendBadge.innerText = "CONSOLIDATION"; }
+            globalTrend = bias;
+            
+            if (!setup) {
+                typeEl.innerText = "NO SETUP"; typeEl.style.color = "#848e9c";
+                document.getElementById('recLogic').innerText = `Market structure unclear. Wait for Wick Confirmation. Trend: ${globalTrend}.`;
+                bestSetupId = null; updateConfirmButton(null); resetValues(); return;            }
+
+            const isBuy = setup.type === "BUY";
+            let isValid = true; let reason = "";
+            if(bias === "SIDEWAYS") { if(setup.name.includes("Block") && setup.score < 95) { isValid = false; reason = "Avoiding Trend Continuation in Sideways."; } } 
+            else {
+                if(setup.name.includes("QM")) {
+                    if(isBuy && bias === "DOWNTREND" && setup.score < 95) { isValid = false; reason = "Counter-trend QM in Downtrend."; } 
+                    else if (!isBuy && bias === "UPTREND" && setup.score < 95) { isValid = false; reason = "Counter-trend QM in Uptrend."; }
+                }
+            }
+
+            if(!isValid) {
+                typeEl.innerText = "WAIT"; typeEl.style.color = "#848e9c";
+                document.getElementById('recLogic').innerHTML = `<strong style="color:var(--gold-accent)">CONFLICT:</strong> ${reason} (${bias}).`;
+                bestSetupId = null; updateConfirmButton(null); resetValues(); return;
+            }
+
+            bestSetupId = `${currentSymbol}_${setup.tf}_${setup.type}_${formatPrice(setup.entry)}`;            typeEl.innerText = setup.type; typeEl.style.color = isBuy ? "var(--bull-color)" : "var(--bear-color)";
+            document.getElementById('recEntry').innerText = formatPrice(setup.entry);
+            document.getElementById('recTP').innerText = formatPrice(setup.tp);
+            document.getElementById('recSL').innerText = formatPrice(setup.sl);
+            document.getElementById('recRR').innerText = `1:${setup.rr}`;
+            document.getElementById('recLogic').innerHTML = `<strong style="color:${isBuy ? 'var(--bull-color)' : 'var(--bear-color)'}">${setup.name} (${setup.tf})</strong> • Score: ${setup.score}/100<br>${setup.desc}`;
+            updateMainPanelFreshness(); updateConfirmButton(bestSetupId);
+        }
+        
+        function resetValues() {
+            ['recEntry', 'recTP', 'recSL', 'recRR'].forEach(id => document.getElementById(id).innerText = '-');
+            document.getElementById('recFreshness').innerText = "WAITING";
+            document.getElementById('recFreshness').className = "fresh-badge fresh-late";
+        }
+
+        function updateMainPanelFreshness() {
+            const entryTxt = document.getElementById('recEntry').innerText;
+            const tpTxt = document.getElementById('recTP').innerText;
+            const slTxt = document.getElementById('recSL').innerText;
+            const typeTxt = document.getElementById('signalType').innerText;            const badge = document.getElementById('recFreshness');
+            if(entryTxt === '-' || currentLivePrice === 0) return;
+            const entry = parseFloat(entryTxt.replace(/,/g, ''));
+            const tp = parseFloat(tpTxt.replace(/,/g, ''));
+            const sl = parseFloat(slTxt.replace(/,/g, ''));
+            const tempSetup = { entry: entry, tp: tp, sl: sl, type: typeTxt.includes("BUY") ? "BUY" : "SELL" };
+            const fresh = checkFreshness(tempSetup, currentLivePrice);
+            badge.innerText = fresh.text; badge.className = `fresh-badge ${fresh.class}`;
+        }
+
+        function toggleConfirmSetup() {
+            if (!bestSetupId) return;            const btn = document.getElementById('confirmBtn');
+            const isConfirmed = btn.classList.contains('btn-taken');
+            if (!isConfirmed) {
+                localStorage.setItem(`scalper_conf_${bestSetupId}`, Date.now().toString());
+                updateConfirmButton(bestSetupId);
+            } else {
+                if(confirm("Cancel confirmation?")) {
+                    localStorage.removeItem(`scalper_conf_${bestSetupId}`);
+                    updateConfirmButton(bestSetupId);
+                }
+            }
+        }
+
+        function updateConfirmButton(id) {
+            const btn = document.getElementById('confirmBtn');
+            if (!id) { btn.className = "btn-action btn-ready"; btn.innerHTML = "CONFIRM ENTRY"; btn.disabled = true; btn.style.opacity = "0.5"; return; }
+            btn.disabled = false; btn.style.opacity = "1";
+            const savedTime = localStorage.getItem(`scalper_conf_${id}`);            if (savedTime) { btn.className = "btn-action btn-taken"; } 
+            else { btn.className = "btn-action btn-ready"; btn.innerHTML = "CONFIRM ENTRY"; }
+        }
+
+        function updateTimers() {
+            if (!bestSetupId) return;
+            const savedTime = localStorage.getItem(`scalper_conf_${bestSetupId}`);
+            const btn = document.getElementById('confirmBtn');
+            if (savedTime && btn.classList.contains('btn-taken')) {
+                const diffMs = Date.now() - parseInt(savedTime);
+                const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
+                const hours = Math.floor((diffMs / (1000 * 60 * 60)));
+                const timeStr = (hours > 0 ? hours + "h " : "") + (minutes < 10 ? "0" + minutes : minutes) + "m";
+                btn.innerHTML = `POSITION ACTIVE: ${timeStr}`;
+            }
+        }
+        setInterval(updateTimers, 1000);
+
+        function openModal(tfLabel) {
+            const data = scanResultsData[tfLabel];
+            const modal = document.getElementById('signalModal');
+            document.getElementById('modalTf').innerText = tfLabel;            if(data && data.pattern) {
+                const p = data.pattern;
+                const isBuy = p.type === 'BUY';
+                document.getElementById('modalSignalTitle').innerText = p.type + " SIGNAL";
+                document.getElementById('modalSignalTitle').style.color = isBuy ? 'var(--bull-color)' : 'var(--bear-color)';
+                document.getElementById('modalDesc').innerText = p.desc;
+                document.getElementById('modalEntry').innerText = formatPrice(p.entry);
+                document.getElementById('modalTP').innerText = formatPrice(p.tp);
+                document.getElementById('modalSL').innerText = formatPrice(p.sl);
+                document.getElementById('modalRR').innerText = `1 : ${p.rr}`;
+                const fresh = checkFreshness(p, currentLivePrice);                const mFresh = document.getElementById('modalFresh');
+                mFresh.innerText = fresh.text; mFresh.className = `fresh-badge ${fresh.class}`;
+            } else {
+                document.getElementById('modalSignalTitle').innerText = "NO SIGNAL";
+                document.getElementById('modalSignalTitle').style.color = '#848e9c';
+                document.getElementById('modalDesc').innerText = "No clear pattern detected on this timeframe.";
+                ['modalEntry','modalTP','modalSL','modalRR'].forEach(id => document.getElementById(id).innerText = "-");
+                document.getElementById('modalFresh').innerText = "N/A";
+                document.getElementById('modalFresh').className = "fresh-badge fresh-late";
+            }
+            modal.classList.add('active');
+        }
+
+        function openStratModal(index) {
+            const strat = strategicLevels[index];
+            const modal = document.getElementById('signalModal');
+            document.getElementById('modalTf').innerText = strat.tf;            const isBuy = strat.type === 'BUY';
+            document.getElementById('modalSignalTitle').innerText = strat.type + " • " + strat.name;
+            document.getElementById('modalSignalTitle').style.color = isBuy ? 'var(--bull-color)' : 'var(--bear-color)';
+            document.getElementById('modalDesc').innerText = strat.desc + " (Key Level Detected)";
+            document.getElementById('modalEntry').innerText = formatPrice(strat.entry);
+            document.getElementById('modalTP').innerText = formatPrice(strat.tp);
+            document.getElementById('modalSL').innerText = formatPrice(strat.sl);
+            document.getElementById('modalRR').innerText = `1 : ${strat.rr}`;
+            const fresh = checkFreshness(strat, currentLivePrice);
+            const mFresh = document.getElementById('modalFresh');
+            mFresh.innerText = fresh.text; mFresh.className = `fresh-badge ${fresh.class}`;
+            modal.classList.add('active');
+        }
+
+        function closeModal() { document.getElementById('signalModal').classList.remove('active'); }
+        
+        function applyToChart() {
+            const tfLabel = document.getElementById('modalTf').innerText;
+            const tfObj = TIMEFRAMES.find(t => t.label === tfLabel);
+            if(tfObj) {
+                let tvInterval = tfObj.interval.replace('m','').replace('h','').replace('d','D');
+                if(tvInterval === '1') tvInterval = '1';
+                initTV(currentSymbol, tvInterval);
+                closeModal();            }
+        }
+
+        let soundEnabled = false;
+        let currentTrackIndex = 1;
+        const totalTracks = 6;
+        const audioPlayer = new Audio();
+        let soundLoopTimer = null;
+        const TRACK_DELAY = 2000;
+                function toggleSoundSystem() {
+            const avatar = document.getElementById('avatarBtn');
+            const statusText = document.getElementById('soundText');
+            soundEnabled = !soundEnabled;
+            if (soundEnabled) {
+                avatar.classList.add('sound-on');
+                statusText.innerText = "AUDIO ON"; statusText.style.opacity = 1;
+                playNextTrack();
+            } else {
+                avatar.classList.remove('sound-on');
+                statusText.innerText = "AUDIO OFF";
+                audioPlayer.pause(); clearTimeout(soundLoopTimer);
+            }
+            setTimeout(() => { statusText.style.opacity = 0; }, 2000);
+        }
+        function playNextTrack() {
+            if (!soundEnabled) return;
+            const fileName = `${currentTrackIndex}.mp3`;
+            audioPlayer.src = fileName;
+            audioPlayer.play().catch(error => { console.log("Audio playback failed:", error); scheduleNextTrack(); });
+            audioPlayer.onended = () => { scheduleNextTrack(); };
+        }
+        function scheduleNextTrack() {
+            if (!soundEnabled) return;
+            currentTrackIndex++;
+            if (currentTrackIndex > totalTracks) currentTrackIndex = 1;
+            soundLoopTimer = setTimeout(() => { playNextTrack(); }, TRACK_DELAY);
+        }
+
+        function updateSessionTracker() {
+            const now = new Date();
+            const utcHour = now.getUTCHours();
+            const container = document.getElementById('sessionContainer');
+            container.innerHTML = '';
+            let activeCount = 0;
+            SESSIONS.forEach(sess => {
+                let isActive = false;
+                if (sess.start > sess.end) { isActive = (utcHour >= sess.start || utcHour < sess.end); } 
+                else { isActive = (utcHour >= sess.start && utcHour < sess.end); }
+                if(isActive) activeCount++;
+                const div = document.createElement('div');                div.className = `sess-item ${isActive ? 'active' : ''}`;
+                div.style.color = sess.color;
+                div.innerHTML = `<div class="sess-dot"></div><span>${sess.name}</span>`;
+                container.appendChild(div);
+            });
+            if(activeCount >= 2) showToast("HIGH VOLATILITY", "Major Session Overlap Detected.", "warning");
+            else if (activeCount === 0) showToast("LOW VOLATILITY", "Market Closed / Low Volume.", "info");
+        }
+        window.onload = () => { initTV(); startNewScan(); };
+    </script>
+</body>
+</html>
