@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORIXTRON | Professional Systems Architect</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+<style>
+/* --- FLAGSHIP CORE VARIABLES --- */
+:root {
+    --bg-deep: #020204;
+    --bg-panel: rgba(8, 8, 12, 0.85);
+    --primary-cyan: #00f3ff;
+    --secondary-purple: #bc13fe;
+    --accent-gold: #ffd700;
+    --text-main: #eef2f6;
+    --text-muted: #6b7a90;
+    --glass-border: rgba(255, 255, 255, 0.06);
+    --glass-highlight: rgba(255, 255, 255, 0.12);
+    
+    --glow-cyan: 0 0 25px rgba(0, 243, 255, 0.35);
+    --glow-purple: 0 0 25px rgba(188, 19, 254, 0.35);
+    
+    --font-display: 'Rajdhani', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'Fira Code', monospace;
+    
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-deep);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- IMMERSIVE BACKGROUND SYSTEM --- */
+.bg-system { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+
+.bg-grid {
+    position: absolute; inset: 0;
+    background-image: 
+        linear-gradient(rgba(0, 243, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+    transform: perspective(500px) rotateX(60deg) translateY(-100px) scale(1.5);
+    animation: gridDrift 30s linear infinite;
+}
+
+.scanlines {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.15) 50%);
+    background-size: 100% 3px;
+    opacity: 0.4;
+}
+
+.ambient-orb {
+    position: absolute;
+    width: 60vw; height: 60vw;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    animation: orbPulse 12s ease-in-out infinite alternate;
+}
+.orb-1 { top: -20%; right: -10%; background: var(--primary-cyan); }
+.orb-2 { bottom: -20%; left: -10%; background: var(--secondary-purple); animation-delay: -6s; }
+
+.particles { position: absolute; inset: 0; overflow: hidden; }
+.particle {
+    position: absolute; bottom: -20px;
+    width: 2px; height: 2px;
+    background: var(--primary-cyan);
+    border-radius: 50%;
+    opacity: 0;
+    animation: particleFloat 15s linear infinite;
+}
+
+@keyframes gridDrift { to { transform: perspective(500px) rotateX(60deg) translateY(0) scale(1.5); } }
+@keyframes orbPulse { from { transform: scale(1); opacity: 0.1; } to { transform: scale(1.2); opacity: 0.2; } }
+@keyframes particleFloat {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translateY(-110vh) translateX(20px); opacity: 0; }
+}
+
+/* --- MAIN LAYOUT GRID --- */
+.container {
+    max-width: 1100px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2rem;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeInLayout 1s var(--ease-out-expo) forwards 0.2s;
+}
+
+@keyframes fadeInLayout { to { opacity: 1; transform: translateY(0); } }
+
+/* --- LEFT PANEL: IDENTITY CARD --- */
+.identity-card {
+    background: var(--bg-panel);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.identity-card:hover {
+    border-color: rgba(0, 243, 255, 0.3);
+    box-shadow: 0 0 40px rgba(0, 243, 255, 0.05);
+}
+
+/* Corner Accents */
+.corner { position: absolute; width: 12px; height: 12px; border: 1px solid var(--primary-cyan); transition: all 0.4s ease; }
+.c-tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+.c-br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+.identity-card:hover .c-tl { top: 8px; left: 8px; }
+.identity-card:hover .c-br { bottom: 8px; right: 8px; }
+
+/* PERFECT 1:1 LOGO FIT */
+.avatar-wrapper {
+    width: 110px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple));
+    margin-bottom: 1.8rem;
+    position: relative;
+    box-shadow: var(--glow-cyan);
+    animation: avatarReveal 1s var(--ease-out-expo) forwards 0.5s;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    background: var(--bg-deep); /* Fallback jika gambar belum load */
+}
+
+@keyframes avatarReveal { to { opacity: 1; transform: scale(1); } }
+
+.name-display {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #fff;
+    text-align: center;
+    min-height: 2.4rem; /* Mencegah layout shift saat mengetik */
+    text-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+.subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    opacity: 0.8;
+}
+
+.data-grid {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: auto;
+}
+
+.data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.data-label { color: var(--text-muted); }
+.data-value { color: var(--text-main); font-weight: 500; }
+.status-active { color: var(--primary-cyan); text-shadow: 0 0 8px rgba(0,243,255,0.5); }
+
+.nav-btn {
+    margin-top: 2rem;
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid var(--glass-highlight);
+    color: var(--text-main);
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    clip-path: polygon(8% 0, 100% 0, 100% 75%, 92% 100%, 0 100%, 0 25%);
+}
+
+.nav-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--primary-cyan);
+    transform: translateX(-101%);
+    transition: transform 0.4s var(--ease-out-expo);
+    z-index: -1;
+}
+
+.nav-btn:hover { color: #000; border-color: var(--primary-cyan); box-shadow: var(--glow-cyan); }
+.nav-btn:hover::before { transform: translateX(0); }
+
+/* --- RIGHT PANEL: SKILLS MATRIX --- */
+.skills-matrix {
+    background: var(--bg-panel);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+}
+
+.matrix-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--glass-highlight);
+    padding-bottom: 1rem;
+}
+
+.matrix-title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.matrix-ver { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); }
+
+/* Distribution Chart */
+.distribution-chart {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(255,255,255,0.01);
+    border: 1px solid var(--glass-border);
+}
+
+.chart-col { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 80px; }
+.chart-bar {
+    width: 100%;
+    border-radius: 2px 2px 0 0;
+    transition: height 1.5s var(--ease-out-expo);
+    height: 0; /* Initial state for animation */
+    position: relative;
+}
+.chart-bar::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: rgba(255,255,255,0.8);
+    opacity: 0.5;
+}
+
+.bar-core { background: var(--primary-cyan); box-shadow: 0 0 15px rgba(0,243,255,0.3); }
+.bar-analysis { background: var(--secondary-purple); box-shadow: 0 0 15px rgba(188,19,254,0.3); }
+.bar-support { background: var(--text-muted); }
+
+.chart-label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); margin-top: 8px; letter-spacing: 1px; }
+.chart-val { font-family: var(--font-mono); font-size: 0.7rem; color: #fff; margin-bottom: 4px; }
+
+/* Skill Groups */
+.skill-group { display: flex; flex-direction: column; gap: 1rem; }
+.group-header {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    padding-left: 12px;
+    border-left: 2px solid;
+    margin-bottom: 0.5rem;
+}
+
+.g-top { color: var(--primary-cyan); border-color: var(--primary-cyan); }
+.g-strong { color: var(--secondary-purple); border-color: var(--secondary-purple); }
+.g-normal { color: var(--text-muted); border-color: var(--text-muted); }
+
+.skill-row { display: flex; flex-direction: column; gap: 4px; }
+.skill-meta { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.7rem; }
+.skill-name { color: var(--text-main); }
+.skill-pct { color: var(--text-muted); }
+
+.progress-bg { width: 100%; height: 4px; background: rgba(255,255,255,0.05); overflow: hidden; }
+.progress-fill {
+    height: 100%;
+    width: 0; /* Animated via JS */
+    transition: width 1.8s var(--ease-out-expo);
+}
+.fill-top { background: var(--primary-cyan); box-shadow: 0 0 8px rgba(0,243,255,0.4); }
+.fill-strong { background: var(--secondary-purple); box-shadow: 0 0 8px rgba(188,19,254,0.4); }
+.fill-normal { background: var(--text-muted); }
+
+/* Responsive Breakpoints */
+@media (max-width: 900px) {
+    .container { grid-template-columns: 1fr; max-width: 600px; }
+    .identity-card { align-items: stretch; text-align: left; }
+    .avatar-wrapper { margin: 0 auto 1.5rem; }
+    .name-display, .subtitle { text-align: center; }
+    .data-row { justify-content: space-between; }
+}
+
+@media (max-width: 480px) {
+    body { padding: 1rem; }
+    .skills-matrix, .identity-card { padding: 1.5rem; }
+    .distribution-chart { gap: 0.5rem; padding: 1rem; }
+    .chart-label { font-size: 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+    <!-- Immersive Background Layer -->
+    <div class="bg-system">
+        <div class="bg-grid"></div>
+        <div class="scanlines"></div>
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+        <div class="particles" id="particleSystem"></div>
+    </div>
+
+    <div class="container">
+        
+        <!-- LEFT: PROFESSIONAL IDENTITY -->
+        <aside class="identity-card">
+            <div class="corner c-tl"></div>
+            <div class="corner c-br"></div>
+
+            <!-- Logo 1:1 Perfect Fit -->
+            <div class="avatar-wrapper">
+                <img src="logo.png" alt="ORIXTRON Logo" class="avatar-img">
+            </div>
+
+            <h1 class="name-display" id="typewriterTarget"></h1>
+            <p class="subtitle">// QUANTITATIVE_SYSTEMS_ARCHITECT //</p>
+
+            <div class="data-grid">
+                <div class="data-row">
+                    <span class="data-label">EXECUTION_MODE</span>
+                    <span class="data-value">HYBRID_ALGO</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">REGION</span>
+                    <span class="data-value">INDONESIA_ID</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">CORE_FOCUS</span>
+                    <span class="data-value">SYSTEMATIC_EDGE</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">SYSTEM_STATUS</span>
+                    <span class="data-value status-active">ACTIVE</span>
+                </div>
+            </div>
+
+            <a href="../index.html" class="nav-btn">
+                <i class="fas fa-terminal"></i> RETURN_HOME
+            </a>
+        </aside>
+
+        <!-- RIGHT: TECHNICAL PROFICIENCY MATRIX -->
+        <main class="skills-matrix">
+            <header class="matrix-header">
+                <div class="matrix-title"><i class="fas fa-microchip"></i> COMPETENCY_MATRIX</div>
+                <span class="matrix-ver">BUILD_V3.0.1_STABLE</span>
+            </header>
+
+            <!-- Aggregate Distribution -->
+            <div class="distribution-chart">
+                <div class="chart-col">
+                    <span class="chart-val">72%</span>
+                    <div class="chart-bar bar-core" data-h="72%"></div>
+                    <span class="chart-label">CORE_SYS</span>
+                </div>
+                <div class="chart-col">
+                    <span class="chart-val">64%</span>
+                    <div class="chart-bar bar-analysis" data-h="64%"></div>
+                    <span class="chart-label">ANALYTICS</span>
+                </div>
+                <div class="chart-col">
+                    <span class="chart-val">58%</span>
+                    <div class="chart-bar bar-support" data-h="58%"></div>
+                    <span class="chart-label">PROTOCOLS</span>
+                </div>
+            </div>
+
+            <!-- Tier 1: Elite -->
+            <section class="skill-group">
+                <div class="group-header g-top">/// CORE_SYSTEMS [ELITE_TIER]</div>
+                
+                <div class="skill-row">
+                    <div class="skill-meta"><span class="skill-name">SYSTEMATIC_EXECUTION</span><span class="skill-pct">74%</span></div>
+                    <div class="progress-bg"><div class="progress-fill fill-top" data-w="74%"></div></div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-meta"><span class="skill-name">STATISTICAL_EDGE_MODELING</span><span class="skill-pct">72%</span></div>
+                    <div class="progress-bg"><div class="progress-fill fill-top" data-w="72%"></div></div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-meta"><span class="skill-name">MARKET_STRUCTURE_ANALYSIS</span><span class="skill-pct">71%</span></div>
+                    <div class="progress-bg"><div class="progress-fill fill-top" data-w="71%"></div></div>
+                </div>
+            </section>
+
+            <!-- Tier 2: Advanced -->
+            <section class="skill-group">
+                <div class="group-header g-strong">/// ANALYSIS_MODULES [ADVANCED]</div>
+                
+                <div class="skill-row">
+                    <div class="skill-meta"><span class="skill-name">LIQUIDITY_FLOW_ANALYSIS</span><span class="skill-pct">68%</span></div>
+                    <div class="progress-bg"><div class="progress-fill fill-strong" data-w="68%"></div></div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-meta"><span class="skill-name">QUANTITATIVE_RISK_MODELING</span><span class="skill-pct">67%</span></div>
+                    <div class="progress-bg"><div class="progress-fill fill-strong" data-w="67%"></div></div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-meta"><span class="skill-name">VOLATILITY_REGIME_READING</span><span class="skill-pct">63%</span></div>
+                    <div class="progress-bg"><div class="progress-fill fill-strong" data-w="63%"></div></div>
+                </div>
+            </section>
+
+            <!-- Tier 3: Operational -->
+            <section class="skill-group">
+                <div class="group-header g-normal">/// SUPPORT_PROTOCOLS [OPERATIONAL]</div>
+                
+                <div class="skill-row">
+                    <div class="skill-meta"><span class="skill-name">DYNAMIC_POSITION_SCALING</span><span class="skill-pct">58%</span></div>
+                    <div class="progress-bg"><div class="progress-fill fill-normal" data-w="58%"></div></div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-meta"><span class="skill-name">CAPITAL_ALLOCATION_LOGIC</span><span class="skill-pct">58%</span></div>
+                    <div class="progress-bg"><div class="progress-fill fill-normal" data-w="58%"></div></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Professional Typewriter Effect
+    const target = document.getElementById('typewriterTarget');
+    const text = "ORIXTRON TECH";
+    let idx = 0;
+    
+    function type() {
+        if (idx < text.length) {
+            target.textContent += text.charAt(idx);
+            idx++;
+            setTimeout(type, 120 + Math.random() * 80);
+        } else {
+            // Add blinking cursor effect after typing completes
+            target.style.borderRight = "2px solid var(--primary-cyan)";
+            target.style.paddingRight = "4px";
+            target.animate([
+                { borderColor: "var(--primary-cyan)" },
+                { borderColor: "transparent" }
+            ], { duration: 800, iterations: Infinity });
+        }
+    }
+    setTimeout(type, 1000);
+
+    // 2. Staggered Progress Bar Animation
+    const animateBars = (selector, attr, prop, delayBase) => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach((el, i) => {
+            setTimeout(() => {
+                el.style[prop] = el.getAttribute(attr);
+            }, delayBase + (i * 100));
+        });
+    };
+
+    animateBars('.progress-fill', 'data-w', 'width', 800);
+    animateBars('.chart-bar', 'data-h', 'height', 600);
+
+    // 3. Optimized Particle System (No Emoji, Pure CSS/JS)
+    const container = document.getElementById('particleSystem');
+    const count = window.innerWidth < 768 ? 15 : 30;
+    
+    for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random() * 2 + 1;
+        p.style.width = `${size}px`;
+        p.style.height = `${size}px`;
+        p.style.left = `${Math.random() * 100}%`;
+        p.style.animationDuration = `${Math.random() * 15 + 10}s`;
+        p.style.animationDelay = `${Math.random() * 10}s`;
+        // Randomize color between cyan and purple
+        p.style.background = Math.random() > 0.5 ? 'var(--primary-cyan)' : 'var(--secondary-purple)';
+        p.style.boxShadow = `0 0 ${size * 3}px currentColor`;
+        container.appendChild(p);
+    }
+});
+</script>
+</body>
+</html>
