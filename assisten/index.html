@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Orixtron AI - Flagship Terminal</title>
+<!-- Library Markdown -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+   <!-- SEO -->
+    <meta name="description" content="ORIXTRON adalah platform analisa trading modern berbasis AI untuk saham, forex, dan crypto dengan sistem Edge execution.">
+    <meta name="keywords" content="ORIXTRON, trading AI, saham, forex, crypto, analisa trading">
+    <meta name="author" content="ORIXTRON">
+    <meta name="robots" content="index, follow">
+
+    <!-- Theme -->
+    <meta name="theme-color" content="#050816">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="ORIXTRON | Edge Execution System">
+    <meta property="og:description" content="Platform analisa trading modern berbasis AI dan Edge execution system.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.orixtron.my.id/logo.png">
+    <meta property="og:url" content="https://www.orixtron.my.id/logo.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ORIXTRON | Edge Execution System">
+    <meta name="twitter:description" content="AI Trading Analysis Platform">
+    <meta name="twitter:image" content="https://www.orixtron.my.id/logo.png">
+
+    <!-- logo -->
+    <link rel="icon" href="/logo.png" type="image/x-icon">
+
+    <!-- fallback modern -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/logo.png">
+
+    <!-- iOS -->
+    <link rel="apple-touch-icon" href="logo.png">
+
+    <!-- Mobile app -->
+    <meta name="apple-mobile-web-app-capable" content="yes">    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<style>
+    :root {
+        /* --- Flagship Dark Palette --- */
+        --bg-body: #030712;
+        --glass-panel: rgba(17, 24, 39, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        
+        --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        --primary-glow: rgba(139, 92, 246, 0.5);
+        
+        --surface-high: #1e293b;
+        --surface-low: #0f172a;
+        
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        
+        --success: #10b981;
+        --danger: #ef4444;
+        --warning: #f59e0b;
+        
+        --font-main: 'Inter', sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
+        
+        --dock-height: 80px; /* Tinggi area input dock */
+    }
+
+    * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+
+    body {
+        background-color: var(--bg-body);
+        color: var(--text-primary);
+        font-family: var(--font-main);
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+        font-size: 15px;
+        position: relative;
+    }
+
+    /* --- Animated Background Mesh --- */
+    .ambient-light {
+        position: absolute;
+        width: 60vw;
+        height: 60vw;
+        background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%);
+        top: -20%;
+        right: -20%;
+        z-index: -1;
+        animation: floatLight 20s infinite alternate ease-in-out;
+        pointer-events: none;
+    }
+    .ambient-light.secondary {
+        top: auto;
+        bottom: -20%;
+        left: -20%;
+        background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(0,0,0,0) 70%);
+        animation-duration: 25s;
+        animation-direction: alternate-reverse;
+    }
+
+    @keyframes floatLight {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(50px, 50px) scale(1.1); }
+    }
+
+    /* --- Header Glassmorphism --- */
+    header {
+        height: 70px;
+        padding: 0 32px;
+        background: rgba(3, 7, 18, 0.8);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--glass-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+        position: relative;
+    }
+
+    .brand-container {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--primary-gradient);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-family: var(--font-mono);
+        font-size: 18px;
+        color: white;
+        box-shadow: 0 0 20px var(--primary-glow);
+        position: relative;
+    }
+    
+    .logo-icon::after {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        border-radius: 14px;
+        padding: 2px;
+        background: linear-gradient(to bottom right, rgba(255,255,255,0.5), transparent);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+    }
+
+    .brand-text h1 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        background: linear-gradient(to right, #fff, #cbd5e1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .brand-text span {
+        font-size: 11px;
+        color: var(--text-secondary);
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        display: block;
+        margin-top: 2px;
+    }
+
+    .header-actions button {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--glass-border);
+        color: var(--text-secondary);
+        padding: 10px 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .header-actions button:hover {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: rgba(239, 68, 68, 0.4);
+        color: var(--danger);
+        transform: translateY(-1px);
+    }
+
+    /* --- Chat Area (Scrollable) --- */
+    #chat-container {
+        flex: 1;
+        overflow-y: auto;
+        padding: 32px 24px 120px 24px; /* Padding bawah besar agar tidak tertutup dock */
+        scroll-behavior: smooth;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        max-width: 900px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    /* Scrollbar Styling Minimalist */
+    #chat-container::-webkit-scrollbar { width: 5px; }
+    #chat-container::-webkit-scrollbar-track { background: transparent; }
+    #chat-container::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    #chat-container::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+    /* --- Message Bubbles (Flagship Animation) --- */
+    .message-wrapper {
+        display: flex;
+        flex-direction: column;
+        max-width: 85%;
+        opacity: 0; 
+        animation: bubbleEnter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes bubbleEnter { 
+        from { opacity: 0; transform: translateY(30px) scale(0.95); filter: blur(4px); } 
+        to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } 
+    }
+
+    .message-wrapper.user { align-self: flex-end; align-items: flex-end; }
+    .message-wrapper.ai { align-self: flex-start; align-items: flex-start; }
+
+    .msg-bubble {
+        padding: 18px 24px;
+        border-radius: 20px;
+        line-height: 1.7;
+        position: relative;
+        word-wrap: break-word;
+        font-size: 0.95rem;
+        transition: transform 0.2s ease;
+    }
+    
+    .msg-bubble:hover {
+        transform: translateY(-2px);
+    }
+
+    /* User Bubble Style */
+    .user .msg-bubble {
+        background: var(--primary-gradient);
+        color: white;
+        border-bottom-right-radius: 6px;
+        box-shadow: 0 8px 24px rgba(59, 130, 246, 0.25);
+    }
+
+    /* AI Bubble Style */
+    .ai .msg-bubble {
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(10px);
+        color: var(--text-primary);
+        border: 1px solid var(--glass-border);
+        border-bottom-left-radius: 6px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+
+    /* --- Content Styling inside Bubbles --- */
+    .msg-bubble p { margin: 0 0 14px 0; }
+    .msg-bubble p:last-child { margin: 0; }
+    
+    .msg-bubble strong { color: #fff; font-weight: 700; }
+    .ai .msg-bubble strong { color: #e2e8f0; text-shadow: 0 0 10px rgba(255,255,255,0.1); }
+    
+    .msg-bubble code {
+        font-family: var(--font-mono);
+        background: rgba(0,0,0,0.4);
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-size: 0.85em;
+        color: #fbbf24;
+        border: 1px solid rgba(251, 191, 36, 0.1);
+    }
+    
+    .ai .msg-bubble code { background: rgba(255,255,255,0.08); color: #cbd5e1; border-color: rgba(255,255,255,0.05); }
+
+    .msg-bubble pre {
+        background: #0f172a;
+        padding: 18px;
+        border-radius: 12px;
+        overflow-x: auto;
+        border: 1px solid #334155;
+        margin: 16px 0;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .msg-bubble pre code { background: transparent; color: #a5d6ff; padding: 0; border: none; }
+
+    .msg-bubble ul { padding-left: 24px; margin: 12px 0; }
+    .msg-bubble li { margin-bottom: 8px; color: #cbd5e1; }
+    .msg-bubble li::marker { color: #64748b; }
+
+    /* --- Data Highlights --- */
+    .crypto-up { color: var(--success); font-weight: 700; font-family: var(--font-mono); background: rgba(16, 185, 129, 0.15); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.2); }
+    .crypto-down { color: var(--danger); font-weight: 700; font-family: var(--font-mono); background: rgba(239, 68, 68, 0.15); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(239, 68, 68, 0.2); }
+    
+    .forex-tag { 
+        background: rgba(245, 158, 11, 0.15); 
+        color: #fbbf24; 
+        padding: 3px 8px; 
+        border-radius: 6px; 
+        font-size: 0.85em; 
+        font-weight: 600; 
+        border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    /* --- Technical Analysis Card Design --- */
+    .tech-analysis-box {
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid #334155;
+        border-left: 3px solid #3b82f6;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 12px;
+        font-family: var(--font-main);
+        font-size: 0.9rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        backdrop-filter: blur(5px);
+    }
+    
+    .tech-title {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: #64748b;
+        margin-bottom: 14px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        padding-bottom: 10px;
+        display: block;
+        font-weight: 700;
+    }
+
+    .tech-row { 
+        display: flex; 
+        justify-content: space-between; 
+        margin-bottom: 10px; 
+        align-items: center;
+        padding: 6px 0;
+    }
+    .tech-row:last-child { margin-bottom: 0; }
+    
+    .tech-label { color: var(--text-secondary); font-size: 0.85rem; }
+    .tech-val { color: var(--text-primary); font-weight: 600; font-family: var(--font-mono); letter-spacing: -0.5px; }
+    
+    .zone-box {
+        margin-top: 16px;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 500;
+    }
+    .zone-supply { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.15); color: #fca5a5; }
+    .zone-demand { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.15); color: #6ee7b7; }
+
+    /* Search Button Style */
+    .search-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 16px;
+        padding: 12px 20px;
+        background: linear-gradient(145deg, #1e293b, #0f172a);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 12px;
+        font-size: 13px;
+        border: 1px solid #334155;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 600;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .search-btn:hover { 
+        background: linear-gradient(145deg, #334155, #1e293b); 
+        border-color: #64748b; 
+        transform: translateY(-2px); 
+        box-shadow: 0 8px 12px rgba(0,0,0,0.2);
+    }
+    .search-icon-sm { width: 16px; height: 16px; fill: currentColor; }
+
+    /* --- Input Area (Floating Dock) --- */
+    .input-area {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 24px;
+        display: flex;
+        justify-content: center;
+        z-index: 90;
+        /* Gradient Mask untuk efek fade out di atas input */
+        background: linear-gradient(to top, var(--bg-body) 60%, transparent 100%);
+        pointer-events: none; /* Agar klik tembus ke area kosong */
+    }
+
+    .input-dock {
+        width: 100%;
+        max-width: 800px;
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        padding: 10px 10px 10px 24px;
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05) inset;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        pointer-events: auto; /* Re-enable clicks */
+    }
+
+    .input-dock:focus-within {
+        border-color: rgba(99, 102, 241, 0.6);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(99, 102, 241, 0.15);
+        transform: translateY(-2px);
+    }
+
+    input[type="text"] {
+        flex: 1;
+        padding: 12px 0;
+        border: none;
+        background: transparent;
+        color: white;
+        font-family: var(--font-main);
+        font-size: 16px;
+    }
+
+    input[type="text"]::placeholder { color: #64748b; }
+
+    button#send-btn {
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+        flex-shrink: 0;
+    }
+
+    button#send-btn:hover { filter: brightness(1.15); transform: scale(1.05); }
+    button#send-btn:active { transform: scale(0.95); }
+    button#send-btn:disabled { background: #334155; cursor: not-allowed; box-shadow: none; opacity: 0.7; transform: none; }
+    
+    .send-icon { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; margin-left: 2px; }
+
+    /* Loading Indicator */
+    .typing-indicator { display: inline-flex; gap: 6px; padding: 8px 0; align-items: center; }
+    .dot {
+        width: 8px; height: 8px;
+        background: #64748b;
+        border-radius: 50%;
+        animation: bounce 1.4s infinite ease-in-out both;
+    }
+    .dot:nth-child(1) { animation-delay: -0.32s; background: #3b82f6; }
+    .dot:nth-child(2) { animation-delay: -0.16s; background: #8b5cf6; }
+    .dot:nth-child(3) { background: #ec4899; }
+    @keyframes bounce { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1.2); opacity: 1; } }
+    
+    /* Responsive */
+    @media (max-width: 600px) { 
+        .message-wrapper { max-width: 90%; }
+        .msg-bubble { padding: 16px; font-size: 0.9rem; }
+        header { padding: 0 20px; height: 60px; }
+        .logo-icon { width: 32px; height: 32px; font-size: 14px; }
+        .brand-text h1 { font-size: 18px; }
+        .input-area { padding: 16px; }
+        .input-dock { padding: 8px 8px 8px 16px; border-radius: 18px; }
+        button#send-btn { width: 44px; height: 44px; border-radius: 12px; }
+    }
+    
+    .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-gradient); /* Hapus baris ini jika pakai Opsi A (gambar sendiri) */
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Penting agar gambar tidak keluar border radius */
+    box-shadow: 0 0 20px var(--primary-glow);
+    position: relative;
+}
+
+/* Khusus untuk tag img di dalam logo */
+.logo-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Atau 'contain' jika ingin logo utuh tanpa crop */
+}
+
+/* Khusus untuk SVG di dalam logo */
+.logo-icon svg {
+    width: 24px;
+    height: 24px;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<!-- Ambient Background Effects -->
+<div class="ambient-light"></div>
+<div class="ambient-light secondary"></div>
+
+<header>
+    <div class="brand-container">
+<div class="logo-icon">
+    <img src="logo.png" alt="Orixtron Logo">
+</div>
+        <div class="brand-text">
+            <h1>ORIXTRON</h1>
+            <span>Edge System AI v5.0</span>
+        </div>
+    </div>
+    <div class="header-actions">
+        <button onclick="clearChat()"><i class="fa-solid fa-rotate-right"></i> Reset</button>
+    </div>
+</header>
+
+<div id="chat-container">
+    <!-- Pesan Pembuka -->
+    <div class="message-wrapper ai">
+        <div class="msg-bubble">
+            <p>Selamat datang di <strong>Orixtron Terminal v5.0</strong>.</p>
+            <p>Sistem antarmuka flagship dengan integrasi data pasar real-time.</p>
+            <ul>
+                <li>Ketik <code>BTC</code> untuk harga + Level Support/Resisten.</li>
+                <li>Tanya <code>GOTO</code> untuk Analisis Saham IDX.</li>
+                <li>Ketik <code>Cari berita Bitcoin</code> untuk penelusuran web.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="input-area">
+    <div class="input-dock">
+        <input type="text" id="prompt" placeholder="Ketik aset, rumus, atau cari berita..." autocomplete="off">
+        <button id="send-btn" onclick="sendMessage()">
+            <svg class="send-icon" viewBox="0 0 24 24">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<script>
+// --- KONFIGURASI API PUBLIK (AMAN DI FRONTEND) ---
+const BINANCE_API_URL = "https://api.binance.com/api/v3/ticker/24hr";
+const FRANKFURTER_API_URL = "https://api.frankfurter.dev/v2"; 
+const DATASECTORS_API_KEY = "ds_live_YEo0NswRO-QXVmu92qw-ZphQTLCLeORL"; 
+const GOOGLE_CSE_CX = "752569e06cc174123";
+
+const chatContainer = document.getElementById("chat-container");
+const promptInput = document.getElementById("prompt");
+const sendBtn = document.getElementById("send-btn");
+
+// System Prompt Baru: Menginstruksikan format HTML khusus untuk UI baru
+const SYSTEM_PROMPT = `
+Nama kamu adalah ORIXTRON, seorang analis keuangan AI profesional.
+Pencipta kamu bernama Sahid Nawawi (Akio yuki).
+
+TUGAS UTAMA:
+1. Menyajikan data harga real-time (Crypto/Saham/Forex).
+2. Melakukan perhitungan matematika presisi.
+3. Menganalisis Support & Resistance berdasarkan data harga yang diberikan.
+4. Mencarikan referensi berita/artikel web jika diminta.
+
+ATURAN FORMAT OUTPUT (HTML):
+1. Gunakan Markdown standar, tapi untuk Data Teknikal, WAJIB gunakan blok HTML khusus ini agar sesuai UI:
+   
+   Jika ada [TECHNICAL_ANALYSIS], bungkus dalam div class="tech-analysis-box":
+   <div class="tech-analysis-box">
+     <span class="tech-title">Technical Levels</span>
+     <div class="tech-row"><span class="tech-label">Resistance 2</span><span class="tech-val">HARGA_R2</span></div>
+     <div class="tech-row"><span class="tech-label">Resistance 1</span><span class="tech-val">HARGA_R1</span></div>
+     <div class="tech-row"><span class="tech-label">Support 1</span><span class="tech-val">HARGA_S1</span></div>
+     <div class="tech-row"><span class="tech-label">Support 2</span><span class="tech-val">HARGA_S2</span></div>
+     
+     <div class="zone-box zone-supply">
+       <span>Supply Zone</span>
+       <strong>HARGA_SUPPLY</strong>
+     </div>
+     <div class="zone-box zone-demand">
+       <span>Demand Zone</span>
+       <strong>HARGA_DEMAND</strong>
+     </div>
+   </div>
+
+2. Untuk tombol pencarian web, gunakan format ini:
+   <a href='LINK_DARI_DATA' target='_blank' class='search-btn'><svg class='search-icon-sm' viewBox='0 0 24 24'><path d='M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/></svg> Telusuri Hasil Lengkap</a>
+
+3. Jangan pernah menghitung harga sendiri, pakai data [DATA_RESULT].
+4. Bullish 📈 / Bearish 📉 harus diberi styling class crypto-up/crypto-down.
+`;
+
+let messageHistory = [{ role: "system", content: SYSTEM_PROMPT }];
+
+// Kamus Alias
+const COIN_MAP = {
+    "bitcoin": "BTC", "btc": "BTC",
+    "ethereum": "ETH", "eth": "ETH",
+    "tether": "USDT", "usdt": "USDT",
+    "binance coin": "BNB", "bnb": "BNB",
+    "solana": "SOL", "sol": "SOL",
+    "ripple": "XRP", "xrp": "XRP",
+    "dogecoin": "DOGE", "doge": "DOGE",    "cardano": "ADA", "ada": "ADA",
+    "pepe": "PEPE", "shiba": "SHIB", "ton": "TON", "near": "NEAR"
+};
+
+const FOREX_MAP = {
+    "dolar": "USD", "amerika": "USD", "usd": "USD", "$": "USD",
+    "rupiah": "IDR", "indonesia": "IDR", "idr": "IDR", "rp": "IDR",
+    "euro": "EUR", "eropa": "EUR", "eur": "EUR",
+    "yen": "JPY", "jepang": "JPY", "jpy": "JPY",
+    "pound": "GBP", "inggris": "GBP", "gbp": "GBP",
+    "won": "KRW", "korea": "KRW",
+    "ringgit": "MYR", "malaysia": "MYR"
+};
+
+const STOCK_KEYWORDS = ["GOTO", "BBCA", "BBRI", "TLKM", "ASII", "ADRO", "BMRI", "BBNI", "UNVR", "ICBP"];
+
+// --- FUNGSI UTILITIES UI ---
+
+function appendMessage(role, text) {
+    const wrapper = document.createElement("div");
+    wrapper.className = `message-wrapper ${role}`;
+    
+    const bubble = document.createElement("div");
+    bubble.className = "msg-bubble";
+    
+    if (role === 'ai') {
+        // Render Markdown
+        let htmlContent = marked.parse(text);
+        
+        // Post-processing untuk styling tambahan
+        // Highlight Bullish/Bearish
+        htmlContent = htmlContent.replace(/Bullish\s*📈/gi, '<span class="crypto-up">Bullish 📈</span>');
+        htmlContent = htmlContent.replace(/Bearish\s*📉/gi, '<span class="crypto-down">Bearish 📉</span>');
+        
+        // Highlight Mata Uang
+        htmlContent = htmlContent.replace(/\b(IDR|USD|EUR|JPY|GBP)\b/g, '<span class="forex-tag">$1</span>');
+        
+        bubble.innerHTML = htmlContent;
+    } else {
+        bubble.textContent = text;
+    }
+
+    wrapper.appendChild(bubble);
+    chatContainer.appendChild(wrapper);
+    
+    setTimeout(() => {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }, 50);
+}
+
+function showLoading() {
+    const wrapper = document.createElement("div");
+    wrapper.className = "message-wrapper ai";
+    wrapper.id = "loading-msg";
+    
+    const bubble = document.createElement("div");
+    bubble.className = "msg-bubble";
+    bubble.style.padding = "16px 24px";
+    bubble.innerHTML = `<div class="typing-indicator"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+    
+    wrapper.appendChild(bubble);
+    chatContainer.appendChild(wrapper);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+function removeLoading() {
+    const loader = document.getElementById("loading-msg");
+    if(loader) loader.remove();
+}
+
+// --- LOGIKA API & ANALISIS TEKNIKAL ---
+
+async function fetchCryptoData(symbol) {
+    try {
+        const pair = symbol.endsWith("USDT") ? symbol : symbol + "USDT";
+        const response = await fetch(`${BINANCE_API_URL}?symbol=${pair}`);
+        if (!response.ok) throw new Error("Crypto API Error");
+        const data = await response.json();
+        return {
+            symbol: data.symbol.replace("USDT", ""),
+            price_usd: parseFloat(data.lastPrice),
+            high_24h: parseFloat(data.highPrice),
+            low_24h: parseFloat(data.lowPrice),
+            change_percent: parseFloat(data.priceChangePercent).toFixed(2)
+        };
+    } catch (error) { 
+        console.error(error); 
+        return null; 
+    }
+}
+
+async function fetchForexRate(from, to) {
+    try {
+        const url = `${FRANKFURTER_API_URL}/rate/${from}/${to}`;
+        const response = await fetch(url);
+        if (!response.ok) return null;
+        const data = await response.json();
+        return data.rate;
+    } catch (error) { 
+        console.error(error); 
+        return null;     }
+}
+
+async function fetchStockData(symbol) {
+    try {
+        const formattedSymbol = symbol.startsWith("IDX:") ? symbol : `IDX:${symbol.toUpperCase()}`;
+        const res = await fetch(
+            `https://api.datasectors.com/api/chart/price?symbol=${formattedSymbol}&limit=1`,
+            { headers: { "X-API-Key": DATASECTORS_API_KEY } }
+        );
+        if (!res.ok) throw new Error("Stock API Error");
+        const rawData = await res.json();
+        
+        let price = 0;
+        let change = 0;
+        let high = 0;
+        let low = 0;
+
+        if (rawData && Array.isArray(rawData) && rawData.length > 0) {
+             const latestCandle = rawData[rawData.length - 1];
+             price = latestCandle.close || latestCandle[4];
+             high = latestCandle.high || latestCandle[2];
+             low = latestCandle.low || latestCandle[3];
+             
+             if(rawData.length > 1) {
+                 const prevCandle = rawData[rawData.length - 2];
+                 const prevPrice = prevCandle.close || prevCandle[4];
+                 change = ((price - prevPrice) / prevPrice) * 100;
+             }
+        } else if (rawData.data && rawData.data.length > 0) {
+             const latest = rawData.data[0];
+             price = latest.close;
+             high = latest.high;
+             low = latest.low;
+             change = latest.change_percent || 0;
+        }
+
+        return {
+            symbol: symbol.toUpperCase(),
+            price_idr: price,
+            high: high,
+            low: low,
+            change_percent: change.toFixed(2)
+        };
+
+    } catch (err) {
+        console.error("Error fetching stock:", err);
+        return null;
+    }}
+
+// --- FITUR BARU: KALKULATOR TEKNIKAL ---
+function calculateTechnicals(price, high24, low24) {
+    const pivot = (high24 + low24 + price) / 3;
+    const r1 = (2 * pivot) - low24;
+    const r2 = pivot + (high24 - low24);
+    const s1 = (2 * pivot) - high24;
+    const s2 = pivot - (high24 - low24);
+
+    const supplyZoneStart = r1;
+    const supplyZoneEnd = r1 + (price * 0.005); 
+    const demandZoneStart = s1;
+    const demandZoneEnd = s1 - (price * 0.005); 
+
+    return {
+        r1: r1.toFixed(2),
+        r2: r2.toFixed(2),
+        s1: s1.toFixed(2),
+        s2: s2.toFixed(2),
+        supply: `${supplyZoneStart.toFixed(2)} - ${supplyZoneEnd.toFixed(2)}`,
+        demand: `${demandZoneEnd.toFixed(2)} - ${demandZoneStart.toFixed(2)}`
+    };
+}
+
+function formatCurrency(value, currency) {
+    if (currency === "IDR") {
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(value);
+    } else if (currency === "USD") {
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+    } else {
+        return value.toLocaleString();
+    }
+}
+
+function analyzeIntent(text) {
+    const lowerText = text.toLowerCase();
+    
+    if (lowerText.includes("berita") || lowerText.includes("news") || lowerText.includes("artikel") || lowerText.includes("info") || lowerText.includes("cari")) {
+        let asset = null;
+        for (const [name, code] of Object.entries(COIN_MAP)) {
+            if (lowerText.includes(name)) { asset = code; break; }
+        }        if (!asset) {
+             for (const stock of STOCK_KEYWORDS) {
+                if (lowerText.includes(stock.toLowerCase())) { asset = stock; break; }
+            }
+        }
+        let query = asset || text.replace(/berita|news|artikel|info|cari|tentang/gi, "").trim();
+        if(query) return { mode: "WEB_SEARCH", query: query };
+    }
+
+    let detectedStock = null;
+    for (const stock of STOCK_KEYWORDS) {
+        if (lowerText.includes(stock.toLowerCase())) {
+            detectedStock = stock;
+            break;
+        }
+    }
+    if (!detectedStock && lowerText.match(/saham\s([a-z]{4})/)) {
+        detectedStock = lowerText.match(/saham\s([a-z]{4})/)[1].toUpperCase();
+    }
+    if (detectedStock) return { mode: "STOCK_ONLY", symbol: detectedStock };
+
+    let detectedCoin = null;
+    for (const [name, code] of Object.entries(COIN_MAP)) {
+        if (lowerText.includes(name)) { detectedCoin = code; break; }
+    }
+    
+    let targetFiat = null;
+    const forexKeywords = Object.keys(FOREX_MAP).sort((a, b) => b.length - a.length);
+    for (const keyword of forexKeywords) {
+        if (lowerText.includes(keyword)) {
+            targetFiat = FOREX_MAP[keyword];
+            break;
+        }
+    }
+
+    if (detectedCoin && targetFiat && targetFiat !== "USD") return { mode: "HYBRID_CALC", coin: detectedCoin, fiat: targetFiat };
+    else if (detectedCoin) return { mode: "CRYPTO_ONLY", coin: detectedCoin };
+    else if (targetFiat) return { mode: "FOREX_ONLY", target: targetFiat }; 
+    
+    return { mode: "CHAT" };
+}
+
+// --- CORE CHAT LOGIC ---
+
+async function sendMessage() {
+    const text = promptInput.value.trim();    if (!text) return;
+    appendMessage("user", text);
+    promptInput.value = "";
+    toggleInput(false);
+    showLoading();
+    
+    const intent = analyzeIntent(text);
+    let finalPrompt = text;
+    let contextData = "";
+
+    try {
+        if (intent.mode === "WEB_SEARCH") {
+            const searchQuery = encodeURIComponent(intent.query);
+            const googleLink = `https://www.google.com/search?q=${searchQuery}&as_sitesearch=&cx=${GOOGLE_CSE_CX}`;
+            
+            const mockContext = `[WEB_SEARCH_LINK]: ${googleLink}\n[CONTEXT]: User mencari informasi tentang "${intent.query}". Sistem telah menyiapkan tautan pencarian khusus Google CSE.`;
+            
+            finalPrompt = `${text}\n\nUser ingin melakukan penelusuran web. Berikut adalah link pencarian:\n${mockContext}\n\nTugasmu: Buat respons singkat, lalu WAJIB sertakan tombol HTML untuk membuka hasil pencarian.`;
+        }
+
+        else if (intent.mode === "STOCK_ONLY") {
+            const stockData = await fetchStockData(intent.symbol);
+            
+            if (stockData) {
+                const formattedPrice = formatCurrency(stockData.price_idr, "IDR");
+                const trend = parseFloat(stockData.change_percent) >= 0 ? "Naik" : "Turun";
+                
+                const tech = calculateTechnicals(stockData.price_idr, stockData.high, stockData.low);
+                
+                contextData = `[DATA_RESULT]:\nSaham: ${stockData.symbol}\nHarga: ${formattedPrice}\nPerubahan: ${stockData.change_percent}% (${trend})\n[TECHNICAL_ANALYSIS]:\nResistance 1: Rp ${tech.r1}\nResistance 2: Rp ${tech.r2}\nSupport 1: Rp ${tech.s1}\nSupport 2: Rp ${tech.s2}\nSupply Zone: Rp ${tech.supply}\nDemand Zone: Rp ${tech.demand}`;
+                
+                finalPrompt = `${text}\n\nGunakan data saham dan analisis teknikal berikut:\n${contextData}`;
+            } else {
+                finalPrompt = `${text} (Info: Gagal mengambil data saham)`;
+            }
+        }
+        
+        else if (intent.mode === "HYBRID_CALC") {
+            const cryptoData = await fetchCryptoData(intent.coin);
+            const usdToFiatRate = await fetchForexRate("USD", intent.fiat);
+
+            if (cryptoData && usdToFiatRate) {
+                const finalPriceInFiat = cryptoData.price_usd * usdToFiatRate;
+                const formattedCrypto = formatCurrency(cryptoData.price_usd, "USD");                const formattedFiat = formatCurrency(finalPriceInFiat, intent.fiat);
+                const trend = parseFloat(cryptoData.change_percent) >= 0 ? "Naik" : "Turun";
+                
+                const tech = calculateTechnicals(finalPriceInFiat, finalPriceInFiat * 1.02, finalPriceInFiat * 0.98);
+
+                contextData = `[DATA_RESULT]:\nAset: ${cryptoData.symbol}\nHarga USD: ${formattedCrypto}\nHarga ${intent.fiat}: ${formattedFiat}\nPerubahan 24j: ${cryptoData.change_percent}% (${trend})\n[TECHNICAL_ANALYSIS]:\nEstimasi Resistance: ${tech.r1}\nEstimasi Support: ${tech.s1}`;
+                
+                finalPrompt = `${text}\n\nGunakan data hasil kalkulasi berikut:\n${contextData}`;
+            }
+        } 
+        
+        else if (intent.mode === "CRYPTO_ONLY") {
+            const cryptoData = await fetchCryptoData(intent.coin);
+            if (cryptoData) {
+                const formattedPrice = formatCurrency(cryptoData.price_usd, "USD");
+                const trend = parseFloat(cryptoData.change_percent) >= 0 ? "Naik" : "Turun";
+                
+                const tech = calculateTechnicals(cryptoData.price_usd, cryptoData.high_24h, cryptoData.low_24h);
+                
+                contextData = `[DATA_RESULT]:\nAset: ${cryptoData.symbol}\nHarga: ${formattedPrice}\nPerubahan 24j: ${cryptoData.change_percent}% (${trend})\n[TECHNICAL_ANALYSIS]:\nResistance 1: $${tech.r1}\nResistance 2: $${tech.r2}\nSupport 1: $${tech.s1}\nSupport 2: $${tech.s2}\nSupply Zone: $${tech.supply}\nDemand Zone: $${tech.demand}`;
+                
+                finalPrompt = `${text}\n\nGunakan data berikut termasuk level teknikal:\n${contextData}`;
+            }
+        }
+        
+        else if (intent.mode === "FOREX_ONLY") {
+            let base = "USD";
+            if(intent.target === "USD") base = "EUR"; 
+            
+            const rate = await fetchForexRate(base, intent.target);
+            if(rate) {
+                 contextData = `[DATA_RESULT]:\nKurs ${base} ke ${intent.target}: ${rate}`;
+                 finalPrompt = `${text}\n\nGunakan data berikut:\n${contextData}`;
+            }
+        }
+
+        const currentMessages = [...messageHistory, { role: "user", content: finalPrompt }];
+
+        // --- PERUBAHAN DI SINI: MENGGUNAKAN API ROUTE VERCEL ---
+        const response = await fetch("/api/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                messages: currentMessages
+            })
+        });
+
+        const data = await response.json();
+        removeLoading();
+
+        if (data.error) {
+            appendMessage("ai", `⚠️ **System Error**: ${data.error.message || data.error}`);
+        } else {
+            const aiResponse = data.choices[0].message.content;
+            appendMessage("ai", aiResponse);
+            
+            messageHistory.push({ role: "user", content: text });
+            messageHistory.push({ role: "assistant", content: aiResponse });
+            if(messageHistory.length > 10) {
+                messageHistory.splice(1, 2);
+            }
+        }
+
+    } catch (err) {
+        removeLoading();
+        appendMessage("ai", `⚠️ **Connection Error**: Tidak dapat menghubungi server analisis.`);
+        console.error(err);
+    } finally {
+        toggleInput(true);
+    }
+}
+
+function toggleInput(enable) {
+    promptInput.disabled = !enable;
+    sendBtn.disabled = !enable;
+    if(enable) promptInput.focus();
+}
+
+function clearChat() {
+    chatContainer.innerHTML = '';
+    messageHistory = [{ role: "system", content: SYSTEM_PROMPT }];
+    setTimeout(() => {
+        appendMessage("ai", "Sistem di-reset. Modul Web Search & Teknikal siap.");
+    }, 300);
+}
+
+promptInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") sendMessage();
+});
+</script>
+
+</body>
+</html>
