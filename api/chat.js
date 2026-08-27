@@ -1,0 +1,59 @@
+// api/chat.js
+export default async function handler(req, res) {
+  // Hanya izinkan metode POST
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    const { messages } = req.body;
+    
+    // Ambil API Key dari Environment Variable Vercel
+    const apiKey = process.env.GROQ_API_KEY;
+
+    if (!apiKey) {
+      return res.status(500).json({ error: 'Groq API Key not configured in Vercel' });
+    }
+
+    // Tambahkan instruksi sistem khusus untuk mencegah output thinking process
+    // Kita sisipkan ini di awal array messages
+    const systemInstruction = {
+      role: "system",
+      content: "You are ORIXTRON. Provide ONLY the final answer. DO NOT output your internal reasoning, chain of thought, verification steps, or 'Here is a thinking process'. Answer directly and concisely."
+    };
+
+    // Gabungkan instruksi sistem dengan pesan user
+    const enhancedMessages = [systemInstruction, ...messages];
+
+    // Panggil API Groq dari Server-side (Aman)
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        // MODEL BARU: Menggunakan Qwen 3.6 27B (Sangat baik untuk logika & finansial)
+        model: "qwen/qwen3.6-27b", 
+        
+        messages: enhancedMessages,
+        temperature: 0.4,
+        max_tokens: 1024
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      console.error("Groq Error Detail:", data.error);
+      return res.status(400).json({ error: data.error });
+    }
+
+    // Kirim balasan AI kembali ke frontend
+    return res.status(200).json(data);
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
