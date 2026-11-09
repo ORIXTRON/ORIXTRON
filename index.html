@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORIXTRON | Edge Execution System 3D & Quant Engine</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            dark: '#020307',
+                            panel: 'rgba(8, 12, 22, 0.75)',
+                            border: 'rgba(0, 243, 255, 0.2)',
+                            cyan: '#00f3ff',
+                            purple: '#bc13fe',
+                            green: '#0aff60',
+                            red: '#ff003c',
+                            gold: '#ffd700',
+                            text: '#eef2f6',
+                            muted: '#8b9bb4'
+                        }
+                    },
+                    fontFamily: {
+                        tech: ['Rajdhani', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                        code: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --primary-cyan: #00f3ff;
+            --secondary-purple: #bc13fe;
+            --success-green: #0aff60;
+            --danger-red: #ff003c;
+            --bg-dark: #020307;
+            --glow-cyan: 0 0 25px rgba(0, 243, 255, 0.4);
+            --glow-purple: 0 0 25px rgba(188, 19, 254, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #eef2f6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100vw;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #010204; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 243, 255, 0.3); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-cyan); }
+
+        /* Overlays */
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.15));
+            background-size: 100% 4px;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.35;
+        }
+
+        /* 3D Cyber Grid Background */
+        .bg-grid-3d {
+            position: fixed;
+            top: 0; left: 0; width: 200%; height: 200%;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: perspective(600px) rotateX(60deg) translateY(-100px) translateZ(-200px);
+            animation: gridMove 25s linear infinite;            
+            z-index: -2;
+            pointer-events: none;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 85%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 85%);
+        }
+
+        @keyframes gridMove {
+            0% { transform: perspective(600px) rotateX(60deg) translateY(0) translateZ(-200px); }
+            100% { transform: perspective(600px) rotateX(60deg) translateY(60px) translateZ(-200px); }
+        }
+
+        /* Glassmorphism Panel Base */
+        .glass-panel {
+            background: rgba(8, 12, 22, 0.75);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(0, 243, 255, 0.15);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        /* Mouse Spotlight Effect */
+        .spotlight-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spotlight-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 243, 255, 0.14), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Corner Brackets Styling */
+        .corner-bracket::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 10px; height: 10px;
+            border-top: 2px solid var(--primary-cyan); border-left: 2px solid var(--primary-cyan);
+            transition: all 0.3s ease;
+        }
+        .corner-bracket::after {
+            content: ''; position: absolute; bottom: 0; right: 0; width: 10px; height: 10px;
+            border-bottom: 2px solid var(--primary-cyan); border-right: 2px solid var(--primary-cyan);
+            transition: all 0.3s ease;
+        }
+
+        .spotlight-card:hover .corner-bracket::before,
+        .spotlight-card:hover .corner-bracket::after {
+            width: 100%; height: 100%;
+            border-color: rgba(0, 243, 255, 0.4);
+        }
+
+        /* Neon Glow Effects */
+        .text-glow-cyan { text-shadow: 0 0 15px rgba(0, 243, 255, 0.6); }
+        .text-glow-purple { text-shadow: 0 0 15px rgba(188, 19, 254, 0.6); }
+        .text-glow-green { text-shadow: 0 0 12px rgba(10, 255, 96, 0.5); }
+
+        /* Custom Cyber Button */
+        .btn-cyber {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 36px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary-cyan);
+            background: rgba(0, 243, 255, 0.05);
+            border: 1px solid var(--primary-cyan);
+            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .btn-cyber::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.35), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-cyber:hover::before { left: 100%; }
+
+        .btn-cyber:hover {
+            background: var(--primary-cyan);
+            color: #000;
+            box-shadow: 0 0 35px rgba(0, 243, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-cyber-purple {
+            color: var(--secondary-purple);
+            background: rgba(188, 19, 254, 0.05);
+            border-color: var(--secondary-purple);
+        }
+
+        .btn-cyber-purple:hover {
+            background: var(--secondary-purple);
+            color: #fff;
+            box-shadow: 0 0 35px rgba(188, 19, 254, 0.6);
+        }
+
+        /* Price Flash Animations */
+        @keyframes flashGreen {
+            0% { background-color: rgba(10, 255, 96, 0.25); border-color: var(--success-green); }
+            100% { background-color: transparent; }
+        }
+
+        @keyframes flashRed {
+            0% { background-color: rgba(255, 0, 60, 0.25); border-color: var(--danger-red); }
+            100% { background-color: transparent; }
+        }
+
+        .flash-up { animation: flashGreen 0.8s ease-out; }
+        .flash-down { animation: flashRed 0.8s ease-out; }
+
+        /* Ticker Animation */
+        @keyframes tickerSlide {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        .animate-ticker {
+            display: flex;
+            width: max-content;
+            animation: tickerSlide 35s linear infinite;
+        }
+
+        .animate-ticker:hover {
+            animation-play-state: paused;
+        }
+
+        #hero-canvas-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 1;
+            pointer-events: auto;
+        }
+
+        /* Mathematical Notation Styling */
+        .math-box {
+            font-family: 'Fira Code', monospace;
+            background: rgba(3, 7, 18, 0.85);
+            border: 1px solid rgba(0, 243, 255, 0.25);
+            border-left: 3px solid var(--primary-cyan);
+            border-radius: 8px;
+            padding: 12px 18px;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+
+<body class="bg-[#020307] text-slate-100 antialiased selection:bg-cyan-500 selection:text-black">
+
+    <!-- Ambient Overlays -->
+    <div class="noise-overlay"></div>
+    <div class="scanlines"></div>
+    <div class="bg-grid-3d"></div>
+
+    <!-- LIVE STREAMING TICKER BAR -->
+    <div class="fixed top-0 left-0 right-0 h-8 bg-black/90 border-b border-cyan-500/30 z-[1000] flex items-center overflow-hidden font-code text-xs backdrop-blur-md">
+        <div class="flex items-center px-4 bg-cyan-950/90 text-cyan-400 font-bold border-r border-cyan-500/30 h-full z-10 shrink-0 uppercase tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping mr-2"></span> QUANT STREAM
+        </div>
+        <div class="overflow-hidden w-full relative">
+            <div id="ticker-wrap" class="animate-ticker">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING NAVIGATION HEADER -->
+    <header id="navbar" class="fixed top-8 left-0 right-0 z-[999] transition-all duration-300 py-3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel rounded-2xl px-6 py-3 flex items-center justify-between border-cyan-500/20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-400/40 flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(0,243,255,0.6)] transition-all">
+                        <i class="fa-solid fa-cube text-cyan-400 text-lg group-hover:rotate-45 transition-transform duration-500"></i>
+                    </div>
+                    <span class="font-tech font-bold text-2xl tracking-[0.2em] text-white">
+                        ORIX<span class="text-cyan-400 text-glow-cyan">TRON</span>
+                    </span>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-7 font-tech text-sm tracking-widest font-semibold uppercase">
+                    <a href="#hero" class="text-slate-300 hover:text-cyan-400 transition-colors py-1 hover:text-glow-cyan">Core</a>
+                    <a href="#telemetry" class="text-slate-300 hover:text-cyan-400 transition-colors py-1 hover:text-glow-cyan">Telemetry</a>
+                    <a href="#math-engine" class="text-slate-300 hover:text-cyan-400 transition-colors py-1 hover:text-glow-cyan">Math Formulation</a>
+                    <a href="#logic" class="text-slate-300 hover:text-cyan-400 transition-colors py-1 hover:text-glow-cyan">Logic Engine</a>
+                    <a href="#deployment" class="text-slate-300 hover:text-cyan-400 transition-colors py-1 hover:text-glow-cyan">Installation</a>
+                    <a href="#metrics" class="text-slate-300 hover:text-cyan-400 transition-colors py-1 hover:text-glow-cyan">Metrics</a>
+                </nav>
+
+                <!-- Actions / Buttons -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button id="open-calc-btn" class="px-4 py-2 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 font-tech font-bold text-xs tracking-wider uppercase transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-calculator"></i> Kelly Risk Calc
+                    </button>
+                    <a href="#deployment" class="px-5 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-tech font-bold text-xs tracking-widest uppercase shadow-[0_0_20px_rgba(0,243,255,0.4)] transition-all">
+                        Deploy System
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-cyan-400 p-2 focus:outline-none" aria-label="Toggle Navigation">
+                    <i class="fa-solid fa-bars-staggered text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden max-w-7xl mx-auto px-4 mt-2">
+            <div class="glass-panel rounded-2xl p-6 flex flex-col space-y-3 font-tech tracking-wider uppercase border-cyan-500/30">
+                <a href="stock core/index.html" class="mobile-link text-slate-200 hover:text-cyan-400 text-lg py-2 border-b border-white/5">Stock Core</a>
+                <a href="crypto core/index.html" class="mobile-link text-slate-200 hover:text-cyan-400 text-lg py-2 border-b border-white/5">Crypto Core</a>
+                <a href="biodata/index.html" class="mobile-link text-slate-200 hover:text-cyan-400 text-lg py-2 border-b border-white/5">Biodata</a>
+                <a href="assisten/index.html" class="mobile-link text-slate-200 hover:text-cyan-400 text-lg py-2 border-b border-white/5">AI Logic</a>
+                <a href="live chat/index.html" class="mobile-link text-slate-200 hover:text-cyan-400 text-lg py-2 border-b border-white/5">Live Chat</a>
+                <a href="#metrics" class="mobile-link text-slate-200 hover:text-cyan-400 text-lg py-2 border-b border-white/5">Performance Metrics</a>
+                <button id="open-calc-mobile" class="w-full py-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-tech font-bold text-sm tracking-wider uppercase mt-2">
+                    <i class="fa-solid fa-calculator mr-2"></i> Kelly Risk Calculator
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION WITH 3D THREE.JS QUANTUM CORE -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-28 pb-16 overflow-hidden">
+        
+        <!-- 3D Three.js Visualizer Canvas Container -->
+        <div id="hero-canvas-container"></div>
+
+        <!-- Hero Content Overlay -->
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pointer-events-none">
+            
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 font-code text-xs tracking-widest uppercase mb-6 backdrop-blur-md pointer-events-auto">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                MATHEMATICAL EDGE EXECUTION ENGINE V3.5
+            </div>
+
+            <h1 class="font-tech font-extrabold text-5xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight uppercase leading-none mb-4 text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-100 to-slate-500 drop-shadow-[0_10px_25px_rgba(0,0,0,0.8)]">
+                ORIX<span class="text-cyan-400 text-glow-cyan">TRON</span>
+            </h1>
+
+            <div class="h-8 mb-6">
+                <span id="typewriter" class="font-code text-cyan-400 text-sm sm:text-lg md:text-xl font-semibold tracking-widest uppercase text-glow-cyan"></span>
+                <span class="inline-block w-2.5 h-5 bg-cyan-400 ml-1 animate-pulse align-middle"></span>
+            </div>
+
+            <p class="max-w-2xl mx-auto font-body text-slate-400 text-sm sm:text-base leading-relaxed mb-10 font-light">
+                Sistem eksekusi kuantitatif berbasis Order Book Imbalance (OBI), pemodelan volatilitas GARCH(1,1), dan optimasi Kelly Criterion fractional.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-5 pointer-events-auto">
+                <a href="#math-engine" class="btn-cyber w-full sm:w-auto">
+                    <i class="fa-solid fa-square-root-variable mr-2"></i> Math Engine
+                </a>
+                <a href="#deployment" class="btn-cyber btn-cyber-purple w-full sm:w-auto">
+                    <i class="fa-solid fa-download mr-2"></i> Install Guide
+                </a>
+            </div>
+
+            <div class="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pointer-events-auto">
+                <div class="glass-panel p-3.5 rounded-xl border-cyan-500/20 text-center">
+                    <div class="font-code text-[10px] text-slate-400 uppercase tracking-widest">VPIN TOXICITY</div>
+                    <div class="font-tech font-bold text-lg text-cyan-400">0.182 (LOW)</div>
+                </div>
+                <div class="glass-panel p-3.5 rounded-xl border-purple-500/20 text-center">
+                    <div class="font-code text-[10px] text-slate-400 uppercase tracking-widest">GARCH VOLATILITY</div>
+                    <div class="font-tech font-bold text-lg text-purple-400">σ = 1.24%</div>
+                </div>
+                <div class="glass-panel p-3.5 rounded-xl border-green-500/20 text-center">
+                    <div class="font-code text-[10px] text-slate-400 uppercase tracking-widest">ORDER IMBALANCE</div>
+                    <div class="font-tech font-bold text-lg text-green-400">+0.68 OBI</div>
+                </div>
+                <div class="glass-panel p-3.5 rounded-xl border-amber-500/20 text-center">
+                    <div class="font-code text-[10px] text-slate-400 uppercase tracking-widest">OPTIMAL KELLY (f*)</div>
+                    <div class="font-tech font-bold text-lg text-amber-400">1.84% CAP</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- LIVE TELEMETRY & METRIC SPARK LINES -->
+    <section id="telemetry" class="py-20 relative border-t border-b border-cyan-500/10 bg-black/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-tech text-3xl sm:text-5xl font-bold tracking-widest uppercase text-white mb-3">
+                    LIVE <span class="text-cyan-400 text-glow-cyan">TELEMETRY</span>
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto rounded-full mb-4"></div>
+                <p class="font-code text-xs text-slate-400 uppercase tracking-widest">Peluang Algoritmik & Telemetri Real-Time Asset Stream</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- BTC/USD -->
+                <div class="spotlight-card glass-panel rounded-2xl p-6 border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 corner-bracket flex flex-col justify-between" id="card-BTC">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-brands fa-bitcoin text-amber-400 text-xl"></i>
+                                <span class="font-tech font-bold text-xl text-white">BTC/USD</span>
+                            </div>
+                            <span class="font-code text-[10px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">CRYPTO</span>
+                        </div>
+                        <div class="flex items-baseline justify-between mb-2">
+                            <div class="font-tech font-extrabold text-3xl text-white tracking-wider" id="price-BTC">---</div>
+                            <div class="font-code text-xs font-semibold text-green-400" id="change-BTC">+0.00%</div>
+                        </div>
+                        <div class="flex justify-between font-code text-[11px] text-slate-400 mb-4">
+                            <span>OBI: <strong class="text-cyan-400">+0.72</strong></span>
+                            <span>Z-Score: <strong class="text-green-400">+2.15</strong></span>
+                        </div>
+                    </div>
+                    <div class="w-full h-16 relative">
+                        <canvas id="sparkline-BTC" class="w-full h-full block"></canvas>
+                    </div>
+                </div>
+
+                <!-- AAPL -->
+                <div class="spotlight-card glass-panel rounded-2xl p-6 border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 corner-bracket flex flex-col justify-between" id="card-AAPL">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-brands fa-apple text-slate-300 text-xl"></i>
+                                <span class="font-tech font-bold text-xl text-white">AAPL</span>
+                            </div>
+                            <span class="font-code text-[10px] px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">EQUITY</span>
+                        </div>
+                        <div class="flex items-baseline justify-between mb-2">
+                            <div class="font-tech font-extrabold text-3xl text-white tracking-wider" id="price-AAPL">---</div>
+                            <div class="font-code text-xs font-semibold text-green-400" id="change-AAPL">+0.00%</div>
+                        </div>
+                        <div class="flex justify-between font-code text-[11px] text-slate-400 mb-4">
+                            <span>OBI: <strong class="text-cyan-400">+0.41</strong></span>
+                            <span>Z-Score: <strong class="text-green-400">+1.04</strong></span>
+                        </div>
+                    </div>
+                    <div class="w-full h-16 relative">
+                        <canvas id="sparkline-AAPL" class="w-full h-full block"></canvas>
+                    </div>
+                </div>
+
+                <!-- TSLA -->
+                <div class="spotlight-card glass-panel rounded-2xl p-6 border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 corner-bracket flex flex-col justify-between" id="card-TSLA">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-car text-red-500 text-lg"></i>
+                                <span class="font-tech font-bold text-xl text-white">TSLA</span>
+                            </div>
+                            <span class="font-code text-[10px] px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">EQUITY</span>
+                        </div>
+                        <div class="flex items-baseline justify-between mb-2">
+                            <div class="font-tech font-extrabold text-3xl text-white tracking-wider" id="price-TSLA">---</div>
+                            <div class="font-code text-xs font-semibold text-green-400" id="change-TSLA">+0.00%</div>
+                        </div>
+                        <div class="flex justify-between font-code text-[11px] text-slate-400 mb-4">
+                            <span>OBI: <strong class="text-red-400">-0.35</strong></span>
+                            <span>Z-Score: <strong class="text-red-400">-1.42</strong></span>
+                        </div>
+                    </div>
+                    <div class="w-full h-16 relative">
+                        <canvas id="sparkline-TSLA" class="w-full h-full block"></canvas>
+                    </div>
+                </div>
+
+                <!-- EUR/USD -->
+                <div class="spotlight-card glass-panel rounded-2xl p-6 border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 corner-bracket flex flex-col justify-between" id="card-EURUSD">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-dollar-sign text-emerald-400 text-lg"></i>
+                                <span class="font-tech font-bold text-xl text-white">EUR/USD</span>
+                            </div>
+                            <span class="font-code text-[10px] px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">FOREX</span>
+                        </div>
+                        <div class="flex items-baseline justify-between mb-2">
+                            <div class="font-tech font-extrabold text-3xl text-white tracking-wider" id="price-EURUSD">---</div>
+                            <div class="font-code text-xs font-semibold text-green-400" id="change-EURUSD">+0.00%</div>
+                        </div>
+                        <div class="flex justify-between font-code text-[11px] text-slate-400 mb-4">
+                            <span>OBI: <strong class="text-cyan-400">+0.12</strong></span>
+                            <span>Z-Score: <strong class="text-cyan-400">+0.88</strong></span>
+                        </div>
+                    </div>
+                    <div class="w-full h-16 relative">
+                        <canvas id="sparkline-EURUSD" class="w-full h-full block"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MATHEMATICAL FORMULATION ENGINE SECTION -->
+    <section id="math-engine" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-tech text-3xl sm:text-5xl font-bold tracking-widest uppercase text-white mb-3">
+                    MATHEMATICAL <span class="text-cyan-400 text-glow-cyan">FORMULATIONS</span>
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto rounded-full mb-4"></div>
+                <p class="font-code text-xs text-slate-400 uppercase tracking-widest">Landasan Matematis & Persamaan Statistik Algoritma ORIXTRON</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Equation 1: Order Book Imbalance -->
+                <div class="spotlight-card glass-panel p-8 rounded-2xl border-cyan-500/30 corner-bracket">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-8 h-8 rounded bg-cyan-500/20 text-cyan-400 font-tech font-bold text-sm flex items-center justify-center">01</span>
+                        <h3 class="font-tech font-bold text-2xl text-white uppercase tracking-wider">Order Book Imbalance (OBI)</h3>
+                    </div>
+                    <p class="font-body text-slate-400 text-xs leading-relaxed mb-4">
+                        Menghitung ketidakseimbangan volume bid/ask pada kedalaman L2 orderbook untuk mendeteksi tekanan institusional sebelum pergerakan harga terjadi.
+                    </p>
+                    <div class="math-box text-cyan-300 font-bold text-sm sm:text-base mb-3 overflow-x-auto">
+                        $$OBI_t = \frac{\sum_{i=1}^{L} V_{i,t}^b - \sum_{i=1}^{L} V_{i,t}^a}{\sum_{i=1}^{L} V_{i,t}^b + \sum_{i=1}^{L} V_{i,t}^a} \in [-1, +1]$$
+                    </div>
+                    <div class="font-code text-[11px] text-slate-400 space-y-1">
+                        <p>• <span class="text-cyan-400">V^b, V^a</span> = Volume Bid dan Ask pada kedalaman level $L$</p>
+                        <p>• Eksekusi Beli terjadi ketika $OBI_t &gt; +0.65$ disertai *liquidity sweep*.</p>
+                    </div>
+                </div>
+
+                <!-- Equation 2: Gaussian Probability Vector -->
+                <div class="spotlight-card glass-panel p-8 rounded-2xl border-purple-500/30 corner-bracket">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-8 h-8 rounded bg-purple-500/20 text-purple-400 font-tech font-bold text-sm flex items-center justify-center">02</span>
+                        <h3 class="font-tech font-bold text-2xl text-white uppercase tracking-wider">Gaussian Confluence Score ($P_c$)</h3>
+                    </div>
+                    <p class="font-body text-slate-400 text-xs leading-relaxed mb-4">
+                        Vektor probabilitas gabungan yang menggabungkan pergeseran struktur pasar, sudut momentum, dan matriks korelasi silang antar aset.
+                    </p>
+                    <div class="math-box text-purple-300 font-bold text-sm sm:text-base mb-3 overflow-x-auto">
+                        $$P_c = \Phi\left(\frac{\mu_{\Delta P} - r_0}{\sigma_G}\right) \cdot \cos(\theta_{mom}) \cdot \det(\mathbf{\Sigma}_{corr})$$
+                    </div>
+                    <div class="font-code text-[11px] text-slate-400 space-y-1">
+                        <p>• <span class="text-purple-400">\Phi(z)</span> = Cumulative Distribution Function (CDF) Gaussian</p>
+                        <p>• Eksekusi order hanya aktif jika $P_c \ge 0.82$</p>
+                    </div>
+                </div>
+
+                <!-- Equation 3: Optimal Fractional Kelly -->
+                <div class="spotlight-card glass-panel p-8 rounded-2xl border-green-500/30 corner-bracket">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-8 h-8 rounded bg-green-500/20 text-green-400 font-tech font-bold text-sm flex items-center justify-center">03</span>
+                        <h3 class="font-tech font-bold text-2xl text-white uppercase tracking-wider">Optimal Fractional Kelly Criterion ($f^*$)</h3>
+                    </div>
+                    <p class="font-body text-slate-400 text-xs leading-relaxed mb-4">
+                        Menentukan ukuran posisi yang presisi matematis untuk memaksimalkan pertumbuhan modal jangka panjang tanpa risiko bangkrut (*drawdown control*).
+                    </p>
+                    <div class="math-box text-green-300 font-bold text-sm sm:text-base mb-3 overflow-x-auto">
+                        $$f^* = \lambda \times \left( \frac{p \cdot b - (1 - p)}{b} \right) \times \left( 1 - \frac{\sigma_t^2}{\sigma_{max}^2} \right)$$
+                    </div>
+                    <div class="font-code text-[11px] text-slate-400 space-y-1">
+                        <p>• <span class="text-green-400">p</span> = Probability Win Rate, <span class="text-green-400">b</span> = Risk/Reward Ratio</p>
+                        <p>• <span class="text-green-400">\lambda = 0.25</span> (Fractional Half-Kelly Factor untuk stabilitas rendah volatilitas)</p>
+                    </div>
+                </div>
+
+                <!-- Equation 4: GARCH(1,1) Volatility -->
+                <div class="spotlight-card glass-panel p-8 rounded-2xl border-amber-500/30 corner-bracket">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-8 h-8 rounded bg-amber-500/20 text-amber-400 font-tech font-bold text-sm flex items-center justify-center">04</span>
+                        <h3 class="font-tech font-bold text-2xl text-white uppercase tracking-wider">GARCH(1,1) Volatility Dynamic</h3>
+                    </div>
+                    <p class="font-body text-slate-400 text-xs leading-relaxed mb-4">
+                        Memodelkan *volatility clustering* untuk menyesuaikan *stop-loss* dinamis berdasarkan ekspansi dan kompresi volatilitas pasar.
+                    </p>
+                    <div class="math-box text-amber-300 font-bold text-sm sm:text-base mb-3 overflow-x-auto">
+                        $$\sigma_t^2 = \omega + \alpha \cdot \epsilon_{t-1}^2 + \beta \cdot \sigma_{t-1}^2 \quad (\alpha + \beta < 1)$$
+                    </div>
+                    <div class="font-code text-[11px] text-slate-400 space-y-1">
+                        <p>• <span class="text-amber-400">\epsilon_{t-1}</span> = Residual shock kuadrat periode sebelumnya</p>
+                        <p>• Menjamin jarak Stop-Loss melepas *market noise* tanpa memperbesar risiko.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- EXECUTION LOGIC & INTERACTIVE TERMINAL -->
+    <section id="logic" class="py-24 relative border-t border-cyan-500/10 bg-black/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-tech text-3xl sm:text-5xl font-bold tracking-widest uppercase text-white mb-3">
+                    EXECUTION <span class="text-cyan-400 text-glow-cyan">LOGIC ENGINE</span>
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto rounded-full mb-4"></div>
+                <p class="font-code text-xs text-slate-400 uppercase tracking-widest">Kode Python Kuantitatif & Konsol Eksekusi Real-Time</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="glass-panel p-5 rounded-xl border-cyan-500/20 hover:border-cyan-400/50 transition-all">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="w-7 h-7 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-400 font-code font-bold text-xs flex items-center justify-center">01</span>
+                            <h3 class="font-tech font-bold text-lg text-white uppercase tracking-wider">High Frequency Orderbook Scanning</h3>
+                        </div>
+                        <p class="font-body text-slate-400 text-xs leading-relaxed pl-10">Menganalisis 50 kedalaman L2 orderbook via WebSocket latency rendah (&lt;2ms).</p>
+                    </div>
+
+                    <div class="glass-panel p-5 rounded-xl border-purple-500/20 hover:border-purple-400/50 transition-all">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="w-7 h-7 rounded-lg bg-purple-500/20 border border-purple-400/40 text-purple-400 font-code font-bold text-xs flex items-center justify-center">02</span>
+                            <h3 class="font-tech font-bold text-lg text-purple-400 uppercase tracking-wider">Fair Value Gap & Sweep Engine</h3>
+                        </div>
+                        <p class="font-body text-slate-400 text-xs leading-relaxed pl-10">Deteksi otomatis area *FVG imbalance* dan *liquidity sweep* pada korelasi multi-timeframe.</p>
+                    </div>
+
+                    <div class="glass-panel p-5 rounded-xl border-green-500/20 hover:border-green-400/50 transition-all">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="w-7 h-7 rounded-lg bg-green-500/20 border border-green-400/40 text-green-400 font-code font-bold text-xs flex items-center justify-center">03</span>
+                            <h3 class="font-tech font-bold text-lg text-white uppercase tracking-wider">Kelly Position Sizing Routing</h3>
+                        </div>
+                        <p class="font-body text-slate-400 text-xs leading-relaxed pl-10">Ukuran posisi dihitung secara terpisah untuk setiap setup berdasarkan skor probabilitas $P_c$.</p>
+                    </div>
+                </div>
+
+                <!-- Code Terminal -->
+                <div class="lg:col-span-7">
+                    <div class="glass-panel rounded-2xl border-cyan-500/30 overflow-hidden shadow-[0_0_50px_rgba(0,243,255,0.1)]">
+                        <div class="px-4 py-3 bg-black/80 border-b border-cyan-500/20 flex items-center justify-between font-code text-xs">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500/80 inline-block"></span>
+                                <span class="text-slate-400 ml-2 text-[11px] font-semibold">orixtron_quant_engine.py</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <button id="copy-code-btn" class="text-slate-400 hover:text-cyan-400 transition-colors text-xs flex items-center gap-1">
+                                    <i class="fa-regular fa-copy"></i> <span id="copy-txt">Copy Code</span>
+                                </button>
+                                <button id="run-sim-btn" class="px-3 py-1 rounded bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 border border-cyan-500/40 text-[11px] font-bold tracking-wider transition-all">
+                                    <i class="fa-solid fa-play mr-1"></i> RUN SIMULATION
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="p-5 font-code text-xs leading-relaxed overflow-x-auto text-slate-300 bg-[#010308]/95">
+                            <pre><code id="code-content"><span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">from</span> scipy.stats <span class="text-purple-400">import</span> norm
+
+<span class="text-slate-500"># ORIXTRON Mathematical Execution Core</span>
+<span class="text-purple-400">class</span> <span class="text-cyan-400">OrixtronQuantEngine</span>:
+    <span class="text-purple-400">def</span> <span class="text-cyan-400">__init__</span>(self, win_rate=<span class="text-amber-300">0.68</span>, risk_reward=<span class="text-amber-300">2.3</span>):
+        self.p = win_rate
+        self.b = risk_reward
+        self.kelly_fraction = <span class="text-amber-300">0.25</span>  <span class="text-slate-500"># Half-Kelly for stability</span>
+
+    <span class="text-purple-400">def</span> <span class="text-cyan-400">calculate_obi</span>(self, bids_vol, asks_vol):
+        <span class="text-slate-500">"""Calculates Order Book Imbalance (OBI)"""</span>
+        total_vol = np.sum(bids_vol) + np.sum(asks_vol)
+        <span class="text-purple-400">if</span> total_vol == <span class="text-amber-300">0</span>: <span class="text-purple-400">return</span> <span class="text-amber-300">0.0</span>
+        <span class="text-purple-400">return</span> (np.sum(bids_vol) - np.sum(asks_vol)) / total_vol
+
+    <span class="text-purple-400">def</span> <span class="text-cyan-400">compute_gaussian_confluence</span>(self, delta_p, sigma_g, theta_mom, corr_det):
+        <span class="text-slate-500">"""Computes Gaussian Confluence Vector Score (Pc)"""</span>
+        z_score = delta_p / sigma_g
+        phi = norm.cdf(z_score)
+        probability_score = phi * np.cos(theta_mom) * corr_det
+        <span class="text-purple-400">return</span> np.clip(probability_score, <span class="text-amber-300">0.0</span>, <span class="text-amber-300">1.0</span>)
+
+    <span class="text-purple-400">def</span> <span class="text-cyan-400">optimal_kelly_size</span>(self, capital, sigma_t, max_sigma=<span class="text-amber-300">0.05</span>):
+        <span class="text-slate-500">"""Calculates Optimal Kelly Position Size with Volatility Penalty"""</span>
+        f_raw = (self.p * self.b - (<span class="text-amber-300">1</span> - self.p)) / self.b
+        vol_penalty = <span class="text-amber-300">1.0</span> - (sigma_t**<span class="text-amber-300">2</span> / max_sigma**<span class="text-amber-300">2</span>)
+        f_optimal = self.kelly_fraction * f_raw * np.maximum(<span class="text-amber-300">0.1</span>, vol_penalty)
+        <span class="text-purple-400">return</span> capital * f_optimal
+
+    <span class="text-purple-400">def</span> <span class="text-cyan-400">evaluate_signal</span>(self, capital, bids, asks, delta_p, sigma_g, theta_mom, corr_det):
+        obi = self.calculate_obi(bids, asks)
+        pc = self.compute_gaussian_confluence(delta_p, sigma_g, theta_mom, corr_det)
+
+        <span class="text-purple-400">if</span> obi &gt; <span class="text-amber-300">0.65</span> <span class="text-purple-400">and</span> pc &gt;= <span class="text-amber-300">0.82</span>:
+            pos_size = self.optimal_kelly_size(capital, sigma_g)
+            <span class="text-purple-400">return</span> {<span class="text-green-400">"status"</span>: <span class="text-green-400">"EXECUTE_BUY"</span>, <span class="text-green-400">"size"</span>: pos_size, <span class="text-green-400">"obi"</span>: obi, <span class="text-green-400">"pc"</span>: pc}
+        <span class="text-purple-400">return</span> {<span class="text-green-400">"status"</span>: <span class="text-slate-500">"HOLD_NO_EDGE"</span>, <span class="text-green-400">"obi"</span>: obi, <span class="text-green-400">"pc"</span>: pc}</code></pre>
+                        </div>
+
+                        <!-- Console -->
+                        <div class="p-4 bg-black/90 border-t border-cyan-500/20 font-code text-[11px] text-slate-400 min-h-[110px]" id="sim-console">
+                            <div class="text-slate-500 mb-1">// REALTIME SIMULATION OUTPUT CONSOLE</div>
+                            <div id="sim-output" class="space-y-1">
+                                <p class="text-cyan-400/80">&gt; Engine initialized. Click "RUN SIMULATION" to execute quantitative backtest loop...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INSTALLATION & DEPLOYMENT GUIDE (TUTORIAL PEMASANGAN) -->
+    <section id="deployment" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-tech text-3xl sm:text-5xl font-bold tracking-widest uppercase text-white mb-3">
+                    INSTALLATION <span class="text-purple-400 text-glow-purple">&amp; SETUP GUIDE</span>
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent mx-auto rounded-full mb-4"></div>
+                <p class="font-code text-xs text-slate-400 uppercase tracking-widest">Langkah-demi-Langkah Pemasangan dan Server Deployment</p>
+            </div>
+
+            <!-- Tabbed Deployment Process -->
+            <div class="glass-panel rounded-2xl border-purple-500/30 overflow-hidden p-6 sm:p-10">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    
+                    <!-- Step 1 -->
+                    <div class="p-5 rounded-xl bg-black/50 border border-purple-500/20 hover:border-cyan-400/50 transition-all">
+                        <div class="text-purple-400 font-tech font-bold text-3xl mb-2">01.</div>
+                        <h3 class="font-tech font-bold text-xl text-white uppercase mb-2">Environment Setup</h3>
+                        <p class="font-body text-slate-400 text-xs leading-relaxed mb-3">
+                            Pastikan Python 3.10+ dan `pip` telah terinstall pada VPS atau Local Terminal.
+                        </p>
+                        <div class="math-box text-[11px] text-cyan-300 overflow-x-auto">
+                            python -m venv orixtron_env<br>
+                            source orixtron_env/bin/activate
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="p-5 rounded-xl bg-black/50 border border-purple-500/20 hover:border-cyan-400/50 transition-all">
+                        <div class="text-purple-400 font-tech font-bold text-3xl mb-2">02.</div>
+                        <h3 class="font-tech font-bold text-xl text-white uppercase mb-2">Install Dependencies</h3>
+                        <p class="font-body text-slate-400 text-xs leading-relaxed mb-3">
+                            Install pustaka kuantitatif berkinerja tinggi untuk perhitungan korelasi matriks.
+                        </p>
+                        <div class="math-box text-[11px] text-cyan-300 overflow-x-auto">
+                            pip install numpy scipy pandas ccxt websockets numba
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="p-5 rounded-xl bg-black/50 border border-purple-500/20 hover:border-cyan-400/50 transition-all">
+                        <div class="text-purple-400 font-tech font-bold text-3xl mb-2">03.</div>
+                        <h3 class="font-tech font-bold text-xl text-white uppercase mb-2">Config API Keys</h3>
+                        <p class="font-body text-slate-400 text-xs leading-relaxed mb-3">
+                            Buat file `.env` dan masukkan API Secret Key bursa (Binance, Stockbit, OANDA).
+                        </p>
+                        <div class="math-box text-[11px] text-cyan-300 overflow-x-auto">
+                            EXCHANGE_API="YOUR_API_KEY"<br>
+                            SECRET_KEY="YOUR_SECRET"
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="p-5 rounded-xl bg-black/50 border border-purple-500/20 hover:border-cyan-400/50 transition-all">
+                        <div class="text-purple-400 font-tech font-bold text-3xl mb-2">04.</div>
+                        <h3 class="font-tech font-bold text-xl text-white uppercase mb-2">Run Quant Engine</h3>
+                        <p class="font-body text-slate-400 text-xs leading-relaxed mb-3">
+                            Jalankan bot pada daemon process menggunakan `pm2` atau Systemd daemon.
+                        </p>
+                        <div class="math-box text-[11px] text-cyan-300 overflow-x-auto">
+                            pm2 start orixtron_quant.py --name "ORIXTRON_ENGINE"
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PERFORMANCE METRICS WITH CIRCULAR GAUGES -->
+    <section id="metrics" class="py-24 relative border-t border-cyan-500/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-tech text-3xl sm:text-5xl font-bold tracking-widest uppercase text-white mb-3">
+                    SYSTEM <span class="text-green-400 text-glow-green">METRICS</span>
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-green-400 to-transparent mx-auto rounded-full mb-4"></div>
+                <p class="font-code text-xs text-slate-400 uppercase tracking-widest">Metrik Kinerja Terverifikasi Hasil Backtest &amp; Forward Test</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+                
+                <div class="spotlight-card glass-panel rounded-2xl p-6 border-green-500/20 corner-bracket flex flex-col items-center justify-center">
+                    <div class="font-tech font-extrabold text-5xl text-green-400 text-glow-green mb-2 counter" data-target="68.4">0.0</div>
+                    <span class="font-tech font-bold text-xl text-white uppercase tracking-wider">Win Rate Ratio</span>
+                    <p class="font-body text-slate-400 text-xs mt-1">1,840+ Eksekusi Sampel</p>
+                </div>
+
+                <div class="spotlight-card glass-panel rounded-2xl p-6 border-cyan-500/20 corner-bracket flex flex-col items-center justify-center">
+                    <div class="font-tech font-extrabold text-5xl text-cyan-400 text-glow-cyan mb-2 counter-float" data-target="2.84">0.0</div>
+                    <span class="font-tech font-bold text-xl text-white uppercase tracking-wider">Sharpe Ratio</span>
+                    <p class="font-body text-slate-400 text-xs mt-1">Risk-Adjusted Return High</p>
+                </div>
+
+                <div class="spotlight-card glass-panel rounded-2xl p-6 border-purple-500/20 corner-bracket flex flex-col items-center justify-center">
+                    <div class="font-tech font-extrabold text-5xl text-purple-400 text-glow-purple mb-2 counter-float" data-target="3.41">0.0</div>
+                    <span class="font-tech font-bold text-xl text-white uppercase tracking-wider">Sortino Ratio</span>
+                    <p class="font-body text-slate-400 text-xs mt-1">Minim Downside Volatility</p>
+                </div>
+
+                <div class="spotlight-card glass-panel rounded-2xl p-6 border-amber-500/20 corner-bracket flex flex-col items-center justify-center">
+                    <div class="font-tech font-extrabold text-5xl text-amber-400 mb-2 counter-float" data-target="4.2">0.0</div>
+                    <span class="font-tech font-bold text-xl text-white uppercase tracking-wider">Max Drawdown (%)</span>
+                    <p class="font-body text-slate-400 text-xs mt-1">Strict Risk Cap Limit</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-cyan-500/10 bg-[#010204] py-12 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <a href="#" class="inline-block mb-6">
+                <span class="font-tech font-extrabold text-3xl tracking-[0.25em] text-white">
+                    ORIX<span class="text-cyan-400 text-glow-cyan">TRON</span>
+                </span>
+            </a>
+
+            <div class="flex justify-center gap-6 mb-8">
+                <a href="https://www.instagram.com/orixtron" target="_blank" class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-400 transition-all">
+                    <i class="fa-brands fa-instagram text-lg"></i>
+                </a>
+                <a href="https://tiktok.com/@strade001" target="_blank" class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-400 transition-all">
+                    <i class="fa-brands fa-tiktok text-lg"></i>
+                </a>
+                <a href="https://saweria.co/STRADE01" target="_blank" class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-400 transition-all">
+                    <i class="fa-solid fa-heart text-lg"></i>
+                </a>
+            </div>
+
+            <p class="font-code text-xs text-slate-500 uppercase tracking-widest max-w-xl mx-auto leading-relaxed mb-4">
+                ORIXTRON QUANTITATIVE EDGE SYSTEM. OPERATING WITH STRICT FRACTIONAL KELLY RISK SIZING.
+            </p>
+
+            <p class="font-body text-xs text-slate-600">
+                &copy; 2024-<span id="year"></span> ORIXTRON SYSTEM. ALL RIGHTS RESERVED.
+            </p>
+        </div>
+    </footer>
+
+    <!-- KELLY RISK CALCULATOR MODAL -->
+    <div id="calc-modal" class="fixed inset-0 z-[10000] hidden items-center justify-center p-4 modal-blur bg-black/80">
+        <div class="glass-panel rounded-2xl p-6 max-w-md w-full border-cyan-500/40 relative shadow-[0_0_60px_rgba(0,243,255,0.2)]">
+            <button id="close-calc-btn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 rounded bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-tech font-bold">
+                    <i class="fa-solid fa-calculator"></i>
+                </div>
+                <h3 class="font-tech font-bold text-2xl text-white uppercase tracking-wider">KELLY FRACTIONAL CALCULATOR</h3>
+            </div>
+
+            <div class="space-y-4 font-code text-xs">
+                <div>
+                    <label class="block text-slate-400 mb-1">TOTAL CAPITAL ($)</label>
+                    <input type="number" id="calc-balance" value="10000" class="w-full bg-black/70 border border-cyan-500/30 rounded p-2.5 text-cyan-400 font-bold focus:outline-none focus:border-cyan-400">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 mb-1">WIN RATE (p)</label>
+                        <input type="number" id="calc-winrate" value="0.68" step="0.01" max="1" class="w-full bg-black/70 border border-cyan-500/30 rounded p-2.5 text-white focus:outline-none focus:border-cyan-400">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">RISK / REWARD (b)</label>
+                        <input type="number" id="calc-rr" value="2.3" step="0.1" class="w-full bg-black/70 border border-cyan-500/30 rounded p-2.5 text-white focus:outline-none focus:border-cyan-400">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 mb-1">KELLY FRACTION FACTOR (\lambda)</label>
+                    <select id="calc-fraction" class="w-full bg-black/70 border border-cyan-500/30 rounded p-2.5 text-amber-400 font-bold focus:outline-none focus:border-cyan-400">
+                        <option value="0.25" selected>0.25 (Quarter-Kelly - Konservatif)</option>
+                        <option value="0.50">0.50 (Half-Kelly - Moderat)</option>
+                        <option value="1.00">1.00 (Full-Kelly - Agresif)</option>
+                    </select>
+                </div>
+
+                <div class="p-4 rounded-xl bg-cyan-950/40 border border-cyan-500/30 mt-4 space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">RAW KELLY (f*):</span>
+                        <span id="res-raw-kelly" class="text-cyan-400 font-bold">54.1%</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">ADJUSTED POSITION (%):</span>
+                        <span id="res-adj-pct" class="text-green-400 font-bold">13.52%</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">ALLOCATED CAPITAL ($):</span>
+                        <span id="res-alloc-usd" class="text-amber-400 font-bold">$1,352.17</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC ENGINE -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+        // Typewriter Effect
+        const typewriterElement = document.getElementById('typewriter');
+        const phrases = [
+            "ORDER BOOK IMBALANCE (OBI) DETECTOR",
+            "GAUSSIAN CONFLUENCE PROBABILITY VECTOR",
+            "OPTIMAL FRACTIONAL KELLY SIZING",
+            "GARCH(1,1) VOLATILITY CLUSTERING ENGINE"
+        ];
+        let phraseIndex = 0, charIndex = 0, isDeleting = false;
+
+        function typeLoop() {
+            const currentPhrase = phrases[phraseIndex];
+            typewriterElement.textContent = isDeleting ? currentPhrase.substring(0, charIndex - 1) : currentPhrase.substring(0, charIndex + 1);
+            charIndex += isDeleting ? -1 : 1;
+
+            let typeSpeed = isDeleting ? 30 : 60;
+            if (!isDeleting && charIndex === currentPhrase.length) { typeSpeed = 2000; isDeleting = true; }
+            else if (isDeleting && charIndex === 0) { isDeleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; typeSpeed = 400; }
+
+            setTimeout(typeLoop, typeSpeed);
+        }
+        typeLoop();
+
+        // Mouse Spotlight
+        document.addEventListener('mousemove', (e) => {
+            document.querySelectorAll('.spotlight-card').forEach(card => {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+            });
+        });
+
+        // Three.js 3D Quantum Cyber Core
+        window.addEventListener('load', () => {
+            const container = document.getElementById('hero-canvas-container');
+            if (!container) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.z = 7.5;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            const coreGroup = new THREE.Group();
+            scene.add(coreGroup);
+
+            // Geodesic Icosahedron Outer
+            const coreGeo = new THREE.IcosahedronGeometry(2.0, 2);
+            const coreMat = new THREE.MeshBasicMaterial({ color: 0x00f3ff, wireframe: true, transparent: true, opacity: 0.35 });
+            const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+            coreGroup.add(coreMesh);
+
+            // Inner Nucleus
+            const nucleusGeo = new THREE.IcosahedronGeometry(1.0, 1);
+            const nucleusMat = new THREE.MeshBasicMaterial({ color: 0xbc13fe, wireframe: true, transparent: true, opacity: 0.65 });
+            const nucleusMesh = new THREE.Mesh(nucleusGeo, nucleusMat);
+            coreGroup.add(nucleusMesh);
+
+            // Dual Torus Rings
+            const ring1Geo = new THREE.TorusGeometry(3.2, 0.02, 16, 100);
+            const ring1Mat = new THREE.MeshBasicMaterial({ color: 0x00f3ff, transparent: true, opacity: 0.8 });
+            const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
+            ring1.rotation.x = Math.PI / 3;
+            coreGroup.add(ring1);
+
+            const ring2Geo = new THREE.TorusGeometry(4.0, 0.02, 16, 100);
+            const ring2Mat = new THREE.MeshBasicMaterial({ color: 0xbc13fe, transparent: true, opacity: 0.6 });
+            const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+            ring2.rotation.y = Math.PI / 4;
+            coreGroup.add(ring2);
+
+            // Orbiting Swarm Particles
+            const particlesCount = 1400;
+            const particleGeo = new THREE.BufferGeometry();
+            const positions = new Float32Array(particlesCount * 3);
+            const colors = new Float32Array(particlesCount * 3);
+
+            for (let i = 0; i < particlesCount; i++) {
+                const r = 3.0 + Math.random() * 3.5;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos((Math.random() * 2) - 1);
+
+                positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+                positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+                positions[i * 3 + 2] = r * Math.cos(phi);
+
+                if (Math.random() > 0.5) {
+                    colors[i * 3] = 0.0; colors[i * 3 + 1] = 0.95; colors[i * 3 + 2] = 1.0;
+                } else {
+                    colors[i * 3] = 0.73; colors[i * 3 + 1] = 0.07; colors[i * 3 + 2] = 0.99;
+                }
+            }
+
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const particleMat = new THREE.PointsMaterial({ size: 0.035, vertexColors: true, transparent: true, opacity: 0.8 });
+            const particleSystem = new THREE.Points(particleGeo, particleMat);
+            coreGroup.add(particleSystem);
+
+            // Mouse Motion Inertia
+            let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+            window.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX - window.innerWidth / 2) * 0.0008;
+                mouseY = (e.clientY - window.innerHeight / 2) * 0.0008;
+            });
+
+            const clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+
+                coreMesh.rotation.y = elapsedTime * 0.15;
+                nucleusMesh.rotation.y = -elapsedTime * 0.25;
+                ring1.rotation.z = elapsedTime * 0.2;
+                ring2.rotation.z = -elapsedTime * 0.15;
+                particleSystem.rotation.y = elapsedTime * 0.05;
+
+                const scale = 1 + Math.sin(elapsedTime * 1.5) * 0.04;
+                coreMesh.scale.set(scale, scale, scale);
+
+                targetX += (mouseX - targetX) * 0.05;
+                targetY += (mouseY - targetY) * 0.05;
+
+                coreGroup.rotation.y = targetX * 1.5;
+                coreGroup.rotation.x = targetY * 1.5;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        });
+
+        // Sparkline Canvas Rendering
+        const assetsData = {
+            'BTC': { price: 64250.00, history: [], color: '#00f3ff', symbol: 'BTC/USD' },
+            'AAPL': { price: 189.50, history: [], color: '#00f3ff', symbol: 'AAPL' },
+            'TSLA': { price: 242.10, history: [], color: '#00f3ff', symbol: 'TSLA' },
+            'EURUSD': { price: 1.0865, history: [], color: '#bc13fe', symbol: 'EUR/USD' }
+        };
+
+        Object.keys(assetsData).forEach(key => {
+            let base = assetsData[key].price;
+            for (let i = 0; i < 20; i++) {
+                base += (Math.random() - 0.48) * (base * 0.004);
+                assetsData[key].history.push(base);
+            }
+        });
+
+        function drawSparkline(canvasId, dataPoints, strokeColor) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * 2;
+            canvas.height = rect.height * 2;
+            ctx.scale(2, 2);
+
+            const w = rect.width, h = rect.height;
+            ctx.clearRect(0, 0, w, h);
+
+            const min = Math.min(...dataPoints), max = Math.max(...dataPoints), range = max - min || 1;
+
+            ctx.beginPath();
+            dataPoints.forEach((val, index) => {
+                const x = (index / (dataPoints.length - 1)) * w;
+                const y = h - ((val - min) / range) * (h - 12) - 6;
+                if (index === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            });
+
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath();
+            const gradient = ctx.createLinearGradient(0, 0, 0, h);
+            gradient.addColorStop(0, strokeColor === '#0aff60' ? 'rgba(10, 255, 96, 0.25)' : 'rgba(0, 243, 255, 0.25)');
+            gradient.addColorStop(1, 'transparent');
+            ctx.fillStyle = gradient;
+            ctx.fill();
+        }
+
+        function updateAllSparklines() {
+            drawSparkline('sparkline-BTC', assetsData['BTC'].history, assetsData['BTC'].color);
+            drawSparkline('sparkline-AAPL', assetsData['AAPL'].history, assetsData['AAPL'].color);
+            drawSparkline('sparkline-TSLA', assetsData['TSLA'].history, assetsData['TSLA'].color);
+            drawSparkline('sparkline-EURUSD', assetsData['EURUSD'].history, assetsData['EURUSD'].color);
+        }
+        updateAllSparklines();
+
+        setInterval(() => {
+            Object.keys(assetsData).forEach(key => {
+                const asset = assetsData[key];
+                const deltaPct = (Math.random() - 0.48) * 0.006;
+                const oldPrice = asset.price;
+                asset.price = asset.price * (1 + deltaPct);
+                asset.history.push(asset.price);
+                if (asset.history.length > 20) asset.history.shift();
+
+                const priceEl = document.getElementById(`price-${key}`);
+                const changeEl = document.getElementById(`change-${key}`);
+                const cardEl = document.getElementById(`card-${key}`);
+
+                if (priceEl && cardEl) {
+                    priceEl.textContent = key === 'EURUSD' ? asset.price.toFixed(4) : (asset.price > 1000 ? asset.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : asset.price.toFixed(2));
+                    const pctChange = ((asset.price - asset.history[0]) / asset.history[0]) * 100;
+                    changeEl.textContent = (pctChange >= 0 ? '+' : '') + pctChange.toFixed(2) + '%';
+                    changeEl.className = `font-code text-xs font-semibold ${pctChange >= 0 ? 'text-green-400' : 'text-red-400'}`;
+                    asset.color = pctChange >= 0 ? '#0aff60' : '#ff003c';
+
+                    cardEl.classList.remove('flash-up', 'flash-down');
+                    void cardEl.offsetWidth;
+                    cardEl.classList.add(asset.price >= oldPrice ? 'flash-up' : 'flash-down');
+                }
+            });
+            updateAllSparklines();
+            updateTicker();
+        }, 2200);
+
+        function updateTicker() {
+            const tickerWrap = document.getElementById('ticker-wrap');
+            if (!tickerWrap) return;
+            const items = Object.keys(assetsData).map(k => {
+                const item = assetsData[k];
+                const price = k === 'EURUSD' ? item.price.toFixed(4) : item.price.toFixed(2);
+                return `<div class="flex items-center space-x-2 px-6 border-r border-slate-800 shrink-0">
+                    <span class="text-slate-300 font-bold">${item.symbol}:</span>
+                    <span class="text-white font-bold">$${price}</span>
+                    <span class="${item.color === '#0aff60' ? 'text-green-400' : 'text-red-400'}">
+                        <i class="fa-solid fa-caret-${item.color === '#0aff60' ? 'up' : 'down'}"></i>
+                    </span>
+                </div>`;
+            }).join('');
+            tickerWrap.innerHTML = items + items + items;
+        }
+        updateTicker();
+
+        // Terminal Simulation Loop
+        const runSimBtn = document.getElementById('run-sim-btn');
+        const simOutput = document.getElementById('sim-output');
+
+        if (runSimBtn && simOutput) {
+            runSimBtn.addEventListener('click', () => {
+                simOutput.innerHTML = `<p class="text-cyan-400">&gt; [INIT] Calling OrixtronQuantEngine.evaluate_signal()...</p>`;
+                
+                const steps = [
+                    { txt: "&gt; [L2_SCAN] Streaming 50 Bids/Asks depth from WebSocket stream...", delay: 400 },
+                    { txt: "&gt; [OBI_CALC] Bids Vol: 1,840.20 BTC | Asks Vol: 320.10 BTC -> OBI = +0.703", delay: 900 },
+                    { txt: "&gt; [GAUSSIAN_CDF] Calculating Z-Score probability CDF: Phi(2.15) = 0.984", delay: 1400 },
+                    { txt: "&gt; [CONFLUENCE] Pc = 0.984 * cos(0.12) * 0.94 = 0.912 (Passed Threshold >= 0.82)", delay: 1900 },
+                    { txt: "&gt; [KELLY_ROUTER] Capital: $10,000 | f* = 0.25 * 0.541 = 13.52% -> Allocation: $1,352.17", delay: 2400 },
+                    { txt: "&gt; [ORDER_EXECUTE] BUY_LIMIT Filled @ $64,250.00 in 0.38ms. Dynamic GARCH SL set.", delay: 2900 }
+                ];
+
+                steps.forEach(step => {
+                    setTimeout(() => {
+                        const p = document.createElement('p');
+                        p.className = "text-green-400";
+                        p.innerHTML = step.txt;
+                        simOutput.appendChild(p);
+                        simOutput.parentElement.scrollTop = simOutput.parentElement.scrollHeight;
+                    }, step.delay);
+                });
+            });
+        }
+
+        // Copy Code Button
+        const copyCodeBtn = document.getElementById('copy-code-btn');
+        if (copyCodeBtn) {
+            copyCodeBtn.addEventListener('click', () => {
+                const codeTxt = document.getElementById('code-content').innerText;
+                const textarea = document.createElement('textarea');
+                textarea.value = codeTxt;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+
+                const txtSpan = document.getElementById('copy-txt');
+                txtSpan.textContent = "Copied!";
+                setTimeout(() => txtSpan.textContent = "Copy Code", 2000);
+            });
+        }
+
+        // Animated Counter
+        function animateCounters() {
+            document.querySelectorAll('.counter').forEach(counter => {
+                const target = parseFloat(counter.getAttribute('data-target'));
+                let count = 0;
+                const update = () => {
+                    count += target / 40;
+                    if (count < target) {
+                        counter.innerText = count.toFixed(1);
+                        setTimeout(update, 30);
+                    } else counter.innerText = target.toFixed(1);
+                };
+                update();
+            });
+
+            document.querySelectorAll('.counter-float').forEach(counter => {
+                const target = parseFloat(counter.getAttribute('data-target'));
+                let count = 0.0;
+                const update = () => {
+                    count += target / 40;
+                    if (count < target) {
+                        counter.innerText = count.toFixed(2);
+                        setTimeout(update, 30);
+                    } else counter.innerText = target.toFixed(2);
+                };
+                update();
+            });
+        }
+
+        const metricsSection = document.getElementById('metrics');
+        let animated = false;
+        if (metricsSection) {
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !animated) {
+                    animateCounters();
+                    animated = true;
+                }
+            }, { threshold: 0.3 });
+            observer.observe(metricsSection);
+        }
+
+        // Kelly Calculator Modal Math
+        const calcModal = document.getElementById('calc-modal');
+        const openCalcBtn = document.getElementById('open-calc-btn');
+        const openCalcMobile = document.getElementById('open-calc-mobile');
+        const closeCalcBtn = document.getElementById('close-calc-btn');
+
+        function openCalc() { calcModal.classList.remove('hidden'); calcModal.classList.add('flex'); }
+        function closeCalc() { calcModal.classList.add('hidden'); calcModal.classList.remove('flex'); }
+
+        if (openCalcBtn) openCalcBtn.addEventListener('click', openCalc);
+        if (openCalcMobile) openCalcMobile.addEventListener('click', openCalc);
+        if (closeCalcBtn) closeCalcBtn.addEventListener('click', closeCalc);
+
+        function calculateKelly() {
+            const capital = parseFloat(document.getElementById('calc-balance').value) || 0;
+            const p = parseFloat(document.getElementById('calc-winrate').value) || 0;
+            const b = parseFloat(document.getElementById('calc-rr').value) || 0;
+            const fraction = parseFloat(document.getElementById('calc-fraction').value) || 0.25;
+
+            // f* = (p*b - (1-p)) / b
+            const rawKelly = (p * b - (1 - p)) / b;
+            const adjPct = Math.max(0, rawKelly * fraction);
+            const allocatedUsd = capital * adjPct;
+
+            document.getElementById('res-raw-kelly').textContent = `${(rawKelly * 100).toFixed(1)}%`;
+            document.getElementById('res-adj-pct').textContent = `${(adjPct * 100).toFixed(2)}%`;
+            document.getElementById('res-alloc-usd').textContent = `$${allocatedUsd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        }
+
+        ['calc-balance', 'calc-winrate', 'calc-rr', 'calc-fraction'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', calculateKelly);
+        });
+        calculateKelly();
+    </script>
+</body>
+</html>
