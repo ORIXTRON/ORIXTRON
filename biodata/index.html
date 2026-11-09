@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORIXTRON | Executive Intelligence Matrix & Dossier</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            dark: '#020307',
+                            panel: 'rgba(8, 12, 22, 0.75)',
+                            border: 'rgba(0, 243, 255, 0.2)',
+                            cyan: '#00f3ff',
+                            purple: '#bc13fe',
+                            green: '#0aff60',
+                            red: '#ff003c',
+                            gold: '#ffd700',
+                            text: '#eef2f6',
+                            muted: '#8b9bb4'
+                        }
+                    },
+                    fontFamily: {
+                        tech: ['Rajdhani', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                        code: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --primary-cyan: #00f3ff;
+            --secondary-purple: #bc13fe;
+            --success-green: #0aff60;
+            --danger-red: #ff003c;
+            --bg-dark: #020307;
+            --glow-cyan: 0 0 25px rgba(0, 243, 255, 0.4);
+            --glow-purple: 0 0 25px rgba(188, 19, 254, 0.4);
+        }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #eef2f6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100vw;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #010204; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 243, 255, 0.3); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-cyan); }
+
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 9998;
+        }
+
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.15));
+            background-size: 100% 4px; z-index: 9999; pointer-events: none; opacity: 0.35;
+        }
+
+        .bg-grid-3d {
+            position: fixed; top: 0; left: 0; width: 200%; height: 200%;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: perspective(600px) rotateX(60deg) translateY(-100px) translateZ(-200px);
+            animation: gridMove 25s linear infinite;            
+            z-index: -2; pointer-events: none;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 85%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 85%);
+        }
+
+        @keyframes gridMove {
+            0% { transform: perspective(600px) rotateX(60deg) translateY(0) translateZ(-200px); }
+            100% { transform: perspective(600px) rotateX(60deg) translateY(60px) translateZ(-200px); }
+        }
+
+        .glass-panel {
+            background: rgba(8, 12, 22, 0.75);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(0, 243, 255, 0.15);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        .spotlight-card { position: relative; overflow: hidden; }
+        .spotlight-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 243, 255, 0.14), transparent 40%);
+            opacity: 0; transition: opacity 0.3s ease; pointer-events: none; z-index: 2;
+        }
+        .spotlight-card:hover::before { opacity: 1; }
+
+        .corner-bracket::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 10px; height: 10px;
+            border-top: 2px solid var(--primary-cyan); border-left: 2px solid var(--primary-cyan);
+            transition: all 0.3s ease;
+        }
+        .corner-bracket::after {
+            content: ''; position: absolute; bottom: 0; right: 0; width: 10px; height: 10px;
+            border-bottom: 2px solid var(--primary-cyan); border-right: 2px solid var(--primary-cyan);
+            transition: all 0.3s ease;
+        }
+        .spotlight-card:hover .corner-bracket::before,
+        .spotlight-card:hover .corner-bracket::after {
+            width: 100%; height: 100%; border-color: rgba(0, 243, 255, 0.4);
+        }
+
+        .text-glow-cyan { text-shadow: 0 0 15px rgba(0, 243, 255, 0.6); }
+        .text-glow-purple { text-shadow: 0 0 15px rgba(188, 19, 254, 0.6); }
+        .text-glow-green { text-shadow: 0 0 12px rgba(10, 255, 96, 0.5); }
+
+        .btn-cyber {
+            position: relative; display: inline-flex; align-items: center; justify-content: center;
+            padding: 14px 36px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1rem;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--primary-cyan);
+            background: rgba(0, 243, 255, 0.05); border: 1px solid var(--primary-cyan);
+            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); overflow: hidden; cursor: pointer;
+        }
+        .btn-cyber::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.35), transparent);
+            transition: left 0.5s ease;
+        }
+        .btn-cyber:hover::before { left: 100%; }
+        .btn-cyber:hover {
+            background: var(--primary-cyan); color: #000;
+            box-shadow: 0 0 35px rgba(0, 243, 255, 0.6); transform: translateY(-2px);
+        }
+        .btn-cyber-purple {
+            color: var(--secondary-purple); background: rgba(188, 19, 254, 0.05); border-color: var(--secondary-purple);
+        }
+        .btn-cyber-purple:hover {
+            background: var(--secondary-purple); color: #fff; box-shadow: 0 0 35px rgba(188, 19, 254, 0.6);
+        }
+
+        @keyframes tickerSlide {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .animate-ticker { display: flex; width: max-content; animation: tickerSlide 40s linear infinite; }
+        .animate-ticker:hover { animation-play-state: paused; }
+
+        #hero-canvas-container {
+            width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 1; pointer-events: auto;
+        }
+
+        .math-box {
+            font-family: 'Fira Code', monospace; background: rgba(3, 7, 18, 0.85);
+            border: 1px solid rgba(0, 243, 255, 0.25); border-left: 3px solid var(--primary-cyan);
+            border-radius: 8px; padding: 12px 18px; box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+        .modal-blur { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+
+        /* Hexagon Avatar */
+        .hex-avatar {
+            width: 140px; height: 140px; margin: 0 auto;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: linear-gradient(135deg, #00f3ff, #bc13fe);
+            padding: 3px; position: relative;
+            animation: hexPulse 4s ease-in-out infinite;
+        }
+        .hex-avatar-inner {
+            width: 100%; height: 100%;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: #020307; display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .hex-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        @keyframes hexPulse {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.4)); }
+            50% { filter: drop-shadow(0 0 25px rgba(188, 19, 254, 0.6)); }
+        }
+
+        /* Skill Progress Bar Animation */
+        .skill-progress-fill {
+            height: 100%; width: 0%; border-radius: 4px;
+            transition: width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative; overflow: hidden;
+        }
+        .skill-progress-fill::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmerBar 2s infinite;
+        }
+        @keyframes shimmerBar {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+    </style>
+</head>
+
+<body class="bg-[#020307] text-slate-100 antialiased selection:bg-cyan-500 selection:text-black">
+
+    <!-- Ambient Overlays -->
+    <div class="noise-overlay"></div>
+    <div class="scanlines"></div>
+    <div class="bg-grid-3d"></div>
+
+    <!-- LIVE STREAMING TICKER BAR -->
+    <div class="fixed top-0 left-0 right-0 h-8 bg-black/90 border-b border-cyan-500/30 z-[1000] flex items-center overflow-hidden font-code text-xs backdrop-blur-md">
+        <div class="flex items-center px-4 bg-cyan-950/90 text-cyan-400 font-bold border-r border-cyan-500/30 h-full z-10 shrink-0 uppercase tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping mr-2"></span> INTEL STREAM
+        </div>
+        <div class="overflow-hidden w-full relative">
+            <div id="ticker-wrap" class="animate-ticker"></div>
+        </div>
+    </div>
+
+    <!-- FLOATING NAVIGATION HEADER -->
+    <header id="navbar" class="fixed top-8 left-0 right-0 z-[999] transition-all duration-300 py-3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel rounded-2xl px-6 py-3 flex items-center justify-between border-cyan-500/20">
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-400/40 flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(0,243,255,0.6)] transition-all">
+                        <i class="fa-solid fa-user-secret text-cyan-400 text-lg group-hover:rotate-12 transition-transform duration-500"></i>
+                    </div>
+                    <span class="font-tech font-bold text-2xl tracking-[0.2em] text-white">
+                        ORIX<span class="text-cyan-400 text-glow-cyan">TRON</span>
+                    </span>
+                </a>
+
+                <nav class="hidden md:flex items-center space-x-7 font-tech text-sm tracking-widest font-semibold uppercase">
+                    <a href="#hero" class="text-slate-300 hover:text-cyan-400 transition-colors py-1 hover:text-glow-cyan">Core</a>
+                    <a href="#credentials" class="text-slate-300 hover:text-cyan-400 transition-colors py-1 hover:text-glow-cyan">Credentials</a>
+                    <a href="#matrix" class="text-slate-300 hover:text-cyan-400 transition-colors py-1 hover:text-glow-cyan">Skill Matrix</a>
+                    <a href="#terminal" class="text-slate-300 hover:text-cyan-400 transition-colors py-1 hover:text-glow-cyan">Terminal</a>
+                    <a href="#metrics" class="text-slate-300 hover:text-cyan-400 transition-colors py-1 hover:text-glow-cyan">Metrics</a>
+                </nav>
+
+                <div class="hidden md:flex items-center space-x-4">
+                    <button onclick="openContactModal()" class="px-5 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-tech font-bold text-xs tracking-widest uppercase shadow-[0_0_20px_rgba(0,243,255,0.4)] transition-all">
+                        Initiate Contact
+                    </button>
+                </div>
+
+                <button id="mobile-menu-btn" class="md:hidden text-cyan-400 p-2 focus:outline-none" aria-label="Toggle Navigation">
+                    <i class="fa-solid fa-bars-staggered text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden max-w-7xl mx-auto px-4 mt-2">
+            <div class="glass-panel rounded-2xl p-6 flex flex-col space-y-3 font-tech tracking-wider uppercase border-cyan-500/30">
+                <a href="#hero" class="mobile-link text-slate-200 hover:text-cyan-400 text-lg py-2 border-b border-white/5">Core Profile</a>
+                <a href="#credentials" class="mobile-link text-slate-200 hover:text-cyan-400 text-lg py-2 border-b border-white/5">Credentials</a>
+                <a href="#matrix" class="mobile-link text-slate-200 hover:text-cyan-400 text-lg py-2 border-b border-white/5">Skill Matrix</a>
+                <a href="#terminal" class="mobile-link text-slate-200 hover:text-cyan-400 text-lg py-2 border-b border-white/5">Logic Terminal</a>
+                <a href="#metrics" class="mobile-link text-slate-200 hover:text-cyan-400 text-lg py-2 border-b border-white/5">Performance Metrics</a>
+                <button onclick="openContactModal()" class="w-full py-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-tech font-bold text-sm tracking-wider uppercase mt-2">
+                    <i class="fa-solid fa-satellite-dish mr-2"></i> Initiate Contact
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION WITH 3D THREE.JS CORE -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-28 pb-16 overflow-hidden">
+        
+        <div id="hero-canvas-container"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pointer-events-none">
+            
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 font-code text-xs tracking-widest uppercase mb-6 backdrop-blur-md pointer-events-auto">
+                <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                STATUS: ACTIVE // CLEARANCE: TIER-9
+            </div>
+
+            <!-- Hexagon Avatar -->
+            <div class="hex-avatar mb-6 mx-auto pointer-events-auto">
+                <div class="hex-avatar-inner">
+                    <img src="logo.png" alt="ORIXTRON" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fa-solid fa-user-secret text-6xl text-cyan-400\'></i>';">
+                </div>
+            </div>
+
+            <h1 class="font-tech font-extrabold text-5xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight uppercase leading-none mb-4 text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-100 to-slate-500 drop-shadow-[0_10px_25px_rgba(0,0,0,0.8)]">
+                ORIX<span class="text-cyan-400 text-glow-cyan">TRON</span>
+            </h1>
+
+            <div class="h-8 mb-6">
+                <span id="typewriter" class="font-code text-cyan-400 text-sm sm:text-lg md:text-xl font-semibold tracking-widest uppercase text-glow-cyan"></span>
+                <span class="inline-block w-2.5 h-5 bg-cyan-400 ml-1 animate-pulse align-middle"></span>
+            </div>
+
+            <p class="max-w-2xl mx-auto font-body text-slate-400 text-sm sm:text-base leading-relaxed mb-10 font-light">
+                Analis Intelijen Bisnis & Pasar yang beroperasi dalam sintesis data strategis, verifikasi informasi lapangan, serta pemetaan risiko korporasi bagi pengambil keputusan tingkat C-Suite.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-5 pointer-events-auto">
+                <a href="#matrix" class="btn-cyber w-full sm:w-auto">
+                    <i class="fa-solid fa-microchip mr-2"></i> Skill Matrix
+                </a>
+                <button onclick="openContactModal()" class="btn-cyber btn-cyber-purple w-full sm:w-auto">
+                    <i class="fa-solid fa-satellite-dish mr-2"></i> Secure Channel
+                </button>
+            </div>
+
+            <div class="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pointer-events-auto">
+                <div class="glass-panel p-3.5 rounded-xl border-cyan-500/20 text-center">
+                    <div class="font-code text-[10px] text-slate-400 uppercase tracking-widest">Specialization</div>
+                    <div class="font-tech font-bold text-lg text-cyan-400">STRATEGIC INTEL</div>
+                </div>
+                <div class="glass-panel p-3.5 rounded-xl border-purple-500/20 text-center">
+                    <div class="font-code text-[10px] text-slate-400 uppercase tracking-widest">Validation</div>
+                    <div class="font-tech font-bold text-lg text-purple-400">MULTI-SOURCE</div>
+                </div>
+                <div class="glass-panel p-3.5 rounded-xl border-green-500/20 text-center">
+                    <div class="font-code text-[10px] text-slate-400 uppercase tracking-widest">Region</div>
+                    <div class="font-tech font-bold text-lg text-green-400">ID / SEA OPS</div>
+                </div>
+                <div class="glass-panel p-3.5 rounded-xl border-amber-500/20 text-center">
+                    <div class="font-code text-[10px] text-slate-400 uppercase tracking-widest">Availability</div>
+                    <div class="font-tech font-bold text-lg text-amber-400">OPEN / READY</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CREDENTIALS & DOSSIER SECTION -->
+    <section id="credentials" class="py-20 relative border-t border-b border-cyan-500/10 bg-black/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-tech text-3xl sm:text-5xl font-bold tracking-widest uppercase text-white mb-3">
+                    EXECUTIVE <span class="text-cyan-400 text-glow-cyan">DOSSIER</span>
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto rounded-full mb-4"></div>
+                <p class="font-code text-xs text-slate-400 uppercase tracking-widest">Kredensial Kunci & Ringkasan Eksekutif Terenkripsi</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- Left: Bio & Info -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="spotlight-card glass-panel p-6 rounded-2xl border-cyan-500/20 corner-bracket">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-8 h-8 rounded bg-cyan-500/20 text-cyan-400 font-tech font-bold text-sm flex items-center justify-center"><i class="fa-solid fa-fingerprint"></i></span>
+                            <h3 class="font-tech font-bold text-2xl text-white uppercase tracking-wider">Mission Brief</h3>
+                        </div>
+                        <p class="font-body text-slate-400 text-sm leading-relaxed">
+                            Berpengalaman dalam investigasi mendalam terhadap kredibilitas entitas bisnis, rekam jejak korporasi, tata kelola (GCG), dan stabilitas calon mitra investasi. Menghasilkan rekomendasi strategis berisiko terukur yang siap dieksekusi langsung oleh jajaran direksi.
+                        </p>
+                    </div>
+
+                    <div class="spotlight-card glass-panel p-6 rounded-2xl border-purple-500/20 corner-bracket">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-8 h-8 rounded bg-purple-500/20 text-purple-400 font-tech font-bold text-sm flex items-center justify-center"><i class="fa-solid fa-shield-halved"></i></span>
+                            <h3 class="font-tech font-bold text-2xl text-white uppercase tracking-wider">Identity Matrix</h3>
+                        </div>
+                        <div class="space-y-3 font-code text-xs">
+                            <div class="flex justify-between items-center p-2 bg-black/40 rounded border border-white/5">
+                                <span class="text-slate-400">HANDLE:</span>
+                                <span class="text-cyan-400 font-bold">ORIXTRON</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-black/40 rounded border border-white/5">
+                                <span class="text-slate-400">REAL_NAME:</span>
+                                <span class="text-red-400 font-bold tracking-widest">[REDACTED]</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-black/40 rounded border border-white/5">
+                                <span class="text-slate-400">CLEARANCE:</span>
+                                <span class="text-purple-400 font-bold">TIER-9 // MAXIMUM</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-black/40 rounded border border-white/5">
+                                <span class="text-slate-400">ENCRYPTION:</span>
+                                <span class="text-green-400 font-bold">AES-256-GCM</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-black/40 rounded border border-white/5">
+                                <span class="text-slate-400">OPSEC_STATUS:</span>
+                                <span class="text-amber-400 font-bold">PARANOID</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Core Systems Bars -->
+                <div class="lg:col-span-7">
+                    <div class="spotlight-card glass-panel p-6 rounded-2xl border-green-500/20 corner-bracket h-full">
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="w-8 h-8 rounded bg-green-500/20 text-green-400 font-tech font-bold text-sm flex items-center justify-center"><i class="fa-solid fa-chart-simple"></i></span>
+                            <h3 class="font-tech font-bold text-2xl text-white uppercase tracking-wider">Core Systems Telemetry</h3>
+                        </div>
+                        
+                        <div class="space-y-5" id="core-skills-container">
+                            <!-- Injected via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILL MATRIX SECTION (Interactive Grid) -->
+    <section id="matrix" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-tech text-3xl sm:text-5xl font-bold tracking-widest uppercase text-white mb-3">
+                    COMPETENCY <span class="text-purple-400 text-glow-purple">MATRIX</span>
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent mx-auto rounded-full mb-4"></div>
+                <p class="font-code text-xs text-slate-400 uppercase tracking-widest">Matriks Kemampuan Intelijen Bisnis & Analisis Taktis</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10">
+                <button class="filter-btn active px-5 py-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-tech font-bold text-xs tracking-widest uppercase transition-all hover:bg-cyan-500/20" data-filter="all">ALL SYSTEMS (21)</button>
+                <button class="filter-btn px-5 py-2 rounded-lg bg-white/5 border border-white/10 text-slate-400 font-tech font-bold text-xs tracking-widest uppercase transition-all hover:border-purple-400 hover:text-purple-400" data-filter="strat">STRATEGIC</button>
+                <button class="filter-btn px-5 py-2 rounded-lg bg-white/5 border border-white/10 text-slate-400 font-tech font-bold text-xs tracking-widest uppercase transition-all hover:border-cyan-400 hover:text-cyan-400" data-filter="tact">TACTICAL</button>
+                <button class="filter-btn px-5 py-2 rounded-lg bg-white/5 border border-white/10 text-slate-400 font-tech font-bold text-xs tracking-widest uppercase transition-all hover:border-green-400 hover:text-green-400" data-filter="adv">ADVISORY</button>
+            </div>
+
+            <!-- Search -->
+            <div class="max-w-md mx-auto mb-10 relative">
+                <i class="fa-solid fa-terminal absolute left-4 top-1/2 -translate-y-1/2 text-cyan-400 text-xs"></i>
+                <input type="text" id="searchInput" placeholder="grep -i 'keyword'..." class="w-full bg-black/60 border border-cyan-500/30 rounded-lg py-3 pl-10 pr-4 text-sm font-code text-cyan-400 focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_15px_rgba(0,243,255,0.2)] transition-all placeholder-slate-600">
+            </div>
+
+            <!-- Skills Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="skillsGrid">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- TERMINAL / LOGIC ENGINE SECTION -->
+    <section id="terminal" class="py-24 relative border-t border-cyan-500/10 bg-black/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-tech text-3xl sm:text-5xl font-bold tracking-widest uppercase text-white mb-3">
+                    INTELLIGENCE <span class="text-green-400 text-glow-green">TERMINAL</span>
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-green-400 to-transparent mx-auto rounded-full mb-4"></div>
+                <p class="font-code text-xs text-slate-400 uppercase tracking-widest">Konsol Eksekusi & Metodologi Kerja Lapangan</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="glass-panel p-5 rounded-xl border-cyan-500/20 hover:border-cyan-400/50 transition-all">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="w-7 h-7 rounded-lg bg-cyan-500/20 border border-cyan-400/40 text-cyan-400 font-code font-bold text-xs flex items-center justify-center">01</span>
+                            <h3 class="font-tech font-bold text-lg text-white uppercase tracking-wider">OSINT Data Harvesting</h3>
+                        </div>
+                        <p class="font-body text-slate-400 text-xs leading-relaxed pl-10">Pengumpulan data primer menggunakan metodologi intelijen terbuka (Open Source Intelligence) secara sistematis.</p>
+                    </div>
+
+                    <div class="glass-panel p-5 rounded-xl border-purple-500/20 hover:border-purple-400/50 transition-all">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="w-7 h-7 rounded-lg bg-purple-500/20 border border-purple-400/40 text-purple-400 font-code font-bold text-xs flex items-center justify-center">02</span>
+                            <h3 class="font-tech font-bold text-lg text-purple-400 uppercase tracking-wider">Cross-Validation Engine</h3>
+                        </div>
+                        <p class="font-body text-slate-400 text-xs leading-relaxed pl-10">Validasi silang multi-sumber untuk memastikan integritas informasi bebas dari distorsi atau manipulasi sebelum eksekusi.</p>
+                    </div>
+
+                    <div class="glass-panel p-5 rounded-xl border-green-500/20 hover:border-green-400/50 transition-all">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="w-7 h-7 rounded-lg bg-green-500/20 border border-green-400/40 text-green-400 font-code font-bold text-xs flex items-center justify-center">03</span>
+                            <h3 class="font-tech font-bold text-lg text-white uppercase tracking-wider">Actionable Reporting</h3>
+                        </div>
+                        <p class="font-body text-slate-400 text-xs leading-relaxed pl-10">Penyusunan laporan intelijen ringkas, objektif, dan berfokus langsung pada poin tindakan bagi C-Suite.</p>
+                    </div>
+                </div>
+
+                <!-- Code Terminal -->
+                <div class="lg:col-span-7">
+                    <div class="glass-panel rounded-2xl border-green-500/30 overflow-hidden shadow-[0_0_50px_rgba(10,255,96,0.1)]">
+                        <div class="px-4 py-3 bg-black/80 border-b border-green-500/20 flex items-center justify-between font-code text-xs">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500/80 inline-block"></span>
+                                <span class="text-slate-400 ml-2 text-[11px] font-semibold">orixtron_intel_engine.py</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <button id="copy-code-btn" class="text-slate-400 hover:text-green-400 transition-colors text-xs flex items-center gap-1">
+                                    <i class="fa-regular fa-copy"></i> <span id="copy-txt">Copy Code</span>
+                                </button>
+                                <button id="run-sim-btn" class="px-3 py-1 rounded bg-green-500/20 text-green-400 hover:bg-green-500/30 border border-green-500/40 text-[11px] font-bold tracking-wider transition-all">
+                                    <i class="fa-solid fa-play mr-1"></i> RUN SIMULATION
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="p-5 font-code text-xs leading-relaxed overflow-x-auto text-slate-300 bg-[#010308]/95">
+                            <pre><code id="code-content"><span class="text-purple-400">import</span> numpy <span class="text-purple-400">as</span> np
+<span class="text-purple-400">from</span> typing <span class="text-purple-400">import</span> List, Dict
+
+<span class="text-slate-500"># ORIXTRON Business Intelligence Execution Core</span>
+<span class="text-purple-400">class</span> <span class="text-green-400">OrixtronIntelEngine</span>:
+    <span class="text-purple-400">def</span> <span class="text-green-400">__init__</span>(self, clearance_level=<span class="text-amber-300">9</span>, region=<span class="text-amber-300">"SEA"</span>):
+        self.clearance = clearance_level
+        self.region = region
+        self.encryption = <span class="text-amber-300">"AES-256-GCM"</span>
+
+    <span class="text-purple-400">def</span> <span class="text-green-400">cross_validate</span>(self, sources: List[Dict]) -> float:
+        <span class="text-slate-500">"""Validasi silang multi-sumber independen"""</span>
+        confidence_scores = [s[<span class="text-amber-300">'reliability'</span>] <span class="text-purple-400">for</span> s <span class="text-purple-400">in</span> sources]
+        integrity_index = np.mean(confidence_scores)
+        <span class="text-purple-400">return</span> np.clip(integrity_index, <span class="text-amber-300">0.0</span>, <span class="text-amber-300">1.0</span>)
+
+    <span class="text-purple-400">def</span> <span class="text-green-400">assess_risk</span>(self, entity_data: Dict) -> str:
+        <span class="text-slate-500">"""Pemetaan risiko korporasi target"""</span>
+        risk_score = entity_data[<span class="text-amber-300">'financial_health'</span>] * <span class="text-amber-300">0.4</span> + \
+                     entity_data[<span class="text-amber-300">'governance'</span>] * <span class="text-amber-300">0.6</span>
+        <span class="text-purple-400">if</span> risk_score >= <span class="text-amber-300">0.85</span>: <span class="text-purple-400">return</span> <span class="text-amber-300">"PROCEED_SECURE"</span>
+        <span class="text-purple-400">elif</span> risk_score >= <span class="text-amber-300">0.60</span>: <span class="text-purple-400">return</span> <span class="text-amber-300">"PROCEED_CAUTION"</span>
+        <span class="text-purple-400">return</span> <span class="text-amber-300">"ABORT_HIGH_RISK"</span>
+
+    <span class="text-purple-400">def</span> <span class="text-green-400">generate_briefing</span>(self, raw_intel: Dict) -> Dict:
+        <span class="text-slate-500">"""Menyusun laporan actionable untuk C-Suite"""</span>
+        validated = self.cross_validate(raw_intel[<span class="text-amber-300">'sources'</span>])
+        risk_status = self.assess_risk(raw_intel[<span class="text-amber-300">'target'</span>])
+        <span class="text-purple-400">return</span> {
+            <span class="text-amber-300">"status"</span>: <span class="text-amber-300">"CLASSIFIED_BRIEFING"</span>,
+            <span class="text-amber-300">"integrity"</span>: validated,
+            <span class="text-amber-300">"risk_verdict"</span>: risk_status,
+            <span class="text-amber-300">"actionable"</span>: <span class="text-amber-300">True</span>
+        }</code></pre>
+                        </div>
+
+                        <div class="p-4 bg-black/90 border-t border-green-500/20 font-code text-[11px] text-slate-400 min-h-[110px]" id="sim-console">
+                            <div class="text-slate-500 mb-1">// REALTIME INTELLIGENCE OUTPUT CONSOLE</div>
+                            <div id="sim-output" class="space-y-1">
+                                <p class="text-green-400/80">&gt; Engine initialized. Click "RUN SIMULATION" to execute intelligence gathering loop...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PERFORMANCE METRICS -->
+    <section id="metrics" class="py-24 relative border-t border-cyan-500/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-tech text-3xl sm:text-5xl font-bold tracking-widest uppercase text-white mb-3">
+                    PERFORMANCE <span class="text-cyan-400 text-glow-cyan">METRICS</span>
+                </h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto rounded-full mb-4"></div>
+                <p class="font-code text-xs text-slate-400 uppercase tracking-widest">Metrik Kinerja Terverifikasi & Rekam Jejak Operasi</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+                <div class="spotlight-card glass-panel rounded-2xl p-6 border-green-500/20 corner-bracket flex flex-col items-center justify-center">
+                    <div class="font-tech font-extrabold text-5xl text-green-400 text-glow-green mb-2 counter" data-target="21">0</div>
+                    <span class="font-tech font-bold text-xl text-white uppercase tracking-wider">Core Competencies</span>
+                    <p class="font-body text-slate-400 text-xs mt-1">Verified Skill Matrix</p>
+                </div>
+                <div class="spotlight-card glass-panel rounded-2xl p-6 border-cyan-500/20 corner-bracket flex flex-col items-center justify-center">
+                    <div class="font-tech font-extrabold text-5xl text-cyan-400 text-glow-cyan mb-2 counter-float" data-target="9.4">0.0</div>
+                    <span class="font-tech font-bold text-xl text-white uppercase tracking-wider">Peak Score</span>
+                    <p class="font-body text-slate-400 text-xs mt-1">Information Verification</p>
+                </div>
+                <div class="spotlight-card glass-panel rounded-2xl p-6 border-purple-500/20 corner-bracket flex flex-col items-center justify-center">
+                    <div class="font-tech font-extrabold text-5xl text-purple-400 text-glow-purple mb-2 counter-float" data-target="8.5">0.0</div>
+                    <span class="font-tech font-bold text-xl text-white uppercase tracking-wider">Average Rating</span>
+                    <p class="font-body text-slate-400 text-xs mt-1">Across All Domains</p>
+                </div>
+                <div class="spotlight-card glass-panel rounded-2xl p-6 border-amber-500/20 corner-bracket flex flex-col items-center justify-center">
+                    <div class="font-tech font-extrabold text-5xl text-amber-400 mb-2 counter" data-target="100">0</div>
+                    <span class="font-tech font-bold text-xl text-white uppercase tracking-wider">OpSec Rating (%)</span>
+                    <p class="font-body text-slate-400 text-xs mt-1">Zero Compromise Record</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-cyan-500/10 bg-[#010204] py-12 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <a href="#" class="inline-block mb-6">
+                <span class="font-tech font-extrabold text-3xl tracking-[0.25em] text-white">
+                    ORIX<span class="text-cyan-400 text-glow-cyan">TRON</span>
+                </span>
+            </a>
+
+            <div class="flex justify-center gap-6 mb-8">
+                <a href="https://www.instagram.com/orixtron" target="_blank" class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-400 transition-all">
+                    <i class="fa-brands fa-instagram text-lg"></i>
+                </a>
+                <a href="https://tiktok.com/@strade001" target="_blank" class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-400 transition-all">
+                    <i class="fa-brands fa-tiktok text-lg"></i>
+                </a>
+                <a href="https://saweria.co/STRADE01" target="_blank" class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-400 transition-all">
+                    <i class="fa-solid fa-heart text-lg"></i>
+                </a>
+            </div>
+
+            <p class="font-code text-xs text-slate-500 uppercase tracking-widest max-w-xl mx-auto leading-relaxed mb-4">
+                ORIXTRON BUSINESS INTELLIGENCE INFORMANT. OPERATING UNDER STRICT OPSEC PROTOCOLS.
+            </p>
+
+            <p class="font-body text-xs text-slate-600">
+                &copy; 2024-<span id="year"></span> ORIXTRON SYSTEM. ALL RIGHTS RESERVED.
+            </p>
+        </div>
+    </footer>
+
+    <!-- CONTACT MODAL -->
+    <div id="contact-modal" class="fixed inset-0 z-[10000] hidden items-center justify-center p-4 modal-blur bg-black/80">
+        <div class="glass-panel rounded-2xl p-6 max-w-md w-full border-cyan-500/40 relative shadow-[0_0_60px_rgba(0,243,255,0.2)]">
+            <button id="close-contact-btn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 rounded bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-tech font-bold">
+                    <i class="fa-solid fa-satellite-dish"></i>
+                </div>
+                <h3 class="font-tech font-bold text-2xl text-white uppercase tracking-wider">Secure Channel</h3>
+            </div>
+
+            <div class="space-y-4 font-code text-xs">
+                <p class="text-slate-400 font-body text-sm leading-relaxed">
+                    Inisiasi kontak profesional untuk kebutuhan investigasi bisnis, verifikasi data mitra, riset persaingan pasar, atau konsultasi intelijen strategis.
+                </p>
+                <div class="p-4 rounded-xl bg-cyan-950/40 border border-cyan-500/30 mt-4 space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">STATUS:</span>
+                        <span class="text-green-400 font-bold">CHANNEL OPEN</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">ENCRYPTION:</span>
+                        <span class="text-cyan-400 font-bold">E2E AES-256</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">RESPONSE_TIME:</span>
+                        <span class="text-amber-400 font-bold">&lt; 24 HOURS</span>
+                    </div>
+                </div>
+                <button onclick="alert('Secure channel request transmitted.');" class="w-full py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-tech font-bold text-sm tracking-widest uppercase mt-4 hover:shadow-[0_0_20px_rgba(0,243,255,0.5)] transition-all">
+                    TRANSMIT REQUEST
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SKILL DETAIL MODAL -->
+    <div id="skill-modal" class="fixed inset-0 z-[10000] hidden items-center justify-center p-4 modal-blur bg-black/80">
+        <div class="glass-panel rounded-2xl p-6 max-w-lg w-full border-purple-500/40 relative shadow-[0_0_60px_rgba(188,19,254,0.2)]">
+            <button id="close-skill-btn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-8 h-8 rounded bg-purple-500/20 text-purple-400 font-tech font-bold text-sm flex items-center justify-center" id="sm-icon"><i class="fa-solid fa-microchip"></i></span>
+                <h3 class="font-tech font-bold text-2xl text-white uppercase tracking-wider" id="sm-title">Skill Name</h3>
+            </div>
+
+            <div class="flex gap-2 mb-4">
+                <span class="px-3 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-code text-[10px] uppercase tracking-wider" id="sm-level">Expert</span>
+                <span class="px-3 py-1 rounded bg-purple-500/10 border border-purple-500/30 text-purple-400 font-code text-[10px] uppercase tracking-wider" id="sm-cat">Strategic</span>
+            </div>
+
+            <div class="math-box text-cyan-300 font-bold text-sm mb-4 flex items-center justify-between">
+                <span>EVALUATION SCORE:</span>
+                <span class="text-2xl text-white font-tech" id="sm-score">9.4 / 10.0</span>
+            </div>
+
+            <p class="font-body text-slate-300 text-sm leading-relaxed bg-black/40 p-4 rounded-lg border border-white/5" id="sm-desc">
+                Deskripsi akan dimuat di sini.
+            </p>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC ENGINE -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Database
+        const skillsDatabase = [
+            { name: "Information Verification", score: 9.4, level: "Expert", cat: "tact", icon: "fa-magnifying-glass-chart", desc: "Validasi silang data dari berbagai sumber independen dan sekunder. Memastikan integritas informasi bebas dari distorsi, prasangka, atau manipulasi sebelum keputusan strategis diambil." },
+            { name: "Opportunity Mapping", score: 9.2, level: "Expert", cat: "strat", icon: "fa-map-location-dot", desc: "Mengidentifikasi celah pasar baru, ceruk bisnis yang belum tergarap, serta memetakan arah pertumbuhan potensial berbasis analisis tren dan dinamika struktural industri." },
+            { name: "Information Collection", score: 9.1, level: "Expert", cat: "tact", icon: "fa-database", desc: "Pengumpulan data primer dan sekunder secara sistematis menggunakan metodologi intelijen terbuka (OSINT) serta jaringan sumber terpercaya untuk efisiensi riset." },
+            { name: "Observation", score: 9.0, level: "Expert", cat: "tact", icon: "fa-eye", desc: "Tingkat ketelitian tinggi dalam mendeteksi anomali operasional, pergeseran kondisi mikro, dan sinyal lemah yang tidak tertangkap oleh laporan formal." },
+            { name: "Risk Intelligence", score: 8.9, level: "Advanced", cat: "strat", icon: "fa-triangle-exclamation", desc: "Identifikasi dini dan pemodelan skenario risiko finansial, regulasi, dan operasional guna menyusun strategi mitigasi dampak kerugian bagi entitas bisnis." },
+            { name: "Advisory", score: 8.9, level: "Advanced", cat: "adv", icon: "fa-handshake", desc: "Penyusunan rekomendasi strategis berisiko terukur yang siap dieksekusi oleh jajaran direksi dan eksekutif (C-Suite) untuk memandu arah kebijakan." },
+            { name: "Reading Situation", score: 8.8, level: "Advanced", cat: "tact", icon: "fa-brain", desc: "Antisipasi cepat terhadap dinamika non-verbal, nuansa negosiasi, dan pergeseran atmosfer politik organisasi dalam ruang pengambilan keputusan." },
+            { name: "Industry Research", score: 8.8, level: "Advanced", cat: "strat", icon: "fa-industry", desc: "Investigasi komprehensif atas lanskap industri, rantai pasok, regulasi pemerintah, serta pemetaan peta persaingan jangka panjang." },
+            { name: "Reporting", score: 8.7, level: "Advanced", cat: "adv", icon: "fa-file-lines", desc: "Penyusunan laporan intelijen bisnis yang ringkas, objektif, bebas istilah teknis rumit, serta berfokus langsung pada poin tindakan (actionable insights)." },
+            { name: "Situation Analysis", score: 8.7, level: "Advanced", cat: "tact", icon: "fa-chart-pie", desc: "Evaluasi cepat terhadap kondisi bisnis yang bergejolak untuk menghasilkan pilihan tindakan taktis dalam waktu terbatas." },
+            { name: "Market Intelligence", score: 8.6, level: "Advanced", cat: "strat", icon: "fa-chart-line", desc: "Pemantauan real-time terhadap dinamika pasar, perubahan struktur harga, serta analisis pergeseran permintaan produk." },
+            { name: "Corporate Intelligence", score: 8.5, level: "Advanced", cat: "strat", icon: "fa-building-shield", desc: "Penyelidikan mendalam terhadap kredibilitas, rekam jejak, tata kelola korporasi (GCG), dan stabilitas calon mitra bisnis atau target investasi." },
+            { name: "Data Analysis", score: 8.5, level: "Advanced", cat: "tact", icon: "fa-chart-column", desc: "Pengolahan himpunan data mentah menjadi rangkuman indikator kuantitatif yang jelas dan relevan bagi pengambilan keputusan." },
+            { name: "Negotiation Intel", score: 8.4, level: "Advanced", cat: "adv", icon: "fa-scale-balanced", desc: "Pemanfaatan wawasan data intelijen untuk mengamankan posisi tawar optimal dalam transaksi dan kesepakatan bisnis strategis." },
+            { name: "Competitor Intelligence", score: 8.4, level: "Advanced", cat: "strat", icon: "fa-chess-knight", desc: "Pembongkaran posisi taktis, keunggulan operasional, serta titik lemah kompetitor secara etis dan terukur." },
+            { name: "Supply Chain Intel", score: 8.2, level: "Advanced", cat: "strat", icon: "fa-truck-fast", desc: "Pemetaan kerentanan jalur logistik, titik hambatan pasokan, dan analisis tingkat keandalan jaringan pemasok utama." },
+            { name: "Macro & Micro Info", score: 8.1, level: "Proficient", cat: "tact", icon: "fa-globe", desc: "Menghubungkan indikator ekonomi makro dengan realita operasional mikro di lapangan untuk pemahaman konteks bisnis secara utuh." },
+            { name: "Social Adaptation", score: 8.0, level: "Proficient", cat: "adv", icon: "fa-people-group", desc: "Kemampuan membaur secara fleksibel pada beragam tingkatan sosial dan kultur organisasi untuk mempermudah akses informasi." },
+            { name: "Consumer Intelligence", score: 7.9, level: "Proficient", cat: "strat", icon: "fa-users", desc: "Analisis tren perilaku konsumen, faktor pendorong kepuasan, dan pola retensi pelanggan dalam pasar yang kompetitif." },
+            { name: "Financial Intelligence", score: 7.7, level: "Proficient", cat: "strat", icon: "fa-coins", desc: "Evaluasi dasar atas kesehatan finansial, analisis rasio utama, serta estimasi arus kas untuk penilaian kelayakan entitas." },
+            { name: "Networking", score: 7.6, level: "Proficient", cat: "adv", icon: "fa-diagram-project", desc: "Pembangunan dan pemeliharaan jaringan kontak strategis secara berkelanjutan sebagai sumber informasi lapangan tepercaya." }
+        ];
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+        // Modals
+        const contactModal = document.getElementById('contact-modal');
+        function openContactModal() { contactModal.classList.remove('hidden'); contactModal.classList.add('flex'); }
+        document.getElementById('close-contact-btn').addEventListener('click', () => { contactModal.classList.add('hidden'); contactModal.classList.remove('flex'); });
+
+        const skillModal = document.getElementById('skill-modal');
+        function openSkillModal(skill) {
+            document.getElementById('sm-title').textContent = skill.name;
+            document.getElementById('sm-level').textContent = skill.level;
+            document.getElementById('sm-cat').textContent = skill.cat.toUpperCase();
+            document.getElementById('sm-score').textContent = `${skill.score} / 10.0`;
+            document.getElementById('sm-desc').textContent = skill.desc;
+            skillModal.classList.remove('hidden'); skillModal.classList.add('flex');
+        }
+        document.getElementById('close-skill-btn').addEventListener('click', () => { skillModal.classList.add('hidden'); skillModal.classList.remove('flex'); });
+
+        // Render Skills
+        function renderSkills(filter = 'all', search = '') {
+            const grid = document.getElementById('skillsGrid');
+            grid.innerHTML = '';
+            
+            const filtered = skillsDatabase.filter(s => {
+                const matchCat = filter === 'all' || s.cat === filter;
+                const matchSearch = !search || s.name.toLowerCase().includes(search.toLowerCase());
+                return matchCat && matchSearch;
+            });
+
+            filtered.forEach((skill, i) => {
+                const pct = (skill.score / 10) * 100;
+                let colorClass = 'cyan';
+                if(skill.level === 'Expert') colorClass = 'green';
+                if(skill.level === 'Proficient') colorClass = 'amber';
+
+                const card = document.createElement('div');
+                card.className = `spotlight-card glass-panel rounded-2xl p-6 border-${colorClass}-500/20 hover:border-${colorClass}-400/50 transition-all duration-300 corner-bracket cursor-pointer opacity-0 translate-y-4`;
+                card.style.transitionDelay = `${i * 0.05}s`;
+                card.onclick = () => openSkillModal(skill);
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-${colorClass}-500/10 border border-${colorClass}-500/30 flex items-center justify-center text-${colorClass}-400">
+                                <i class="fa-solid ${skill.icon}"></i>
+                            </div>
+                            <h3 class="font-tech font-bold text-lg text-white uppercase tracking-wider leading-tight">${skill.name}</h3>
+                        </div>
+                        <span class="font-code text-[10px] px-2 py-1 rounded bg-${colorClass}-500/10 text-${colorClass}-400 border border-${colorClass}-500/20 uppercase tracking-wider">${skill.level}</span>
+                    </div>
+                    
+                    <div class="flex items-baseline justify-between mb-2">
+                        <span class="font-code text-[10px] text-slate-400 uppercase tracking-widest">Evaluation Score</span>
+                        <span class="font-tech font-extrabold text-2xl text-${colorClass}-400">${skill.score}<span class="text-sm text-slate-500">/10</span></span>
+                    </div>
+
+                    <div class="w-full h-2 bg-black/60 rounded-full overflow-hidden border border-white/5">
+                        <div class="skill-progress-fill bg-gradient-to-r from-${colorClass}-600 to-${colorClass}-400" data-width="${pct}%"></div>
+                    </div>
+                    
+                    <div class="mt-3 flex justify-between font-code text-[10px] text-slate-500">
+                        <span>CAT: <span class="text-${colorClass}-400">${skill.cat.toUpperCase()}</span></span>
+                        <span>MATRIX: <span class="text-white">${pct.toFixed(0)}%</span></span>
+                    </div>
+                `;
+                grid.appendChild(card);
+
+                // Animate in
+                setTimeout(() => {
+                    card.classList.remove('opacity-0', 'translate-y-4');
+                    card.classList.add('opacity-100', 'translate-y-0');
+                    // Trigger progress bar
+                    const fill = card.querySelector('.skill-progress-fill');
+                    if(fill) fill.style.width = fill.getAttribute('data-width');
+                }, 50 + (i * 50));
+            });
+        }
+
+        // Render Core Skills (Sidebar)
+        function renderCoreSkills() {
+            const container = document.getElementById('core-skills-container');
+            const coreSkills = [
+                { name: 'Encryption & OpSec', val: 98, color: 'cyan' },
+                { name: 'Data Synthesis & OSINT', val: 95, color: 'green' },
+                { name: 'Strategic Advisory', val: 92, color: 'purple' },
+                { name: 'Risk Mitigation', val: 89, color: 'amber' },
+                { name: 'Cross-Validation', val: 94, color: 'cyan' }
+            ];
+
+            coreSkills.forEach((skill, i) => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-code text-xs text-slate-300 uppercase tracking-wider">${skill.name}</span>
+                        <span class="font-tech font-bold text-sm text-${skill.color}-400">${skill.val}%</span>
+                    </div>
+                    <div class="w-full h-2 bg-black/60 rounded-full overflow-hidden border border-white/5">
+                        <div class="skill-progress-fill bg-gradient-to-r from-${skill.color}-600 to-${skill.color}-400" data-width="${skill.val}%"></div>
+                    </div>
+                `;
+                container.appendChild(div);
+                
+                setTimeout(() => {
+                    const fill = div.querySelector('.skill-progress-fill');
+                    if(fill) fill.style.width = fill.getAttribute('data-width');
+                }, 500 + (i * 200));
+            });
+        }
+
+        // Event Listeners for Filters
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active', 'bg-cyan-500/10', 'border-cyan-500/30', 'text-cyan-400');
+                    b.classList.add('bg-white/5', 'border-white/10', 'text-slate-400');
+                });
+                btn.classList.add('active', 'bg-cyan-500/10', 'border-cyan-500/30', 'text-cyan-400');
+                btn.classList.remove('bg-white/5', 'border-white/10', 'text-slate-400');
+                renderSkills(btn.getAttribute('data-filter'), document.getElementById('searchInput').value);
+            });
+        });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+            renderSkills(activeFilter, e.target.value);
+        });
+
+        // Typewriter Effect
+        const typewriterElement = document.getElementById('typewriter');
+        const phrases = [
+            "BUSINESS INTELLIGENCE INFORMANT",
+            "STRATEGIC RISK MAPPING ENGINE",
+            "MULTI-SOURCE CROSS VALIDATION",
+            "C-SUIT EXECUTIVE ADVISORY NODE"
+        ];
+        let phraseIndex = 0, charIndex = 0, isDeleting = false;
+
+        function typeLoop() {
+            const currentPhrase = phrases[phraseIndex];
+            typewriterElement.textContent = isDeleting ? currentPhrase.substring(0, charIndex - 1) : currentPhrase.substring(0, charIndex + 1);
+            charIndex += isDeleting ? -1 : 1;
+
+            let typeSpeed = isDeleting ? 30 : 60;
+            if (!isDeleting && charIndex === currentPhrase.length) { typeSpeed = 2000; isDeleting = true; }
+            else if (isDeleting && charIndex === 0) { isDeleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; typeSpeed = 400; }
+
+            setTimeout(typeLoop, typeSpeed);
+        }
+        typeLoop();
+
+        // Mouse Spotlight
+        document.addEventListener('mousemove', (e) => {
+            document.querySelectorAll('.spotlight-card').forEach(card => {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+            });
+        });
+
+        // Three.js 3D Quantum Cyber Core
+        window.addEventListener('load', () => {
+            const container = document.getElementById('hero-canvas-container');
+            if (!container) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.z = 7.5;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            const coreGroup = new THREE.Group();
+            scene.add(coreGroup);
+
+            const coreGeo = new THREE.IcosahedronGeometry(2.0, 2);
+            const coreMat = new THREE.MeshBasicMaterial({ color: 0x00f3ff, wireframe: true, transparent: true, opacity: 0.35 });
+            const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+            coreGroup.add(coreMesh);
+
+            const nucleusGeo = new THREE.IcosahedronGeometry(1.0, 1);
+            const nucleusMat = new THREE.MeshBasicMaterial({ color: 0xbc13fe, wireframe: true, transparent: true, opacity: 0.65 });
+            const nucleusMesh = new THREE.Mesh(nucleusGeo, nucleusMat);
+            coreGroup.add(nucleusMesh);
+
+            const ring1Geo = new THREE.TorusGeometry(3.2, 0.02, 16, 100);
+            const ring1Mat = new THREE.MeshBasicMaterial({ color: 0x00f3ff, transparent: true, opacity: 0.8 });
+            const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
+            ring1.rotation.x = Math.PI / 3;
+            coreGroup.add(ring1);
+
+            const ring2Geo = new THREE.TorusGeometry(4.0, 0.02, 16, 100);
+            const ring2Mat = new THREE.MeshBasicMaterial({ color: 0xbc13fe, transparent: true, opacity: 0.6 });
+            const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+            ring2.rotation.y = Math.PI / 4;
+            coreGroup.add(ring2);
+
+            const particlesCount = 1400;
+            const particleGeo = new THREE.BufferGeometry();
+            const positions = new Float32Array(particlesCount * 3);
+            const colors = new Float32Array(particlesCount * 3);
+
+            for (let i = 0; i < particlesCount; i++) {
+                const r = 3.0 + Math.random() * 3.5;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos((Math.random() * 2) - 1);
+
+                positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+                positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+                positions[i * 3 + 2] = r * Math.cos(phi);
+
+                if (Math.random() > 0.5) {
+                    colors[i * 3] = 0.0; colors[i * 3 + 1] = 0.95; colors[i * 3 + 2] = 1.0;
+                } else {
+                    colors[i * 3] = 0.73; colors[i * 3 + 1] = 0.07; colors[i * 3 + 2] = 0.99;
+                }
+            }
+
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const particleMat = new THREE.PointsMaterial({ size: 0.035, vertexColors: true, transparent: true, opacity: 0.8 });
+            const particleSystem = new THREE.Points(particleGeo, particleMat);
+            coreGroup.add(particleSystem);
+
+            let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+            window.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX - window.innerWidth / 2) * 0.0008;
+                mouseY = (e.clientY - window.innerHeight / 2) * 0.0008;
+            });
+
+            const clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+
+                coreMesh.rotation.y = elapsedTime * 0.15;
+                nucleusMesh.rotation.y = -elapsedTime * 0.25;
+                ring1.rotation.z = elapsedTime * 0.2;
+                ring2.rotation.z = -elapsedTime * 0.15;
+                particleSystem.rotation.y = elapsedTime * 0.05;
+
+                const scale = 1 + Math.sin(elapsedTime * 1.5) * 0.04;
+                coreMesh.scale.set(scale, scale, scale);
+
+                targetX += (mouseX - targetX) * 0.05;
+                targetY += (mouseY - targetY) * 0.05;
+
+                coreGroup.rotation.y = targetX * 1.5;
+                coreGroup.rotation.x = targetY * 1.5;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        });
+
+        // Ticker
+        function updateTicker() {
+            const tickerWrap = document.getElementById('ticker-wrap');
+            const items = skillsDatabase.slice(0, 8).map(s => {
+                const color = s.level === 'Expert' ? 'text-green-400' : s.level === 'Advanced' ? 'text-cyan-400' : 'text-amber-400';
+                return `<div class="flex items-center space-x-2 px-6 border-r border-slate-800 shrink-0">
+                    <span class="text-slate-300 font-bold">${s.name}:</span>
+                    <span class="text-white font-bold">${s.score}/10</span>
+                    <span class="${color}"><i class="fa-solid fa-caret-up"></i> ${s.level.toUpperCase()}</span>
+                </div>`;
+            }).join('');
+            tickerWrap.innerHTML = items + items + items;
+        }
+        updateTicker();
+
+        // Terminal Simulation Loop
+        const runSimBtn = document.getElementById('run-sim-btn');
+        const simOutput = document.getElementById('sim-output');
+
+        if (runSimBtn && simOutput) {
+            runSimBtn.addEventListener('click', () => {
+                simOutput.innerHTML = `<p class="text-green-400">&gt; [INIT] Calling OrixtronIntelEngine.generate_briefing()...</p>`;
+                
+                const steps = [
+                    { txt: "&gt; [OSINT_HARVEST] Streaming data from 14 independent nodes...", delay: 400 },
+                    { txt: "&gt; [CROSS_VAL] Sources reliability index: [0.92, 0.88, 0.95, 0.91] -> Mean: 0.915", delay: 900 },
+                    { txt: "&gt; [RISK_ASSESS] Target financial_health: 0.82 | governance: 0.94 -> Score: 0.892", delay: 1400 },
+                    { txt: "&gt; [VERDICT] Risk Verdict: PROCEED_SECURE (Threshold >= 0.85 passed)", delay: 1900 },
+                    { txt: "&gt; [BRIEFING_GEN] Compiling actionable C-Suite report... Encrypted with AES-256-GCM.", delay: 2400 },
+                    { txt: "&gt; [TRANSMIT] CLASSIFIED_BRIEFING delivered to secure terminal in 1.2ms. Integrity verified.", delay: 2900 }
+                ];
+
+                steps.forEach(step => {
+                    setTimeout(() => {
+                        const p = document.createElement('p');
+                        p.className = "text-green-400";
+                        p.innerHTML = step.txt;
+                        simOutput.appendChild(p);
+                        simOutput.parentElement.scrollTop = simOutput.parentElement.scrollHeight;
+                    }, step.delay);
+                });
+            });
+        }
+
+        // Copy Code Button
+        const copyCodeBtn = document.getElementById('copy-code-btn');
+        if (copyCodeBtn) {
+            copyCodeBtn.addEventListener('click', () => {
+                const codeTxt = document.getElementById('code-content').innerText;
+                const textarea = document.createElement('textarea');
+                textarea.value = codeTxt;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+
+                const txtSpan = document.getElementById('copy-txt');
+                txtSpan.textContent = "Copied!";
+                setTimeout(() => txtSpan.textContent = "Copy Code", 2000);
+            });
+        }
+
+        // Animated Counter
+        function animateCounters() {
+            document.querySelectorAll('.counter').forEach(counter => {
+                const target = parseFloat(counter.getAttribute('data-target'));
+                let count = 0;
+                const update = () => {
+                    count += target / 40;
+                    if (count < target) {
+                        counter.innerText = Math.floor(count);
+                        setTimeout(update, 30);
+                    } else counter.innerText = target;
+                };
+                update();
+            });
+
+            document.querySelectorAll('.counter-float').forEach(counter => {
+                const target = parseFloat(counter.getAttribute('data-target'));
+                let count = 0.0;
+                const update = () => {
+                    count += target / 40;
+                    if (count < target) {
+                        counter.innerText = count.toFixed(1);
+                        setTimeout(update, 30);
+                    } else counter.innerText = target.toFixed(1);
+                };
+                update();
+            });
+        }
+
+        const metricsSection = document.getElementById('metrics');
+        let animated = false;
+        if (metricsSection) {
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !animated) {
+                    animateCounters();
+                    animated = true;
+                }
+            }, { threshold: 0.3 });
+            observer.observe(metricsSection);
+        }
+
+        // Initialize Renders
+        renderSkills();
+        renderCoreSkills();
+    </script>
+</body>
+</html>
