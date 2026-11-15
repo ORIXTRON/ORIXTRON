@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Gann Decennial Pattern — W.D. Gann 1936 | Orixtron Technology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment-base: #e6cfa9;
+      --parchment-light: #f2e1c2;
+      --parchment-dark: #cfa972;
+      --ink-dark: #2c1e12;
+      --ink-sepia: #4a321d;
+      --ink-faded: #6e4f32;
+      --line-gold-brown: #9c6b30;
+
+      /* Palet Fase Dekade W.D. Gann (Nuansa Tinta Antik) */
+      --gann-bottom: #1e4b6b;     /* Tahun 0–2: Likuidasi & Dasar Akumulasi */
+      --gann-markup: #2e5a36;     /* Tahun 3–4: Tren Naik Baru */
+      --gann-ascend: #9c5a1a;     /* Tahun 5–6: The Ascension & Volatilitas */
+      --gann-climax: #8b261d;     /* Tahun 7–9: Peringatan & Klimaks Distribusi */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #261b12;
+      background-image: radial-gradient(circle at center, #3a291b 0%, #1c130c 100%);
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Tekstur Kertas Perkamen Klasik */
+    .parchment-card {
+      position: relative;
+      width: 100%;
+      max-width: 1240px;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(255, 248, 231, 0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 85%, rgba(168, 121, 62, 0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, var(--parchment-light) 0%, var(--parchment-base) 65%, var(--parchment-dark) 100%);
+      border: 2px solid #5c3f24;
+      border-radius: 4px;
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.65),
+        inset 0 0 65px rgba(112, 74, 34, 0.42),
+        inset 0 0 12px rgba(44, 30, 18, 0.45);
+      padding: 34px 34px 26px;
+      overflow: hidden;
+    }
+
+    /* Efek Serat Kertas Halus */
+    .parchment-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+
+    /* Bingkai Tipis Bagian Dalam */
+    .parchment-card::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      pointer-events: none;
+    }
+
+    /* Watermark Kertas Perkamen Orixtron Technology */
+    .parchment-watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .watermark-main-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: clamp(2.1rem, 5.2vw, 4.4rem);
+      letter-spacing: 0.22em;
+      color: rgba(74, 50, 29, 0.075);
+      text-transform: uppercase;
+      white-space: nowrap;
+      transform: rotate(-8deg);
+      text-shadow: 1px 1px 0 rgba(255, 248, 231, 0.35);
+    }
+
+    .watermark-sub-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+      letter-spacing: 0.32em;
+      color: rgba(74, 50, 29, 0.085);
+      text-transform: uppercase;
+      transform: rotate(-8deg);
+      margin-top: 4px;
+    }
+
+    /* Header Judul Utama */
+    .card-header {
+      text-align: center;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-kicker {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--ink-faded);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-family: 'Cinzel', 'Times New Roman', serif;
+      font-size: clamp(1.65rem, 3.4vw, 2.95rem);
+      font-weight: 700;
+      color: var(--ink-sepia);
+      letter-spacing: 0.04em;
+      text-shadow: 1px 1px 0 rgba(255, 245, 224, 0.6);
+    }
+
+    .card-subtitle-header {
+      font-size: 1.08rem;
+      font-style: italic;
+      color: var(--ink-sepia);
+      margin-top: 2px;
+    }
+
+    /* Kontrol Rentang Dekade & Navigasi Grafik */
+    .chart-controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: rgba(110, 79, 50, 0.1);
+      border: 1px solid rgba(74, 50, 29, 0.3);
+      border-radius: 3px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .control-label {
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: var(--ink-sepia);
+    }
+
+    .vintage-btn {
+      background: linear-gradient(to bottom, #f5e6ca, #dec092);
+      border: 1px solid #5c3f24;
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.94rem;
+      padding: 5px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      transition: all 0.15s ease;
+    }
+
+    .vintage-btn:hover {
+      background: linear-gradient(to bottom, #fff2da, #e5c99c);
+      transform: translateY(-1px);
+    }
+
+    .vintage-btn.active {
+      background: var(--ink-sepia);
+      color: #f6e7cb;
+      border-color: var(--ink-dark);
+    }
+
+    /* Area Grafik Klasik */
+    .chart-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      margin-top: 4px;
+      border: 2px solid var(--ink-dark);
+      background: rgba(255, 249, 236, 0.18);
+    }
+
+    /* Kolom Kiri: Sumbu Kuadran Waktu Gann */
+    .axis-column {
+      flex: 0 0 96px;
+      border-right: 1.8px solid var(--ink-dark);
+      background: rgba(110, 79, 50, 0.08);
+      user-select: none;
+    }
+
+    /* Area Scrollable SVG Kurva Gann */
+    .chart-scroll-area {
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      position: relative;
+      cursor: grab;
+    }
+
+    .chart-scroll-area:active {
+      cursor: grabbing;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-track {
+      background: rgba(92, 63, 36, 0.15);
+      border-top: 1px solid rgba(92, 63, 36, 0.3);
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-thumb {
+      background: #7c5633;
+      border-radius: 3px;
+      border: 1px solid #4a321d;
+    }
+
+    /* Ringkasan 4 Zona Digit Dekade (0-9) */
+    .zones-legend-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .zone-legend-card {
+      background: rgba(255, 249, 236, 0.42);
+      border: 1px solid rgba(74, 50, 29, 0.38);
+      border-top-width: 4px;
+      border-radius: 3px;
+      padding: 10px 12px;
+    }
+
+    .zone-legend-card.bottom { border-top-color: var(--gann-bottom); }
+    .zone-legend-card.markup { border-top-color: var(--gann-markup); }
+    .zone-legend-card.ascend { border-top-color: var(--gann-ascend); }
+    .zone-legend-card.climax { border-top-color: var(--gann-climax); }
+
+    .zone-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.86rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: 0.03em;
+    }
+
+    .zone-card-body {
+      font-size: 0.94rem;
+      line-height: 1.32;
+      color: var(--ink-dark);
+    }
+
+    /* Footer Kartu & Tanda Tangan W.D. Gann */
+    .card-footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .legend-note-block {
+      max-width: 820px;
+      font-size: 1.04rem;
+      line-height: 1.38;
+      color: var(--ink-dark);
+    }
+
+    .signature-block {
+      text-align: right;
+      transform: rotate(-12deg);
+      transform-origin: bottom right;
+      padding: 0 12px 4px 0;
+      color: var(--ink-faded);
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .signature-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.1rem;
+      line-height: 0.95;
+      display: block;
+    }
+
+    .signature-year {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.45rem;
+      display: block;
+      margin-top: -2px;
+    }
+
+    /* Stempel Kolofon Developer Orixtron Technology */
+    .developer-colophon {
+      position: relative;
+      z-index: 2;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(74, 50, 29, 0.28);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--ink-faded);
+      user-select: none;
+    }
+
+    .dev-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 12px;
+      border: 1px double rgba(74, 50, 29, 0.55);
+      border-radius: 2px;
+      background: rgba(255, 248, 231, 0.25);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--ink-sepia);
+      text-transform: uppercase;
+    }
+
+    .dev-edition-note {
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--ink-faded);
+    }
+
+    /* =========================================================
+       PANEL PREDIKSI GANN DECENNIAL PATTERN (TEMA KLASIK SENADA)
+       ========================================================= */
+    .predictor-panel {
+      padding: 26px 32px 22px;
+    }
+
+    .predictor-header {
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid rgba(74, 50, 29, 0.35);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .predictor-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .predictor-subtitle {
+      font-size: 1.02rem;
+      font-style: italic;
+      color: var(--ink-faded);
+    }
+
+    .predictor-form {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .year-input-box {
+      display: flex;
+      align-items: center;
+      background: #f9eed9;
+      border: 2px solid #5c3f24;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.12);
+    }
+
+    .year-input-box label {
+      padding: 8px 12px;
+      background: rgba(92, 63, 36, 0.14);
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-right: 1px solid rgba(92, 63, 36, 0.35);
+    }
+
+    .year-input-box input {
+      border: none;
+      background: transparent;
+      padding: 8px 14px;
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      width: 130px;
+      outline: none;
+    }
+
+    .predict-submit-btn {
+      background: var(--ink-sepia);
+      color: #f7e7c8;
+      border: 2px solid var(--ink-dark);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 9px 20px;
+      border-radius: 3px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.15s ease;
+    }
+
+    .predict-submit-btn:hover {
+      background: #2c1e12;
+    }
+
+    .quick-years {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.95rem;
+    }
+
+    /* Hasil Prediksi */
+    .prediction-result {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 249, 236, 0.55);
+      border: 1.5px solid #6b4929;
+      border-radius: 4px;
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: 1.38fr 1fr;
+      gap: 20px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      color: #fff8eb;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .badge-bottom { background-color: var(--gann-bottom); }
+    .badge-markup { background-color: var(--gann-markup); }
+    .badge-ascend { background-color: var(--gann-ascend); }
+    .badge-climax { background-color: var(--gann-climax); }
+
+    .result-headline {
+      font-family: 'Cinzel', serif;
+      font-size: 1.48rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      margin-bottom: 6px;
+    }
+
+    .result-hist-note {
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: var(--ink-sepia);
+      margin-bottom: 10px;
+    }
+
+    .result-desc {
+      font-size: 1.1rem;
+      line-height: 1.46;
+      color: var(--ink-dark);
+      margin-bottom: 12px;
+    }
+
+    .asset-allocation-box {
+      background: rgba(222, 192, 146, 0.32);
+      border-left: 3.5px solid var(--line-gold-brown);
+      padding: 10px 14px;
+      font-size: 1.04rem;
+      line-height: 1.42;
+      color: var(--ink-dark);
+    }
+
+    .cycle-neighbors {
+      background: rgba(222, 192, 146, 0.35);
+      border: 1px solid rgba(92, 63, 36, 0.35);
+      border-radius: 3px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 9px;
+    }
+
+    .neighbor-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed rgba(92, 63, 36, 0.3);
+      padding-bottom: 6px;
+      font-size: 1.02rem;
+    }
+
+    .neighbor-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .neighbor-label {
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .neighbor-years {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--ink-dark);
+    }
+
+    .clickable-year {
+      cursor: pointer;
+      text-decoration: underline dotted;
+      transition: opacity 0.15s;
+    }
+    .clickable-year:hover {
+      opacity: 0.65;
+    }
+
+    .global-dev-footer {
+      text-align: center;
+      color: rgba(230, 207, 169, 0.65);
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      user-select: none;
+    }
+
+    @media (max-width: 900px) {
+      .zones-legend-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .prediction-result {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .parchment-card {
+        padding: 20px 14px;
+      }
+      .axis-column {
+        flex: 0 0 64px;
+      }
+      .zones-legend-grid {
+        grid-template-columns: 1fr;
+      }
+      .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .signature-block {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KARTU UTAMA POLA DEKADE W.D. GANN (1936) -->
+  <main class="parchment-card">
+    <!-- Watermark Kertas Perkamen Orixtron Technology -->
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text">ORIXTRON TECHNOLOGY</span>
+      <span class="watermark-sub-text">W.D. Gann Decennial &amp; 60-Year Master Cycle Edition</span>
+    </div>
+
+    <header class="card-header">
+      <div class="card-kicker">The Law of Vibration &amp; 10-Year Market Time Harmonics</div>
+      <h1 class="card-title">The Gann Decennial Pattern</h1>
+      <p class="card-subtitle-header">“Ten-Year Recurrent Market Rhythm &amp; The 60-Year Master Time Cycle”</p>
+    </header>
+
+    <!-- Kontrol Rentang Dekade & Navigasi Grafik -->
+    <div class="chart-controls">
+      <div class="control-group">
+        <span class="control-label">Rentang Tampilan:</span>
+        <button class="vintage-btn active" data-range="2020-2030" onclick="setDecadeRange(2020, 2030, this)">Dekade Berjalan (2020–2030)</button>
+        <button class="vintage-btn" data-range="2010-2040" onclick="setDecadeRange(2010, 2040, this)">Siklus 30 Tahun (2010–2040)</button>
+        <button class="vintage-btn" data-range="1980-2040" onclick="setDecadeRange(1980, 2040, this)">Master Cycle 60 Thn (1980–2040)</button>
+        <button class="vintage-btn" data-range="1920-2040" onclick="setDecadeRange(1920, 2040, this)">120 Tahun (1920–2040)</button>
+      </div>
+      <div class="control-group">
+        <span style="font-size: 0.92rem; font-style: italic; color: var(--ink-sepia);">
+          *Klik pada grafik atau angka tahun (digit 0–9) untuk membaca pola Gann
+        </span>
+      </div>
+    </div>
+
+    <!-- Grafik Pola Dekade Gann -->
+    <div class="chart-wrapper">
+      <!-- Sumbu Kiri: Kuadran Waktu & Momentum Gann -->
+      <div class="axis-column">
+        <svg viewBox="0 0 96 380" width="100%" height="380" aria-hidden="true">
+          <text x="48" y="34" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">DEKADE</text>
+          <line x1="8" y1="54" x2="88" y2="54" stroke="#2c1e12" stroke-width="1.2"/>
+
+          <text x="48" y="88" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#8b261d">KLIMAKS</text>
+          <text x="48" y="102" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Distribusi 8–9)</text>
+
+          <line x1="14" y1="195" x2="82" y2="195" stroke="#5c3f24" stroke-dasharray="3,3" stroke-width="1"/>
+          <text x="48" y="188" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">Pivot Tengah</text>
+          <text x="48" y="210" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#6e4f32">(Digit 4 &amp; 7)</text>
+
+          <text x="48" y="294" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#1e4b6b">DASAR</text>
+          <text x="48" y="308" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Akumulasi 1–2)</text>
+
+          <line x1="8" y1="336" x2="88" y2="336" stroke="#2c1e12" stroke-width="1.2"/>
+          <text x="48" y="362" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">TAHUN</text>
+        </svg>
+      </div>
+
+      <!-- Kanvas SVG Kurva Gann Decennial -->
+      <div class="chart-scroll-area" id="chartScrollArea">
+        <svg id="gannSvg" height="380" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+
+    <!-- Ringkasan 4 Kelompok Digit Dekade (0-9) -->
+    <div class="zones-legend-grid">
+      <div class="zone-legend-card bottom">
+        <div class="zone-card-title" style="color: var(--gann-bottom);">1. DIGIT 0, 1, 2 — LIQUIDATION &amp; BOTTOM</div>
+        <div class="zone-card-body">
+          Tahun <strong>0</strong> memicu koreksi dari puncak lama; Tahun <strong>1 &amp; 2</strong> membentuk dasar pasar (<em>major bottom</em>). <strong>Waktu terbaik akumulasi saham unggulan.</strong>
+        </div>
+      </div>
+      <div class="zone-legend-card markup">
+        <div class="zone-card-title" style="color: var(--gann-markup);">2. DIGIT 3 &amp; 4 — NEW BULL MARKUP</div>
+        <div class="zone-card-body">
+          Tahun <strong>3</strong> mengonfirmasi tren naik baru; Tahun <strong>4</strong> mengalami konsolidasi sehat paruh dekade sebelum akselerasi utama.
+        </div>
+      </div>
+      <div class="zone-legend-card ascend">
+        <div class="zone-card-title" style="color: var(--gann-ascend);">3. DIGIT 5 &amp; 6 — THE ASCENSION</div>
+        <div class="zone-card-body">
+          Tahun <strong>5</strong> secara historis adalah tahun paling <em>bullish</em> dalam satu dekade; Tahun <strong>6</strong> melanjutkan tren dengan volatilitas lebih tinggi.
+        </div>
+      </div>
+      <div class="zone-legend-card climax">
+        <div class="zone-card-title" style="color: var(--gann-climax);">4. DIGIT 7, 8, 9 — PIVOT &amp; FINAL CLIMAX</div>
+        <div class="zone-card-body">
+          Tahun <strong>7</strong> sering memicu guncangan musim gugur; Tahun <strong>8 &amp; 9</strong> adalah fase euforia akhir untuk <strong>distribusi (jual) sebelum Tahun 0</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Catatan Bawah & Tanda Tangan W.D. Gann -->
+    <footer class="card-footer">
+      <div class="legend-note-block">
+        <p>
+          <strong>Hukum Harmonik Waktu W.D. Gann (1936):</strong> Setiap dekade (10 tahun) mengulang ritme psikologi massa berdasarkan angka terakhir tahun kalender, dan gema terkuatnya berulang secara presisi setiap <strong>20 tahun</strong> (siklus generasi), <strong>30 tahun</strong>, serta <strong>60 tahun</strong> (<em>The Great Master Cycle</em>).
+        </p>
+      </div>
+
+      <div class="signature-block">
+        <span class="signature-name">W.D. Gann</span>
+        <span class="signature-year">1936</span>
+      </div>
+    </footer>
+
+    <!-- Kolofon Resmi Developer -->
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Reconstructed &amp; Extended 10-Year &amp; 60-Year Master Time Projection</span>
+      <span class="dev-stamp">&#10022; Developer: Orixtron Technology &#10022;</span>
+    </div>
+  </main>
+
+  <!-- KALKULATOR PREDIKSI POLA DEKADE GANN (SEMUA TAHUN) -->
+  <section class="parchment-card predictor-panel">
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text" style="font-size: clamp(1.8rem, 4vw, 3.2rem);">ORIXTRON TECHNOLOGY</span>
+    </div>
+
+    <div class="predictor-header">
+      <h2 class="predictor-title">Kalkulator Pola Dekade &amp; Master Cycle Gann (Semua Tahun)</h2>
+      <span class="predictor-subtitle">Identifikasi karakter digit akhir (0–9) &amp; gema historis siklus 20, 30, dan 60 tahun</span>
+    </div>
+
+    <div class="predictor-form">
+      <div class="year-input-box">
+        <label for="targetYearInput">Masukkan Tahun:</label>
+        <input type="number" id="targetYearInput" value="2026" min="1" max="9999" />
+      </div>
+      <button class="predict-submit-btn" onclick="runGannPrediction()">Analisis Tahun</button>
+
+      <div class="quick-years">
+        <span style="font-weight:700; color:var(--ink-sepia);">Uji Digit 0–9:</span>
+        <button class="vintage-btn" onclick="selectYear(2020)">2020 (0)</button>
+        <button class="vintage-btn" onclick="selectYear(2022)">2022 (2)</button>
+        <button class="vintage-btn" onclick="selectYear(2025)">2025 (5)</button>
+        <button class="vintage-btn" onclick="selectYear(2026)">2026 (6)</button>
+        <button class="vintage-btn" onclick="selectYear(2027)">2027 (7)</button>
+        <button class="vintage-btn" onclick="selectYear(2028)">2028 (8)</button>
+        <button class="vintage-btn" onclick="selectYear(2029)">2029 (9)</button>
+        <button class="vintage-btn" onclick="selectYear(2035)">2035 (5)</button>
+      </div>
+    </div>
+
+    <div class="prediction-result" id="predictionResult">
+      <!-- Diisi otomatis oleh JavaScript -->
+    </div>
+
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Gann Decennial &amp; 60-Year Master Engine &bull; Multi-Century Support</span>
+      <span class="dev-stamp">&#10022; Orixtron Technology &#10022;</span>
+    </div>
+  </section>
+
+  <div class="global-dev-footer">
+    ENGINEERED BY ORIXTRON TECHNOLOGY &bull; W.D. GANN DECENNIAL EDITION
+  </div>
+
+  <script>
+    /**
+     * MODEL POLA DEKADE W.D. GANN (DECENNIAL PATTERN & 60-YEAR MASTER CYCLE)
+     * Engineered by Orixtron Technology
+     */
+
+    const DECENNIAL_PROFILES = {
+      0: {
+        zone: 'bottom',
+        badgeClass: 'badge-bottom',
+        roleShort: 'Reset / Bear',
+        titleSuffix: 'Tahun Berakhirnya Puncak & Transisi Bear Market',
+        histExamples: '1920, 1930, 1960, 1990, 2000 (Dot-Com Peak), 2020 (Pandemic Shock)',
+        desc: 'Dalam pola Gann, tahun berakhiran 0 sering membawa sisa momentum dari puncak tahun 9 di kuartal awal, namun segera berbalik menjadi fase likuidasi dan penurunan tajam yang menghapus ekses spekulatif dekade sebelumnya.',
+        strategy: '<strong>Strategi Make Money (Defensif & Lindung Nilai):</strong> Hindari mengejar euforia awal tahun; perbesar porsi <em>kas likuid dan aset defensif</em> sambil bersiap menyambut titik dasar di tahun 1 dan 2.'
+      },
+      1: {
+        zone: 'bottom',
+        badgeClass: 'badge-bottom',
+        roleShort: 'Early Bottom',
+        titleSuffix: 'Penyelesaian Bear Market & Pembentukan Dasar Awal',
+        histExamples: '1921, 1931, 1981, 2001, 2011, 2021 (Post-Stimulus Peak)',
+        desc: 'Tahun berakhiran 1 menandai fase kapitulasi lanjutan dari tekanan tahun 0. Volatilitas masih tinggi, tetapi valuasi saham-saham fundamental mulai menyentuh zona diskon yang menarik bagi investor jangka panjang.',
+        strategy: '<strong>Strategi Make Money (Akumulasi Bertahap / DCA):</strong> Mulai menyusun daftar pantau (<em>watchlist</em>) saham berfundamental kuat dan lakukan pembelian bertahap saat sentimen publik paling pesimistis.'
+      },
+      2: {
+        zone: 'bottom',
+        badgeClass: 'badge-bottom',
+        roleShort: 'Major Bottom',
+        titleSuffix: 'Titik Balik Utama (Major Bottom) & Awal Bull Market',
+        histExamples: '1932 (Great Depression Low), 1942, 1962, 1982 (Secular Bull Start), 2002, 2022',
+        desc: 'Secara historis, tahun berakhiran 2 adalah salah satu titik beli terbaik dalam setiap dekade. Setelah tekanan jual terakhir mereda pada paruh pertama/ketiga tahun, pasar membangun fondasi tren naik multi-tahun.',
+        strategy: '<strong>Strategi Make Money (Akumulasi Agresif):</strong> Eksekusi pembelian penuh pada <em>indeks utama, saham siklikal, dan pemimpin sektor baru</em> untuk ditahan menuju gelombang kenaikan dekade.'
+      },
+      3: {
+        zone: 'markup',
+        badgeClass: 'badge-markup',
+        roleShort: 'Bull Markup',
+        titleSuffix: 'Konfirmasi Tren Naik Baru & Ekspansi Laba',
+        histExamples: '1923, 1933, 1963, 1983, 2003, 2013, 2023',
+        desc: 'Tahun berakhiran 3 merupakan tahun penuh pertama dari fase ekspansi (<em>markup</em>). Partisipasi institusi meningkat seiring pemulihan pertumbuhan ekonomi dan ekspansi likuiditas.',
+        strategy: '<strong>Strategi Make Money (Trend Following / Hold):</strong> Pertahankan posisi inti dari dasar tahun 2 dan manfaatkan setiap koreksi minor sebagai peluang <em>add-on</em>.'
+      },
+      4: {
+        zone: 'markup',
+        badgeClass: 'badge-markup',
+        roleShort: 'Mid Pause',
+        titleSuffix: 'Konsolidasi Paruh Dekade & Batu Loncatan Kenaikan',
+        histExamples: '1924, 1934, 1984, 1994, 2004, 2014, 2024',
+        desc: 'Tahun berakhiran 4 umumnya bergerak mendatar atau mengalami koreksi sehat di paruh pertama untuk mencerna kenaikan tahun 3, sebelum menembus resistensi di akhir tahun sebagai persiapan menuju tahun 5.',
+        strategy: '<strong>Strategi Make Money (Rotasi & Akumulasi Pra-Tahun 5):</strong> Gunakan fase konsolidasi tahun 4 untuk merotasi modal ke <em>saham pertumbuhan dan komoditas</em> menjelang "Tahun Kenaikan" (Tahun 5).'
+      },
+      5: {
+        zone: 'ascend',
+        badgeClass: 'badge-ascend',
+        roleShort: 'Ascension',
+        titleSuffix: 'The Year of Ascension — Tahun Paling Bullish dalam Dekade',
+        histExamples: '1925, 1935, 1955, 1975, 1985, 1995, 2005, 2015, 2025',
+        desc: 'W.D. Gann mencatat tahun berakhiran 5 sebagai tahun dengan probabilitas kenaikan tertinggi dan paling konsisten dalam satu dekade penuh. Momentum pasar menguat luas di hampir seluruh kelas aset berisiko.',
+        strategy: '<strong>Strategi Make Money (Maksimalkan Momentum Bullish):</strong> Biarkan keuntungan berjalan (<em>let winners run</em>) pada ekuitas berbeta tinggi dan pemimpin tren utama sepanjang tahun.'
+      },
+      6: {
+        zone: 'ascend',
+        badgeClass: 'badge-ascend',
+        roleShort: 'Volatile Bull',
+        titleSuffix: 'Kelanjutan Tren Naik dengan Volatilitas Menengah',
+        histExamples: '1926, 1936, 1966, 1986, 1996, 2006, 2016, 2026',
+        desc: 'Tahun berakhiran 6 melanjutkan tren naik dari tahun 5, tetapi disertai rotasi sektor yang lebih tajam dan guncangan koreksi di pertengahan tahun sebelum reli kembali menguji area puncak baru.',
+        strategy: '<strong>Strategi Make Money (Selective Stock Picking & Trailing Stop):</strong> Fokus pada saham dengan kekuatan arus kas dan volume institusi (<em>bandarmology / order flow</em>); terapkan <em>trailing stop</em> untuk menjaga profit.'
+      },
+      7: {
+        zone: 'climax',
+        badgeClass: 'badge-climax',
+        roleShort: 'Pivot / Warn',
+        titleSuffix: 'Tahun Peringatan & Guncangan Musim Gugur (Pivot Year)',
+        histExamples: '1907 (Bank Panic), 1937, 1987 (Black Monday), 1997 (Krisis Asia), 2007 (Subprime Top)',
+        desc: 'Dalam catatan Gann, tahun berakhiran 7 adalah titik waspada utama. Pengetatan kredit dan valuasi yang mulai mahal kerap memicu koreksi tajam (sering terjadi pada Agustus–Oktober) yang menguji ketahanan tren.',
+        strategy: '<strong>Strategi Make Money (Manajemen Risiko Ketat):</strong> Kurangi eksposur <em>margin/leverage</em>, siapkan lindung nilai menjelang paruh kedua tahun, dan manfaatkan kepanikan singkat hanya jika tren besar belum patah.'
+      },
+      8: {
+        zone: 'climax',
+        badgeClass: 'badge-climax',
+        roleShort: 'Speculation',
+        titleSuffix: 'Fase Spekulasi Tinggi — Reli Parabolik atau Likuidasi',
+        histExamples: '1928 (Roaring Rally), 1968, 1998 (LTCM & Tech Surge), 2008 (GFC Crash), 2018',
+        desc: 'Tahun berakhiran 8 memiliki karakter ekstrem: jika tahun 7 hanya berupa koreksi ringan, tahun 8 berubah menjadi reli spekulatif besar-besaran (seperti 1928 & 1998); sebaliknya jika puncak tercapai di tahun 7, tahun 8 menjadi fase likuidasi dalam (seperti 2008).',
+        strategy: '<strong>Strategi Make Money (Tactical Momentum & Disiplin Cut-Loss):</strong> Ikuti arah tren dominan dengan ukuran posisi terukur; jangan pernah menahan posisi rugi melawan arus makro.'
+      },
+      9: {
+        zone: 'climax',
+        badgeClass: 'badge-climax',
+        roleShort: 'Final Climax',
+        titleSuffix: 'Klimaks Spekulasi Akhir Dekade & Zona Distribusi',
+        histExamples: '1929 (Wall Street Peak), 1969, 1989 (Nikkei Peak), 1999 (Dot-Com Mania), 2009 (Reversal Low)',
+        desc: 'Tahun berakhiran 9 umumnya menjadi panggung euforia ritel dan klimaks akhir dari siklus 10-tahunan sebelum berbalik turun memasuki tahun 0 (kecuali apabila tahun 8 telah mengalami krisis besar sehingga tahun 9 menjadi titik balik pemulihan).',
+        strategy: '<strong>Strategi Make Money (Distribusi / Unload Bertahap):</strong> Jual sebagian besar posisi spekulatif di tengah euforia berita positif dan tingkatkan cadangan kas sebelum memasuki tahun 0.'
+      }
+    };
+
+    // Titik kontrol kurva Decennial untuk d dalam [0.0 .. 10.0]
+    const CURVE_KEYPOINTS = [
+      [0.0, 0.86],
+      [0.8, 0.42],
+      [1.6, 0.18],
+      [2.3, 0.08],
+      [3.5, 0.44],
+      [4.2, 0.36],
+      [4.8, 0.55],
+      [5.6, 0.84],
+      [6.5, 0.74],
+      [7.5, 0.62],
+      [8.6, 0.90],
+      [9.5, 0.98],
+      [10.0, 0.86]
+    ];
+
+    let currentStartYear = 2020;
+    let currentEndYear = 2030;
+    let highlightedYear = 2026;
+
+    function getDecennialDigit(year) {
+      return ((year % 10) + 10) % 10;
+    }
+
+    function getDecennialCurveY(exactYear) {
+      const d = ((exactYear % 10) + 10) % 10;
+      for (let i = 0; i < CURVE_KEYPOINTS.length - 1; i++) {
+        const [x0, y0] = CURVE_KEYPOINTS[i];
+        const [x1, y1] = CURVE_KEYPOINTS[i + 1];
+        if (d >= x0 && d <= x1) {
+          const t = (d - x0) / (x1 - x0);
+          // Interpolasi kosinus halus
+          const mu = (1 - Math.cos(t * Math.PI)) / 2;
+          return y0 * (1 - mu) + y1 * mu;
+        }
+      }
+      return 0.5;
+    }
+
+    function renderGannChart(startYear, endYear) {
+      const svg = document.getElementById('gannSvg');
+      svg.innerHTML = '';
+
+      const firstExact = startYear;
+      const lastExact = endYear + 1;
+      const totalYears = lastExact - firstExact;
+
+      // Sesuaikan kerapatan piksel agar tampilan 1 dekade (11 tahun) memenuhi layar dengan lega
+      const pxPerYear = totalYears <= 15 ? 88 : (totalYears <= 35 ? 36 : 19);
+      const leftPad = 24;
+      const rightPad = 28;
+      const svgWidth = Math.max(960, Math.round(leftPad + totalYears * pxPerYear + rightPad));
+
+      svg.setAttribute('width', svgWidth);
+      svg.setAttribute('viewBox', `0 0 ${svgWidth} 380`);
+
+      const yHeaderBottom = 54;
+      const yAxisBottom = 336;
+      const yCurveTop = 82;
+      const yCurveBot = 304;
+      const curveSpanY = yCurveBot - yCurveTop;
+
+      const NS = 'http://www.w3.org/2000/svg';
+      const el = (tag, attrs) => {
+        const node = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+        return node;
+      };
+
+      const yearToX = (y) => leftPad + (y - firstExact) * pxPerYear;
+
+      // Watermark Terukir di dalam Kanvas SVG
+      for (let wx = 320; wx < svgWidth - 140; wx += 580) {
+        const wm = el('text', {
+          x: wx,
+          y: 266,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '15',
+          'letter-spacing': '4',
+          fill: 'rgba(74, 50, 29, 0.13)'
+        });
+        wm.textContent = 'ORIXTRON TECHNOLOGY';
+        svg.appendChild(wm);
+      }
+
+      // Garis Pembatas Horizontal
+      svg.appendChild(el('line', { x1: 0, y1: yHeaderBottom, x2: svgWidth, y2: yHeaderBottom, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: yAxisBottom, x2: svgWidth, y2: yAxisBottom, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: 195, x2: svgWidth, y2: 195, stroke: '#5c3f24', 'stroke-dasharray': '4,4', 'stroke-width': 1 }));
+
+      // Header Dekade di Bagian Atas
+      const startDecade = Math.floor(startYear / 10) * 10;
+      const endDecade = Math.floor(endYear / 10) * 10;
+
+      for (let dec = startDecade; dec <= endDecade; dec += 10) {
+        const dStartX = Math.max(leftPad, yearToX(dec));
+        const dEndX = Math.min(svgWidth - rightPad, yearToX(dec + 10));
+
+        if (dec >= firstExact && dec <= lastExact) {
+          svg.appendChild(el('line', {
+            x1: yearToX(dec),
+            y1: 0,
+            x2: yearToX(dec),
+            y2: 380,
+            stroke: '#2c1e12',
+            'stroke-width': 1.5
+          }));
+        }
+
+        if (dEndX - dStartX > 90) {
+          const dCenter = (dStartX + dEndX) / 2;
+          const hTitle = el('text', {
+            x: dCenter,
+            y: 23,
+            'text-anchor': 'middle',
+            'font-family': 'Cinzel, serif',
+            'font-weight': '700',
+            'font-size': '12.5',
+            fill: '#2c1e12'
+          });
+          hTitle.textContent = `DEKADE ${dec}-AN (${dec}–${dec + 9})`;
+          svg.appendChild(hTitle);
+
+          const hSub = el('text', {
+            x: dCenter,
+            y: 42,
+            'text-anchor': 'middle',
+            'font-family': 'Cormorant Garamond, serif',
+            'font-style': 'italic',
+            'font-weight': '600',
+            'font-size': '12.5',
+            fill: '#4a321d'
+          });
+          hSub.textContent = `Dasar: ${dec + 2} • Ascension: ${dec + 5} • Klimaks: ${dec + 9}`;
+          svg.appendChild(hSub);
+        }
+      }
+
+      // Shading per Tahun Berdasarkan Digit (0–9) & Grid Tahunan
+      const zoneColors = {
+        bottom: 'rgba(30, 75, 107, 0.085)',
+        markup: 'rgba(46, 90, 54, 0.08)',
+        ascend: 'rgba(156, 90, 26, 0.09)',
+        climax: 'rgba(139, 38, 29, 0.085)'
+      };
+
+      const roleTextColors = {
+        bottom: '#1e4b6b',
+        markup: '#2e5a36',
+        ascend: '#9c5a1a',
+        climax: '#8b261d'
+      };
+
+      for (let y = startYear; y <= endYear; y++) {
+        const digit = getDecennialDigit(y);
+        const profile = DECENNIAL_PROFILES[digit];
+        const xLeft = yearToX(y);
+        const xCenter = yearToX(y + 0.5);
+
+        svg.appendChild(el('rect', {
+          x: xLeft,
+          y: yHeaderBottom,
+          width: pxPerYear,
+          height: yAxisBottom - yHeaderBottom,
+          fill: zoneColors[profile.zone]
+        }));
+
+        svg.appendChild(el('line', {
+          x1: xLeft,
+          y1: yHeaderBottom,
+          x2: xLeft,
+          y2: yAxisBottom,
+          stroke: 'rgba(74, 50, 29, 0.18)',
+          'stroke-dasharray': digit === 0 ? 'none' : '2,3',
+          'stroke-width': digit === 0 ? 1.4 : 1
+        }));
+
+        // Label Peran Digit di bagian bawah area grafik (jika lebar kolom cukup)
+        if (pxPerYear >= 34) {
+          const roleLbl = el('text', {
+            x: xCenter,
+            y: yAxisBottom - 10,
+            'text-anchor': 'middle',
+            'font-family': 'Cinzel, serif',
+            'font-weight': '700',
+            'font-size': pxPerYear >= 70 ? '10' : '8.5',
+            fill: roleTextColors[profile.zone]
+          });
+          roleLbl.textContent = pxPerYear >= 70 ? profile.roleShort : `[${digit}]`;
+          svg.appendChild(roleLbl);
+        }
+
+        // Label Tahun di Sumbu Bawah
+        const showYearLbl = pxPerYear >= 26 || digit === 0 || digit === 2 || digit === 5 || digit === 9 || y === highlightedYear;
+        if (showYearLbl) {
+          const yLbl = el('text', {
+            x: xCenter,
+            y: 363,
+            'text-anchor': 'middle',
+            'font-family': y === highlightedYear ? 'Cinzel, serif' : 'Cormorant Garamond, serif',
+            'font-weight': '700',
+            'font-size': y === highlightedYear ? '13' : '12.5',
+            fill: y === highlightedYear ? '#8b261d' : '#2c1e12',
+            style: 'cursor:pointer;'
+          });
+          yLbl.textContent = y;
+          yLbl.onclick = () => selectYear(y);
+          svg.appendChild(yLbl);
+        }
+      }
+
+      // Bangun Path Kurva Gann Decennial + Harmonik Sekunder
+      let mainPts = [];
+      let harmonicPts = [];
+      const step = 0.1;
+
+      for (let t = firstExact; t <= lastExact; t += step) {
+        const yNorm = getDecennialCurveY(t);
+        const py = yCurveBot - yNorm * curveSpanY;
+        // Harmonik 20-tahunan halus sebagai lapisan referensi
+        const harmOffset = 10 * Math.sin(((t % 20) / 20) * 2 * Math.PI);
+        const hy = py + harmOffset;
+
+        const px = yearToX(t).toFixed(1);
+        mainPts.push(`${px},${py.toFixed(1)}`);
+        harmonicPts.push(`${px},${hy.toFixed(1)}`);
+      }
+
+      // Garis Harmonik 20-Tahun tipis putus-putus
+      svg.appendChild(el('polyline', {
+        points: harmonicPts.join(' '),
+        fill: 'none',
+        stroke: 'rgba(110, 79, 50, 0.52)',
+        'stroke-width': 1.2,
+        'stroke-dasharray': '3,3'
+      }));
+
+      // Garis Utama Gann Decennial (Litografi Ganda Emas-Coklat + Tinta Gelap)
+      svg.appendChild(el('polyline', {
+        points: mainPts.join(' '),
+        fill: 'none',
+        stroke: '#9b682c',
+        'stroke-width': 5.2,
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round',
+        opacity: '0.88'
+      }));
+
+      svg.appendChild(el('polyline', {
+        points: mainPts.join(' '),
+        fill: 'none',
+        stroke: '#2c1e12',
+        'stroke-width': 1.5,
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      }));
+
+      // Titik Simpul Digit (0–9) di sepanjang kurva saat mode 1 dekade atau 30 tahun
+      if (pxPerYear >= 34) {
+        for (let y = startYear; y <= endYear; y++) {
+          const cx = yearToX(y + 0.5);
+          const cy = yCurveBot - getDecennialCurveY(y + 0.5) * curveSpanY;
+          const digit = getDecennialDigit(y);
+
+          const node = el('circle', {
+            cx: cx,
+            cy: cy,
+            r: y === highlightedYear ? 6.5 : 4,
+            fill: y === highlightedYear ? '#8b261d' : '#f5e6ca',
+            stroke: y === highlightedYear ? '#fff7e8' : '#2c1e12',
+            'stroke-width': y === highlightedYear ? 2 : 1.5,
+            style: 'cursor:pointer;'
+          });
+          node.onclick = () => selectYear(y);
+          svg.appendChild(node);
+
+          if (pxPerYear >= 70 && y !== highlightedYear) {
+            const dBadge = el('text', {
+              x: cx,
+              y: cy - 10,
+              'text-anchor': 'middle',
+              'font-family': 'Cinzel, serif',
+              'font-weight': '700',
+              'font-size': '10.5',
+              fill: '#4a321d',
+              style: 'cursor:pointer;'
+            });
+            dBadge.textContent = `Digit ${digit}`;
+            dBadge.onclick = () => selectYear(y);
+            svg.appendChild(dBadge);
+          }
+        }
+      }
+
+      // Jarum Penanda Tahun Aktif
+      const targetExact = highlightedYear + 0.5;
+      if (targetExact >= firstExact && targetExact <= lastExact) {
+        const hx = yearToX(targetExact);
+        const hy = yCurveBot - getDecennialCurveY(targetExact) * curveSpanY;
+
+        svg.appendChild(el('line', {
+          x1: hx,
+          y1: yHeaderBottom,
+          x2: hx,
+          y2: yAxisBottom,
+          stroke: '#8b261d',
+          'stroke-width': 2.2,
+          'stroke-dasharray': '5,3'
+        }));
+
+        svg.appendChild(el('circle', {
+          cx: hx,
+          cy: hy,
+          r: 6.5,
+          fill: '#8b261d',
+          stroke: '#fff7e8',
+          'stroke-width': 2
+        }));
+
+        const badgeW = 68;
+        svg.appendChild(el('rect', {
+          x: hx - badgeW / 2,
+          y: yHeaderBottom + 6,
+          width: badgeW,
+          height: 20,
+          rx: 2,
+          fill: '#8b261d'
+        }));
+
+        const badgeTxt = el('text', {
+          x: hx,
+          y: yHeaderBottom + 20,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '11',
+          fill: '#fff7e8'
+        });
+        badgeTxt.textContent = `${highlightedYear} [${getDecennialDigit(highlightedYear)}]`;
+        svg.appendChild(badgeTxt);
+
+        const scrollArea = document.getElementById('chartScrollArea');
+        const targetScroll = hx - scrollArea.clientWidth / 2;
+        scrollArea.scrollLeft = Math.max(0, targetScroll);
+      }
+
+      // Klik pada kanvas untuk memilih tahun
+      svg.onclick = (e) => {
+        if (e.target.tagName === 'text' || e.target.tagName === 'circle') return;
+        const rect = svg.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const clickedYear = Math.floor(firstExact + (clickX - leftPad) / pxPerYear);
+        if (clickedYear >= startYear && clickedYear <= endYear) {
+          selectYear(clickedYear);
+        }
+      };
+    }
+
+    function setDecadeRange(start, end, btnElement) {
+      currentStartYear = start;
+      currentEndYear = end;
+      if (btnElement) {
+        document.querySelectorAll('.chart-controls .vintage-btn').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+      }
+      renderGannChart(currentStartYear, currentEndYear);
+    }
+
+    function selectYear(year) {
+      document.getElementById('targetYearInput').value = year;
+      runGannPrediction();
+    }
+
+    function runGannPrediction() {
+      const input = document.getElementById('targetYearInput');
+      const year = parseInt(input.value, 10);
+      if (isNaN(year)) return;
+
+      highlightedYear = year;
+      const digit = getDecennialDigit(year);
+      const profile = DECENNIAL_PROFILES[digit];
+
+      const yMinus60 = year - 60;
+      const yMinus30 = year - 30;
+      const yMinus20 = year - 20;
+      const yMinus10 = year - 10;
+      const yPlus10 = year + 10;
+
+      const resultBox = document.getElementById('predictionResult');
+      resultBox.innerHTML = `
+        <div>
+          <span class="result-badge ${profile.badgeClass}">DIGIT AKHIR TAHUN: ${digit} &bull; POLA DEKADE GANN</span>
+          <h3 class="result-headline">Tahun ${year}: ${profile.titleSuffix}</h3>
+          <div class="result-hist-note">&#128220; Preseden Historis Digit ${digit}: ${profile.histExamples}</div>
+          <p class="result-desc">${profile.desc}</p>
+          <div class="asset-allocation-box">${profile.strategy}</div>
+        </div>
+        <div class="cycle-neighbors">
+          <div style="font-family:'Cinzel',serif; font-weight:700; font-size:0.98rem; color:var(--ink-sepia); margin-bottom:2px;">
+            Gema Harmonik Waktu Gann (Digit ${digit})
+          </div>
+          <div class="neighbor-row">
+            <span class="neighbor-label">Master Cycle (-60 Tahun):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${yMinus60})">${yMinus60}</span>
+            </span>
+          </div>
+          <div class="neighbor-row">
+            <span class="neighbor-label">Half-Master (-30 Tahun):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${yMinus30})">${yMinus30}</span>
+            </span>
+          </div>
+          <div class="neighbor-row">
+            <span class="neighbor-label">Siklus Generasi (-20 Tahun):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${yMinus20})">${yMinus20}</span>
+            </span>
+          </div>
+          <div class="neighbor-row">
+            <span class="neighbor-label">Dekade Sebelumnya (-10 Thn):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${yMinus10})">${yMinus10}</span>
+            </span>
+          </div>
+          <div class="neighbor-row">
+            <span class="neighbor-label">Dekade Berikutnya (+10 Thn):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${yPlus10})">${yPlus10}</span>
+            </span>
+          </div>
+          <div style="font-size:0.88rem; font-style:italic; color:var(--ink-faded); margin-top:4px;">
+            *Klik tahun analog di atas untuk menelusuri gema siklus 60-tahun W.D. Gann.
+          </div>
+        </div>
+      `;
+
+      // Sesuaikan rentang grafik otomatis jika tahun berada di luar rentang aktif
+      if (year < currentStartYear || year > currentEndYear) {
+        document.querySelectorAll('.chart-controls .vintage-btn').forEach(b => b.classList.remove('active'));
+        const decStart = Math.floor(year / 10) * 10;
+        currentStartYear = decStart;
+        currentEndYear = decStart + 10;
+      }
+
+      renderGannChart(currentStartYear, currentEndYear);
+    }
+
+    document.getElementById('targetYearInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') runGannPrediction();
+    });
+
+    // Drag-to-scroll pada kanvas grafik
+    const scrollArea = document.getElementById('chartScrollArea');
+    let isDown = false, startX, scrollLeft;
+    scrollArea.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - scrollArea.offsetLeft;
+      scrollLeft = scrollArea.scrollLeft;
+    });
+    scrollArea.addEventListener('mouseleave', () => { isDown = false; });
+    scrollArea.addEventListener('mouseup', () => { isDown = false; });
+    scrollArea.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - scrollArea.offsetLeft;
+      const walk = (x - startX) * 1.4;
+      scrollArea.scrollLeft = scrollLeft - walk;
+    });
+
+    // Inisialisasi awal
+    runGannPrediction();
+  </script>
+</body>
+</html>
