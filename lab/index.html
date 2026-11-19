@@ -1,0 +1,2763 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LAB EDUKASI MARKET & QUANT — Edisi Buku Kerja</title>
+
+  <!-- Google Fonts: Lora (Judul Akademik), Plus Jakarta Sans (Bacaan Nyaman), JetBrains Mono (Angka & Rumus) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lora:ital,wght@0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Lora"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            paperbg: '#F7F4EC',
+            papersheet: '#FFFDF9',
+            paperborder: '#DCD6C8',
+            ink: '#1A2230',
+            graphite: '#4A5568',
+            blueprint: '#1D4ED8',
+            crimson: '#C81E1E',
+            emeraldink: '#0F766E',
+            amberink: '#B45309',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* ==========================================================================
+       TEMA VISUAL: LEMBAR KERJA KERTAS AKADEMIK & MATEMATIKA
+       ========================================================================== */
+    :root {
+      --paper-bg: #F7F4EC;
+      --paper-sheet: #FFFDF9;
+      --paper-border: #DCD6C8;
+      --ink-main: #1A2230;
+      --ink-muted: #4A5568;
+      --ink-blue: #1D4ED8;
+      --ink-red: #C81E1E;
+      --ink-green: #0F766E;
+      --prose-size: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--paper-bg);
+      color: var(--ink-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      /* Latar Belakang Kertas Grafik / Milimeter Blok Halus (24px & 120px) */
+      background-image:
+        linear-gradient(to right, rgba(30, 41, 59, 0.085) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(30, 41, 59, 0.085) 1px, transparent 1px),
+        linear-gradient(to right, rgba(30, 41, 59, 0.045) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(30, 41, 59, 0.045) 1px, transparent 1px);
+      background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+      background-position: -1px -1px;
+    }
+
+    /* Lembar Kerja Kertas Bersih dengan Tanda Bidik Sudut (+ Drafting Ticks) */
+    .paper-card {
+      position: relative;
+      background-color: var(--paper-sheet);
+      border: 1px solid var(--paper-border);
+      border-radius: 10px;
+      box-shadow: 0 4px 20px -4px rgba(26, 34, 48, 0.06), 0 1px 3px rgba(26, 34, 48, 0.04);
+    }
+
+    .paper-card::before,
+    .paper-card::after {
+      position: absolute;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1;
+      color: rgba(74, 85, 104, 0.45);
+      pointer-events: none;
+      user-select: none;
+    }
+    .paper-card::before {
+      content: '+';
+      top: 6px;
+      left: 8px;
+    }
+    .paper-card::after {
+      content: '+';
+      bottom: 6px;
+      right: 8px;
+    }
+
+    /* Ukuran Teks Bacaan Dinamis (A- / A+) */
+    .workbook-prose {
+      font-size: var(--prose-size);
+      line-height: 1.72;
+    }
+
+    /* Kotak "Inti Mudah Dipahami" dengan Stabilo Kuning Lembut */
+    .highlighter-box {
+      background-color: rgba(245, 158, 11, 0.14);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-left: 4px solid #D97706;
+      border-radius: 8px;
+    }
+
+    /* Kotak Rumus Matematika Akademik */
+    .math-box {
+      background-color: #F4F6FA;
+      border: 1px solid #CBD5E1;
+      border-left: 4px solid var(--ink-blue);
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Wadah Canvas Kertas Grafik */
+    .canvas-paper-box {
+      position: relative;
+      width: 100%;
+      background-color: #FCFBF7;
+      border: 1px solid #CFC8B8;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 4px rgba(26, 34, 48, 0.04);
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Custom Range Sliders Bertema Pena & Kertas */
+    input[type="range"].paper-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #E2DDD0;
+      border: 1px solid #C8C0AE;
+      border-radius: 999px;
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"].paper-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: #1D4ED8;
+      border: 2px solid #FFFDF9;
+      box-shadow: 0 1px 4px rgba(26, 34, 48, 0.35);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+    input[type="range"].paper-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+    input[type="range"].paper-slider.red::-webkit-slider-thumb {
+      background: #C81E1E;
+    }
+    input[type="range"].paper-slider.green::-webkit-slider-thumb {
+      background: #0F766E;
+    }
+
+    /* Item Navigasi Bab di Sidebar */
+    .chapter-nav-item {
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+    .chapter-nav-item:hover {
+      background-color: rgba(29, 78, 216, 0.05);
+    }
+    .chapter-nav-item.active {
+      background-color: rgba(29, 78, 216, 0.09);
+      border-left-color: #1D4ED8;
+      color: #1A2230;
+    }
+
+    /* Coretan Rumus Dekoratif di Pinggir Halaman Lebar */
+    .margin-doodle {
+      font-family: 'JetBrains Mono', monospace;
+      color: rgba(74, 85, 104, 0.16);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    /* Animasi Alert Modal */
+    @keyframes modalBackdropFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes modalSheetPopIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .modal-backdrop-enter {
+      animation: modalBackdropFadeIn 0.22s ease-out forwards;
+    }
+    .modal-sheet-enter {
+      animation: modalSheetPopIn 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Custom Scrollbar Halus */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F0ECE1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #C7BFA9;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #A69D85;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col antialiased selection:bg-amber-200 selection:text-ink">
+
+  <!-- ========================================================================
+       CORETAN MATEMATIKA MARGIN HALAMAN (DEKORATIF HALUS DI LAYAR LEBAR)
+       ======================================================================== -->
+  <div aria-hidden="true" class="hidden 2xl:block fixed left-6 top-28 margin-doodle text-xs space-y-12 z-0">
+    <div>∑ P(x<sub>i</sub>) = 1.00</div>
+    <div>ΔP = P<sub>t</sub> - P<sub>t-1</sub></div>
+    <div>Z = (x - μ) / σ</div>
+    <div>RRR = Reward / Risk</div>
+  </div>
+  <div aria-hidden="true" class="hidden 2xl:block fixed right-6 top-32 margin-doodle text-xs text-right space-y-12 z-0">
+    <div>E[R] = (p · W) - (q · L)</div>
+    <div>±1σ ≈ 68.2% | ±2σ ≈ 95.4%</div>
+    <div>FVG: Low<sub>3</sub> &gt; High<sub>1</sub></div>
+    <div>S<sub>t</sub> = S<sub>0</sub> · e<sup>(μ - ½σ²)t + σW<sub>t</sub></sup></div>
+  </div>
+
+  <!-- ========================================================================
+       TOP BAR RINGKAS (TINGGI 56PX)
+       ======================================================================== -->
+  <header class="sticky top-0 z-40 h-14 bg-papersheet/95 backdrop-blur-md border-b border-paperborder px-3 sm:px-5 flex items-center justify-between shadow-xs">
+    <!-- Kiri: Tombol Toggle Sidebar & Judul Buku Kerja -->
+    <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+      <button
+        id="btn-toggle-sidebar"
+        type="button"
+        aria-label="Buka atau tutup daftar bab"
+        class="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-paperborder bg-paperbg hover:bg-amber-50/80 text-ink font-medium text-xs sm:text-sm transition cursor-pointer"
+      >
+        <span class="font-mono text-base leading-none">☰</span>
+        <span class="hidden sm:inline">Daftar Bab</span>
+      </button>
+
+      <div class="flex items-center gap-2 min-w-0">
+        <!-- Ikon Buku & Grafik Kertas -->
+        <span class="hidden md:inline-flex w-7 h-7 rounded bg-blueprint/10 border border-blueprint/30 text-blueprint items-center justify-center font-serif font-bold text-sm shrink-0">
+          ∑
+        </span>
+        <h1 class="font-serif font-bold text-sm sm:text-base md:text-lg text-ink truncate">
+          LAB EDUKASI MARKET &amp; QUANT <span class="font-sans font-normal text-graphite text-xs sm:text-sm">— Edisi Buku Kerja</span>
+        </h1>
+      </div>
+    </div>
+
+    <!-- Kanan: Tombol Halaman Master, Indikator Progres Bab & Pengatur Ukuran Huruf (A- / A+) -->
+    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+      <button
+        id="btn-open-master-modal"
+        type="button"
+        title="Buka pilihan ke Halaman Master (/highlab)"
+        class="px-2.5 py-1 rounded-md bg-amber-500/15 hover:bg-amber-500/25 text-amberink border border-amber-500/35 font-mono text-xs font-semibold transition cursor-pointer"
+      >
+        ↗ Master Lab
+      </button>
+
+      <span id="topbar-progress" class="px-2.5 py-1 rounded-md bg-blueprint/10 text-blueprint border border-blueprint/25 font-mono text-xs font-semibold">
+        Bab 1 / 6
+      </span>
+
+      <div class="inline-flex items-center rounded-md border border-paperborder bg-paperbg overflow-hidden font-mono text-xs" role="group" aria-label="Pengatur ukuran huruf">
+        <button id="btn-font-dec" type="button" title="Perkecil huruf" class="px-2 py-1 hover:bg-slate-200/70 text-ink font-semibold transition cursor-pointer">
+          A-
+        </button>
+        <span class="w-px h-4 bg-paperborder"></span>
+        <button id="btn-font-inc" type="button" title="Perbesar huruf" class="px-2 py-1 hover:bg-slate-200/70 text-ink font-semibold transition cursor-pointer">
+          A+
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       WORKSPACE WRAPPER: COLLAPSIBLE SIDEBAR DRAWER + MAIN A4 WORKBOOK SHEET
+       ======================================================================== -->
+  <div class="flex-1 flex relative">
+
+    <!-- Backdrop Mobile saat Sidebar Terbuka -->
+    <div id="sidebar-backdrop" class="fixed inset-0 bg-ink/30 backdrop-blur-[1px] z-30 hidden lg:hidden"></div>
+
+    <!-- SIDEBAR KIRI YANG BISA DILIPAT (COLLAPSIBLE DRAWER) -->
+    <aside
+      id="sidebar-drawer"
+      aria-label="Navigasi Daftar Bab"
+      class="fixed lg:sticky top-14 left-0 z-30 h-[calc(100vh-3.5rem)] w-72 bg-papersheet border-r border-paperborder flex flex-col justify-between transition-all duration-200 ease-out overflow-y-auto shrink-0"
+    >
+      <div class="p-4">
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-paperborder">
+          <div>
+            <div class="font-mono text-[10px] uppercase tracking-wider text-graphite">Kurikulum Terstruktur</div>
+            <div class="font-serif font-bold text-sm text-ink">Daftar Isi Buku Kerja</div>
+          </div>
+          <button id="btn-close-sidebar-mobile" type="button" class="lg:hidden p-1.5 rounded text-graphite hover:text-ink hover:bg-paperbg cursor-pointer" aria-label="Tutup menu">
+            ✕
+          </button>
+        </div>
+
+        <!-- Daftar 6 Bab -->
+        <nav class="space-y-1.5">
+          <button type="button" data-chapter="0" class="chapter-nav-item active w-full text-left px-3 py-2.5 rounded-r-lg cursor-pointer">
+            <div class="font-mono text-[11px] font-semibold text-blueprint">BAB 01 // DASAR TRANSAKSI</div>
+            <div class="font-sans font-semibold text-xs sm:text-sm text-ink mt-0.5">Jenis Order (Market, Limit, Stop, OCO)</div>
+          </button>
+
+          <button type="button" data-chapter="1" class="chapter-nav-item w-full text-left px-3 py-2.5 rounded-r-lg cursor-pointer">
+            <div class="font-mono text-[11px] font-semibold text-blueprint">BAB 02 // STRUKTUR GRAFIK</div>
+            <div class="font-sans font-semibold text-xs sm:text-sm text-ink mt-0.5">SBR/RBS, FVG &amp; Pola Quasimodo (QM)</div>
+          </button>
+
+          <button type="button" data-chapter="2" class="chapter-nav-item w-full text-left px-3 py-2.5 rounded-r-lg cursor-pointer">
+            <div class="font-mono text-[11px] font-semibold text-crimson">BAB 03 // JEBAKAN PASAR</div>
+            <div class="font-sans font-semibold text-xs sm:text-sm text-ink mt-0.5">Liquidity Grab &amp; Liquidity Hunter</div>
+          </button>
+
+          <button type="button" data-chapter="3" class="chapter-nav-item w-full text-left px-3 py-2.5 rounded-r-lg cursor-pointer">
+            <div class="font-mono text-[11px] font-semibold text-emeraldink">BAB 04 // RENCANA EKSEKUSI</div>
+            <div class="font-sans font-semibold text-xs sm:text-sm text-ink mt-0.5">Panduan Entry, Stop Loss &amp; Take Profit</div>
+          </button>
+
+          <button type="button" data-chapter="4" class="chapter-nav-item w-full text-left px-3 py-2.5 rounded-r-lg cursor-pointer">
+            <div class="font-mono text-[11px] font-semibold text-amberink">BAB 05 // STATISTIK &amp; BERITA</div>
+            <div class="font-sans font-semibold text-xs sm:text-sm text-ink mt-0.5">Analisa Quant &amp; FOMC, CPI, PPI, NFP</div>
+          </button>
+
+          <button type="button" data-chapter="5" class="chapter-nav-item w-full text-left px-3 py-2.5 rounded-r-lg cursor-pointer">
+            <div class="font-mono text-[11px] font-semibold text-blueprint">BAB 06 // STRATEGI &amp; PROYEKSI</div>
+            <div class="font-sans font-semibold text-xs sm:text-sm text-ink mt-0.5">Scalping vs Swing &amp; Monte Carlo</div>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Catatan Kaki Sidebar -->
+      <div class="p-4 border-t border-paperborder bg-paperbg/60 space-y-2.5">
+        <div class="font-mono text-[11px] text-graphite leading-relaxed">
+          <strong class="text-ink">Tips Belajar:</strong> Baca analogi sehari-hari terlebih dahulu, lalu coba langsung tombol di simulator grafik kertas.
+        </div>
+        <a
+          href="/highlab"
+          data-src="/highlab"
+          class="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-md bg-blueprint hover:bg-blue-800 text-white font-mono text-xs font-semibold transition"
+        >
+          <span>Lanjut ke Master Curriculum</span>
+          <span>→</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ======================================================================
+         AREA BACA UTAMA: LEMBAR KERJA A4 (MAX-WIDTH 960PX) — 1 BAB PER WAKTU
+         ====================================================================== -->
+    <main class="flex-1 min-w-0 px-4 sm:px-6 md:px-8 py-6 sm:py-8 relative z-10">
+      <div class="max-w-[960px] mx-auto space-y-6 workbook-prose">
+
+        <!-- ====================================================================
+             BAB 1: JENIS ORDER DALAM TRADING & INVESTASI
+             ==================================================================== -->
+        <article id="chapter-0" class="chapter-section space-y-6">
+          <!-- Header Bab 1 -->
+          <div class="paper-card p-6 sm:p-8">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-paperborder font-mono text-xs">
+              <span class="text-blueprint font-semibold">BAB 01 // FONDASI EKSEKUSI TRANSAKSI</span>
+              <span class="text-graphite">Tingkat Pemahaman: Dasar (Sangat Mudah)</span>
+            </div>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-ink mb-3">
+              Jenis Order dalam Trading &amp; Investasi (Market, Limit, Stop, OCO)
+            </h2>
+            <p class="text-graphite">
+              Sebelum membaca grafik, kamu harus tahu cara "memesan" transaksi di aplikasi trading atau investasi. Banyak pemula salah menekan tombol sehingga membeli di harga kemahalan atau lupa memasang pengaman rugi.
+            </p>
+
+            <!-- Kotak Inti Mudah Dipahami -->
+            <div class="highlighter-box p-4 mt-5">
+              <div class="font-mono text-xs font-bold text-amberink uppercase mb-1">💡 Inti Mudah Dipahami (Analogi Belanja di Pasar)</div>
+              <p class="text-sm text-ink">
+                Membeli aset (saham, emas, forex, atau kripto) sama persis seperti belanja di pasar. Kamu bisa memilih: <strong>langsung bayar harga sekarang tanpa menawar</strong> (Market Order), atau <strong>menitip tawaran harga lebih murah ke penjual</strong> dan baru dibeli kalau harganya turun sesuai maumu (Limit Order).
+              </p>
+            </div>
+          </div>
+
+          <!-- Penjelasan 5 Jenis Order -->
+          <div class="paper-card p-6 sm:p-8 space-y-5">
+            <h3 class="font-serif text-xl font-bold text-ink border-b border-paperborder pb-2">
+              5 Jenis Perintah Order yang Wajib Kamu Kuasai
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- 1. Market Order -->
+              <div class="p-4 rounded-lg border border-paperborder bg-paperbg/50">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-blueprint/10 text-blueprint">1. MARKET ORDER</span>
+                  <span class="font-mono text-[11px] text-graphite">Eksekusi Instan</span>
+                </div>
+                <p class="text-sm text-ink mb-2">
+                  Perintah untuk <strong>beli atau jual detik ini juga</strong> di harga pasar terbaik yang sedang tersedia.
+                </p>
+                <p class="text-xs text-graphite bg-papersheet p-2.5 rounded border border-paperborder">
+                  <strong>Analogi:</strong> Masuk minimarket, ambil air mineral, langsung bayar di kasir sesuai harga label tanpa menawar. Cocok saat momentum sedang kencang dan kamu tidak mau ketinggalan kereta.
+                </p>
+              </div>
+
+              <!-- 2. Limit Order -->
+              <div class="p-4 rounded-lg border border-paperborder bg-paperbg/50">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-emeraldink/10 text-emeraldink">2. LIMIT ORDER</span>
+                  <span class="font-mono text-[11px] text-graphite">Harga Pasti / Diskon</span>
+                </div>
+                <p class="text-sm text-ink mb-2">
+                  Perintah antre untuk membeli <strong>lebih murah</strong> (<em>Buy Limit</em> di bawah harga sekarang) atau menjual <strong>lebih mahal</strong> (<em>Sell Limit</em> di atas harga sekarang).
+                </p>
+                <p class="text-xs text-graphite bg-papersheet p-2.5 rounded border border-paperborder">
+                  <strong>Analogi:</strong> Harga sepatu Rp 200 ribu, tapi kamu bilang ke penjual: <em>"Kalau nanti turun jadi Rp 170 ribu, baru saya beli."</em> Jika harga tidak menyentuh Rp 170 ribu, uangmu tetap aman.
+                </p>
+              </div>
+
+              <!-- 3. Stop Order & Stop-Limit -->
+              <div class="p-4 rounded-lg border border-paperborder bg-paperbg/50">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amberink">3. STOP ORDER &amp; STOP-LIMIT</span>
+                  <span class="font-mono text-[11px] text-graphite">Pemicu Tembus Batas</span>
+                </div>
+                <p class="text-sm text-ink mb-2">
+                  Pesanan yang baru aktif otomatis jika harga menembus garis batas tertentu. <strong>Buy Stop</strong> dipasang di atas harga sekarang (ikut beli saat atap jebol), sedangkan <strong>Sell Stop</strong> di bawah harga sekarang (jual otomatis saat lantai jebol).
+                </p>
+                <p class="text-xs text-graphite bg-papersheet p-2.5 rounded border border-paperborder">
+                  <strong>Catatan Stop-Limit:</strong> Menambahkan batas harga maksimal pada Stop Order agar saat pasar bergerak sangat liar, pesananmu tidak tereksekusi di harga yang terlalu meleset (<em>slippage</em>).
+                </p>
+              </div>
+
+              <!-- 4. Trailing Stop -->
+              <div class="p-4 rounded-lg border border-paperborder bg-paperbg/50">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-blueprint/10 text-blueprint">4. TRAILING STOP</span>
+                  <span class="font-mono text-[11px] text-graphite">Pengunci Profit</span>
+                </div>
+                <p class="text-sm text-ink mb-2">
+                  Batas rugi (<em>Stop Loss</em>) pintar yang <strong>otomatis bergeser naik mengikuti keuntungan</strong> saat harga bergerak sesuai harapanmu.
+                </p>
+                <p class="text-xs text-graphite bg-papersheet p-2.5 rounded border border-paperborder">
+                  <strong>Analogi:</strong> Seperti pengganjal roda mobil saat mendaki tanjakan. Saat mobil naik, ganjalan ikut maju; begitu mobil mundur sedikit, ganjalan langsung menahan agar tidak merosot jauh.
+                </p>
+              </div>
+            </div>
+
+            <!-- 5. OCO (One-Cancels-the-Other) -->
+            <div class="p-4 rounded-lg border border-paperborder bg-paperbg/50">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-crimson/10 text-crimson">5. OCO (ONE-CANCELS-THE-OTHER)</span>
+                <span class="font-mono text-[11px] text-graphite">Paket Lengkap TP + SL</span>
+              </div>
+              <p class="text-sm text-ink">
+                Fitur memasang <strong>dua pesanan sekaligus</strong>: satu target untung di atas (<em>Take Profit</em>) dan satu batas pengaman rugi di bawah (<em>Stop Loss</em>). Begitu harga menyentuh salah satu pesanan, pesanan satunya <strong>otomatis dibatalkan</strong> oleh sistem. Sangat berguna agar kamu bisa tidur nyenyak tanpa memelototi layar terus-menerus.
+              </p>
+            </div>
+
+            <!-- Rumus Posisi Order -->
+            <div class="math-box p-4 text-xs sm:text-sm">
+              <div class="font-bold text-blueprint mb-1">📐 Peta Posisi Order Terhadap Harga Sekarang (P<sub>0</sub>):</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-ink">
+                <div>• <span class="text-blueprint font-semibold">Buy Limit</span> &lt; P<sub>0</sub> &lt; <span class="text-blueprint font-semibold">Buy Stop</span></div>
+                <div>• <span class="text-crimson font-semibold">Sell Stop</span> &lt; P<sub>0</sub> &lt; <span class="text-emeraldink font-semibold">Sell Limit</span></div>
+              </div>
+              <div class="text-xs text-graphite mt-1.5">
+                Selisih antara harga jual terendah (<strong>Ask</strong>) dan harga beli tertinggi (<strong>Bid</strong>) disebut <strong>Spread = Ask − Bid</strong>.
+              </div>
+            </div>
+          </div>
+
+          <!-- SIMULATOR INTERAKTIF 1: ORDER BOOK & EKSEKUSI ORDER -->
+          <div class="paper-card p-5 sm:p-7 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-paperborder pb-3">
+              <div>
+                <span class="font-mono text-[11px] font-bold text-blueprint uppercase">Simulator Kertas 01 // Praktek Langsung</span>
+                <h3 class="font-serif text-lg sm:text-xl font-bold text-ink">Simulasi Market Order vs Limit Order &amp; Order Book</h3>
+              </div>
+              <button id="btn-sim1-reset" type="button" class="px-3 py-1.5 rounded border border-paperborder bg-paperbg hover:bg-slate-200/70 font-mono text-xs font-semibold text-ink cursor-pointer">
+                ↺ Reset Simulasi
+              </button>
+            </div>
+
+            <!-- Tombol Aksi Order -->
+            <div class="flex flex-wrap gap-2.5 font-mono text-xs">
+              <button id="btn-sim1-market" type="button" class="px-3.5 py-2 rounded-md bg-blueprint hover:bg-blue-800 text-white font-semibold shadow-xs cursor-pointer transition">
+                ⚡ Market Buy (Beli Sekarang)
+              </button>
+              <button id="btn-sim1-buylimit" type="button" class="px-3.5 py-2 rounded-md bg-emeraldink/10 hover:bg-emeraldink/20 text-emeraldink border border-emeraldink/40 font-semibold cursor-pointer transition">
+                ↓ Pasang Buy Limit (Antre Murah)
+              </button>
+              <button id="btn-sim1-selllimit" type="button" class="px-3.5 py-2 rounded-md bg-crimson/10 hover:bg-crimson/20 text-crimson border border-crimson/40 font-semibold cursor-pointer transition">
+                ↑ Pasang Sell Limit (Target Jual)
+              </button>
+            </div>
+
+            <!-- Status Telemetri Eksekusi -->
+            <div id="sim1-status-banner" class="p-3 rounded-lg bg-paperbg border border-paperborder font-mono text-xs text-ink flex flex-wrap items-center justify-between gap-2">
+              <span>Status: <strong id="sim1-status-text" class="text-blueprint">Harga bergerak live. Coba tekan tombol order di atas!</strong></span>
+              <span>Posisi Aktif: <strong id="sim1-pos-text" class="text-ink">Belum Ada Posisi</strong></span>
+            </div>
+
+            <!-- Grid Canvas + Mini Order Book -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+              <div class="lg:col-span-8 canvas-paper-box h-[310px] sm:h-[340px]">
+                <canvas id="canvas-bab1"></canvas>
+              </div>
+
+              <!-- Papan Antrean Order Book (Bid / Ask) -->
+              <div class="lg:col-span-4 rounded-lg border border-paperborder bg-paperbg/70 p-3.5 font-mono text-xs flex flex-col justify-between">
+                <div>
+                  <div class="text-[11px] font-bold text-graphite uppercase pb-2 mb-2 border-b border-paperborder flex justify-between">
+                    <span>Order Book (Antrean)</span>
+                    <span>Lot</span>
+                  </div>
+                  <!-- Ask (Penjual) -->
+                  <div id="sim1-asks" class="space-y-1 text-crimson mb-2"></div>
+                  <!-- Harga Tengah & Spread -->
+                  <div class="py-1.5 px-2 my-1.5 rounded bg-papersheet border border-paperborder flex justify-between items-center font-bold">
+                    <span id="sim1-midprice" class="text-ink text-sm">100.00</span>
+                    <span id="sim1-spread" class="text-[10px] text-graphite">Spread: 0.04</span>
+                  </div>
+                  <!-- Bid (Pembeli) -->
+                  <div id="sim1-bids" class="space-y-1 text-blueprint mt-2"></div>
+                </div>
+                <div class="text-[11px] text-graphite pt-2 mt-2 border-t border-paperborder">
+                  <strong>Ask (Merah):</strong> Harga penjual.<br/>
+                  <strong>Bid (Biru):</strong> Harga tawaran pembeli.
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ====================================================================
+             BAB 2: STRUKTUR MARKET & SMART MONEY (SBR/RBS, FVG, QM)
+             ==================================================================== -->
+        <article id="chapter-1" class="chapter-section hidden space-y-6">
+          <div class="paper-card p-6 sm:p-8">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-paperborder font-mono text-xs">
+              <span class="text-blueprint font-semibold">BAB 02 // PETA STRUKTUR HARGA</span>
+              <span class="text-graphite">Konsep: Price Action &amp; Smart Money</span>
+            </div>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-ink mb-3">
+              Struktur Market &amp; Smart Money (SBR/RBS, FVG, Quasimodo / QM)
+            </h2>
+            <p class="text-graphite">
+              Grafik harga tidak bergerak asal-asalan. Ia meninggalkan "jejak kaki" berupa lantai, atap, celah ketidakseimbangan, dan pola pembalikan arah yang bisa kita baca seperti peta harta karun.
+            </p>
+          </div>
+
+          <!-- 3 Kartu Konsep Struktur -->
+          <div class="space-y-5">
+            <!-- 1. SBR & RBS -->
+            <div class="paper-card p-6">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <span class="font-mono text-xs font-bold px-2.5 py-0.5 rounded bg-blueprint/10 text-blueprint">KONSEP 2.1 // PERUBAHAN PERAN LANTAI &amp; ATAP</span>
+                <span class="font-mono text-xs text-graphite">Breakout &amp; Retest</span>
+              </div>
+              <h3 class="font-serif text-xl font-bold text-ink mb-2">SBR (Support Become Resistance) &amp; RBS (Resistance Become Support)</h3>
+              <p class="text-sm sm:text-base text-ink mb-3">
+                Bayangkan kamu berada di dalam rumah bertingkat dua:
+              </p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div class="p-4 rounded-lg bg-emeraldink/5 border border-emeraldink/30">
+                  <div class="font-bold text-emeraldink mb-1">1. RBS (Resistance Become Support)</div>
+                  <p class="text-ink">
+                    Awalnya ada <strong>Atap (Resistance)</strong> yang menahan harga naik. Ketika pembeli sangat kuat, atap itu berhasil dijebol ke atas! Saat harga turun kembali menguji garis atap tadi, garis itu kini berubah menjadi <strong>Lantai Pijakan Baru (Support)</strong> untuk melompat lebih tinggi.
+                  </p>
+                </div>
+                <div class="p-4 rounded-lg bg-crimson/5 border border-crimson/30">
+                  <div class="font-bold text-crimson mb-1">2. SBR (Support Become Resistance)</div>
+                  <p class="text-ink">
+                    Awalnya ada <strong>Lantai (Support)</strong> yang menahan harga jatuh. Ketika penjual menjebol lantai itu ke bawah, harga pun ambruk. Saat harga mencoba naik kembali menyentuh lantai yang jebol tadi, garis itu kini berubah menjadi <strong>Atap Penghalang (Resistance)</strong> yang menekan harga turun lagi.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Fair Value Gap (FVG) -->
+            <div class="paper-card p-6">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <span class="font-mono text-xs font-bold px-2.5 py-0.5 rounded bg-amber-500/15 text-amberink">KONSEP 2.2 // CELAH KETIDAKSEIMBANGAN</span>
+                <span class="font-mono text-xs text-graphite">Aturan 3 Candlestick</span>
+              </div>
+              <h3 class="font-serif text-xl font-bold text-ink mb-2">FVG (Fair Value Gap / Imbalance)</h3>
+              <p class="text-sm sm:text-base text-ink mb-3">
+                <strong>Analogi Kereta Ekspres:</strong> Bayangkan kereta api melaju sangat kencang melewati stasiun kecil tanpa sempat berhenti, sehingga banyak penumpang tertinggal. Karena aturan perusahaan kereta mewajibkan semua penumpang dijemput, kereta tersebut akan <strong>mundur sebentar ke stasiun kosong tadi</strong> sebelum melanjutkan perjalanan kencangnya.
+              </p>
+              <div class="math-box p-3.5 text-xs sm:text-sm">
+                <div class="font-bold text-blueprint mb-1">📐 Syarat Matematis FVG (3 Candle Berurutan):</div>
+                <div>• <strong>Bullish FVG (Celah Naik):</strong> Sumbu bawah Candle ke-3 lebih tinggi dari sumbu atas Candle ke-1 (<span class="text-emeraldink font-semibold">Low<sub>3</sub> &gt; High<sub>1</sub></span>).</div>
+                <div>• <strong>Bearish FVG (Celah Turun):</strong> Sumbu atas Candle ke-3 lebih rendah dari sumbu bawah Candle ke-1 (<span class="text-crimson font-semibold">High<sub>3</sub> &lt; Low<sub>1</sub></span>).</div>
+              </div>
+            </div>
+
+            <!-- 3. Quasimodo (QM) -->
+            <div class="paper-card p-6">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <span class="font-mono text-xs font-bold px-2.5 py-0.5 rounded bg-blueprint/10 text-blueprint">KONSEP 2.3 // POLA PEMBALIKAN ARAH</span>
+                <span class="font-mono text-xs text-graphite">Over &amp; Under Pattern</span>
+              </div>
+              <h3 class="font-serif text-xl font-bold text-ink mb-2">QM (Quasimodo Pattern)</h3>
+              <p class="text-sm sm:text-base text-ink mb-3">
+                Dinamai dari tokoh Quasimodo karena bentuk grafiknya seperti bahu kiri dan bahu kanan yang tidak sejajar. Urutan kejadiannya sangat khas untuk membalikkan tren naik menjadi turun (<em>Bearish QM</em>):
+              </p>
+              <ol class="list-decimal list-inside space-y-1.5 text-sm text-ink bg-paperbg p-4 rounded-lg border border-paperborder">
+                <li>Harga membentuk puncak pertama (<strong>Bahu Kiri / High</strong>), lalu turun membentuk lembah (<strong>Low</strong>).</li>
+                <li>Harga naik lagi dan menembus puncak pertama membentuk puncak lebih tinggi (<strong>Kepala / Higher High</strong>) — membuat trader pemula mengira tren akan terus naik.</li>
+                <li>Tiba-tiba harga jatuh drastis menjebol lembah sebelumnya hingga membentuk lembah lebih rendah (<strong>Lower Low</strong>). Ini tanda kekuatan pembeli sudah patah!</li>
+                <li>Harga naik pelan kembali ke garis sejajar <strong>Bahu Kiri (QM Level)</strong> → Di titik inilah kita bersiap entry <strong>Sell</strong> mengikuti arah jatuh yang baru.</li>
+              </ol>
+            </div>
+          </div>
+
+          <!-- SIMULATOR INTERAKTIF 2: DIAGRAM STRUKTUR BERTAHAP -->
+          <div class="paper-card p-5 sm:p-7 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-paperborder pb-3">
+              <div>
+                <span class="font-mono text-[11px] font-bold text-blueprint uppercase">Simulator Kertas 02 // Animasi Langkah Demi Langkah</span>
+                <h3 class="font-serif text-lg sm:text-xl font-bold text-ink">Bedah Struktur Grafik: RBS/SBR, FVG &amp; Quasimodo</h3>
+              </div>
+
+              <!-- Pilihan Pola -->
+              <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+                <button type="button" data-struct="rbs" class="btn-struct-tab px-3 py-1.5 rounded-md bg-blueprint text-white font-semibold cursor-pointer">
+                  1. RBS &amp; SBR
+                </button>
+                <button type="button" data-struct="fvg" class="btn-struct-tab px-3 py-1.5 rounded-md bg-paperbg border border-paperborder text-ink font-semibold cursor-pointer">
+                  2. Fair Value Gap
+                </button>
+                <button type="button" data-struct="qm" class="btn-struct-tab px-3 py-1.5 rounded-md bg-paperbg border border-paperborder text-ink font-semibold cursor-pointer">
+                  3. Pola QM
+                </button>
+              </div>
+            </div>
+
+            <!-- Kontrol Langkah -->
+            <div class="flex flex-wrap items-center justify-between gap-3 bg-paperbg p-3 rounded-lg border border-paperborder">
+              <div id="sim2-step-caption" class="text-xs sm:text-sm font-medium text-ink">
+                Langkah 1 / 4: Harga tertahan di garis Atap (Resistance).
+              </div>
+              <div class="flex items-center gap-2 font-mono text-xs shrink-0">
+                <button id="btn-sim2-prev" type="button" class="px-3 py-1.5 rounded border border-paperborder bg-papersheet hover:bg-slate-100 text-ink cursor-pointer disabled:opacity-40">
+                  ← Mundur
+                </button>
+                <button id="btn-sim2-next" type="button" class="px-3 py-1.5 rounded bg-blueprint hover:bg-blue-800 text-white font-semibold cursor-pointer disabled:opacity-40">
+                  Langkah Berikutnya →
+                </button>
+              </div>
+            </div>
+
+            <div class="canvas-paper-box h-[330px] sm:h-[370px]">
+              <canvas id="canvas-bab2"></canvas>
+            </div>
+          </div>
+        </article>
+
+        <!-- ====================================================================
+             BAB 3: JEBAKAN PASAR (LIQUIDITY GRAB & LIQUIDITY HUNTER)
+             ==================================================================== -->
+        <article id="chapter-2" class="chapter-section hidden space-y-6">
+          <div class="paper-card p-6 sm:p-8">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-paperborder font-mono text-xs">
+              <span class="text-crimson font-semibold">BAB 03 // PSIKOLOGI &amp; JEBAKAN INSTITUSI</span>
+              <span class="text-graphite">Wajib Tahu Agar Tidak Sering Kena SL</span>
+            </div>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-ink mb-3">
+              Jebakan Pasar: Liquidity Grab &amp; Liquidity Hunter
+            </h2>
+            <p class="text-graphite">
+              Pernahkah kamu memasang Stop Loss (SL) di bawah garis Support, lalu harga turun sebentar menyentuh SL-mu, dan 5 menit kemudian harga malah terbang tinggi sesuai prediksimu? Itu bukan kebetulan—kamu baru saja terkena <strong>Liquidity Grab</strong>!
+            </p>
+
+            <div class="highlighter-box p-4 mt-5">
+              <div class="font-mono text-xs font-bold text-amberink uppercase mb-1">💡 Inti Mudah Dipahami (Analogi Nelayan &amp; Kolam Ikan)</div>
+              <p class="text-sm text-ink">
+                Dalam dunia trading, <strong>Likuiditas</strong> adalah kumpulan pesanan <em>Stop Loss</em> milik ribuan trader ritel yang menumpuk di satu tempat (misalnya tepat di bawah garis Support). Institusi besar (<em>Smart Money</em>) bertindak sebagai <strong>Liquidity Hunter</strong>—mereka mendorong harga menyentuh kolam Stop Loss itu agar mendapat pasokan barang murah dalam jumlah raksasa sebelum harga diterbangkan.
+              </p>
+            </div>
+          </div>
+
+          <div class="paper-card p-6 sm:p-8 space-y-4">
+            <h3 class="font-serif text-xl font-bold text-ink border-b border-paperborder pb-2">
+              Bagaimana Cara Mengenali Liquidity Grab?
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              <div class="p-4 rounded-lg bg-paperbg border border-paperborder">
+                <div class="font-mono text-xs font-bold text-blueprint mb-1">1. KOLAM LIKUIDITAS (BSL / SSL)</div>
+                <p class="text-ink">
+                  Garis Support/Resistance yang terlalu rapi dan sering memantul akan mengundang banyak trader menaruh <strong>Sell-Side Liquidity (SSL)</strong> di bawah Support dan <strong>Buy-Side Liquidity (BSL)</strong> di atas Resistance.
+                </p>
+              </div>
+              <div class="p-4 rounded-lg bg-paperbg border border-paperborder">
+                <div class="font-mono text-xs font-bold text-crimson mb-1">2. JARUM PENYAPU (SWEEP WICK)</div>
+                <p class="text-ink">
+                  Harga menembus garis Support secara tiba-tiba, memicu semua SL menjadi order jual paksa. Namun perhatikan: <strong>badan candlestick tidak ditutup di bawah garis</strong>, melainkan hanya menyisakan ekor panjang (<em>wick</em>).
+                </p>
+              </div>
+              <div class="p-4 rounded-lg bg-paperbg border border-paperborder">
+                <div class="font-mono text-xs font-bold text-emeraldink mb-1">3. RECLAIM &amp; PEMBALIKAN</div>
+                <p class="text-ink">
+                  Setelah semua likuiditas tersapu bersih, harga kembali masuk ke atas garis Support dengan cepat. Itulah sinyal terkuat bahwa jebakan selesai dan arah asli siap meluncur!
+                </p>
+              </div>
+            </div>
+
+            <div class="math-box p-3.5 text-xs sm:text-sm">
+              <div class="font-bold text-crimson mb-1">📐 Ciri Matematis Liquidity Grab pada Candlestick:</div>
+              <div>• <strong>Harga Terendah (Low)</strong> &lt; Garis Support (Menyapu SL), <strong>TETAPI</strong> <strong>Harga Penutupan (Close)</strong> &gt; Garis Support.</div>
+              <div>• Panjang Ekor Bawah ≥ <strong>2 × Panjang Badan Candle</strong> (Menunjukkan penolakan/penyerapan order besar).</div>
+            </div>
+          </div>
+
+          <!-- SIMULATOR INTERAKTIF 3: LIQUIDITY SWEEP -->
+          <div class="paper-card p-5 sm:p-7 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-paperborder pb-3">
+              <div>
+                <span class="font-mono text-[11px] font-bold text-crimson uppercase">Simulator Kertas 03 // Deteksi Stop Hunt</span>
+                <h3 class="font-serif text-lg sm:text-xl font-bold text-ink">Simulasi 3 Tahap Liquidity Grab &amp; Liquidity Hunter</h3>
+              </div>
+              <div class="px-3 py-1 rounded bg-crimson/10 border border-crimson/30 font-mono text-xs font-bold text-crimson">
+                Likuiditas Tersapu: <span id="sim3-swept-amount">$0 Juta</span>
+              </div>
+            </div>
+
+            <!-- Tombol 3 Tahap -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 font-mono text-xs">
+              <button type="button" data-liqstage="1" class="btn-liq-stage px-3 py-2.5 rounded-md bg-blueprint text-white font-semibold cursor-pointer text-left">
+                Tahap 1: Ritel Pasang SL
+              </button>
+              <button type="button" data-liqstage="2" class="btn-liq-stage px-3 py-2.5 rounded-md bg-paperbg border border-paperborder text-ink font-semibold cursor-pointer text-left">
+                Tahap 2: Liquidity Grab (Jarum)
+              </button>
+              <button type="button" data-liqstage="3" class="btn-liq-stage px-3 py-2.5 rounded-md bg-paperbg border border-paperborder text-ink font-semibold cursor-pointer text-left">
+                Tahap 3: Pembalikan Arah Asli
+              </button>
+            </div>
+
+            <div id="sim3-desc" class="p-3 rounded-lg bg-paperbg border border-paperborder text-xs sm:text-sm text-ink">
+              <strong>Tahap 1:</strong> Trader ritel melihat garis lantai (Support) yang kuat, lalu ramai-ramai membeli dan menaruh <strong>Stop Loss ($$$)</strong> tepat di bawah garis tersebut.
+            </div>
+
+            <div class="canvas-paper-box h-[330px] sm:h-[370px]">
+              <canvas id="canvas-bab3"></canvas>
+            </div>
+          </div>
+        </article>
+
+        <!-- ====================================================================
+             BAB 4: PANDUAN LENGKAP ENTRY, STOP LOSS (SL) & TAKE PROFIT (TP)
+             ==================================================================== -->
+        <article id="chapter-3" class="chapter-section hidden space-y-6">
+          <div class="paper-card p-6 sm:p-8">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-paperborder font-mono text-xs">
+              <span class="text-emeraldink font-semibold">BAB 04 // EKSEKUSI &amp; MANAJEMEN RISIKO</span>
+              <span class="text-graphite">Kunci Bertahan Hidup di Pasar</span>
+            </div>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-ink mb-3">
+              Panduan Lengkap: Kapan Entry, Pasang Stop Loss (SL) &amp; Take Profit (TP)
+            </h2>
+            <p class="text-graphite">
+              Trader profesional tidak menebak apakah transaksi berikutnya pasti untung. Sebaliknya, mereka memastikan bahwa <strong>jika salah ruginya kecil (SL terukur), dan jika benar untungnya besar (TP minimal 2 kali lipat risiko)</strong>.
+            </p>
+          </div>
+
+          <!-- Aturan 3 Kunci Entry + SL + TP -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Kapan Entry -->
+            <div class="paper-card p-5">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-blueprint/10 text-blueprint">1. KAPAN ENTRY?</span>
+              <h3 class="font-serif text-lg font-bold text-ink mt-2 mb-2">Aturan 3 Kunci Entry</h3>
+              <ul class="space-y-2 text-sm text-ink">
+                <li><strong>① Ikuti Arah Tangga:</strong> Pastikan struktur sedang naik (untuk Buy) atau turun (untuk Sell).</li>
+                <li><strong>② Tunggu di Zona Penting:</strong> Jangan mengejar harga yang sudah lari! Tunggu harga pulang ke area <strong>RBS/SBR</strong>, <strong>FVG</strong>, atau setelah <strong>Liquidity Grab</strong>.</li>
+                <li><strong>③ Tunggu Konfirmasi:</strong> Lihat munculnya candle penolakan (ekor panjang / candle berbalik kuat) sebelum masuk.</li>
+              </ul>
+            </div>
+
+            <!-- Cara Pasang SL -->
+            <div class="paper-card p-5">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-crimson/10 text-crimson">2. STOP LOSS (SL)</span>
+              <h3 class="font-serif text-lg font-bold text-ink mt-2 mb-2">Taruh di Balik Benteng</h3>
+              <ul class="space-y-2 text-sm text-ink">
+                <li><strong>• Jangan Asal Tebak:</strong> Taruh SL di balik struktur terkuat (misal sedikit di bawah ekor terendah <em>Liquidity Grab</em>).</li>
+                <li><strong>• Beri Ruang Napas (Buffer):</strong> Tambahkan jarak aman sedikit di luar garis agar tidak tersenggol pelebaran spread normal.</li>
+                <li><strong>• Batas Risiko Modal:</strong> Idealnya, jika SL tersentuh, rugimu maksimal hanya <strong>1% – 2%</strong> dari total modal.</li>
+              </ul>
+            </div>
+
+            <!-- Cara Pasang TP -->
+            <div class="paper-card p-5">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-emeraldink/10 text-emeraldink">3. TAKE PROFIT (TP)</span>
+              <h3 class="font-serif text-lg font-bold text-ink mt-2 mb-2">Target Logis &amp; BEP</h3>
+              <ul class="space-y-2 text-sm text-ink">
+                <li><strong>• Tujuan Wajar:</strong> Pasang TP sebelum garis Resistance/SBR berikutnya atau kolam likuiditas lawan.</li>
+                <li><strong>• Rasio Minimal 1 : 2:</strong> Jika risiko SL Rp 100 ribu, target TP minimal Rp 200 ribu.</li>
+                <li><strong>• BEP &amp; Partial TP:</strong> Saat harga sudah jalan separuh menuju TP, geser SL ke titik Entry (<strong>Break Even Point</strong>) atau ambil untung sebagian!</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Rumus RRR & Position Sizing -->
+          <div class="paper-card p-5 sm:p-6">
+            <div class="math-box p-4 text-xs sm:text-sm space-y-1.5">
+              <div class="font-bold text-blueprint">📐 Rumus Risk-to-Reward Ratio (RRR) &amp; Ukuran Posisi:</div>
+              <div>1. <strong>RRR</strong> = |Harga TP − Harga Entry| ÷ |Harga Entry − Harga SL| &nbsp; <span class="text-emeraldink font-semibold">(Idealnya RRR ≥ 2.0)</span></div>
+              <div>2. <strong>Win Rate Minimal Impas</strong> = 1 ÷ (1 + RRR) &nbsp; <span class="text-graphite">(Dengan RRR 1:2, cukup benar 34% saja sudah impas!)</span></div>
+              <div>3. <strong>Ukuran Unit / Lot</strong> = (Modal × % Risiko) ÷ Jarak SL</div>
+            </div>
+          </div>
+
+          <!-- SIMULATOR INTERAKTIF 4: TRADE PLANNER & KALKULATOR RISIKO -->
+          <div class="paper-card p-5 sm:p-7 space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-paperborder pb-3">
+              <div>
+                <span class="font-mono text-[11px] font-bold text-emeraldink uppercase">Simulator Kertas 04 // Perencana Transaksi</span>
+                <h3 class="font-serif text-lg sm:text-xl font-bold text-ink">Simulasi Visual Entry, Stop Loss, Take Profit &amp; Risiko</h3>
+              </div>
+              <span id="sim4-rrr-badge" class="px-3 py-1 rounded-full bg-emeraldink/15 text-emeraldink border border-emeraldink/30 font-mono text-xs font-bold">
+                RRR 1 : 2.33 (LAYAK ENTRY)
+              </span>
+            </div>
+
+            <!-- Sliders & Input Modal -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 bg-paperbg p-4 rounded-lg border border-paperborder font-mono text-xs">
+              <div class="md:col-span-7 space-y-3">
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <label for="slider-tp4" class="text-emeraldink font-bold">Garis Take Profit (TP)</label>
+                    <span id="val-tp4" class="font-bold text-emeraldink">2685.0</span>
+                  </div>
+                  <input id="slider-tp4" type="range" min="2655" max="2710" step="1" value="2685" class="paper-slider green" />
+                </div>
+
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <label for="slider-entry4" class="text-blueprint font-bold">Garis Harga Entry (Buy)</label>
+                    <span id="val-entry4" class="font-bold text-blueprint">2650.0</span>
+                  </div>
+                  <input id="slider-entry4" type="range" min="2638" max="2665" step="1" value="2650" class="paper-slider" />
+                </div>
+
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <label for="slider-sl4" class="text-crimson font-bold">Garis Stop Loss (SL)</label>
+                    <span id="val-sl4" class="font-bold text-crimson">2635.0</span>
+                  </div>
+                  <input id="slider-sl4" type="range" min="2615" max="2648" step="1" value="2635" class="paper-slider red" />
+                </div>
+              </div>
+
+              <div class="md:col-span-5 flex flex-col justify-between space-y-3 border-t md:border-t-0 md:border-l border-paperborder pt-3 md:pt-0 md:pl-4">
+                <div class="grid grid-cols-2 gap-2.5">
+                  <div>
+                    <label for="input-modal4" class="block text-[11px] text-graphite mb-1">Modal ($ USD)</label>
+                    <input id="input-modal4" type="number" value="1000" min="50" step="100" class="w-full bg-papersheet border border-paperborder rounded px-2.5 py-1.5 text-ink font-bold" />
+                  </div>
+                  <div>
+                    <label for="input-riskpct4" class="block text-[11px] text-graphite mb-1">Risiko / Trade (%)</label>
+                    <input id="input-riskpct4" type="number" value="1.0" min="0.2" max="10" step="0.2" class="w-full bg-papersheet border border-paperborder rounded px-2.5 py-1.5 text-ink font-bold" />
+                  </div>
+                </div>
+
+                <div class="bg-papersheet p-3 rounded border border-paperborder space-y-1">
+                  <div class="flex justify-between">
+                    <span class="text-graphite">Rugi Maksimal (SL):</span>
+                    <span id="out-loss4" class="text-crimson font-bold">-$10.00 (15.0 poin)</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-graphite">Potensi Untung (TP):</span>
+                    <span id="out-win4" class="text-emeraldink font-bold">+$23.33 (35.0 poin)</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-graphite">Ukuran Posisi Ideal:</span>
+                    <span id="out-size4" class="text-blueprint font-bold">0.67 Unit</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-graphite">Impas Minimal Win:</span>
+                    <span id="out-breakeven4" class="text-ink font-bold">30.0%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="canvas-paper-box h-[330px] sm:h-[370px]">
+              <canvas id="canvas-bab4"></canvas>
+            </div>
+          </div>
+        </article>
+
+        <!-- ====================================================================
+             BAB 5: ANALISA KUANTITATIF & BERITA MAKRO (FOMC, CPI, PPI, NFP)
+             ==================================================================== -->
+        <article id="chapter-4" class="chapter-section hidden space-y-6">
+          <div class="paper-card p-6 sm:p-8">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-paperborder font-mono text-xs">
+              <span class="text-amberink font-semibold">BAB 05 // STATISTIK HARGA &amp; EKONOMI DUNIA</span>
+              <span class="text-graphite">Mengukur Pasar dengan Angka</span>
+            </div>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-ink mb-3">
+              Analisa Kuantitatif &amp; Berita Makro (FOMC, CPI, PPI, NFP)
+            </h2>
+            <p class="text-graphite">
+              Selain melihat bentuk candlestick, analis kuantitatif menggunakan <strong>statistik matematika</strong> untuk tahu apakah harga sudah terlalu mahal/murah, serta memantau <strong>4 berita ekonomi raksasa Amerika Serikat</strong> yang sering membuat grafik melompat kencang dalam hitungan detik.
+            </p>
+          </div>
+
+          <!-- Bagian A: Analisa Kuantitatif Versi Mudah -->
+          <div class="paper-card p-6 sm:p-8 space-y-4">
+            <h3 class="font-serif text-xl font-bold text-ink border-b border-paperborder pb-2">
+              Bagian A: Analisa Kuantitatif dengan Bahasa Sederhana
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              <div class="p-4 rounded-lg bg-paperbg border border-paperborder">
+                <div class="font-mono text-xs font-bold text-blueprint mb-1">1. RATA-RATA HARGA (VWAP)</div>
+                <p class="text-ink">
+                  Ibarat nilai rata-rata ulangan satu kelas. <strong>VWAP</strong> adalah harga rata-rata wajar yang dihitung berdasarkan banyaknya transaksi hari itu. Harga selalu punya kecenderungan pulang ke rata-ratanya.
+                </p>
+              </div>
+              <div class="p-4 rounded-lg bg-paperbg border border-paperborder">
+                <div class="font-mono text-xs font-bold text-emeraldink mb-1">2. STANDAR DEVIASI (±1σ, ±2σ)</div>
+                <p class="text-ink">
+                  Pita pengukur seberapa lebar harga berayun. Secara statistik, <strong>68%</strong> gerakan harga berada di dalam pita <strong>±1σ</strong>, dan <strong>95%</strong> berada di dalam pita <strong>±2σ</strong>.
+                </p>
+              </div>
+              <div class="p-4 rounded-lg bg-paperbg border border-paperborder">
+                <div class="font-mono text-xs font-bold text-amberink mb-1">3. SKOR KEJAUHAN (Z-SCORE)</div>
+                <p class="text-ink">
+                  Mengukur seberapa "kebablasan" harga saat ini. Jika <strong>Z-Score &gt; +2.0</strong>, harga sudah sangat kemahalan dibanding rata-ratanya. Jika <strong>&lt; -2.0</strong>, harga sudah sangat kemurahan.
+                </p>
+              </div>
+            </div>
+            <div class="math-box p-3.5 text-xs sm:text-sm">
+              <strong>📐 Rumus Z-Score:</strong> &nbsp; Z = (Harga Sekarang − Harga Rata-rata) ÷ Standar Deviasi (σ)
+            </div>
+          </div>
+
+          <!-- Bagian B: Bedah 4 Berita Raksasa -->
+          <div class="paper-card p-6 sm:p-8 space-y-4">
+            <h3 class="font-serif text-xl font-bold text-ink border-b border-paperborder pb-2">
+              Bagian B: Bedah 4 Berita Ekonomi Raksasa (Penggerak Dunia)
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div class="p-4 rounded-lg border border-paperborder bg-paperbg/60">
+                <div class="font-mono text-xs font-bold text-blueprint mb-1">1. FOMC (KEPUTUSAN SUKU BUNGA AS)</div>
+                <p class="text-ink mb-2">
+                  Rapat Bank Sentral AS (The Fed) untuk menentukan suku bunga. <strong>Analogi:</strong> Seperti keran air uang dunia.
+                </p>
+                <p class="text-xs text-graphite">
+                  • <strong>Suku bunga naik (Hawkish):</strong> Orang lebih suka menyimpan Dolar → Dolar AS (USD) menguat, Emas &amp; Saham cenderung turun.<br/>
+                  • <strong>Suku bunga turun (Dovish):</strong> Uang lebih murah → Emas &amp; Saham cenderung naik.
+                </p>
+              </div>
+
+              <div class="p-4 rounded-lg border border-paperborder bg-paperbg/60">
+                <div class="font-mono text-xs font-bold text-amberink mb-1">2. CPI (INFLASI HARGA DI TOKO)</div>
+                <p class="text-ink mb-2">
+                  <em>Consumer Price Index</em> mengukur kenaikan harga barang &amp; jasa yang dibeli masyarakat sehari-hari.
+                </p>
+                <p class="text-xs text-graphite">
+                  • <strong>CPI lebih tinggi dari perkiraan (Inflasi Panas):</strong> Bank Sentral akan menahan suku bunga tinggi → USD menguat, Emas &amp; Saham tertekan turun.
+                </p>
+              </div>
+
+              <div class="p-4 rounded-lg border border-paperborder bg-paperbg/60">
+                <div class="font-mono text-xs font-bold text-emeraldink mb-1">3. PPI (INFLASI BIAYA PABRIK)</div>
+                <p class="text-ink mb-2">
+                  <em>Producer Price Index</em> mengukur kenaikan harga bahan baku di tingkat pabrik/produsen.
+                </p>
+                <p class="text-xs text-graphite">
+                  • <strong>Kenapa penting?</strong> Jika biaya di pabrik naik bulan ini, bulan depan harga barang di toko (CPI) pasti ikut naik. Jadi PPI adalah <strong>petunjuk awal sebelum CPI</strong>.
+                </p>
+              </div>
+
+              <div class="p-4 rounded-lg border border-paperborder bg-paperbg/60">
+                <div class="font-mono text-xs font-bold text-crimson mb-1">4. NFP (LAPANGAN KERJA AS)</div>
+                <p class="text-ink mb-2">
+                  <em>Non-Farm Payrolls</em> menghitung jumlah pekerja baru yang diterima bekerja di AS (dirilis tiap Jumat pertama awal bulan).
+                </p>
+                <p class="text-xs text-graphite">
+                  • <strong>NFP jauh lebih tinggi dari perkiraan:</strong> Ekonomi AS sedang sangat kuat → USD melesat naik dalam hitungan detik!
+                </p>
+              </div>
+            </div>
+
+            <div class="highlighter-box p-3.5 text-xs sm:text-sm">
+              <strong>⚠️ Rahasia Penting:</strong> Robot trading bank besar tidak melihat angkanya saja, tapi melihat <strong>selisih kejutan</strong> antara <em>Angka Aktual</em> dikurangi <em>Perkiraan Pasar (Forecast)</em>!
+            </div>
+          </div>
+
+          <!-- SIMULATOR INTERAKTIF 5: LAB RILIS BERITA & PITA KUANTITATIF -->
+          <div class="paper-card p-5 sm:p-7 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-paperborder pb-3">
+              <div>
+                <span class="font-mono text-[11px] font-bold text-amberink uppercase">Simulator Kertas 05 // Grafik Emas (XAU/USD) Saat Berita</span>
+                <h3 class="font-serif text-lg sm:text-xl font-bold text-ink">Simulasi Rilis Berita &amp; Pita Standar Deviasi (±1σ, ±2σ)</h3>
+              </div>
+            </div>
+
+            <!-- Tombol Skenario Berita -->
+            <div class="flex flex-wrap gap-2 font-mono text-xs">
+              <button type="button" data-news="cpi_hot" class="btn-news-preset px-3.5 py-2 rounded-md bg-crimson text-white font-semibold cursor-pointer">
+                🔥 Rilis CPI Panas (+2.2σ)
+              </button>
+              <button type="button" data-news="fomc_cut" class="btn-news-preset px-3.5 py-2 rounded-md bg-emeraldink text-white font-semibold cursor-pointer">
+                🕊️ FOMC Pangkas Bunga (-2.4σ)
+              </button>
+              <button type="button" data-news="nfp_strong" class="btn-news-preset px-3.5 py-2 rounded-md bg-blueprint text-white font-semibold cursor-pointer">
+                💼 NFP Kejutan Positif (+1.9σ)
+              </button>
+              <button type="button" data-news="calm" class="btn-news-preset px-3.5 py-2 rounded-md bg-paperbg border border-paperborder text-ink font-semibold cursor-pointer">
+                ↺ Kondisi Tenang
+              </button>
+            </div>
+
+            <!-- Telemetri Kuantitatif Berita -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 font-mono text-xs">
+              <div class="p-3 rounded-lg bg-paperbg border border-paperborder">
+                <span class="text-[10px] text-graphite block">SKOR KEJUTAN (Z)</span>
+                <span id="sim5-zscore" class="text-sm sm:text-base font-bold text-crimson">+2.20σ</span>
+              </div>
+              <div class="p-3 rounded-lg bg-paperbg border border-paperborder">
+                <span class="text-[10px] text-graphite block">LONJAKAN VOLATILITAS</span>
+                <span id="sim5-vol" class="text-sm sm:text-base font-bold text-amberink">+310%</span>
+              </div>
+              <div class="p-3 rounded-lg bg-paperbg border border-paperborder">
+                <span class="text-[10px] text-graphite block">PELEBARAN SPREAD</span>
+                <span id="sim5-spread" class="text-sm sm:text-base font-bold text-ink">4.5x Normal</span>
+              </div>
+              <div class="p-3 rounded-lg bg-paperbg border border-paperborder">
+                <span class="text-[10px] text-graphite block">ARAH EMAS (XAU/USD)</span>
+                <span id="sim5-dir" class="text-sm sm:text-base font-bold text-crimson">TURUN TAJAM ↓</span>
+              </div>
+            </div>
+
+            <div class="canvas-paper-box h-[330px] sm:h-[370px]">
+              <canvas id="canvas-bab5"></canvas>
+            </div>
+          </div>
+        </article>
+
+        <!-- ====================================================================
+             BAB 6: QUANT SCALPING VS SWING TRADING & PROYEKSI ARAH MARKET
+             ==================================================================== -->
+        <article id="chapter-5" class="chapter-section hidden space-y-6">
+          <div class="paper-card p-6 sm:p-8">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-paperborder font-mono text-xs">
+              <span class="text-blueprint font-semibold">BAB 06 // STRATEGI &amp; PROYEKSI PROBABILITAS</span>
+              <span class="text-graphite">Sintesis Akhir Buku Kerja</span>
+            </div>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-ink mb-3">
+              Quant Scalping vs Swing Trading &amp; Proyeksi Arah Market
+            </h2>
+            <p class="text-graphite">
+              Di bab terakhir ini, kita membandingkan dua gaya bermain utama dalam analisa kuantitatif dan belajar bagaimana matematikawan memproyeksikan kemungkinan arah harga ke depan menggunakan <strong>Simulasi Monte Carlo</strong>.
+            </p>
+          </div>
+
+          <!-- Tabel Perbandingan Rapi -->
+          <div class="paper-card p-6 sm:p-8 overflow-x-auto">
+            <h3 class="font-serif text-xl font-bold text-ink mb-4">
+              Perbandingan Rapi: Quant Scalping vs Quant Swing Trading
+            </h3>
+            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr class="bg-paperbg border-y border-paperborder font-mono text-xs">
+                  <th class="py-2.5 px-3 font-bold text-ink">Aspek</th>
+                  <th class="py-2.5 px-3 font-bold text-blueprint">Quant Scalping (Cepat)</th>
+                  <th class="py-2.5 px-3 font-bold text-emeraldink">Quant Swing Trading (Tenang)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-paperborder">
+                <tr>
+                  <td class="py-2.5 px-3 font-semibold text-ink">Timeframe Grafik</td>
+                  <td class="py-2.5 px-3 font-mono">M1, M5, M15 (Menitan)</td>
+                  <td class="py-2.5 px-3 font-mono">H4, D1 (4 Jam – Harian)</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 font-semibold text-ink">Lama Tahan Posisi</td>
+                  <td class="py-2.5 px-3">Beberapa menit hingga 1–2 jam</td>
+                  <td class="py-2.5 px-3">Beberapa hari hingga beberapa minggu</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 font-semibold text-ink">Logika Utama</td>
+                  <td class="py-2.5 px-3">Memanfaatkan pantulan kembali ke rata-rata (<em>Mean Reversion</em>) saat harga menyentuh pita ekstrem ±2σ.</td>
+                  <td class="py-2.5 px-3">Mengikuti arus tren besar (<em>Momentum</em>) yang didorong oleh struktur RBS/SBR dan berita makro.</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 font-semibold text-ink">Cocok Untuk</td>
+                  <td class="py-2.5 px-3">Orang yang punya waktu fokus penuh menatap layar dan cepat mengambil keputusan.</td>
+                  <td class="py-2.5 px-3">Pelajar, mahasiswa, atau pekerja yang hanya bisa cek grafik pagi dan malam hari.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Cara Quant Memproyeksikan Arah Market -->
+          <div class="paper-card p-6 sm:p-8 space-y-4">
+            <h3 class="font-serif text-xl font-bold text-ink border-b border-paperborder pb-2">
+              Bagaimana Cara Quant Memproyeksikan Arah Market Berikutnya?
+            </h3>
+            <p class="text-sm sm:text-base text-ink">
+              Tidak ada satu pun manusia atau superkomputer yang bisa menebak 100% pasti ke mana harga akan bergerak besok. Oleh karena itu, analis kuantitatif menggunakan metode <strong>Simulasi Monte Carlo</strong> (dinamai dari kota kasino terkenal di Monako karena memakai prinsip probabilitas acak).
+            </p>
+            <div class="highlighter-box p-4 text-sm">
+              <strong>🌦️ Analogi Prakiraan Cuaca:</strong> Prakiraan cuaca tidak bilang <em>"Besok pasti hujan jam 14.03"</em>, melainkan menjalankan 100 simulasi atmosfer lalu menyimpulkan: <em>"Ada peluang 75% turun hujan, dan 25% cerah."</em> Begitu pula cara Quant memetakan peluang arah harga!
+            </div>
+            <div class="math-box p-4 text-xs sm:text-sm space-y-1">
+              <div class="font-bold text-blueprint">📐 Mesin Proyeksi Harga (Geometric Brownian Motion):</div>
+              <div>S<sub>besok</sub> = S<sub>hari ini</sub> × e<sup>(μ − ½σ²)Δt + σ√Δt · Z</sup></div>
+              <div class="text-xs text-graphite pt-1">
+                • <strong>μ (Drift):</strong> Arah angin / kecenderungan tren saat ini (positif = naik, negatif = turun).<br/>
+                • <strong>σ (Volatilitas):</strong> Besar ombak / seberapa liar harga berguncang tiap hari.<br/>
+                • <strong>Z:</strong> Kejutan acak harian yang disimulasikan puluhan kali untuk membentuk kipas probabilitas.
+              </div>
+            </div>
+          </div>
+
+          <!-- SIMULATOR INTERAKTIF 6: MONTE CARLO & MODE SCALPING/SWING -->
+          <div class="paper-card p-5 sm:p-7 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-paperborder pb-3">
+              <div>
+                <span class="font-mono text-[11px] font-bold text-blueprint uppercase">Simulator Kertas 06 // Kipas Probabilitas Masa Depan</span>
+                <h3 class="font-serif text-lg sm:text-xl font-bold text-ink">Simulasi 40 Jalur Monte Carlo &amp; Mode Scalping vs Swing</h3>
+              </div>
+
+              <!-- Switch Mode Scalping vs Swing -->
+              <div class="inline-flex rounded-md border border-paperborder bg-paperbg p-1 font-mono text-xs">
+                <button type="button" id="btn-sim6-scalp" class="px-3 py-1.5 rounded bg-blueprint text-white font-semibold cursor-pointer">
+                  Scalping (M5)
+                </button>
+                <button type="button" id="btn-sim6-swing" class="px-3 py-1.5 rounded text-ink font-semibold cursor-pointer">
+                  Swing (H4)
+                </button>
+              </div>
+            </div>
+
+            <!-- Kontrol Slider & Tombol Simulasi Ulang -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 bg-paperbg p-4 rounded-lg border border-paperborder font-mono text-xs items-center">
+              <div class="md:col-span-4">
+                <div class="flex justify-between mb-1">
+                  <label for="slider-drift6" class="text-ink font-bold">Kecenderungan Tren (μ)</label>
+                  <span id="val-drift6" class="text-emeraldink font-bold">+12%</span>
+                </div>
+                <input id="slider-drift6" type="range" min="-30" max="30" step="2" value="12" class="paper-slider green" />
+              </div>
+
+              <div class="md:col-span-4">
+                <div class="flex justify-between mb-1">
+                  <label for="slider-vol6" class="text-ink font-bold">Tingkat Volatilitas (σ)</label>
+                  <span id="val-vol6" class="text-blueprint font-bold">20%</span>
+                </div>
+                <input id="slider-vol6" type="range" min="10" max="50" step="2" value="20" class="paper-slider" />
+              </div>
+
+              <div class="md:col-span-4 flex justify-end">
+                <button id="btn-sim6-run" type="button" class="w-full md:w-auto px-4 py-2.5 rounded-md bg-blueprint hover:bg-blue-800 text-white font-semibold cursor-pointer transition">
+                  🎲 Jalankan Ulang 40 Jalur
+                </button>
+              </div>
+            </div>
+
+            <!-- Output Peluang Naik vs Turun -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 font-mono text-xs">
+              <div class="p-3 rounded-lg bg-emeraldink/10 border border-emeraldink/30">
+                <span class="text-[10px] text-emeraldink font-bold block">PELUANG NAIK P(↑)</span>
+                <span id="sim6-prob-up" class="text-base sm:text-lg font-bold text-emeraldink">67.5%</span>
+              </div>
+              <div class="p-3 rounded-lg bg-crimson/10 border border-crimson/30">
+                <span class="text-[10px] text-crimson font-bold block">PELUANG TURUN P(↓)</span>
+                <span id="sim6-prob-down" class="text-base sm:text-lg font-bold text-crimson">32.5%</span>
+              </div>
+              <div class="p-3 rounded-lg bg-paperbg border border-paperborder">
+                <span class="text-[10px] text-graphite block">TARGET RATA-RATA</span>
+                <span id="sim6-target" class="text-base sm:text-lg font-bold text-blueprint">2634.2</span>
+              </div>
+              <div class="p-3 rounded-lg bg-paperbg border border-paperborder">
+                <span class="text-[10px] text-graphite block">RISIKO TERBURUK (95%)</span>
+                <span id="sim6-var" class="text-base sm:text-lg font-bold text-amberink">-3.40%</span>
+              </div>
+            </div>
+
+            <div class="canvas-paper-box h-[350px] sm:h-[400px]">
+              <canvas id="canvas-bab6"></canvas>
+            </div>
+          </div>
+        </article>
+
+        <!-- ====================================================================
+             NAVIGASI BAWAH ANTAR BAB (← Bab Sebelumnya | Bab Selanjutnya →)
+             ==================================================================== -->
+        <nav aria-label="Navigasi Halaman Bab" class="paper-card p-4 flex items-center justify-between gap-3 font-mono text-xs sm:text-sm">
+          <button id="btn-prev-chapter" type="button" class="px-4 py-2 rounded-md border border-paperborder bg-paperbg hover:bg-slate-200/70 text-ink font-semibold cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed transition">
+            ← Bab Sebelumnya
+          </button>
+          <span id="bottom-progress" class="text-graphite font-semibold">Bab 1 dari 6</span>
+          <button id="btn-next-chapter" type="button" class="px-4 py-2 rounded-md bg-blueprint hover:bg-blue-800 text-white font-semibold cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed transition">
+            Bab Selanjutnya →
+          </button>
+        </nav>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================================================
+       ALERT MODAL: PILIHAN LANJUT KE HALAMAN MASTER (/highlab) ATAU TETAP DI SINI
+       ======================================================================== -->
+  <div
+    id="master-redirect-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="master-modal-title"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/45 backdrop-blur-[2px] modal-backdrop-enter"
+  >
+    <div class="paper-card max-w-lg w-full p-6 sm:p-7 shadow-2xl modal-sheet-enter">
+      <!-- Header Badge -->
+      <div class="flex items-center justify-between gap-2 pb-3 mb-4 border-b border-paperborder font-mono text-xs">
+        <span class="inline-flex items-center gap-1.5 text-blueprint font-bold uppercase">
+          <span class="w-2 h-2 rounded-full bg-blueprint animate-pulse"></span>
+          LAB NAVIGATOR // PILIHAN KURIKULUM
+        </span>
+        <span class="px-2 py-0.5 rounded bg-paperbg border border-paperborder text-graphite text-[11px]">
+          src="highlab/"
+        </span>
+      </div>
+
+      <!-- Judul & Deskripsi -->
+      <h2 id="master-modal-title" class="font-serif text-xl sm:text-2xl font-bold text-ink mb-2">
+        Lanjut ke Halaman Master atau Tetap di Halaman Ini?
+      </h2>
+      <p class="text-sm text-graphite leading-relaxed mb-4">
+        Saat ini kamu berada di <strong class="text-ink">Edisi Buku Kerja Dasar (6 Bab + 6 Simulator)</strong>. Tersedia juga <strong class="text-blueprint">LAB Master Curriculum</strong> dengan materi lengkap tingkat institusional dan riset lanjutan.
+      </p>
+
+      <!-- Perbandingan Singkat 2 Pilihan -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5 text-xs">
+        <div class="p-3 rounded-lg bg-paperbg border border-paperborder">
+          <div class="font-mono font-bold text-ink mb-1">📘 Halaman Ini (Buku Kerja)</div>
+          <p class="text-graphite leading-relaxed">
+            6 Bab Fondasi Market &amp; Quant dengan analogi sederhana dan simulator grafik kertas interaktif.
+          </p>
+        </div>
+        <div class="p-3 rounded-lg bg-blueprint/5 border border-blueprint/30">
+          <div class="font-mono font-bold text-blueprint mb-1">🏛️ Halaman Master (/highlab)</div>
+          <p class="text-ink leading-relaxed">
+            30 Bab Lengkap, 5 Departemen Utama, Atlas Institusi Keuangan &amp; Standar Riset Lanjutan.
+          </p>
+        </div>
+      </div>
+
+      <!-- Kotak Catatan -->
+      <div class="highlighter-box p-3 mb-5 text-xs text-ink">
+        <strong>Catatan:</strong> Kamu bisa beralih ke Halaman Master kapan saja melalui tombol <strong>↗ Master Lab</strong> di bilah atas.
+      </div>
+
+      <!-- Tombol Aksi Utama -->
+      <div class="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2.5 font-mono text-xs sm:text-sm">
+        <button
+          id="btn-stay-here"
+          type="button"
+          class="px-4 py-2.5 rounded-md border border-paperborder bg-paperbg hover:bg-amber-50/90 text-ink font-semibold transition cursor-pointer text-center"
+        >
+          Tetap Lanjut di Halaman Ini
+        </button>
+        <a
+          id="btn-goto-master"
+          href="lab/highlab"
+          data-src="/highlab"
+          class="px-4 py-2.5 rounded-md bg-blueprint hover:bg-blue-800 text-white font-semibold shadow-sm transition cursor-pointer text-center inline-flex items-center justify-center gap-1.5"
+        >
+          <span>Lanjut ke Halaman Master</span>
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       SCRIPT INTERAKTIF: SIDEBAR, PENGATUR HURUF, & 6 SIMULATOR CANVAS KERTAS
+       ======================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // ======================================================================
+      // 1. UTILITAS MATEMATIKA & CANVAS KERTAS GRAFIK HIGH-DPI
+      // ======================================================================
+      function randn() {
+        let u = 0, v = 0;
+        while (u === 0) u = Math.random();
+        while (v === 0) v = Math.random();
+        return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+      }
+
+      function setupPaperCanvas(canvas) {
+        if (!canvas) return null;
+        const box = canvas.parentElement;
+        if (!box) return null;
+        const rect = box.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return null;
+
+        const dpr = window.devicePixelRatio || 1;
+        const w = Math.floor(rect.width);
+        const h = Math.floor(rect.height);
+
+        if (canvas.width !== Math.floor(w * dpr) || canvas.height !== Math.floor(h * dpr)) {
+          canvas.width = Math.floor(w * dpr);
+          canvas.height = Math.floor(h * dpr);
+        }
+
+        const ctx = canvas.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        return { ctx, w, h };
+      }
+
+      /**
+       * Menggambar latar belakang kertas milimeter blok halus di dalam Canvas
+       */
+      function drawGraphPaperBackground(ctx, w, h, padL, padR, padT, padB) {
+        ctx.save();
+        ctx.fillStyle = '#FCFBF7';
+        ctx.fillRect(0, 0, w, h);
+
+        const plotW = w - padL - padR;
+        const plotH = h - padT - padB;
+
+        // Grid kotak kecil (20px)
+        ctx.strokeStyle = 'rgba(30, 41, 59, 0.05)';
+        ctx.lineWidth = 1;
+        for (let x = padL; x <= w - padR; x += 20) {
+          ctx.beginPath();
+          ctx.moveTo(x, padT);
+          ctx.lineTo(x, h - padB);
+          ctx.stroke();
+        }
+        for (let y = padT; y <= h - padB; y += 20) {
+          ctx.beginPath();
+          ctx.moveTo(padL, y);
+          ctx.lineTo(w - padR, y);
+          ctx.stroke();
+        }
+
+        // Garis bingkai area plot tinta pensil
+        ctx.strokeStyle = 'rgba(74, 85, 104, 0.35)';
+        ctx.strokeRect(padL, padT, plotW, plotH);
+        ctx.restore();
+      }
+
+      /**
+       * Helper menggambar candlestick dengan gaya tinta tajam di atas kertas
+       */
+      function drawPaperCandle(ctx, x, candleW, open, high, low, close, priceToY) {
+        const isBull = close >= open;
+        const inkColor = isBull ? '#0F766E' : '#C81E1E';
+        const fillColor = isBull ? '#14B8A6' : '#EF4444';
+
+        // Sumbu (Wick)
+        ctx.strokeStyle = inkColor;
+        ctx.lineWidth = 1.3;
+        ctx.beginPath();
+        ctx.moveTo(x, priceToY(high));
+        ctx.lineTo(x, priceToY(low));
+        ctx.stroke();
+
+        // Badan (Body)
+        const yOpen = priceToY(open);
+        const yClose = priceToY(close);
+        const top = Math.min(yOpen, yClose);
+        const bodyH = Math.max(2, Math.abs(yClose - yOpen));
+
+        ctx.fillStyle = fillColor;
+        ctx.fillRect(x - candleW / 2, top, candleW, bodyH);
+        ctx.strokeStyle = inkColor;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x - candleW / 2, top, candleW, bodyH);
+      }
+
+      // ======================================================================
+      // 2. NAVIGASI BAB, SIDEBAR DRAWER & PENGATUR UKURAN HURUF (A- / A+)
+      // ======================================================================
+      let currentChapter = 0;
+      const totalChapters = 6;
+      let proseSize = 16;
+
+      const sidebarDrawer = document.getElementById('sidebar-drawer');
+      const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+      let isDesktopSidebarOpen = true;
+      let isMobileSidebarOpen = false;
+
+      function updateSidebarVisuals() {
+        const isDesktop = window.innerWidth >= 1024;
+        if (isDesktop) {
+          sidebarBackdrop.classList.add('hidden');
+          if (isDesktopSidebarOpen) {
+            sidebarDrawer.classList.remove('-translate-x-full', 'lg:hidden');
+          } else {
+            sidebarDrawer.classList.add('lg:hidden');
+          }
+        } else {
+          sidebarDrawer.classList.remove('lg:hidden');
+          if (isMobileSidebarOpen) {
+            sidebarDrawer.classList.remove('-translate-x-full');
+            sidebarBackdrop.classList.remove('hidden');
+          } else {
+            sidebarDrawer.classList.add('-translate-x-full');
+            sidebarBackdrop.classList.add('hidden');
+          }
+        }
+        requestAnimationFrame(renderCurrentChapterCanvas);
+      }
+
+      document.getElementById('btn-toggle-sidebar').addEventListener('click', () => {
+        if (window.innerWidth >= 1024) {
+          isDesktopSidebarOpen = !isDesktopSidebarOpen;
+        } else {
+          isMobileSidebarOpen = !isMobileSidebarOpen;
+        }
+        updateSidebarVisuals();
+      });
+
+      document.getElementById('btn-close-sidebar-mobile').addEventListener('click', () => {
+        isMobileSidebarOpen = false;
+        updateSidebarVisuals();
+      });
+
+      sidebarBackdrop.addEventListener('click', () => {
+        isMobileSidebarOpen = false;
+        updateSidebarVisuals();
+      });
+
+      // Pengatur ukuran huruf A- / A+
+      document.getElementById('btn-font-dec').addEventListener('click', () => {
+        proseSize = Math.max(14, proseSize - 1);
+        document.documentElement.style.setProperty('--prose-size', `${proseSize}px`);
+      });
+
+      document.getElementById('btn-font-inc').addEventListener('click', () => {
+        proseSize = Math.min(19, proseSize + 1);
+        document.documentElement.style.setProperty('--prose-size', `${proseSize}px`);
+      });
+
+      function goToChapter(index) {
+        if (index < 0 || index >= totalChapters) return;
+        currentChapter = index;
+
+        // Tampilkan hanya 1 bab aktif
+        document.querySelectorAll('.chapter-section').forEach((sec, idx) => {
+          sec.classList.toggle('hidden', idx !== currentChapter);
+        });
+
+        // Update active state di sidebar
+        document.querySelectorAll('.chapter-nav-item').forEach((btn, idx) => {
+          btn.classList.toggle('active', idx === currentChapter);
+        });
+
+        // Update indikator progres & tombol bawah
+        document.getElementById('topbar-progress').textContent = `Bab ${currentChapter + 1} / ${totalChapters}`;
+        document.getElementById('bottom-progress').textContent = `Bab ${currentChapter + 1} dari ${totalChapters}`;
+        document.getElementById('btn-prev-chapter').disabled = currentChapter === 0;
+        document.getElementById('btn-next-chapter').disabled = currentChapter === totalChapters - 1;
+
+        // Tutup drawer otomatis di layar kecil
+        if (window.innerWidth < 1024 && isMobileSidebarOpen) {
+          isMobileSidebarOpen = false;
+          updateSidebarVisuals();
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        requestAnimationFrame(renderCurrentChapterCanvas);
+      }
+
+      document.querySelectorAll('.chapter-nav-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+          goToChapter(parseInt(btn.dataset.chapter, 10));
+        });
+      });
+
+      document.getElementById('btn-prev-chapter').addEventListener('click', () => goToChapter(currentChapter - 1));
+      document.getElementById('btn-next-chapter').addEventListener('click', () => goToChapter(currentChapter + 1));
+
+      // ======================================================================
+      // 3. SIMULATOR BAB 1: JENIS ORDER & ORDER BOOK LIVE
+      // ======================================================================
+      const sim1 = {
+        prices: [],
+        currentPrice: 100.00,
+        buyLimit: null,
+        sellLimit: null,
+        position: null, // { type: 'BUY', entryPrice: number }
+        phase: 0
+      };
+
+      function resetSim1() {
+        sim1.prices = [];
+        sim1.currentPrice = 100.00;
+        sim1.buyLimit = null;
+        sim1.sellLimit = null;
+        sim1.position = null;
+        sim1.phase = 0;
+
+        for (let i = 0; i < 45; i++) {
+          sim1.phase += 0.22;
+          const p = 100.0 + Math.sin(sim1.phase) * 0.65 + randn() * 0.12;
+          sim1.prices.push(p);
+        }
+        sim1.currentPrice = sim1.prices[sim1.prices.length - 1];
+        updateSim1UI('Harga bergerak live. Coba tekan tombol order di atas!', 'Belum Ada Posisi');
+      }
+
+      function updateSim1UI(statusMsg, posMsg) {
+        if (statusMsg) document.getElementById('sim1-status-text').textContent = statusMsg;
+        if (posMsg) document.getElementById('sim1-pos-text').textContent = posMsg;
+
+        const mid = sim1.currentPrice;
+        const spread = 0.04;
+        const askBase = mid + spread / 2;
+        const bidBase = mid - spread / 2;
+
+        document.getElementById('sim1-midprice').textContent = mid.toFixed(2);
+        document.getElementById('sim1-spread').textContent = `Spread: ${spread.toFixed(2)}`;
+
+        // Render 3 baris Ask & 3 baris Bid
+        const asksHtml = [2, 1, 0].map(i => {
+          const p = (askBase + i * 0.05).toFixed(2);
+          const lot = (12 + ((Math.floor(mid * 100) + i * 7) % 25));
+          return `<div class="flex justify-between"><span>${p}</span><span>${lot}</span></div>`;
+        }).join('');
+
+        const bidsHtml = [0, 1, 2].map(i => {
+          const p = (bidBase - i * 0.05).toFixed(2);
+          const lot = (14 + ((Math.floor(mid * 100) + i * 11) % 28));
+          return `<div class="flex justify-between"><span>${p}</span><span>${lot}</span></div>`;
+        }).join('');
+
+        document.getElementById('sim1-asks').innerHTML = asksHtml;
+        document.getElementById('sim1-bids').innerHTML = bidsHtml;
+      }
+
+      function stepSim1() {
+        sim1.phase += 0.16;
+        const nextP = 100.0 + Math.sin(sim1.phase) * 0.85 + randn() * 0.09;
+        sim1.prices.push(nextP);
+        if (sim1.prices.length > 55) sim1.prices.shift();
+        sim1.currentPrice = nextP;
+
+        // Cek apakah Buy Limit tersentuh harga turun
+        if (sim1.buyLimit !== null && nextP <= sim1.buyLimit) {
+          const filledPrice = sim1.buyLimit;
+          sim1.buyLimit = null;
+          sim1.position = { type: 'BUY', entryPrice: filledPrice };
+          updateSim1UI(
+            `✅ Buy Limit TEREKSEKUSI di harga diskon ${filledPrice.toFixed(2)}!`,
+            `BUY @ ${filledPrice.toFixed(2)}`
+          );
+        }
+
+        // Cek apakah Sell Limit tersentuh harga naik
+        if (sim1.sellLimit !== null && nextP >= sim1.sellLimit) {
+          const filledPrice = sim1.sellLimit;
+          sim1.sellLimit = null;
+          if (sim1.position) {
+            const profit = filledPrice - sim1.position.entryPrice;
+            sim1.position = null;
+            updateSim1UI(
+              `🎯 Sell Limit (TP) TEREKSEKUSI di ${filledPrice.toFixed(2)}! Untung: +${profit.toFixed(2)} poin.`,
+              'Posisi Tertutup (Profit)'
+            );
+          } else {
+            sim1.position = { type: 'SELL', entryPrice: filledPrice };
+            updateSim1UI(
+              `✅ Sell Limit TEREKSEKUSI di harga tinggi ${filledPrice.toFixed(2)}!`,
+              `SELL @ ${filledPrice.toFixed(2)}`
+            );
+          }
+        }
+
+        // Update PnL berjalan jika punya posisi
+        if (sim1.position) {
+          const diff = sim1.position.type === 'BUY'
+            ? sim1.currentPrice - sim1.position.entryPrice
+            : sim1.position.entryPrice - sim1.currentPrice;
+          const sign = diff >= 0 ? '+' : '';
+          updateSim1UI(null, `${sim1.position.type} @ ${sim1.position.entryPrice.toFixed(2)} (${sign}${diff.toFixed(2)})`);
+        } else {
+          updateSim1UI(null, null);
+        }
+      }
+
+      function drawBab1Canvas() {
+        const setup = setupPaperCanvas(document.getElementById('canvas-bab1'));
+        if (!setup || sim1.prices.length === 0) return;
+        const { ctx, w, h } = setup;
+
+        const padL = 52, padR = 20, padT = 22, padB = 26;
+        drawGraphPaperBackground(ctx, w, h, padL, padR, padT, padB);
+
+        const plotW = w - padL - padR;
+        const plotH = h - padT - padB;
+
+        let minP = Math.min(...sim1.prices, sim1.buyLimit || Infinity, sim1.position ? sim1.position.entryPrice : Infinity) - 0.35;
+        let maxP = Math.max(...sim1.prices, sim1.sellLimit || -Infinity, sim1.position ? sim1.position.entryPrice : -Infinity) + 0.35;
+        const span = maxP - minP || 1;
+        const priceToY = p => padT + ((maxP - p) / span) * plotH;
+        const stepX = plotW / (sim1.prices.length - 1);
+
+        // Label Sumbu Y
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#4A5568';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 5; i++) {
+          const p = maxP - (span / 5) * i;
+          const y = padT + (plotH / 5) * i;
+          ctx.fillText(p.toFixed(2), padL - 7, y + 3);
+        }
+
+        // Gambar Garis Buy Limit (jika ada)
+        if (sim1.buyLimit !== null) {
+          const yBL = priceToY(sim1.buyLimit);
+          ctx.save();
+          ctx.strokeStyle = '#0F766E';
+          ctx.lineWidth = 1.6;
+          ctx.setLineDash([5, 4]);
+          ctx.beginPath();
+          ctx.moveTo(padL, yBL);
+          ctx.lineTo(w - padR, yBL);
+          ctx.stroke();
+          ctx.fillStyle = '#0F766E';
+          ctx.font = 'bold 10px "JetBrains Mono", monospace';
+          ctx.textAlign = 'left';
+          ctx.fillText(`BUY LIMIT (ANTRE): ${sim1.buyLimit.toFixed(2)}`, padL + 8, yBL - 5);
+          ctx.restore();
+        }
+
+        // Gambar Garis Sell Limit (jika ada)
+        if (sim1.sellLimit !== null) {
+          const ySL = priceToY(sim1.sellLimit);
+          ctx.save();
+          ctx.strokeStyle = '#C81E1E';
+          ctx.lineWidth = 1.6;
+          ctx.setLineDash([5, 4]);
+          ctx.beginPath();
+          ctx.moveTo(padL, ySL);
+          ctx.lineTo(w - padR, ySL);
+          ctx.stroke();
+          ctx.fillStyle = '#C81E1E';
+          ctx.font = 'bold 10px "JetBrains Mono", monospace';
+          ctx.textAlign = 'left';
+          ctx.fillText(`SELL LIMIT (TARGET): ${sim1.sellLimit.toFixed(2)}`, padL + 8, ySL - 5);
+          ctx.restore();
+        }
+
+        // Gambar Garis Posisi Terbuka (jika ada)
+        if (sim1.position) {
+          const yPos = priceToY(sim1.position.entryPrice);
+          ctx.save();
+          ctx.strokeStyle = '#1D4ED8';
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.moveTo(padL, yPos);
+          ctx.lineTo(w - padR, yPos);
+          ctx.stroke();
+          ctx.fillStyle = '#1D4ED8';
+          ctx.font = 'bold 10px "JetBrains Mono", monospace';
+          ctx.textAlign = 'left';
+          ctx.fillText(`POSISI ${sim1.position.type} @ ${sim1.position.entryPrice.toFixed(2)}`, padL + 8, yPos - 5);
+          ctx.restore();
+        }
+
+        // Gambar Garis Harga Live (Tinta Biru Blueprint)
+        ctx.save();
+        ctx.strokeStyle = '#1D4ED8';
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        sim1.prices.forEach((p, idx) => {
+          const x = padL + idx * stepX;
+          const y = priceToY(p);
+          if (idx === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // Titik harga saat ini
+        const lastX = padL + (sim1.prices.length - 1) * stepX;
+        const lastY = priceToY(sim1.currentPrice);
+        ctx.fillStyle = '#1D4ED8';
+        ctx.beginPath();
+        ctx.arc(lastX, lastY, 4.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      document.getElementById('btn-sim1-market').addEventListener('click', () => {
+        const askFill = sim1.currentPrice + 0.02;
+        sim1.position = { type: 'BUY', entryPrice: askFill };
+        updateSim1UI(
+          `⚡ Market Buy LANGSUNG TERISI di harga Ask ${askFill.toFixed(2)}!`,
+          `BUY @ ${askFill.toFixed(2)}`
+        );
+        drawBab1Canvas();
+      });
+
+      document.getElementById('btn-sim1-buylimit').addEventListener('click', () => {
+        sim1.buyLimit = +(sim1.currentPrice - 0.55).toFixed(2);
+        updateSim1UI(
+          `⏳ Buy Limit dipasang di ${sim1.buyLimit.toFixed(2)}. Menunggu harga turun menyentuh garis...`,
+          null
+        );
+        drawBab1Canvas();
+      });
+
+      document.getElementById('btn-sim1-selllimit').addEventListener('click', () => {
+        sim1.sellLimit = +(sim1.currentPrice + 0.55).toFixed(2);
+        updateSim1UI(
+          `⏳ Sell Limit dipasang di ${sim1.sellLimit.toFixed(2)}. Menunggu harga naik menyentuh garis...`,
+          null
+        );
+        drawBab1Canvas();
+      });
+
+      document.getElementById('btn-sim1-reset').addEventListener('click', () => {
+        resetSim1();
+        drawBab1Canvas();
+      });
+
+      // ======================================================================
+      // 4. SIMULATOR BAB 2: DIAGRAM STRUKTUR BERTAHAP (RBS/SBR, FVG, QM)
+      // ======================================================================
+      const sim2 = {
+        type: 'rbs', // 'rbs' | 'fvg' | 'qm'
+        step: 1,
+        maxSteps: 4
+      };
+
+      const structData = {
+        rbs: {
+          captions: [
+            'Langkah 1 / 4: Harga naik dan tertahan dua kali di garis Atap (Resistance 105.0).',
+            'Langkah 2 / 4: Pembeli datang dengan tenaga besar dan MENJEBOL Atap (Breakout) ke 109.0!',
+            'Langkah 3 / 4: Harga turun kembali menguji garis Atap lama (Retest di 105.0).',
+            'Langkah 4 / 4: Atap lama berubah menjadi Lantai Pijakan (RBS)! Harga memantul naik tinggi.'
+          ],
+          candles: [
+            { o: 100, h: 102.5, l: 99.5, c: 102 },
+            { o: 102, h: 105.0, l: 101.5, c: 104.6 },
+            { o: 104.6, h: 105.1, l: 102.0, c: 102.3 },
+            { o: 102.3, h: 103.5, l: 101.8, c: 103.2 },
+            { o: 103.2, h: 105.0, l: 102.8, c: 104.7 }, // akhir langkah 1 (idx 4)
+            { o: 104.7, h: 107.8, l: 104.4, c: 107.4 },
+            { o: 107.4, h: 109.2, l: 107.0, c: 108.8 }, // akhir langkah 2 (idx 6)
+            { o: 108.8, h: 109.0, l: 106.5, c: 106.8 },
+            { o: 106.8, h: 107.0, l: 105.0, c: 105.2 }, // akhir langkah 3 (idx 8)
+            { o: 105.2, h: 108.2, l: 104.9, c: 108.0 },
+            { o: 108.0, h: 111.5, l: 107.8, c: 111.0 }  // akhir langkah 4 (idx 10)
+          ],
+          stepIndices: [4, 6, 8, 10]
+        },
+        fvg: {
+          captions: [
+            'Langkah 1 / 4: Candle 1 bergerak normal dengan puncak sumbu atas di 102.0.',
+            'Langkah 2 / 4: Candle 2 melesat sangat panjang (Kereta Ekspres) dari 101.8 ke 106.5!',
+            'Langkah 3 / 4: Candle 3 naik ke 108.0. Sumbu bawahnya (105.5) tidak menyentuh Candle 1 (102.0) → Terbentuk FVG!',
+            'Langkah 4 / 4: Harga mundur sebentar mengisi celah FVG (menjemput penumpang) lalu lanjut terbang.'
+          ],
+          candles: [
+            { o: 100.0, h: 101.2, l: 99.6, c: 100.9 },
+            { o: 100.9, h: 102.0, l: 100.5, c: 101.8 }, // Candle 1 (idx 1)
+            { o: 101.8, h: 106.8, l: 101.7, c: 106.5 }, // Candle 2 ekspres (idx 2)
+            { o: 106.5, h: 108.2, l: 105.5, c: 107.8 }, // Candle 3 (idx 3) -> FVG 102.0..105.5
+            { o: 107.8, h: 108.0, l: 105.2, c: 105.5 },
+            { o: 105.5, h: 105.8, l: 103.6, c: 104.0 }, // Mengisi FVG (idx 5)
+            { o: 104.0, h: 107.5, l: 103.9, c: 107.2 },
+            { o: 107.2, h: 110.4, l: 107.0, c: 110.0 }  // Lanjut naik (idx 7)
+          ],
+          stepIndices: [1, 2, 3, 7]
+        },
+        qm: {
+          captions: [
+            'Langkah 1 / 4: Harga membentuk Bahu Kiri (High di 106.0) lalu turun membentuk lembah (Low di 102.0).',
+            'Langkah 2 / 4: Harga naik menembus Bahu Kiri membentuk Kepala lebih tinggi (Higher High di 108.5).',
+            'Langkah 3 / 4: Harga jatuh drastis menembus lembah lama membentuk Lower Low (99.5) — Tren patah!',
+            'Langkah 4 / 4: Harga memantul naik menyentuh garis Bahu Kiri (QM Level 106.0) → Entry Sell valid!'
+          ],
+          candles: [
+            { o: 102.5, h: 104.5, l: 102.2, c: 104.2 },
+            { o: 104.2, h: 106.0, l: 104.0, c: 105.7 }, // Bahu Kiri High 106.0 (idx 1)
+            { o: 105.7, h: 105.8, l: 102.0, c: 102.4 }, // Lembah Low 102.0 (idx 2)
+            { o: 102.4, h: 105.5, l: 102.2, c: 105.2 },
+            { o: 105.2, h: 108.5, l: 105.0, c: 108.1 }, // Kepala HH 108.5 (idx 4)
+            { o: 108.1, h: 108.2, l: 103.5, c: 103.8 },
+            { o: 103.8, h: 104.0, l: 99.5, c: 100.0 },  // Lower Low 99.5 (idx 6)
+            { o: 100.0, h: 103.2, l: 99.8, c: 103.0 },
+            { o: 103.0, h: 106.0, l: 102.8, c: 105.8 }, // Retest QM Level 106.0 (idx 8)
+            { o: 105.8, h: 105.9, l: 101.2, c: 101.5 }  // Jatuh dari QM Level (idx 9)
+          ],
+          stepIndices: [2, 4, 6, 9]
+        }
+      };
+
+      function updateSim2Controls() {
+        const data = structData[sim2.type];
+        document.getElementById('sim2-step-caption').textContent = data.captions[sim2.step - 1];
+        document.getElementById('btn-sim2-prev').disabled = sim2.step <= 1;
+        document.getElementById('btn-sim2-next').disabled = sim2.step >= sim2.maxSteps;
+      }
+
+      function drawBab2Canvas() {
+        const setup = setupPaperCanvas(document.getElementById('canvas-bab2'));
+        if (!setup) return;
+        const { ctx, w, h } = setup;
+
+        const padL = 52, padR = 24, padT = 24, padB = 26;
+        drawGraphPaperBackground(ctx, w, h, padL, padR, padT, padB);
+
+        const data = structData[sim2.type];
+        const maxIdx = data.stepIndices[sim2.step - 1];
+        const visibleCandles = data.candles.slice(0, maxIdx + 1);
+        const totalSlots = data.candles.length;
+
+        const minP = 98.0, maxP = 112.5;
+        const span = maxP - minP;
+        const priceToY = p => padT + ((maxP - p) / span) * (h - padT - padB);
+        const stepX = (w - padL - padR) / totalSlots;
+        const idxToX = i => padL + (i + 0.5) * stepX;
+
+        // Label Y
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#4A5568';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 5; i++) {
+          const p = maxP - (span / 5) * i;
+          ctx.fillText(p.toFixed(1), padL - 7, padT + ((h - padT - padB) / 5) * i + 3);
+        }
+
+        // Anotasi Khusus per Tipe Struktur
+        ctx.save();
+        if (sim2.type === 'rbs') {
+          const yLevel = priceToY(105.0);
+          ctx.strokeStyle = sim2.step >= 3 ? '#0F766E' : '#C81E1E';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([6, 4]);
+          ctx.beginPath();
+          ctx.moveTo(padL, yLevel);
+          ctx.lineTo(w - padR, yLevel);
+          ctx.stroke();
+
+          ctx.setLineDash([]);
+          ctx.fillStyle = sim2.step >= 3 ? '#0F766E' : '#C81E1E';
+          ctx.font = 'bold 11px "JetBrains Mono", monospace';
+          ctx.textAlign = 'left';
+          const label = sim2.step < 2
+            ? 'GARIS ATAP (RESISTANCE) 105.0'
+            : sim2.step === 2
+            ? 'BREAKOUT! ATAP DIJEBOL'
+            : 'RBS: ATAP JADI LANTAI PIJAKAN (ENTRY BUY)';
+          ctx.fillText(label, padL + 10, yLevel - 7);
+        } else if (sim2.type === 'fvg' && sim2.step >= 3) {
+          const yTop = priceToY(105.5);
+          const yBot = priceToY(102.0);
+          ctx.fillStyle = 'rgba(245, 158, 11, 0.22)';
+          ctx.fillRect(idxToX(1), yTop, w - padR - idxToX(1), yBot - yTop);
+          ctx.strokeStyle = '#D97706';
+          ctx.lineWidth = 1.3;
+          ctx.strokeRect(idxToX(1), yTop, w - padR - idxToX(1), yBot - yTop);
+
+          ctx.fillStyle = '#B45309';
+          ctx.font = 'bold 11px "JetBrains Mono", monospace';
+          ctx.textAlign = 'left';
+          ctx.fillText('ZONA FVG / IMBALANCE (102.0 – 105.5)', idxToX(2) + 12, (yTop + yBot) / 2 + 4);
+        } else if (sim2.type === 'qm') {
+          const yQM = priceToY(106.0);
+          ctx.strokeStyle = '#1D4ED8';
+          ctx.lineWidth = 1.8;
+          ctx.setLineDash([5, 4]);
+          ctx.beginPath();
+          ctx.moveTo(idxToX(1), yQM);
+          ctx.lineTo(w - padR, yQM);
+          ctx.stroke();
+
+          ctx.setLineDash([]);
+          ctx.fillStyle = '#1D4ED8';
+          ctx.font = 'bold 10px "JetBrains Mono", monospace';
+          ctx.textAlign = 'left';
+          ctx.fillText('QM LEVEL (BAHU KIRI 106.0)', idxToX(1), yQM - 7);
+
+          if (sim2.step >= 3) {
+            const yLL = priceToY(102.0);
+            ctx.strokeStyle = '#C81E1E';
+            ctx.setLineDash([3, 3]);
+            ctx.beginPath();
+            ctx.moveTo(idxToX(2), yLL);
+            ctx.lineTo(idxToX(6) + 15, yLL);
+            ctx.stroke();
+            ctx.fillStyle = '#C81E1E';
+            ctx.fillText('LEMBAH DITEMBUS (LOWER LOW)', idxToX(2), yLL + 14);
+          }
+        }
+        ctx.restore();
+
+        // Gambar Candlesticks
+        const candleW = Math.min(26, stepX * 0.55);
+        visibleCandles.forEach((c, i) => {
+          drawPaperCandle(ctx, idxToX(i), candleW, c.o, c.h, c.l, c.c, priceToY);
+        });
+
+        // Penanda Titik Entry Optimal pada Langkah 4
+        if (sim2.step === 4) {
+          const entryIdx = sim2.type === 'rbs' ? 8 : sim2.type === 'fvg' ? 5 : 8;
+          const entryPrice = sim2.type === 'rbs' ? 105.2 : sim2.type === 'fvg' ? 104.0 : 105.8;
+          const ex = idxToX(entryIdx);
+          const ey = priceToY(entryPrice);
+
+          ctx.save();
+          ctx.fillStyle = sim2.type === 'qm' ? '#C81E1E' : '#0F766E';
+          ctx.beginPath();
+          ctx.arc(ex, ey, 6, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = '#FFFDF9';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+
+      document.querySelectorAll('.btn-struct-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          sim2.type = btn.dataset.struct;
+          sim2.step = 1;
+          document.querySelectorAll('.btn-struct-tab').forEach(b => {
+            const active = b.dataset.struct === sim2.type;
+            b.className = active
+              ? 'btn-struct-tab px-3 py-1.5 rounded-md bg-blueprint text-white font-semibold cursor-pointer'
+              : 'btn-struct-tab px-3 py-1.5 rounded-md bg-paperbg border border-paperborder text-ink font-semibold cursor-pointer';
+          });
+          updateSim2Controls();
+          drawBab2Canvas();
+        });
+      });
+
+      document.getElementById('btn-sim2-prev').addEventListener('click', () => {
+        if (sim2.step > 1) {
+          sim2.step--;
+          updateSim2Controls();
+          drawBab2Canvas();
+        }
+      });
+
+      document.getElementById('btn-sim2-next').addEventListener('click', () => {
+        if (sim2.step < sim2.maxSteps) {
+          sim2.step++;
+          updateSim2Controls();
+          drawBab2Canvas();
+        }
+      });
+
+      // ======================================================================
+      // 5. SIMULATOR BAB 3: LIQUIDITY GRAB & LIQUIDITY HUNTER
+      // ======================================================================
+      const sim3 = {
+        stage: 1 // 1, 2, 3
+      };
+
+      const liqCandles = [
+        { o: 204.0, h: 205.5, l: 203.2, c: 205.0 },
+        { o: 205.0, h: 205.2, l: 201.0, c: 201.4 }, // Sentuh Support 201.0
+        { o: 201.4, h: 204.2, l: 201.2, c: 203.8 },
+        { o: 203.8, h: 204.5, l: 201.0, c: 201.3 }, // Sentuh Support 201.0 lagi
+        { o: 201.3, h: 203.6, l: 201.1, c: 203.2 },
+        { o: 203.2, h: 203.4, l: 198.2, c: 202.4 }, // TAHAP 2: JARUM LIQUIDITY GRAB ke 198.2 lalu tutup di atas 201.0!
+        { o: 202.4, h: 206.5, l: 202.1, c: 206.0 }, // TAHAP 3: Pembalikan arah asli
+        { o: 206.0, h: 209.5, l: 205.8, c: 209.0 }
+      ];
+
+      function updateSim3Stage(stageNum) {
+        sim3.stage = stageNum;
+        document.querySelectorAll('.btn-liq-stage').forEach(btn => {
+          const active = parseInt(btn.dataset.liqstage, 10) === stageNum;
+          btn.className = active
+            ? 'btn-liq-stage px-3 py-2.5 rounded-md bg-blueprint text-white font-semibold cursor-pointer text-left'
+            : 'btn-liq-stage px-3 py-2.5 rounded-md bg-paperbg border border-paperborder text-ink font-semibold cursor-pointer text-left';
+        });
+
+        const sweptEl = document.getElementById('sim3-swept-amount');
+        const descEl = document.getElementById('sim3-desc');
+
+        if (stageNum === 1) {
+          sweptEl.textContent = '$0 Juta';
+          descEl.innerHTML = '<strong>Tahap 1:</strong> Trader ritel melihat garis lantai (Support 201.0) yang kuat, lalu ramai-ramai membeli dan menaruh <strong>Stop Loss ($$$)</strong> tepat di bawah garis tersebut.';
+        } else if (stageNum === 2) {
+          sweptEl.textContent = '$48.5 Juta Tersapu!';
+          descEl.innerHTML = '<strong>Tahap 2 (Liquidity Grab):</strong> Institusi menekan harga menembus 201.0 dengan jarum tajam hingga 198.2, memicu semua SL ritel, lalu <strong>menutup candle kembali di atas 201.0</strong>!';
+        } else {
+          sweptEl.textContent = '$48.5 Juta (Terisi Penuh)';
+          descEl.innerHTML = '<strong>Tahap 3 (Pembalikan Arah Asli):</strong> Setelah semua pesanan murah didapat dari SL ritel, harga terbang naik ke 209.0 tanpa beban.';
+        }
+        drawBab3Canvas();
+      }
+
+      function drawBab3Canvas() {
+        const setup = setupPaperCanvas(document.getElementById('canvas-bab3'));
+        if (!setup) return;
+        const { ctx, w, h } = setup;
+
+        const padL = 52, padR = 24, padT = 24, padB = 26;
+        drawGraphPaperBackground(ctx, w, h, padL, padR, padT, padB);
+
+        const maxCandleIdx = sim3.stage === 1 ? 4 : sim3.stage === 2 ? 5 : 7;
+        const visible = liqCandles.slice(0, maxCandleIdx + 1);
+
+        const minP = 197.0, maxP = 210.5;
+        const span = maxP - minP;
+        const priceToY = p => padT + ((maxP - p) / span) * (h - padT - padB);
+        const stepX = (w - padL - padR) / liqCandles.length;
+        const idxToX = i => padL + (i + 0.5) * stepX;
+
+        // Label Y
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#4A5568';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 5; i++) {
+          const p = maxP - (span / 5) * i;
+          ctx.fillText(p.toFixed(1), padL - 7, padT + ((h - padT - padB) / 5) * i + 3);
+        }
+
+        // Garis Support 201.0
+        const ySup = priceToY(201.0);
+        ctx.save();
+        ctx.strokeStyle = '#1D4ED8';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(padL, ySup);
+        ctx.lineTo(w - padR, ySup);
+        ctx.stroke();
+
+        ctx.fillStyle = '#1D4ED8';
+        ctx.font = 'bold 11px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText('GARIS SUPPORT RITEL (201.0)', padL + 10, ySup - 6);
+
+        // Zona Kolam Stop Loss ($$$) di bawah Support
+        const yPoolBot = priceToY(198.0);
+        ctx.fillStyle = sim3.stage === 1 ? 'rgba(200, 30, 30, 0.14)' : 'rgba(148, 163, 184, 0.12)';
+        ctx.fillRect(padL, ySup, w - padL - padR, yPoolBot - ySup);
+
+        ctx.fillStyle = sim3.stage === 1 ? '#C81E1E' : '#64748B';
+        ctx.font = 'bold 11px "JetBrains Mono", monospace';
+        const poolLabel = sim3.stage === 1
+          ? '$$$ KOLAM STOP LOSS RITEL (SELL-SIDE LIQUIDITY) $$$'
+          : '✓ KOLAM LIKUIDITAS SUDAH DISAPU INSTIUSI';
+        ctx.fillText(poolLabel, padL + 10, ySup + 18);
+        ctx.restore();
+
+        // Gambar Candlesticks
+        const candleW = Math.min(28, stepX * 0.52);
+        visible.forEach((c, i) => {
+          drawPaperCandle(ctx, idxToX(i), candleW, c.o, c.h, c.l, c.c, priceToY);
+        });
+
+        // Sorotan Lingkaran pada Jarum Liquidity Grab (Stage 2 & 3)
+        if (sim3.stage >= 2) {
+          const gx = idxToX(5);
+          const gy = priceToY(198.2);
+          ctx.save();
+          ctx.strokeStyle = '#C81E1E';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([3, 3]);
+          ctx.beginPath();
+          ctx.arc(gx, gy, 14, 0, Math.PI * 2);
+          ctx.stroke();
+
+          ctx.setLineDash([]);
+          ctx.fillStyle = '#C81E1E';
+          ctx.font = 'bold 10px "JetBrains Mono", monospace';
+          ctx.textAlign = 'left';
+          ctx.fillText('← JARUM LIQUIDITY GRAB (STOP HUNT)', gx + 18, gy + 4);
+          ctx.restore();
+        }
+      }
+
+      document.querySelectorAll('.btn-liq-stage').forEach(btn => {
+        btn.addEventListener('click', () => {
+          updateSim3Stage(parseInt(btn.dataset.liqstage, 10));
+        });
+      });
+
+      // ======================================================================
+      // 6. SIMULATOR BAB 4: TRADE PLANNER (ENTRY, SL, TP & KALKULATOR RISIKO)
+      // ======================================================================
+      const sim4Candles = [
+        { o: 2630, h: 2642, l: 2628, c: 2640 },
+        { o: 2640, h: 2655, l: 2638, c: 2652 },
+        { o: 2652, h: 2672, l: 2650, c: 2669 },
+        { o: 2669, h: 2671, l: 2658, c: 2660 },
+        { o: 2660, h: 2662, l: 2648, c: 2651 }, // Pullback ke zona Entry
+        { o: 2651, h: 2656, l: 2647, c: 2654 }  // Candle konfirmasi naik
+      ];
+
+      function updateAndDrawBab4() {
+        let tp = parseFloat(document.getElementById('slider-tp4').value);
+        let entry = parseFloat(document.getElementById('slider-entry4').value);
+        let sl = parseFloat(document.getElementById('slider-sl4').value);
+
+        // Pastikan urutan logis untuk posisi BUY: SL < Entry < TP
+        if (sl >= entry) sl = entry - 2;
+        if (tp <= entry) tp = entry + 2;
+
+        document.getElementById('val-tp4').textContent = tp.toFixed(1);
+        document.getElementById('val-entry4').textContent = entry.toFixed(1);
+        document.getElementById('val-sl4').textContent = sl.toFixed(1);
+
+        const modal = Math.max(50, parseFloat(document.getElementById('input-modal4').value) || 1000);
+        const riskPct = Math.max(0.1, parseFloat(document.getElementById('input-riskpct4').value) || 1.0);
+
+        const riskPoints = entry - sl;
+        const rewardPoints = tp - entry;
+        const rrr = rewardPoints / riskPoints;
+
+        const riskDollar = modal * (riskPct / 100);
+        const rewardDollar = riskDollar * rrr;
+        const unitSize = riskDollar / riskPoints;
+        const breakEvenWinRate = (1 / (1 + rrr)) * 100;
+
+        document.getElementById('out-loss4').textContent = `-$${riskDollar.toFixed(2)} (${riskPoints.toFixed(1)} poin)`;
+        document.getElementById('out-win4').textContent = `+$${rewardDollar.toFixed(2)} (${rewardPoints.toFixed(1)} poin)`;
+        document.getElementById('out-size4').textContent = `${unitSize.toFixed(2)} Unit`;
+        document.getElementById('out-breakeven4').textContent = `${breakEvenWinRate.toFixed(1)}%`;
+
+        const badgeEl = document.getElementById('sim4-rrr-badge');
+        if (rrr >= 2.0) {
+          badgeEl.textContent = `RRR 1 : ${rrr.toFixed(2)} (LAYAK ENTRY ✓)`;
+          badgeEl.className = 'px-3 py-1 rounded-full bg-emeraldink/15 text-emeraldink border border-emeraldink/30 font-mono text-xs font-bold';
+        } else if (rrr >= 1.5) {
+          badgeEl.textContent = `RRR 1 : ${rrr.toFixed(2)} (CUKUP BAIK)`;
+          badgeEl.className = 'px-3 py-1 rounded-full bg-amber-500/15 text-amberink border border-amber-500/30 font-mono text-xs font-bold';
+        } else {
+          badgeEl.textContent = `RRR 1 : ${rrr.toFixed(2)} (TERLALU KECIL ✕)`;
+          badgeEl.className = 'px-3 py-1 rounded-full bg-crimson/15 text-crimson border border-crimson/30 font-mono text-xs font-bold';
+        }
+
+        const setup = setupPaperCanvas(document.getElementById('canvas-bab4'));
+        if (!setup) return;
+        const { ctx, w, h } = setup;
+
+        const padL = 54, padR = 24, padT = 22, padB = 26;
+        drawGraphPaperBackground(ctx, w, h, padL, padR, padT, padB);
+
+        const minP = 2610, maxP = 2715;
+        const span = maxP - minP;
+        const priceToY = p => padT + ((maxP - p) / span) * (h - padT - padB);
+        const totalCols = 11;
+        const stepX = (w - padL - padR) / totalCols;
+        const idxToX = i => padL + (i + 0.5) * stepX;
+
+        // Label Y
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#4A5568';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 5; i++) {
+          const p = maxP - (span / 5) * i;
+          ctx.fillText(p.toFixed(0), padL - 7, padT + ((h - padT - padB) / 5) * i + 3);
+        }
+
+        // Gambar Kotak Reward (Hijau) & Kotak Risk (Merah) mulai dari titik Entry (col 5..10)
+        const boxStartX = idxToX(5);
+        const boxW = w - padR - boxStartX;
+        const yTP = priceToY(tp);
+        const yEntry = priceToY(entry);
+        const ySL = priceToY(sl);
+
+        ctx.save();
+        // Zona Reward (Hijau Zamrud)
+        ctx.fillStyle = 'rgba(15, 118, 110, 0.16)';
+        ctx.fillRect(boxStartX, yTP, boxW, yEntry - yTP);
+        ctx.strokeStyle = '#0F766E';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(boxStartX, yTP, boxW, yEntry - yTP);
+
+        // Zona Risk (Merah)
+        ctx.fillStyle = 'rgba(200, 30, 30, 0.15)';
+        ctx.fillRect(boxStartX, yEntry, boxW, ySL - yEntry);
+        ctx.strokeStyle = '#C81E1E';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(boxStartX, yEntry, boxW, ySL - yEntry);
+
+        // Garis Entry Biru
+        ctx.strokeStyle = '#1D4ED8';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(boxStartX, yEntry);
+        ctx.lineTo(w - padR, yEntry);
+        ctx.stroke();
+
+        // Label Teks pada Kotak
+        ctx.font = 'bold 10px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#0F766E';
+        ctx.fillText(`TARGET TP: ${tp.toFixed(1)} (+$${rewardDollar.toFixed(1)})`, boxStartX + 8, yTP + 14);
+
+        ctx.fillStyle = '#1D4ED8';
+        ctx.fillText(`ENTRY BUY: ${entry.toFixed(1)}`, boxStartX + 8, yEntry - 5);
+
+        ctx.fillStyle = '#C81E1E';
+        ctx.fillText(`STOP LOSS: ${sl.toFixed(1)} (-$${riskDollar.toFixed(1)})`, boxStartX + 8, ySL - 5);
+        ctx.restore();
+
+        // Gambar Candlesticks
+        const candleW = Math.min(24, stepX * 0.55);
+        sim4Candles.forEach((c, i) => {
+          drawPaperCandle(ctx, idxToX(i), candleW, c.o, c.h, c.l, c.c, priceToY);
+        });
+      }
+
+      ['slider-tp4', 'slider-entry4', 'slider-sl4', 'input-modal4', 'input-riskpct4'].forEach(id => {
+        document.getElementById(id).addEventListener('input', updateAndDrawBab4);
+      });
+
+      // ======================================================================
+      // 7. SIMULATOR BAB 5: LAB BERITA MAKRO & PITA STANDAR DEVIASI
+      // ======================================================================
+      const sim5 = {
+        preset: 'cpi_hot',
+        candles: [],
+        meanLine: [],
+        sdLine: []
+      };
+
+      const newsConfigs = {
+        cpi_hot: {
+          z: '+2.20σ', vol: '+310%', spread: '4.5x Normal', dir: 'TURUN TAJAM ↓',
+          dirClass: 'text-crimson', shock: -24, label: 'RILIS CPI PANAS (INFLASI NAIK)'
+        },
+        fomc_cut: {
+          z: '-2.40σ', vol: '+360%', spread: '5.0x Normal', dir: 'TERBANG NAIK ↑',
+          dirClass: 'text-emeraldink', shock: +28, label: 'FOMC PANGKAS SUKU BUNGA'
+        },
+        nfp_strong: {
+          z: '+1.90σ', vol: '+275%', spread: '4.1x Normal', dir: 'TURUN TAJAM ↓',
+          dirClass: 'text-crimson', shock: -20, label: 'NFP LAPANGAN KERJA KUAT'
+        },
+        calm: {
+          z: '+0.15σ', vol: 'Normal', spread: '1.0x Normal', dir: 'MENDATAR ↔',
+          dirClass: 'text-blueprint', shock: 0, label: 'PASAR TENANG (TANPA BERITA)'
+        }
+      };
+
+      function generateSim5Data(presetKey) {
+        sim5.preset = presetKey;
+        const cfg = newsConfigs[presetKey];
+
+        document.getElementById('sim5-zscore').textContent = cfg.z;
+        document.getElementById('sim5-vol').textContent = cfg.vol;
+        document.getElementById('sim5-spread').textContent = cfg.spread;
+        const dirEl = document.getElementById('sim5-dir');
+        dirEl.textContent = cfg.dir;
+        dirEl.className = `text-sm sm:text-base font-bold ${cfg.dirClass}`;
+
+        const candles = [];
+        const meanLine = [];
+        const sdLine = [];
+        let price = 2650.0;
+        const relIdx = 16;
+
+        for (let i = 0; i < 36; i++) {
+          let open = price;
+          let close, high, low, sd;
+
+          if (i < relIdx) {
+            close = open + randn() * 1.4;
+            high = Math.max(open, close) + Math.abs(randn()) * 1.0;
+            low = Math.min(open, close) - Math.abs(randn()) * 1.0;
+            sd = 3.2;
+          } else if (i === relIdx) {
+            close = open + cfg.shock;
+            if (cfg.shock < 0) {
+              high = open + 4.0; // liquidity sweep atas dulu
+              low = close - 3.5;
+            } else if (cfg.shock > 0) {
+              low = open - 4.0; // liquidity sweep bawah dulu
+              high = close + 3.5;
+            } else {
+              close = open + randn() * 1.5;
+              high = Math.max(open, close) + 1.0;
+              low = Math.min(open, close) - 1.0;
+            }
+            sd = cfg.shock === 0 ? 3.2 : 12.5;
+          } else {
+            const decay = Math.exp(-(i - relIdx) * 0.14);
+            const drift = cfg.shock * 0.04 * decay;
+            const noise = randn() * (1.5 + Math.abs(cfg.shock) * 0.18 * decay);
+            close = open + drift + noise;
+            high = Math.max(open, close) + Math.abs(noise) * 0.7;
+            low = Math.min(open, close) - Math.abs(noise) * 0.7;
+            sd = 3.2 + (cfg.shock === 0 ? 0 : 9.3 * decay);
+          }
+
+          candles.push({ open, high, low, close });
+          const avg = candles.slice(Math.max(0, i - 7), i + 1).reduce((acc, c) => acc + c.close, 0) / Math.min(i + 1, 8);
+          meanLine.push(avg);
+          sdLine.push(sd);
+          price = close;
+        }
+
+        sim5.candles = candles;
+        sim5.meanLine = meanLine;
+        sim5.sdLine = sdLine;
+      }
+
+      function drawBab5Canvas() {
+        const setup = setupPaperCanvas(document.getElementById('canvas-bab5'));
+        if (!setup || sim5.candles.length === 0) return;
+        const { ctx, w, h } = setup;
+
+        const padL = 54, padR = 24, padT = 26, padB = 26;
+        drawGraphPaperBackground(ctx, w, h, padL, padR, padT, padB);
+
+        let minP = Infinity, maxP = -Infinity;
+        sim5.candles.forEach((c, i) => {
+          minP = Math.min(minP, c.low, sim5.meanLine[i] - 2.2 * sim5.sdLine[i]);
+          maxP = Math.max(maxP, c.high, sim5.meanLine[i] + 2.2 * sim5.sdLine[i]);
+        });
+        const span = maxP - minP || 1;
+        const priceToY = p => padT + ((maxP - p) / span) * (h - padT - padB);
+        const stepX = (w - padL - padR) / sim5.candles.length;
+        const idxToX = i => padL + (i + 0.5) * stepX;
+
+        // Label Y
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#4A5568';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 5; i++) {
+          const p = maxP - (span / 5) * i;
+          ctx.fillText(p.toFixed(1), padL - 7, padT + ((h - padT - padB) / 5) * i + 3);
+        }
+
+        // Gambar Pita Standar Deviasi ±2σ dan ±1σ
+        function drawBand(mult, fill) {
+          ctx.save();
+          ctx.beginPath();
+          for (let i = 0; i < sim5.candles.length; i++) {
+            const x = idxToX(i);
+            const y = priceToY(sim5.meanLine[i] + mult * sim5.sdLine[i]);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          for (let i = sim5.candles.length - 1; i >= 0; i--) {
+            const x = idxToX(i);
+            const y = priceToY(sim5.meanLine[i] - mult * sim5.sdLine[i]);
+            ctx.lineTo(x, y);
+          }
+          ctx.closePath();
+          ctx.fillStyle = fill;
+          ctx.fill();
+          ctx.restore();
+        }
+
+        drawBand(2.0, 'rgba(29, 78, 216, 0.08)');
+        drawBand(1.0, 'rgba(15, 118, 110, 0.12)');
+
+        // Garis Rata-Rata (VWAP / Mean)
+        ctx.save();
+        ctx.strokeStyle = '#D97706';
+        ctx.lineWidth = 1.6;
+        ctx.beginPath();
+        sim5.meanLine.forEach((m, i) => {
+          const x = idxToX(i);
+          const y = priceToY(m);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        ctx.restore();
+
+        // Garis Vertikal Detik Rilis Berita (idx 16)
+        const relX = idxToX(16);
+        ctx.save();
+        ctx.strokeStyle = '#C81E1E';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(relX, padT);
+        ctx.lineTo(relX, h - padB);
+        ctx.stroke();
+
+        ctx.fillStyle = '#C81E1E';
+        ctx.font = 'bold 10px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(newsConfigs[sim5.preset].label, relX, padT - 9);
+        ctx.restore();
+
+        // Candlesticks
+        const candleW = Math.max(4, stepX * 0.58);
+        sim5.candles.forEach((c, i) => {
+          drawPaperCandle(ctx, idxToX(i), candleW, c.open, c.high, c.low, c.close, priceToY);
+        });
+      }
+
+      document.querySelectorAll('.btn-news-preset').forEach(btn => {
+        btn.addEventListener('click', () => {
+          generateSim5Data(btn.dataset.news);
+          drawBab5Canvas();
+        });
+      });
+
+      // ======================================================================
+      // 8. SIMULATOR BAB 6: PROYEKSI MONTE CARLO & MODE SCALPING VS SWING
+      // ======================================================================
+      const sim6 = {
+        mode: 'scalp', // 'scalp' | 'swing'
+        drift: 0.12,
+        vol: 0.20,
+        history: [],
+        paths: [],
+        meanPath: [],
+        upper1: [],
+        lower1: [],
+        upper2: [],
+        lower2: []
+      };
+
+      function runSim6MonteCarlo() {
+        const histLen = 16;
+        const futLen = 22;
+        const numPaths = 40;
+        const stepScale = sim6.mode === 'scalp' ? 1 / 1200 : 1 / 252;
+
+        const history = [];
+        let p = 2600.0;
+        for (let i = 0; i < histLen; i++) {
+          const ret = (sim6.drift * 0.2) * stepScale + randn() * (sim6.vol * 0.5) * Math.sqrt(stepScale);
+          const open = p;
+          const close = open * Math.exp(ret);
+          const high = Math.max(open, close) + Math.abs(randn()) * (sim6.mode === 'scalp' ? 1.2 : 3.5);
+          const low = Math.min(open, close) - Math.abs(randn()) * (sim6.mode === 'scalp' ? 1.2 : 3.5);
+          history.push({ open, high, low, close });
+          p = close;
+        }
+        sim6.history = history;
+
+        const S0 = history[history.length - 1].close;
+        const paths = [];
+        const terminals = [];
+
+        for (let m = 0; m < numPaths; m++) {
+          const path = [S0];
+          let curr = S0;
+          for (let t = 1; t <= futLen; t++) {
+            const expo = (sim6.drift - 0.5 * sim6.vol * sim6.vol) * stepScale + sim6.vol * Math.sqrt(stepScale) * randn();
+            curr = curr * Math.exp(expo);
+            path.push(curr);
+          }
+          paths.push(path);
+          terminals.push(curr);
+        }
+        sim6.paths = paths;
+
+        const meanPath = [], upper1 = [], lower1 = [], upper2 = [], lower2 = [];
+        for (let t = 0; t <= futLen; t++) {
+          const vals = paths.map(pt => pt[t]);
+          const mean = vals.reduce((a, b) => a + b, 0) / numPaths;
+          const variance = vals.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / numPaths;
+          const sd = Math.sqrt(variance);
+          meanPath.push(mean);
+          upper1.push(mean + sd);
+          lower1.push(mean - sd);
+          upper2.push(mean + 2 * sd);
+          lower2.push(mean - 2 * sd);
+        }
+        sim6.meanPath = meanPath;
+        sim6.upper1 = upper1;
+        sim6.lower1 = lower1;
+        sim6.upper2 = upper2;
+        sim6.lower2 = lower2;
+
+        // Hitung Probabilitas Naik vs Turun
+        const upCount = terminals.filter(v => v >= S0).length;
+        const probUp = (upCount / numPaths) * 100;
+        const probDown = 100 - probUp;
+        const avgTarget = meanPath[futLen];
+        const sorted = [...terminals].sort((a, b) => a - b);
+        const var95 = ((sorted[Math.floor(numPaths * 0.05)] - S0) / S0) * 100;
+
+        document.getElementById('sim6-prob-up').textContent = `${probUp.toFixed(1)}%`;
+        document.getElementById('sim6-prob-down').textContent = `${probDown.toFixed(1)}%`;
+        document.getElementById('sim6-target').textContent = avgTarget.toFixed(1);
+        document.getElementById('sim6-var').textContent = `${var95.toFixed(2)}%`;
+      }
+
+      function drawBab6Canvas() {
+        const setup = setupPaperCanvas(document.getElementById('canvas-bab6'));
+        if (!setup || sim6.paths.length === 0) return;
+        const { ctx, w, h } = setup;
+
+        const padL = 54, padR = 24, padT = 26, padB = 26;
+        drawGraphPaperBackground(ctx, w, h, padL, padR, padT, padB);
+
+        const histLen = sim6.history.length;
+        const futLen = sim6.paths[0].length - 1;
+        const totalSteps = histLen + futLen;
+
+        let minP = Infinity, maxP = -Infinity;
+        sim6.history.forEach(c => {
+          minP = Math.min(minP, c.low);
+          maxP = Math.max(maxP, c.high);
+        });
+        sim6.paths.forEach(pt => {
+          pt.forEach(v => {
+            if (v < minP) minP = v;
+            if (v > maxP) maxP = v;
+          });
+        });
+        const span = maxP - minP || 1;
+        const priceToY = p => padT + ((maxP - p) / span) * (h - padT - padB);
+        const stepX = (w - padL - padR) / totalSteps;
+        const stepToX = idx => padL + (idx + 0.5) * stepX;
+
+        // Label Y
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#4A5568';
+        ctx.textAlign = 'right';
+        for (let i = 0; i <= 5; i++) {
+          const p = maxP - (span / 5) * i;
+          ctx.fillText(p.toFixed(1), padL - 7, padT + ((h - padT - padB) / 5) * i + 3);
+        }
+
+        const t0Idx = histLen - 1;
+        const t0X = stepToX(t0Idx);
+
+        // Gambar Kipas Probabilitas (±2σ & ±1σ)
+        function drawCone(uArr, lArr, fill) {
+          ctx.save();
+          ctx.beginPath();
+          for (let t = 0; t <= futLen; t++) {
+            const x = stepToX(t0Idx + t);
+            const y = priceToY(uArr[t]);
+            if (t === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          for (let t = futLen; t >= 0; t--) {
+            const x = stepToX(t0Idx + t);
+            const y = priceToY(lArr[t]);
+            ctx.lineTo(x, y);
+          }
+          ctx.closePath();
+          ctx.fillStyle = fill;
+          ctx.fill();
+          ctx.restore();
+        }
+
+        drawCone(sim6.upper2, sim6.lower2, 'rgba(29, 78, 216, 0.07)');
+        drawCone(sim6.upper1, sim6.lower1, 'rgba(15, 118, 110, 0.13)');
+
+        // Gambar 40 Jalur Monte Carlo
+        const S0 = sim6.history[t0Idx].close;
+        sim6.paths.forEach(path => {
+          const endP = path[futLen];
+          ctx.strokeStyle = endP >= S0 ? 'rgba(15, 118, 110, 0.28)' : 'rgba(200, 30, 30, 0.25)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          path.forEach((val, t) => {
+            const x = stepToX(t0Idx + t);
+            const y = priceToY(val);
+            if (t === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          });
+          ctx.stroke();
+        });
+
+        // Garis Rata-Rata Ekspektasi (Tinta Biru Tebal)
+        ctx.save();
+        ctx.strokeStyle = '#1D4ED8';
+        ctx.lineWidth = 2.4;
+        ctx.beginPath();
+        sim6.meanPath.forEach((val, t) => {
+          const x = stepToX(t0Idx + t);
+          const y = priceToY(val);
+          if (t === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        ctx.restore();
+
+        // Candlesticks Historis
+        const candleW = Math.max(4, stepX * 0.56);
+        sim6.history.forEach((c, i) => {
+          drawPaperCandle(ctx, stepToX(i), candleW, c.open, c.high, c.low, c.close, priceToY);
+        });
+
+        // Garis Vertikal Hari Ini (t₀)
+        ctx.save();
+        ctx.strokeStyle = '#1A2230';
+        ctx.lineWidth = 1.4;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(t0X, padT);
+        ctx.lineTo(t0X, h - padB);
+        ctx.stroke();
+
+        ctx.fillStyle = '#1A2230';
+        ctx.font = 'bold 10px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        const modeTag = sim6.mode === 'scalp' ? 'SEKARANG (M5)' : 'HARI INI (H4)';
+        ctx.fillText(modeTag, t0X, padT - 9);
+        ctx.restore();
+      }
+
+      document.getElementById('btn-sim6-scalp').addEventListener('click', () => {
+        sim6.mode = 'scalp';
+        document.getElementById('btn-sim6-scalp').className = 'px-3 py-1.5 rounded bg-blueprint text-white font-semibold cursor-pointer';
+        document.getElementById('btn-sim6-swing').className = 'px-3 py-1.5 rounded text-ink font-semibold cursor-pointer';
+        runSim6MonteCarlo();
+        drawBab6Canvas();
+      });
+
+      document.getElementById('btn-sim6-swing').addEventListener('click', () => {
+        sim6.mode = 'swing';
+        document.getElementById('btn-sim6-swing').className = 'px-3 py-1.5 rounded bg-emeraldink text-white font-semibold cursor-pointer';
+        document.getElementById('btn-sim6-scalp').className = 'px-3 py-1.5 rounded text-ink font-semibold cursor-pointer';
+        runSim6MonteCarlo();
+        drawBab6Canvas();
+      });
+
+      document.getElementById('slider-drift6').addEventListener('input', e => {
+        const val = parseFloat(e.target.value);
+        sim6.drift = val / 100;
+        const el = document.getElementById('val-drift6');
+        el.textContent = `${val >= 0 ? '+' : ''}${val}%`;
+        el.className = `font-bold ${val >= 0 ? 'text-emeraldink' : 'text-crimson'}`;
+        runSim6MonteCarlo();
+        drawBab6Canvas();
+      });
+
+      document.getElementById('slider-vol6').addEventListener('input', e => {
+        const val = parseFloat(e.target.value);
+        sim6.vol = val / 100;
+        document.getElementById('val-vol6').textContent = `${val}%`;
+        runSim6MonteCarlo();
+        drawBab6Canvas();
+      });
+
+      document.getElementById('btn-sim6-run').addEventListener('click', () => {
+        runSim6MonteCarlo();
+        drawBab6Canvas();
+      });
+
+      // ======================================================================
+      // 9. ALERT MODAL KONFIRMASI HALAMAN MASTER (/highlab)
+      // ======================================================================
+      const masterModal = document.getElementById('master-redirect-modal');
+      const btnStayHere = document.getElementById('btn-stay-here');
+      const btnGotoMaster = document.getElementById('btn-goto-master');
+      const btnOpenMasterModal = document.getElementById('btn-open-master-modal');
+
+      function openMasterModal() {
+        if (!masterModal) return;
+        masterModal.classList.remove('hidden');
+        masterModal.classList.add('flex');
+        if (btnGotoMaster) btnGotoMaster.focus();
+      }
+
+      function closeMasterModal() {
+        if (!masterModal) return;
+        masterModal.classList.add('hidden');
+        masterModal.classList.remove('flex');
+      }
+
+      if (btnStayHere) {
+        btnStayHere.addEventListener('click', closeMasterModal);
+      }
+
+      if (btnOpenMasterModal) {
+        btnOpenMasterModal.addEventListener('click', openMasterModal);
+      }
+
+      if (btnGotoMaster) {
+        btnGotoMaster.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetSrc = btnGotoMaster.getAttribute('data-src') || btnGotoMaster.getAttribute('href') || '/highlab';
+          window.location.href = targetSrc;
+        });
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && masterModal && !masterModal.classList.contains('hidden')) {
+          closeMasterModal();
+        }
+      });
+
+      // ======================================================================
+      // 10. RENDER ENGINE & RESIZE HANDLING
+      // ======================================================================
+      function renderCurrentChapterCanvas() {
+        if (currentChapter === 0) drawBab1Canvas();
+        else if (currentChapter === 1) drawBab2Canvas();
+        else if (currentChapter === 2) drawBab3Canvas();
+        else if (currentChapter === 3) updateAndDrawBab4();
+        else if (currentChapter === 4) drawBab5Canvas();
+        else if (currentChapter === 5) drawBab6Canvas();
+      }
+
+      // Simulasi gerak harga live khusus untuk Bab 1 setiap 850ms
+      setInterval(() => {
+        if (currentChapter === 0) {
+          stepSim1();
+          drawBab1Canvas();
+        }
+      }, 850);
+
+      window.addEventListener('resize', () => {
+        updateSidebarVisuals();
+        renderCurrentChapterCanvas();
+      });
+
+      // Inisialisasi awal saat dokumen siap
+      window.addEventListener('DOMContentLoaded', () => {
+        resetSim1();
+        updateSim2Controls();
+        generateSim5Data('cpi_hot');
+        runSim6MonteCarlo();
+        updateSidebarVisuals();
+        goToChapter(0);
+        openMasterModal();
+      });
+    })();
+  </script>
+</body>
+</html>
