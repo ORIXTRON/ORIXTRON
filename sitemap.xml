@@ -1,5 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <url>
-    <loc>https://orixtron.my.id/</loc>
+    <loc>https://www.orixtron.my.id/</loc>
   </url>
+
+  <url>
+    <loc>https://www.orixtron.my.id/assisten</loc>
+  </url>
+
+  <url>
+    <loc>https://www.orixtron.my.id/biodata</loc>
+  </url>
+
+  <url>
+    <loc>https://www.orixtron.my.id/stock%20core</loc>
+  </url>
+
+  <url>
+    <loc>https://www.orixtron.my.id/crypto%20core</loc>
+  </url>
+
+  <url>
+    <loc>https://www.orixtron.my.id/classic/1</loc>
+  </url>
+
+  <url>
+    <loc>https://www.orixtron.my.id/lab</loc>
+  </url>
+
+  <url>
+    <loc>https://www.orixtron.my.id/highlab</loc>
+  </url>
+
+  <url>
+    <loc>https://www.orixtron.my.id/classic/2</loc>
+  </url>
+
 </urlset>
