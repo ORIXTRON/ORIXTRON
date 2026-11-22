@@ -1,0 +1,1833 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Big Debt Supercycle (Real-Time Telemetry) — Ray Dalio | Orixtron Technology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment-base: #e6cfa9;
+      --parchment-light: #f2e1c2;
+      --parchment-dark: #cfa972;
+      --ink-dark: #2c1e12;
+      --ink-sepia: #4a321d;
+      --ink-faded: #6e4f32;
+      --line-gold-brown: #9c6b30;
+
+      /* Palet 4 Fase Big Debt Supercycle Ray Dalio (Nuansa Tinta Antik) */
+      --dalio-early:     #2e5a36;   /* Fase 1: Early Cycle (Healthy Credit & Productivity) */
+      --dalio-bubble:    #9c5a1a;   /* Fase 2: The Bubble & The Top (Debt > Income) */
+      --dalio-depress:   #8b261d;   /* Fase 3: Depression / Ugly Deleveraging (0% Rates) */
+      --dalio-beautiful: #1e4b6b;   /* Fase 4: Beautiful Deleveraging & Normalization */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #261b12;
+      background-image: radial-gradient(circle at center, #3a291b 0%, #1c130c 100%);
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Tekstur Kertas Perkamen Klasik */
+    .parchment-card {
+      position: relative;
+      width: 100%;
+      max-width: 1240px;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(255, 248, 231, 0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 85%, rgba(168, 121, 62, 0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, var(--parchment-light) 0%, var(--parchment-base) 65%, var(--parchment-dark) 100%);
+      border: 2px solid #5c3f24;
+      border-radius: 4px;
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.65),
+        inset 0 0 65px rgba(112, 74, 34, 0.42),
+        inset 0 0 12px rgba(44, 30, 18, 0.45);
+      padding: 28px 34px 26px;
+      overflow: hidden;
+    }
+
+    /* Efek Serat Kertas Halus */
+    .parchment-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+
+    /* Bingkai Tipis Bagian Dalam */
+    .parchment-card::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      pointer-events: none;
+    }
+
+    /* Watermark Kertas Perkamen Orixtron Technology */
+    .parchment-watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .watermark-main-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: clamp(2.1rem, 5.2vw, 4.4rem);
+      letter-spacing: 0.22em;
+      color: rgba(74, 50, 29, 0.075);
+      text-transform: uppercase;
+      white-space: nowrap;
+      transform: rotate(-8deg);
+      text-shadow: 1px 1px 0 rgba(255, 248, 231, 0.35);
+    }
+
+    .watermark-sub-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+      letter-spacing: 0.32em;
+      color: rgba(74, 50, 29, 0.085);
+      text-transform: uppercase;
+      transform: rotate(-8deg);
+      margin-top: 4px;
+    }
+
+    /* Bilah Status Real-Time (Live Telemetry Strip) */
+    .live-telemetry-bar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 14px;
+      margin-bottom: 14px;
+      background: rgba(44, 30, 18, 0.08);
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      border-radius: 3px;
+      font-size: 0.9rem;
+    }
+
+    .live-indicator-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-sepia);
+    }
+
+    .pulse-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background-color: #2e5a36;
+      box-shadow: 0 0 0 0 rgba(46, 90, 54, 0.7);
+      animation: pulseRing 1.8s infinite;
+    }
+
+    @keyframes pulseRing {
+      0% { box-shadow: 0 0 0 0 rgba(46, 90, 54, 0.75); }
+      70% { box-shadow: 0 0 0 7px rgba(46, 90, 54, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(46, 90, 54, 0); }
+    }
+
+    .live-clock-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--ink-dark);
+    }
+
+    .api-status-pill {
+      padding: 2px 10px;
+      border-radius: 2px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      background: rgba(46, 90, 54, 0.14);
+      border: 1px solid rgba(46, 90, 54, 0.45);
+      color: #2e5a36;
+    }
+
+    /* Header Judul Utama */
+    .card-header {
+      text-align: center;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-kicker {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--ink-faded);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-family: 'Cinzel', 'Times New Roman', serif;
+      font-size: clamp(1.65rem, 3.3vw, 2.85rem);
+      font-weight: 700;
+      color: var(--ink-sepia);
+      letter-spacing: 0.04em;
+      text-shadow: 1px 1px 0 rgba(255, 245, 224, 0.6);
+    }
+
+    .card-subtitle-header {
+      font-size: 1.08rem;
+      font-style: italic;
+      color: var(--ink-sepia);
+      margin-top: 2px;
+    }
+
+    /* Papan Telemetri Metrik Makro Real-Time (4 Kartu Angka Langsung) */
+    .realtime-metrics-strip {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .metric-box {
+      background: rgba(255, 249, 236, 0.56);
+      border: 1.2px solid rgba(74, 50, 29, 0.42);
+      border-radius: 3px;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--ink-faded);
+      text-transform: uppercase;
+    }
+
+    .metric-value {
+      font-family: 'Cinzel', serif;
+      font-size: 1.26rem;
+      font-weight: 800;
+      color: var(--ink-dark);
+      margin: 2px 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric-sub {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--ink-sepia);
+    }
+
+    /* Kontrol Negara Real-Time & Layer Kurva Dalio */
+    .chart-controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: rgba(110, 79, 50, 0.1);
+      border: 1px solid rgba(74, 50, 29, 0.3);
+      border-radius: 3px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .control-label {
+      font-weight: 700;
+      font-size: 0.96rem;
+      color: var(--ink-sepia);
+    }
+
+    .vintage-btn {
+      background: linear-gradient(to bottom, #f5e6ca, #dec092);
+      border: 1px solid #5c3f24;
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.93rem;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      transition: all 0.15s ease;
+    }
+
+    .vintage-btn:hover {
+      background: linear-gradient(to bottom, #fff2da, #e5c99c);
+      transform: translateY(-1px);
+    }
+
+    .vintage-btn.active {
+      background: var(--ink-sepia);
+      color: #f6e7cb;
+      border-color: var(--ink-dark);
+    }
+
+    .layer-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+    }
+
+    .legend-swatch {
+      display: inline-block;
+      width: 14px;
+      height: 4px;
+      border-radius: 1px;
+    }
+
+    /* Area Grafik Klasik */
+    .chart-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      margin-top: 4px;
+      border: 2px solid var(--ink-dark);
+      background: rgba(255, 249, 236, 0.18);
+    }
+
+    /* Kolom Kiri: Sumbu Rasio Utang / PDB & Kredit */
+    .axis-column {
+      flex: 0 0 96px;
+      border-right: 1.8px solid var(--ink-dark);
+      background: rgba(110, 79, 50, 0.08);
+      user-select: none;
+    }
+
+    /* Area Scrollable SVG Kurva Dalio */
+    .chart-scroll-area {
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      position: relative;
+      cursor: grab;
+    }
+
+    .chart-scroll-area:active {
+      cursor: grabbing;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-track {
+      background: rgba(92, 63, 36, 0.15);
+      border-top: 1px solid rgba(92, 63, 36, 0.3);
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-thumb {
+      background: #7c5633;
+      border-radius: 3px;
+      border: 1px solid #4a321d;
+    }
+
+    /* Animasi Denyut Jarum Real-Time di dalam SVG */
+    @keyframes svgLivePulse {
+      0% { r: 7; opacity: 0.85; }
+      70% { r: 16; opacity: 0; }
+      100% { r: 16; opacity: 0; }
+    }
+
+    .svg-live-ring {
+      animation: svgLivePulse 1.8s infinite ease-out;
+      pointer-events: none;
+    }
+
+    /* Ringkasan 4 Fase Utama Big Debt Supercycle */
+    .phases-legend-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .phase-legend-card {
+      background: rgba(255, 249, 236, 0.42);
+      border: 1px solid rgba(74, 50, 29, 0.38);
+      border-top-width: 4px;
+      border-radius: 3px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .phase-legend-card:hover {
+      background: rgba(255, 249, 236, 0.72);
+      transform: translateY(-2px);
+    }
+
+    .phase-legend-card.early     { border-top-color: var(--dalio-early); }
+    .phase-legend-card.bubble    { border-top-color: var(--dalio-bubble); }
+    .phase-legend-card.depress   { border-top-color: var(--dalio-depress); }
+    .phase-legend-card.beautiful { border-top-color: var(--dalio-beautiful); }
+
+    .phase-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.86rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: 0.03em;
+    }
+
+    .phase-card-body {
+      font-size: 0.94rem;
+      line-height: 1.32;
+      color: var(--ink-dark);
+    }
+
+    /* Footer Kartu & Tanda Tangan Ray Dalio */
+    .card-footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .legend-note-block {
+      max-width: 820px;
+      font-size: 1.04rem;
+      line-height: 1.38;
+      color: var(--ink-dark);
+    }
+
+    .signature-block {
+      text-align: right;
+      transform: rotate(-12deg);
+      transform-origin: bottom right;
+      padding: 0 12px 4px 0;
+      color: var(--ink-faded);
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .signature-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.1rem;
+      line-height: 0.95;
+      display: block;
+    }
+
+    .signature-year {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.45rem;
+      display: block;
+      margin-top: -2px;
+    }
+
+    /* Stempel Kolofon Developer Orixtron Technology */
+    .developer-colophon {
+      position: relative;
+      z-index: 2;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(74, 50, 29, 0.28);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--ink-faded);
+      user-select: none;
+    }
+
+    .dev-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 12px;
+      border: 1px double rgba(74, 50, 29, 0.55);
+      border-radius: 2px;
+      background: rgba(255, 248, 231, 0.25);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--ink-sepia);
+      text-transform: uppercase;
+    }
+
+    .dev-edition-note {
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--ink-faded);
+    }
+
+    /* =========================================================
+       PANEL KALIBRASI REAL-TIME & DIAGNOSTIK MESIN DALIO
+       ========================================================= */
+    .predictor-panel {
+      padding: 26px 32px 22px;
+    }
+
+    .predictor-header {
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid rgba(74, 50, 29, 0.35);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .predictor-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .predictor-subtitle {
+      font-size: 1.02rem;
+      font-style: italic;
+      color: var(--ink-faded);
+    }
+
+    /* Konsol Slider Real-Time 5 Variabel Makro Dalio */
+    .realtime-sliders-panel {
+      position: relative;
+      z-index: 1;
+      background: rgba(222, 192, 146, 0.28);
+      border: 1px solid rgba(92, 63, 36, 0.38);
+      border-radius: 3px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+    }
+
+    .sliders-header-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tool-box-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.94rem;
+      color: var(--ink-sepia);
+      letter-spacing: 0.04em;
+    }
+
+    .sliders-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+
+    .slider-card {
+      background: rgba(255, 249, 236, 0.55);
+      border: 1px solid rgba(92, 63, 36, 0.32);
+      border-radius: 3px;
+      padding: 10px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .slider-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .slider-top label {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+      line-height: 1.2;
+    }
+
+    .slider-val-badge {
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--ink-dark);
+      white-space: nowrap;
+    }
+
+    .vintage-range {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #cbb084;
+      border: 1px solid #5c3f24;
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .vintage-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #8b261d;
+      border: 2px solid #fff7e8;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+    }
+
+    .vintage-range::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #8b261d;
+      border: 2px solid #fff7e8;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+    }
+
+    .slider-hint {
+      font-size: 0.82rem;
+      font-style: italic;
+      color: var(--ink-faded);
+    }
+
+    /* Hasil Diagnostik Real-Time */
+    .prediction-result {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 249, 236, 0.55);
+      border: 1.5px solid #6b4929;
+      border-radius: 4px;
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: 1.38fr 1fr;
+      gap: 20px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      color: #fff8eb;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .badge-early     { background-color: var(--dalio-early); }
+    .badge-bubble    { background-color: var(--dalio-bubble); }
+    .badge-depress   { background-color: var(--dalio-depress); }
+    .badge-beautiful { background-color: var(--dalio-beautiful); }
+
+    .result-headline {
+      font-family: 'Cinzel', serif;
+      font-size: 1.48rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      margin-bottom: 6px;
+    }
+
+    .result-formula-note {
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: var(--ink-sepia);
+      margin-bottom: 10px;
+    }
+
+    .result-desc {
+      font-size: 1.1rem;
+      line-height: 1.46;
+      color: var(--ink-dark);
+      margin-bottom: 12px;
+    }
+
+    .asset-allocation-box {
+      background: rgba(222, 192, 146, 0.32);
+      border-left: 3.5px solid var(--line-gold-brown);
+      padding: 10px 14px;
+      font-size: 1.04rem;
+      line-height: 1.42;
+      color: var(--ink-dark);
+    }
+
+    .cycle-checklist {
+      background: rgba(222, 192, 146, 0.35);
+      border: 1px solid rgba(92, 63, 36, 0.35);
+      border-radius: 3px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 9px;
+    }
+
+    .check-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      border-bottom: 1px dashed rgba(92, 63, 36, 0.3);
+      padding-bottom: 6px;
+      font-size: 1.01rem;
+    }
+
+    .check-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .check-label {
+      font-weight: 700;
+      color: var(--ink-sepia);
+      flex-shrink: 0;
+    }
+
+    .check-val {
+      text-align: right;
+      font-weight: 600;
+      color: var(--ink-dark);
+    }
+
+    .global-dev-footer {
+      text-align: center;
+      color: rgba(230, 207, 169, 0.65);
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      user-select: none;
+    }
+
+    @media (max-width: 1040px) {
+      .sliders-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .realtime-metrics-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .phases-legend-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .prediction-result {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .parchment-card {
+        padding: 18px 14px;
+      }
+      .axis-column {
+        flex: 0 0 64px;
+      }
+      .phases-legend-grid,
+      .sliders-grid,
+      .realtime-metrics-strip {
+        grid-template-columns: 1fr;
+      }
+      .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .signature-block {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KARTU UTAMA SIKLUS UTANG JANGKA PANJANG RAY DALIO (REAL-TIME TELEMETRY) -->
+  <main class="parchment-card">
+    <!-- Watermark Kertas Perkamen Orixtron Technology -->
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text">ORIXTRON TECHNOLOGY</span>
+      <span class="watermark-sub-text">Ray Dalio Real-Time Big Debt Supercycle Engine</span>
+    </div>
+
+    <!-- Bilah Telemetri Real-Time -->
+    <div class="live-telemetry-bar">
+      <div class="live-indicator-group">
+        <span class="pulse-dot" id="livePulseDot"></span>
+        <span>LIVE TELEMETRY &bull; REAL-TIME DEBT SUPERCYCLE MONITOR</span>
+      </div>
+      <div class="live-clock-text" id="liveClockDisplay">--:--:-- WIB</div>
+      <div class="api-status-pill" id="apiStatusPill">Menyinkronkan World Bank Open Data...</div>
+    </div>
+
+    <header class="card-header">
+      <div class="card-kicker">Principles for Navigating Big Debt Crises &bull; Live Macro &amp; Monetary Engine</div>
+      <h1 class="card-title">The Big Debt Supercycle</h1>
+      <p class="card-subtitle-header">“Real-Time Debt-to-GDP Pulse, Nominal Growth vs. Interest Rate Spread, and MP1–MP2–MP3 Regime”</p>
+    </header>
+
+    <!-- 4 Papan Angka Telemetri Langsung -->
+    <div class="realtime-metrics-strip">
+      <div class="metric-box">
+        <span class="metric-label">Rasio Utang / PDB (Live Drift)</span>
+        <span class="metric-value" id="metricLiveDebt">123.400000%</span>
+        <span class="metric-sub" id="metricDebtTrend">Akumulasi bersih +0.000008%/dtk</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Spread Pertumbuhan vs. Bunga</span>
+        <span class="metric-value" id="metricGrowthSpread">+0.80%</span>
+        <span class="metric-sub" id="metricSpreadStatus">Nominal GDP > Suku Bunga (Stabil)</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Rezim Kebijakan Moneter</span>
+        <span class="metric-value" id="metricPolicyRegime">MP2 / MP3</span>
+        <span class="metric-sub" id="metricPolicySub">Monetisasi &amp; Likuiditas Aktif</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Indeks Tekanan Utang Dalio</span>
+        <span class="metric-value" id="metricStressIndex">74 / 100</span>
+        <span class="metric-sub" id="metricStageShort">Fase: Beautiful Deleveraging</span>
+      </div>
+    </div>
+
+    <!-- Kontrol Pemilihan Negara Real-Time & Layer Kurva -->
+    <div class="chart-controls">
+      <div class="control-group">
+        <span class="control-label">Ekonomi Live:</span>
+        <button class="vintage-btn active" data-country="USA" onclick="loadCountryRealtime('USA', this)">Amerika Serikat</button>
+        <button class="vintage-btn" data-country="IDN" onclick="loadCountryRealtime('IDN', this)">Indonesia</button>
+        <button class="vintage-btn" data-country="JPN" onclick="loadCountryRealtime('JPN', this)">Jepang</button>
+        <button class="vintage-btn" data-country="CHN" onclick="loadCountryRealtime('CHN', this)">Tiongkok</button>
+        <button class="vintage-btn" data-country="EMU" onclick="loadCountryRealtime('EMU', this)">Zona Euro</button>
+        <button class="vintage-btn" data-country="GBR" onclick="loadCountryRealtime('GBR', this)">Inggris</button>
+      </div>
+
+      <div class="control-group">
+        <span class="control-label">Kurva:</span>
+        <button class="vintage-btn layer-toggle active" onclick="toggleLayer('supercycle', this)">
+          <span class="legend-swatch" style="background: #9b682c;"></span> Utang / PDB
+        </button>
+        <button class="vintage-btn layer-toggle active" onclick="toggleLayer('shortterm', this)">
+          <span class="legend-swatch" style="background: #1e4b6b;"></span> Siklus Pendek
+        </button>
+        <button class="vintage-btn layer-toggle active" onclick="toggleLayer('productivity', this)">
+          <span class="legend-swatch" style="background: #2e5a36;"></span> Produktivitas
+        </button>
+      </div>
+    </div>
+
+    <!-- Grafik Kurva Dalio Debt Supercycle dengan Jarum Radar Real-Time -->
+    <div class="chart-wrapper">
+      <!-- Sumbu Kiri: Rasio Beban Utang & Aktivitas Ekonomi -->
+      <div class="axis-column">
+        <svg viewBox="0 0 96 390" width="100%" height="390" aria-hidden="true">
+          <text x="48" y="34" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">FASE</text>
+          <line x1="8" y1="52" x2="88" y2="52" stroke="#2c1e12" stroke-width="1.2"/>
+
+          <text x="48" y="88" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#8b261d">BATAS</text>
+          <text x="48" y="102" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Utang Puncak)</text>
+
+          <line x1="14" y1="196" x2="82" y2="196" stroke="#5c3f24" stroke-dasharray="3,3" stroke-width="1"/>
+          <text x="48" y="189" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">Kapasitas</text>
+          <text x="48" y="211" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#6e4f32">(Produktivitas)</text>
+
+          <text x="48" y="298" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#2e5a36">RENDAH</text>
+          <text x="48" y="312" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Neraca Bersih)</text>
+
+          <line x1="8" y1="342" x2="88" y2="342" stroke="#2c1e12" stroke-width="1.2"/>
+          <text x="48" y="368" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">POSISI</text>
+        </svg>
+      </div>
+
+      <!-- Kanvas SVG Kurva Dalio -->
+      <div class="chart-scroll-area" id="chartScrollArea">
+        <svg id="dalioSvg" height="390" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+
+    <!-- Ringkasan 4 Fase Utama Big Debt Supercycle -->
+    <div class="phases-legend-grid">
+      <div class="phase-legend-card early" onclick="jumpToStagePreset('EARLY')">
+        <div class="phase-card-title" style="color: var(--dalio-early);">1. EARLY CYCLE (KREDIT SEHAT)</div>
+        <div class="phase-card-body">
+          Pertumbuhan utang selaras dengan pendapatan; pinjaman mengalir ke investasi produktif dengan beban bunga rendah dan neraca bersih. <strong>Zona akumulasi ekuitas.</strong>
+        </div>
+      </div>
+      <div class="phase-legend-card bubble" onclick="jumpToStagePreset('BUBBLE')">
+        <div class="phase-card-title" style="color: var(--dalio-bubble);">2. THE BUBBLE &amp; THE TOP</div>
+        <div class="phase-card-body">
+          Utang tumbuh jauh lebih cepat daripada pendapatan; cicilan ditutup utang baru hingga bank sentral menaikkan suku bunga (<strong>The Top</strong>). <strong>Rotasi ke aset riil/emas.</strong>
+        </div>
+      </div>
+      <div class="phase-legend-card depress" onclick="jumpToStagePreset('DEPRESS')">
+        <div class="phase-card-title" style="color: var(--dalio-depress);">3. DEPRESSION (0% INTEREST RATES)</div>
+        <div class="phase-card-body">
+          Harga aset jatuh, kredit membeku, dan suku bunga dipangkas hingga <code>0%</code> (<em>MP1 habis</em>). Rasio Utang/PDB melonjak karena pendapatan menyusut. <strong>Deflasi aset.</strong>
+        </div>
+      </div>
+      <div class="phase-legend-card beautiful" onclick="jumpToStagePreset('BEAUTIFUL')">
+        <div class="phase-card-title" style="color: var(--dalio-beautiful);">4. BEAUTIFUL DELEVERAGING</div>
+        <div class="phase-card-body">
+          Bank sentral menyeimbangkan penghematan fiskal dengan pencetakan uang / QE (<em>MP2 &amp; MP3</em>) sehingga pertumbuhan nominal melampaui suku bunga. <strong>Rebound aset besar.</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Catatan Bawah & Tanda Tangan Ray Dalio -->
+    <footer class="card-footer">
+      <div class="legend-note-block">
+        <p>
+          <strong>Persamaan Inti Mesin Utang Ray Dalio:</strong> Sebuah negara atau korporasi keluar dari jebakan utang secara sehat hanya ketika <strong>Pertumbuhan PDB Nominal &gt; Suku Bunga Nominal</strong> disertai inflasi yang terkendali. Jika suku bunga lebih tinggi daripada pertumbuhan nominal, beban utang terakumulasi secara eksponensial setiap detik.
+        </p>
+      </div>
+
+      <div class="signature-block">
+        <span class="signature-name">Ray Dalio</span>
+        <span class="signature-year">2018</span>
+      </div>
+    </footer>
+
+    <!-- Kolofon Resmi Developer -->
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Live World Bank Open Data Sync + Real-Time Monetary Calibration Engine</span>
+      <span class="dev-stamp">&#10022; Developer: Orixtron Technology &#10022;</span>
+    </div>
+  </main>
+
+  <!-- PANEL KONSOL KALIBRASI REAL-TIME & DIAGNOSTIK MESIN DALIO -->
+  <section class="parchment-card predictor-panel">
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text" style="font-size: clamp(1.8rem, 4vw, 3.2rem);">ORIXTRON TECHNOLOGY</span>
+    </div>
+
+    <div class="predictor-header">
+      <h2 class="predictor-title">Konsol Kalibrasi Makro Real-Time &amp; Diagnosis Dalio</h2>
+      <span class="predictor-subtitle">Geser parameter di bawah untuk menguji skenario ekonomi secara langsung di atas kurva</span>
+    </div>
+
+    <!-- 5 Slider Real-Time -->
+    <div class="realtime-sliders-panel">
+      <div class="sliders-header-row">
+        <span class="tool-box-title">Parameter Input Mesin Ekonomi (Update Otomatis Tanpa Klik):</span>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button class="vintage-btn" onclick="resyncCurrentCountry()">Segarkan Data Live API</button>
+          <button class="vintage-btn" onclick="jumpToStagePreset('TOP')">Simulasi The Top</button>
+          <button class="vintage-btn" onclick="jumpToStagePreset('DEPRESS')">Simulasi 0% Crash</button>
+        </div>
+      </div>
+
+      <div class="sliders-grid">
+        <div class="slider-card">
+          <div class="slider-top">
+            <label for="sliderDebt">Utang / PDB</label>
+            <span class="slider-val-badge" id="valDebt">123.4%</span>
+          </div>
+          <input type="range" id="sliderDebt" class="vintage-range" min="20" max="270" step="0.5" value="123.4" oninput="onManualSliderChange()">
+          <span class="slider-hint">Batas aman klasik: &lt; 65% PDB</span>
+        </div>
+
+        <div class="slider-card">
+          <div class="slider-top">
+            <label for="sliderRate">Suku Bunga</label>
+            <span class="slider-val-badge" id="valRate">4.25%</span>
+          </div>
+          <input type="range" id="sliderRate" class="vintage-range" min="0" max="15" step="0.25" value="4.25" oninput="onManualSliderChange()">
+          <span class="slider-hint">0% = Batas akhir MP1</span>
+        </div>
+
+        <div class="slider-card">
+          <div class="slider-top">
+            <label for="sliderGrowth">PDB Nominal</label>
+            <span class="slider-val-badge" id="valGrowth">5.10%</span>
+          </div>
+          <input type="range" id="sliderGrowth" class="vintage-range" min="-4" max="14" step="0.2" value="5.10" oninput="onManualSliderChange()">
+          <span class="slider-hint">PDB Riil + Inflasi tahunan</span>
+        </div>
+
+        <div class="slider-card">
+          <div class="slider-top">
+            <label for="sliderInflation">Inflasi CPI</label>
+            <span class="slider-val-badge" id="valInflation">2.80%</span>
+          </div>
+          <input type="range" id="sliderInflation" class="vintage-range" min="-2" max="15" step="0.2" value="2.80" oninput="onManualSliderChange()">
+          <span class="slider-hint">Target sehat: 1.5% – 3.5%</span>
+        </div>
+
+        <div class="slider-card">
+          <div class="slider-top">
+            <label for="sliderQE">Intensitas QE / MP3</label>
+            <span class="slider-val-badge" id="valQE">45%</span>
+          </div>
+          <input type="range" id="sliderQE" class="vintage-range" min="0" max="100" step="1" value="45" oninput="onManualSliderChange()">
+          <span class="slider-hint">Monetisasi obligasi &amp; stimulus</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="prediction-result" id="predictionResult">
+      <!-- Diisi otomatis oleh JavaScript -->
+    </div>
+
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Ray Dalio Real-Time Telemetry &amp; MP1–MP2–MP3 Engine &bull; Live Macro</span>
+      <span class="dev-stamp">&#10022; Orixtron Technology &#10022;</span>
+    </div>
+  </section>
+
+  <div class="global-dev-footer">
+    ENGINEERED BY ORIXTRON TECHNOLOGY &bull; RAY DALIO REAL-TIME EDITION
+  </div>
+
+  <script>
+    /**
+     * THE BIG DEBT SUPERCYCLE — REAL-TIME TELEMETRY ENGINE
+     * Engineered by Orixtron Technology
+     * 1. Sinkronisasi langsung dengan World Bank Open Data REST API (tanpa API key, CORS-enabled)
+     * 2. Kalibrasi baseline 2026 & penghitung detik-demi-detik (live drift) Rasio Utang / PDB
+     * 3. Pemetaan posisi real-time ke 6 tahap Supercycle Dalio & rezim MP1 / MP2 / MP3
+     */
+
+    const DALIO_PATH_DATA = [
+      [0.0,  0.18, 0.22],
+      [10.0, 0.24, 0.28], // EARLY
+      [20.0, 0.31, 0.34],
+      [30.0, 0.44, 0.40],
+      [40.0, 0.66, 0.45], // BUBBLE
+      [48.0, 0.88, 0.49],
+      [53.0, 0.93, 0.52], // TOP
+      [60.0, 0.98, 0.46], // DEPRESS
+      [67.0, 0.89, 0.48],
+      [75.0, 0.72, 0.54], // BEAUTIFUL
+      [84.0, 0.56, 0.60],
+      [92.0, 0.48, 0.66], // NORMAL
+      [100.0, 0.45, 0.71]
+    ];
+
+    const STAGE_NODES = [
+      { code: 'EARLY', label: 'Early Cycle', xNorm: 10.0 },
+      { code: 'BUBBLE', label: 'The Bubble', xNorm: 40.0 },
+      { code: 'TOP', label: 'The Top', xNorm: 53.0 },
+      { code: 'DEPRESS', label: 'Depression', xNorm: 60.0 },
+      { code: 'BEAUTIFUL', label: 'Beautiful Delev.', xNorm: 75.0 },
+      { code: 'NORMAL', label: 'Normalization', xNorm: 92.0 }
+    ];
+
+    // Baseline Makro 2026 untuk masing-masing negara (diperbarui otomatis saat World Bank API merespons)
+    const COUNTRY_PROFILES = {
+      USA: {
+        name: 'Amerika Serikat (USA)',
+        wbCode: 'USA',
+        debtToGdp: 123.4,
+        policyRate: 4.00,
+        nominalGrowth: 4.85,
+        inflation: 2.60,
+        qeIntensity: 48,
+        deficitPct: 6.1,
+        note: 'Utang publik >123% PDB dengan defisit fiskal struktural tinggi; kombinasi kebijakan memasuki fase MP3 (koordinasi fiskal & likuiditas).'
+      },
+      IDN: {
+        name: 'Indonesia (IDN)',
+        wbCode: 'IDN',
+        debtToGdp: 39.8,
+        policyRate: 5.50,
+        nominalGrowth: 7.80,
+        inflation: 2.75,
+        qeIntensity: 15,
+        deficitPct: 2.5,
+        note: 'Rasio Utang/PDB terjaga di bawah 40% dengan pertumbuhan PDB nominal (~7,8%) jauh melampaui suku bunga acuan; ruang ekspansi kredit produktif terbuka.'
+      },
+      JPN: {
+        name: 'Jepang (JPN)',
+        wbCode: 'JPN',
+        debtToGdp: 251.2,
+        policyRate: 0.75,
+        nominalGrowth: 3.10,
+        inflation: 2.30,
+        qeIntensity: 78,
+        deficitPct: 4.2,
+        note: 'Rasio Utang/PDB tertinggi di negara maju (>250%); Bank of Japan keluar perlahan dari suku bunga nol sambil menjaga pertumbuhan nominal di atas biaya utang.'
+      },
+      CHN: {
+        name: 'Tiongkok (CHN)',
+        wbCode: 'CHN',
+        debtToGdp: 88.6,
+        policyRate: 3.10,
+        nominalGrowth: 4.90,
+        inflation: 0.90,
+        qeIntensity: 56,
+        deficitPct: 4.8,
+        note: 'Menjalani deleveraging sektor properti dan utang pemerintah daerah melalui pelonggaran moneter terarah serta stimulus fiskal untuk mencegah tekanan deflasi.'
+      },
+      EMU: {
+        name: 'Zona Euro (EMU)',
+        wbCode: 'EMU',
+        debtToGdp: 89.4,
+        policyRate: 2.75,
+        nominalGrowth: 3.60,
+        inflation: 2.20,
+        qeIntensity: 32,
+        deficitPct: 3.1,
+        note: 'Utang agregat mendekati 90% PDB dengan pertumbuhan riil moderat; ECB memangkas suku bunga menuju zona netral untuk menjaga keseimbangan utang.'
+      },
+      GBR: {
+        name: 'Inggris (GBR)',
+        wbCode: 'GBR',
+        debtToGdp: 101.8,
+        policyRate: 4.25,
+        nominalGrowth: 4.40,
+        inflation: 2.50,
+        qeIntensity: 36,
+        deficitPct: 4.3,
+        note: 'Utang publik sedikit di atas 100% PDB; kebijakan moneter menyeimbangkan pengendalian inflasi jasa dengan kebutuhan pertumbuhan ekonomi.'
+      }
+    };
+
+    const STAGE_DIAGNOSTICS = {
+      EARLY: {
+        badgeClass: 'badge-early',
+        badgeText: 'REZIM LIVE • EARLY CYCLE (KREDIT SEHAT & PRODUKTIF)',
+        strategy: '<strong>Strategi Make Money (All-Weather Growth Tilt):</strong> Fokuskan alokasi utama pada <em>ekuitas pertumbuhan berkualitas (quality equities), perbankan ekspansif, dan obligasi korporasi</em> karena pertumbuhan nominal melampaui biaya bunga.'
+      },
+      BUBBLE: {
+        badgeClass: 'badge-bubble',
+        badgeText: 'REZIM LIVE • THE BUBBLE (AKUMULASI UTANG CEPAT)',
+        strategy: '<strong>Strategi Make Money (Diversifikasi & Lindung Nilai Inflasi):</strong> Kurangi obligasi jangka panjang berimbal hasil tetap; perkuat alokasi pada <em>emas, komoditas riil, serta saham berarus kas bebas tinggi</em> untuk mengantisipasi puncak siklus.'
+      },
+      TOP: {
+        badgeClass: 'badge-bubble',
+        badgeText: 'REZIM LIVE • THE TOP (PENGETATAN MONETER & TEKANAN BUNGA)',
+        strategy: '<strong>Strategi Make Money (Defensif & Likuiditas Tinggi):</strong> Pangkas aset spekulatif ber-<em>leverage</em> tinggi; parkirkan modal pada <em>instrumen pasar uang jangka pendek (T-Bills / deposito) dan emas</em> hingga bank sentral berbalik melonggarkan suku bunga.'
+      },
+      DEPRESS: {
+        badgeClass: 'badge-depress',
+        badgeText: 'REZIM LIVE • DEPRESSION / UGLY DELEVERAGING (0% RATES)',
+        strategy: '<strong>Strategi Make Money (Preservasi Modal & Obligasi Pemerintah Prime):</strong> Pegang <em>kas likuid dan obligasi pemerintah berperingkat tertinggi</em> selama fase deflasi aset; bersiap masuk kembali ke saham begitu bank sentral meluncurkan QE skala besar.'
+      },
+      BEAUTIFUL: {
+        badgeClass: 'badge-beautiful',
+        badgeText: 'REZIM LIVE • THE BEAUTIFUL DELEVERAGING (MP2 / MP3 AKTIF)',
+        strategy: '<strong>Strategi Make Money (Reflation & All-Weather Re-Entry):</strong> Pertahankan eksposur kuat pada <em>saham unggulan, aset riil, dan emas</em> karena monetisasi likuiditas menjaga pertumbuhan nominal di atas suku bunga.'
+      },
+      NORMAL: {
+        badgeClass: 'badge-early',
+        badgeText: 'REZIM LIVE • PUSHING ON A STRING & NORMALIZATION',
+        strategy: '<strong>Strategi Make Money (Portofolio Seimbang All-Weather):</strong> Seimbangkan kepemilikan <em>ekuitas berfundamental kokoh, emas/TIPS, dan surat berharga negara jangka pendek</em> seiring normalisasi neraca bank sentral.'
+      }
+    };
+
+    let activeCountryKey = 'USA';
+    let currentState = {
+      label: COUNTRY_PROFILES.USA.name,
+      debtToGdp: COUNTRY_PROFILES.USA.debtToGdp,
+      policyRate: COUNTRY_PROFILES.USA.policyRate,
+      nominalGrowth: COUNTRY_PROFILES.USA.nominalGrowth,
+      inflation: COUNTRY_PROFILES.USA.inflation,
+      qeIntensity: COUNTRY_PROFILES.USA.qeIntensity,
+      deficitPct: COUNTRY_PROFILES.USA.deficitPct,
+      note: COUNTRY_PROFILES.USA.note,
+      dataSource: 'Kalibrasi Makro 2026'
+    };
+
+    const visibleLayers = {
+      supercycle: true,
+      shortterm: true,
+      productivity: true
+    };
+
+    let liveBaseDebt = currentState.debtToGdp;
+    let liveStartTimestamp = performance.now();
+
+    function interpolateDalioAtX(xNorm) {
+      for (let i = 0; i < DALIO_PATH_DATA.length - 1; i++) {
+        const [x0, d0, p0] = DALIO_PATH_DATA[i];
+        const [x1, d1, p1] = DALIO_PATH_DATA[i + 1];
+        if (xNorm >= x0 && xNorm <= x1) {
+          const t = (xNorm - x0) / (x1 - x0);
+          return {
+            debtNorm: d0 + t * (d1 - d0),
+            prodNorm: p0 + t * (p1 - p0)
+          };
+        }
+      }
+      const last = DALIO_PATH_DATA[DALIO_PATH_DATA.length - 1];
+      return { debtNorm: last[1], prodNorm: last[2] };
+    }
+
+    /**
+     * MESIN KLASIFIKASI QUANTITATIVE DALIO REAL-TIME
+     */
+    function evaluateDalioEngine(st) {
+      const spread = st.nominalGrowth - st.policyRate; // g - i (kunci dinamika utang Dalio)
+      const realRate = st.policyRate - st.inflation;
+
+      let stageCode = 'BEAUTIFUL';
+      let stageName = 'Beautiful Deleveraging';
+      let xNorm = 75.0;
+
+      if (st.debtToGdp < 65 && spread >= -0.5 && st.qeIntensity < 35) {
+        stageCode = 'EARLY';
+        stageName = 'Early Cycle';
+        xNorm = 6 + ((st.debtToGdp - 20) / 45) * 18; // 6..24
+      } else if (st.nominalGrowth < 1.2 && st.policyRate <= 1.5 && st.qeIntensity < 35) {
+        stageCode = 'DEPRESS';
+        stageName = 'Depression (0% Rates)';
+        xNorm = 57 + Math.min(8, (1.5 - st.nominalGrowth) * 2.2); // 57..65
+      } else if (spread < -1.2 && st.debtToGdp >= 75 && st.qeIntensity < 35) {
+        stageCode = 'TOP';
+        stageName = 'The Top (Tightening)';
+        xNorm = 50 + Math.min(5.5, Math.abs(spread + 1.2) * 1.1); // 50..55.5
+      } else if (st.debtToGdp >= 65 && st.qeIntensity < 30 && spread >= -1.2) {
+        stageCode = 'BUBBLE';
+        stageName = 'The Bubble';
+        xNorm = 32 + Math.min(16, ((st.debtToGdp - 65) / 60) * 16); // 32..48
+      } else if (st.qeIntensity >= 35) {
+        if (st.inflation > 5.8) {
+          stageCode = 'BUBBLE';
+          stageName = 'Inflationary Monetization';
+          xNorm = 45;
+        } else {
+          stageCode = 'BEAUTIFUL';
+          stageName = 'Beautiful Deleveraging';
+          xNorm = 70 + Math.min(13, ((st.qeIntensity - 35) / 65) * 13); // 70..83
+        }
+      } else {
+        stageCode = 'NORMAL';
+        stageName = 'Normalization';
+        xNorm = 86 + Math.min(10, Math.max(0, spread) * 2.5); // 86..96
+      }
+
+      // Klasifikasi Rezim Kebijakan Moneter (MP1 / MP2 / MP3)
+      let mpRegime = 'MP1 (Suku Bunga)';
+      let mpSub = 'Penyesuaian suku bunga standar';
+      if (st.policyRate <= 1.0 || st.qeIntensity >= 60) {
+        mpRegime = 'MP2 + MP3 (QE & Fiskal)';
+        mpSub = 'Pencetakan uang & monetisasi defisit';
+      } else if (st.qeIntensity >= 30 || st.deficitPct >= 4.5) {
+        mpRegime = 'MP1 + MP3 (Hibrida)';
+        mpSub = 'Suku bunga aktif + stimulus fiskal besar';
+      }
+
+      // Indeks Tekanan Utang Dalio (0 - 100)
+      const debtScore = Math.min(50, (st.debtToGdp / 250) * 50);
+      const rateBurdenScore = Math.max(0, Math.min(30, (st.policyRate - st.nominalGrowth + 3) * 4.5));
+      const inflationPenalty = st.inflation > 4.5 ? Math.min(20, (st.inflation - 4.5) * 4) : (st.inflation < 0.5 ? 12 : 4);
+      const stressIndex = Math.round(Math.max(8, Math.min(99, debtScore + rateBurdenScore + inflationPenalty)));
+
+      // Laju perubahan Utang/PDB per detik (persentase poin per detik)
+      // Rumus dinamika utang makro: d(Debt/GDP)/dt ≈ Deficit% + (i - g) * (Debt/GDP)
+      const annualDebtDriftPct = st.deficitPct - (spread / 100) * st.debtToGdp;
+      const perSecondDrift = annualDebtDriftPct / (365.25 * 24 * 3600);
+
+      return {
+        stageCode,
+        stageName,
+        xNorm: Math.max(2, Math.min(98, xNorm)),
+        spread,
+        realRate,
+        mpRegime,
+        mpSub,
+        stressIndex,
+        annualDebtDriftPct,
+        perSecondDrift
+      };
+    }
+
+    function renderDalioChart(xNormActive, stageNameActive) {
+      const svg = document.getElementById('dalioSvg');
+      svg.innerHTML = '';
+
+      const svgWidth = 1120;
+      svg.setAttribute('width', svgWidth);
+      svg.setAttribute('viewBox', `0 0 ${svgWidth} 390`);
+
+      const yHeaderBot = 52;
+      const yPlotTop = 74;
+      const yPlotBot = 326;
+      const plotSpanY = yPlotBot - yPlotTop;
+      const yAxisBot = 342;
+
+      const leftPad = 24;
+      const rightPad = 28;
+      const plotW = svgWidth - leftPad - rightPad;
+
+      const NS = 'http://www.w3.org/2000/svg';
+      const el = (tag, attrs) => {
+        const node = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+        return node;
+      };
+
+      const xNormToPx = (xn) => leftPad + (xn / 100) * plotW;
+      const yNormToPy = (yn) => yPlotBot - yn * plotSpanY;
+
+      // Watermark Terukir di dalam Kanvas SVG
+      for (let wx = 320; wx < svgWidth - 140; wx += 560) {
+        const wm = el('text', {
+          x: wx,
+          y: 266,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '15',
+          'letter-spacing': '4',
+          fill: 'rgba(74, 50, 29, 0.13)'
+        });
+        wm.textContent = 'ORIXTRON TECHNOLOGY';
+        svg.appendChild(wm);
+      }
+
+      // Garis Pembatas Horizontal Utama
+      svg.appendChild(el('line', { x1: 0, y1: yHeaderBot, x2: svgWidth, y2: yHeaderBot, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: yAxisBot, x2: svgWidth, y2: yAxisBot, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: 196, x2: svgWidth, y2: 196, stroke: '#5c3f24', 'stroke-dasharray': '4,4', 'stroke-width': 1 }));
+
+      // 4 Zona Utama Big Debt Supercycle
+      const zones = [
+        { title: '1. EARLY CYCLE', sub: 'Kredit Produktif & Neraca Sehat', s: 0, e: 26, fill: 'rgba(46, 90, 54, 0.075)', color: '#2e5a36' },
+        { title: '2. THE BUBBLE & THE TOP', sub: 'Utang > Pendapatan • Pengetatan Suku Bunga', s: 26, e: 55, fill: 'rgba(156, 90, 26, 0.085)', color: '#9c5a1a' },
+        { title: '3. DEPRESSION (0% RATES)', sub: 'Kontraksi Kredit & Puncak Utang/PDB', s: 55, e: 69, fill: 'rgba(139, 38, 29, 0.085)', color: '#8b261d' },
+        { title: '4. BEAUTIFUL DELEVERAGING', sub: 'Monetisasi Seimbang (MP2/MP3) & Normalisasi', s: 69, e: 100, fill: 'rgba(30, 75, 107, 0.075)', color: '#1e4b6b' }
+      ];
+
+      zones.forEach((z) => {
+        const x1 = xNormToPx(z.s);
+        const x2 = xNormToPx(z.e);
+        const xc = (x1 + x2) / 2;
+
+        svg.appendChild(el('rect', {
+          x: x1,
+          y: yHeaderBot,
+          width: x2 - x1,
+          height: yAxisBot - yHeaderBot,
+          fill: z.fill
+        }));
+
+        if (z.s > 0) {
+          svg.appendChild(el('line', {
+            x1: x1,
+            y1: 0,
+            x2: x1,
+            y2: 390,
+            stroke: '#2c1e12',
+            'stroke-width': z.s === 55 ? 1.8 : 1.4,
+            'stroke-dasharray': z.s === 55 ? '6,3' : 'none'
+          }));
+        }
+
+        const hTitle = el('text', {
+          x: xc,
+          y: 23,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '11.5',
+          fill: z.color
+        });
+        hTitle.textContent = z.title;
+        svg.appendChild(hTitle);
+
+        const hSub = el('text', {
+          x: xc,
+          y: 41,
+          'text-anchor': 'middle',
+          'font-family': 'Cormorant Garamond, serif',
+          'font-style': 'italic',
+          'font-weight': '600',
+          'font-size': '12',
+          fill: '#4a321d'
+        });
+        hSub.textContent = z.sub;
+        svg.appendChild(hSub);
+      });
+
+      // Bangun Koordinat Halus untuk Ketiga Kurva
+      let supercyclePts = [];
+      let shortTermPts = [];
+      let productivityPts = [];
+
+      const step = 0.4;
+      for (let xn = 0; xn <= 100; xn += step) {
+        const { debtNorm, prodNorm } = interpolateDalioAtX(xn);
+        const px = xNormToPx(xn).toFixed(1);
+
+        supercyclePts.push(`${px},${yNormToPy(debtNorm).toFixed(1)}`);
+
+        const amp = xn < 55 ? 0.065 : (xn < 72 ? 0.085 : 0.045);
+        const shortWave = debtNorm + amp * Math.sin((xn / 100) * 8.5 * 2 * Math.PI);
+        const clampedShort = Math.max(0.05, Math.min(0.99, shortWave));
+        shortTermPts.push(`${px},${yNormToPy(clampedShort).toFixed(1)}`);
+
+        productivityPts.push(`${px},${yNormToPy(prodNorm).toFixed(1)}`);
+      }
+
+      if (visibleLayers.productivity) {
+        svg.appendChild(el('polyline', {
+          points: productivityPts.join(' '),
+          fill: 'none',
+          stroke: '#2e5a36',
+          'stroke-width': 2,
+          'stroke-dasharray': '6,4',
+          opacity: '0.88'
+        }));
+      }
+
+      if (visibleLayers.shortterm) {
+        svg.appendChild(el('polyline', {
+          points: shortTermPts.join(' '),
+          fill: 'none',
+          stroke: '#1e4b6b',
+          'stroke-width': 1.8,
+          'stroke-dasharray': '4,3',
+          opacity: '0.9'
+        }));
+      }
+
+      if (visibleLayers.supercycle) {
+        svg.appendChild(el('polyline', {
+          points: supercyclePts.join(' '),
+          fill: 'none',
+          stroke: '#9b682c',
+          'stroke-width': 5.2,
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round',
+          opacity: '0.88'
+        }));
+
+        svg.appendChild(el('polyline', {
+          points: supercyclePts.join(' '),
+          fill: 'none',
+          stroke: '#2c1e12',
+          'stroke-width': 1.5,
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round'
+        }));
+      }
+
+      // Simpul Referensi 6 Tahap pada Kurva
+      STAGE_NODES.forEach((st) => {
+        const { debtNorm } = interpolateDalioAtX(st.xNorm);
+        const cx = xNormToPx(st.xNorm);
+        const cy = yNormToPy(debtNorm);
+
+        const dot = el('circle', {
+          cx: cx,
+          cy: cy,
+          r: 4.2,
+          fill: '#f5e6ca',
+          stroke: '#2c1e12',
+          'stroke-width': 1.4,
+          style: 'cursor:pointer;'
+        });
+        dot.onclick = () => jumpToStagePreset(st.code);
+        svg.appendChild(dot);
+
+        let lblY = cy - 11;
+        if (st.code === 'EARLY' || st.code === 'NORMAL') lblY = cy + 17;
+
+        const lblNode = el('text', {
+          x: cx,
+          y: lblY,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '9.5',
+          fill: 'rgba(44, 30, 18, 0.72)',
+          style: 'cursor:pointer;'
+        });
+        lblNode.textContent = st.label.toUpperCase();
+        lblNode.onclick = () => jumpToStagePreset(st.code);
+        svg.appendChild(lblNode);
+
+        const botLbl = el('text', {
+          x: cx,
+          y: 368,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '10',
+          fill: '#4a321d',
+          style: 'cursor:pointer;'
+        });
+        botLbl.textContent = st.code;
+        botLbl.onclick = () => jumpToStagePreset(st.code);
+        svg.appendChild(botLbl);
+      });
+
+      // JARUM RADAR REAL-TIME (LIVE TELEMETRY MARKER)
+      const { debtNorm: liveYNorm } = interpolateDalioAtX(xNormActive);
+      const ax = xNormToPx(xNormActive);
+      const ay = yNormToPy(liveYNorm);
+
+      svg.appendChild(el('line', {
+        x1: ax,
+        y1: yHeaderBot,
+        x2: ax,
+        y2: yAxisBot,
+        stroke: '#8b261d',
+        'stroke-width': 2.2,
+        'stroke-dasharray': '5,3'
+      }));
+
+      // Cincin radar berdenyut
+      svg.appendChild(el('circle', {
+        cx: ax,
+        cy: ay,
+        r: 9,
+        fill: 'none',
+        stroke: '#8b261d',
+        'stroke-width': 2.2,
+        class: 'svg-live-ring'
+      }));
+
+      // Titik inti posisi live
+      svg.appendChild(el('circle', {
+        cx: ax,
+        cy: ay,
+        r: 6.5,
+        fill: '#8b261d',
+        stroke: '#fff7e8',
+        'stroke-width': 2.2
+      }));
+
+      // Lencana LIVE di bagian atas garis vertikal
+      const badgeW = 128;
+      const clampedBadgeX = Math.max(leftPad + badgeW / 2, Math.min(svgWidth - rightPad - badgeW / 2, ax));
+      svg.appendChild(el('rect', {
+        x: clampedBadgeX - badgeW / 2,
+        y: yHeaderBot + 5,
+        width: badgeW,
+        height: 20,
+        rx: 2,
+        fill: '#8b261d'
+      }));
+
+      const badgeTxt = el('text', {
+        x: clampedBadgeX,
+        y: yHeaderBot + 19,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '700',
+        'font-size': '10',
+        fill: '#fff7e8'
+      });
+      badgeTxt.textContent = `LIVE: ${activeCountryKey}`;
+      svg.appendChild(badgeTxt);
+    }
+
+    function updateFullRealtimeDashboard() {
+      const evalRes = evaluateDalioEngine(currentState);
+      const diag = STAGE_DIAGNOSTICS[evalRes.stageCode];
+
+      // Sinkronkan slider & label angka
+      document.getElementById('sliderDebt').value = currentState.debtToGdp;
+      document.getElementById('valDebt').textContent = `${currentState.debtToGdp.toFixed(1)}%`;
+
+      document.getElementById('sliderRate').value = currentState.policyRate;
+      document.getElementById('valRate').textContent = `${currentState.policyRate.toFixed(2)}%`;
+
+      document.getElementById('sliderGrowth').value = currentState.nominalGrowth;
+      document.getElementById('valGrowth').textContent = `${currentState.nominalGrowth.toFixed(2)}%`;
+
+      document.getElementById('sliderInflation').value = currentState.inflation;
+      document.getElementById('valInflation').textContent = `${currentState.inflation.toFixed(2)}%`;
+
+      document.getElementById('sliderQE').value = currentState.qeIntensity;
+      document.getElementById('valQE').textContent = `${Math.round(currentState.qeIntensity)}%`;
+
+      // Update 4 Kartu Telemetri
+      liveBaseDebt = currentState.debtToGdp;
+      liveStartTimestamp = performance.now();
+
+      const driftSign = evalRes.annualDebtDriftPct >= 0 ? '+' : '';
+      document.getElementById('metricDebtTrend').textContent = `Laju tahunan: ${driftSign}${evalRes.annualDebtDriftPct.toFixed(2)}% PDB/thn`;
+
+      const spreadSign = evalRes.spread >= 0 ? '+' : '';
+      document.getElementById('metricGrowthSpread').textContent = `${spreadSign}${evalRes.spread.toFixed(2)}%`;
+      document.getElementById('metricSpreadStatus').textContent = evalRes.spread >= 0
+        ? 'PDB Nominal > Bunga (Beban utang teredam)'
+        : 'Bunga > PDB Nominal (Beban utang menggunung)';
+
+      document.getElementById('metricPolicyRegime').textContent = evalRes.mpRegime;
+      document.getElementById('metricPolicySub').textContent = evalRes.mpSub;
+
+      document.getElementById('metricStressIndex').textContent = `${evalRes.stressIndex} / 100`;
+      document.getElementById('metricStageShort').textContent = `Fase: ${evalRes.stageName}`;
+
+      // Render ulang grafik SVG
+      renderDalioChart(evalRes.xNorm, evalRes.stageName);
+
+      // Update panel diagnostik lengkap
+      const resultBox = document.getElementById('predictionResult');
+      resultBox.innerHTML = `
+        <div>
+          <span class="result-badge ${diag.badgeClass}">${diag.badgeText}</span>
+          <h3 class="result-headline">${currentState.label} — Posisi: ${evalRes.stageName}</h3>
+          <div class="result-formula-note">&#9878; Sumber Data: ${currentState.dataSource} | Suku Bunga Riil: ${evalRes.realRate >= 0 ? '+' : ''}${evalRes.realRate.toFixed(2)}%</div>
+          <p class="result-desc">${currentState.note}</p>
+          <div class="asset-allocation-box">${diag.strategy}</div>
+        </div>
+        <div class="cycle-checklist">
+          <div style="font-family:'Cinzel',serif; font-weight:700; font-size:0.98rem; color:var(--ink-sepia); margin-bottom:2px;">
+            Telemetri Mesin Ekonomi Dalio (${activeCountryKey})
+          </div>
+          <div class="check-row">
+            <span class="check-label">Utang Pemerintah / PDB:</span>
+            <span class="check-val">${currentState.debtToGdp.toFixed(1)}%</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Spread (PDB Nominal &minus; Bunga):</span>
+            <span class="check-val">${spreadSign}${evalRes.spread.toFixed(2)}% (${evalRes.spread >= 0 ? 'Deleveraging Sehat' : 'Akumulasi Beban'})</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Rezim Bank Sentral:</span>
+            <span class="check-val">${evalRes.mpRegime} (QE ${Math.round(currentState.qeIntensity)}%)</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Indeks Fragilitas Utang:</span>
+            <span class="check-val">${evalRes.stressIndex} / 100</span>
+          </div>
+        </div>
+      `;
+    }
+
+    /**
+     * SINKRONISASI LIVE KE WORLD BANK OPEN DATA API
+     */
+    async function loadCountryRealtime(countryKey, btnElement) {
+      activeCountryKey = countryKey;
+      if (btnElement) {
+        document.querySelectorAll('.chart-controls [data-country]').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+      }
+
+      const profile = COUNTRY_PROFILES[countryKey];
+      currentState = {
+        label: profile.name,
+        debtToGdp: profile.debtToGdp,
+        policyRate: profile.policyRate,
+        nominalGrowth: profile.nominalGrowth,
+        inflation: profile.inflation,
+        qeIntensity: profile.qeIntensity,
+        deficitPct: profile.deficitPct,
+        note: profile.note,
+        dataSource: 'Kalibrasi Makro 2026 (Menghubungkan World Bank API...)'
+      };
+
+      updateFullRealtimeDashboard();
+
+      const pill = document.getElementById('apiStatusPill');
+      pill.textContent = `Menarik data live ${profile.wbCode} dari World Bank API...`;
+
+      try {
+        // Ambil data GDP Growth (NY.GDP.MKTP.KD.ZG) & CPI Inflation (FP.CPI.TOTL.ZG) dari World Bank API
+        const [gdpRes, cpiRes] = await Promise.all([
+          fetch(`https://api.worldbank.org/v2/country/${profile.wbCode}/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=5`),
+          fetch(`https://api.worldbank.org/v2/country/${profile.wbCode}/indicator/FP.CPI.TOTL.ZG?format=json&per_page=5`)
+        ]);
+
+        if (!gdpRes.ok || !cpiRes.ok) throw new Error('HTTP error');
+
+        const gdpJson = await gdpRes.json();
+        const cpiJson = await cpiRes.json();
+
+        const latestGdp = Array.isArray(gdpJson[1]) ? gdpJson[1].find(d => d.value !== null) : null;
+        const latestCpi = Array.isArray(cpiJson[1]) ? cpiJson[1].find(d => d.value !== null) : null;
+
+        if (latestGdp && latestCpi) {
+          const realGdpVal = Number(latestGdp.value);
+          const cpiVal = Number(latestCpi.value);
+          const blendedNominal = Number((realGdpVal + cpiVal).toFixed(2));
+
+          currentState.inflation = Number(cpiVal.toFixed(2));
+          currentState.nominalGrowth = Math.max(-4, Math.min(14, blendedNominal));
+          currentState.dataSource = `Live World Bank Open Data (${latestGdp.date}) + Kalibrasi Utang 2026`;
+          pill.textContent = `Tersinkronisasi: World Bank Live (${profile.wbCode})`;
+          updateFullRealtimeDashboard();
+        } else {
+          throw new Error('Empty series');
+        }
+      } catch (err) {
+        currentState.dataSource = 'Kalibrasi Makro 2026 (Mode Offline / Lokal)';
+        pill.textContent = `Mode Lokal Aktif (${profile.wbCode} • 2026 Baseline)`;
+        updateFullRealtimeDashboard();
+      }
+    }
+
+    function resyncCurrentCountry() {
+      const btn = document.querySelector(`.chart-controls [data-country="${activeCountryKey}"]`);
+      loadCountryRealtime(activeCountryKey, btn);
+    }
+
+    function onManualSliderChange() {
+      currentState.debtToGdp = parseFloat(document.getElementById('sliderDebt').value);
+      currentState.policyRate = parseFloat(document.getElementById('sliderRate').value);
+      currentState.nominalGrowth = parseFloat(document.getElementById('sliderGrowth').value);
+      currentState.inflation = parseFloat(document.getElementById('sliderInflation').value);
+      currentState.qeIntensity = parseFloat(document.getElementById('sliderQE').value);
+      currentState.dataSource = 'Simulasi Kustom Real-Time Pengguna';
+      document.getElementById('apiStatusPill').textContent = 'Mode Simulasi Interaktif Aktif';
+      updateFullRealtimeDashboard();
+    }
+
+    function jumpToStagePreset(stageCode) {
+      if (stageCode === 'EARLY') {
+        currentState.debtToGdp = 42.0;
+        currentState.policyRate = 3.50;
+        currentState.nominalGrowth = 6.80;
+        currentState.inflation = 2.20;
+        currentState.qeIntensity = 10;
+        currentState.deficitPct = 2.0;
+      } else if (stageCode === 'BUBBLE') {
+        currentState.debtToGdp = 104.0;
+        currentState.policyRate = 3.25;
+        currentState.nominalGrowth = 5.40;
+        currentState.inflation = 3.60;
+        currentState.qeIntensity = 15;
+        currentState.deficitPct = 5.5;
+      } else if (stageCode === 'TOP') {
+        currentState.debtToGdp = 118.0;
+        currentState.policyRate = 6.75;
+        currentState.nominalGrowth = 3.40;
+        currentState.inflation = 4.20;
+        currentState.qeIntensity = 10;
+        currentState.deficitPct = 5.8;
+      } else if (stageCode === 'DEPRESS') {
+        currentState.debtToGdp = 136.0;
+        currentState.policyRate = 0.25;
+        currentState.nominalGrowth = -0.80;
+        currentState.inflation = -0.40;
+        currentState.qeIntensity = 20;
+        currentState.deficitPct = 7.5;
+      } else if (stageCode === 'BEAUTIFUL') {
+        currentState.debtToGdp = 124.0;
+        currentState.policyRate = 2.50;
+        currentState.nominalGrowth = 5.20;
+        currentState.inflation = 2.60;
+        currentState.qeIntensity = 65;
+        currentState.deficitPct = 4.5;
+      } else if (stageCode === 'NORMAL') {
+        currentState.debtToGdp = 86.0;
+        currentState.policyRate = 3.00;
+        currentState.nominalGrowth = 4.50;
+        currentState.inflation = 2.10;
+        currentState.qeIntensity = 22;
+        currentState.deficitPct = 2.8;
+      }
+      currentState.dataSource = `Preset Skenario Dalio: ${stageCode}`;
+      updateFullRealtimeDashboard();
+    }
+
+    function toggleLayer(layerKey, btnElement) {
+      visibleLayers[layerKey] = !visibleLayers[layerKey];
+      btnElement.classList.toggle('active', visibleLayers[layerKey]);
+      const evalRes = evaluateDalioEngine(currentState);
+      renderDalioChart(evalRes.xNorm, evalRes.stageName);
+    }
+
+    /**
+     * LOOP DETIK-DEMI-DETIK: JAM REAL-TIME & LIVE DEBT-TO-GDP DRIFT TICKER
+     */
+    function startRealtimeTicker() {
+      const clockEl = document.getElementById('liveClockDisplay');
+      const debtEl = document.getElementById('metricLiveDebt');
+
+      setInterval(() => {
+        // 1. Update Jam Real-Time Lokal
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('id-ID', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        });
+        clockEl.textContent = `${timeStr} LIVE`;
+
+        // 2. Hitung pergeseran mikro Rasio Utang / PDB per milidetik (visualisasi live)
+        const elapsedSec = (performance.now() - liveStartTimestamp) / 1000;
+        const evalRes = evaluateDalioEngine(currentState);
+        // Skala akselerasi tampilan 2500x agar pergerakan desimal ke-6 terlihat hidup setiap detik
+        const liveSimulatedDebt = liveBaseDebt + evalRes.perSecondDrift * elapsedSec * 2500;
+        debtEl.textContent = `${liveSimulatedDebt.toFixed(6)}%`;
+      }, 100);
+    }
+
+    // Drag-to-scroll pada kanvas grafik
+    const scrollArea = document.getElementById('chartScrollArea');
+    let isDown = false, startX, scrollLeft;
+    scrollArea.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - scrollArea.offsetLeft;
+      scrollLeft = scrollArea.scrollLeft;
+    });
+    scrollArea.addEventListener('mouseleave', () => { isDown = false; });
+    scrollArea.addEventListener('mouseup', () => { isDown = false; });
+    scrollArea.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - scrollArea.offsetLeft;
+      const walk = (x - startX) * 1.4;
+      scrollArea.scrollLeft = scrollLeft - walk;
+    });
+
+    // Jalankan telemetri awal
+    startRealtimeTicker();
+    loadCountryRealtime('USA');
+  </script>
+</body>
+</html>

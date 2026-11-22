@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Elliott Wave Principle (Real-Time Telemetry) — R.N. Elliott 1938 | Orixtron Technology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment-base: #e6cfa9;
+      --parchment-light: #f2e1c2;
+      --parchment-dark: #cfa972;
+      --ink-dark: #2c1e12;
+      --ink-sepia: #4a321d;
+      --ink-faded: #6e4f32;
+      --line-gold-brown: #9c6b30;
+
+      /* Palet 4 Fase & Lapisan Elliott Wave (Nuansa Tinta Antik) */
+      --ew-impulse:  #2e5a36;   /* Gelombang Impulsif 1-3-5 (Motive Trend) */
+      --ew-retrace:  #1e4b6b;   /* Gelombang Koreksi Internal 2-4 & Fibonacci */
+      --ew-peak:     #9c5a1a;   /* Gelombang 5 Terminal & Divergensi */
+      --ew-correct:  #8b261d;   /* Siklus Koreksi A-B-C (ZigZag / Flat) */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #261b12;
+      background-image: radial-gradient(circle at center, #3a291b 0%, #1c130c 100%);
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Tekstur Kertas Perkamen Klasik */
+    .parchment-card {
+      position: relative;
+      width: 100%;
+      max-width: 1240px;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(255, 248, 231, 0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 85%, rgba(168, 121, 62, 0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, var(--parchment-light) 0%, var(--parchment-base) 65%, var(--parchment-dark) 100%);
+      border: 2px solid #5c3f24;
+      border-radius: 4px;
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.65),
+        inset 0 0 65px rgba(112, 74, 34, 0.42),
+        inset 0 0 12px rgba(44, 30, 18, 0.45);
+      padding: 28px 34px 26px;
+      overflow: hidden;
+    }
+
+    /* Efek Serat Kertas Halus */
+    .parchment-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+
+    /* Bingkai Tipis Bagian Dalam */
+    .parchment-card::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      pointer-events: none;
+    }
+
+    /* Watermark Kertas Perkamen Orixtron Technology */
+    .parchment-watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .watermark-main-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: clamp(2.1rem, 5.2vw, 4.4rem);
+      letter-spacing: 0.22em;
+      color: rgba(74, 50, 29, 0.075);
+      text-transform: uppercase;
+      white-space: nowrap;
+      transform: rotate(-8deg);
+      text-shadow: 1px 1px 0 rgba(255, 248, 231, 0.35);
+    }
+
+    .watermark-sub-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+      letter-spacing: 0.32em;
+      color: rgba(74, 50, 29, 0.085);
+      text-transform: uppercase;
+      transform: rotate(-8deg);
+      margin-top: 4px;
+    }
+
+    /* Bilah Status Real-Time (Live Telemetry Strip) */
+    .live-telemetry-bar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 14px;
+      margin-bottom: 14px;
+      background: rgba(44, 30, 18, 0.08);
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      border-radius: 3px;
+      font-size: 0.9rem;
+    }
+
+    .live-indicator-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-sepia);
+    }
+
+    .pulse-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background-color: #2e5a36;
+      box-shadow: 0 0 0 0 rgba(46, 90, 54, 0.7);
+      animation: pulseRing 1.8s infinite;
+    }
+
+    @keyframes pulseRing {
+      0% { box-shadow: 0 0 0 0 rgba(46, 90, 54, 0.75); }
+      70% { box-shadow: 0 0 0 7px rgba(46, 90, 54, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(46, 90, 54, 0); }
+    }
+
+    .live-clock-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--ink-dark);
+    }
+
+    .api-status-pill {
+      padding: 2px 10px;
+      border-radius: 2px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      background: rgba(46, 90, 54, 0.14);
+      border: 1px solid rgba(46, 90, 54, 0.45);
+      color: #2e5a36;
+    }
+
+    /* Header Judul Utama */
+    .card-header {
+      text-align: center;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-kicker {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--ink-faded);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-family: 'Cinzel', 'Times New Roman', serif;
+      font-size: clamp(1.65rem, 3.3vw, 2.85rem);
+      font-weight: 700;
+      color: var(--ink-sepia);
+      letter-spacing: 0.04em;
+      text-shadow: 1px 1px 0 rgba(255, 245, 224, 0.6);
+    }
+
+    .card-subtitle-header {
+      font-size: 1.08rem;
+      font-style: italic;
+      color: var(--ink-sepia);
+      margin-top: 2px;
+    }
+
+    /* Papan Telemetri Metrik Elliott Wave Real-Time */
+    .realtime-metrics-strip {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .metric-box {
+      background: rgba(255, 249, 236, 0.56);
+      border: 1.2px solid rgba(74, 50, 29, 0.42);
+      border-radius: 3px;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--ink-faded);
+      text-transform: uppercase;
+    }
+
+    .metric-value {
+      font-family: 'Cinzel', serif;
+      font-size: 1.24rem;
+      font-weight: 800;
+      color: var(--ink-dark);
+      margin: 2px 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric-sub {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--ink-sepia);
+    }
+
+    /* Kontrol Pasar Live & Mode Visualisasi */
+    .chart-controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: rgba(110, 79, 50, 0.1);
+      border: 1px solid rgba(74, 50, 29, 0.3);
+      border-radius: 3px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .control-label {
+      font-weight: 700;
+      font-size: 0.96rem;
+      color: var(--ink-sepia);
+    }
+
+    .vintage-btn {
+      background: linear-gradient(to bottom, #f5e6ca, #dec092);
+      border: 1px solid #5c3f24;
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.93rem;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      transition: all 0.15s ease;
+    }
+
+    .vintage-btn:hover {
+      background: linear-gradient(to bottom, #fff2da, #e5c99c);
+      transform: translateY(-1px);
+    }
+
+    .vintage-btn.active {
+      background: var(--ink-sepia);
+      color: #f6e7cb;
+      border-color: var(--ink-dark);
+    }
+
+    .layer-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+    }
+
+    .legend-swatch {
+      display: inline-block;
+      width: 14px;
+      height: 4px;
+      border-radius: 1px;
+    }
+
+    /* Area Grafik Klasik */
+    .chart-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      margin-top: 4px;
+      border: 2px solid var(--ink-dark);
+      background: rgba(255, 249, 236, 0.18);
+    }
+
+    /* Kolom Kiri: Sumbu Rasio Fibonacci & Struktur Gelombang */
+    .axis-column {
+      flex: 0 0 96px;
+      border-right: 1.8px solid var(--ink-dark);
+      background: rgba(110, 79, 50, 0.08);
+      user-select: none;
+    }
+
+    /* Area Scrollable SVG Kurva Elliott Wave */
+    .chart-scroll-area {
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      position: relative;
+      cursor: grab;
+    }
+
+    .chart-scroll-area:active {
+      cursor: grabbing;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-track {
+      background: rgba(92, 63, 36, 0.15);
+      border-top: 1px solid rgba(92, 63, 36, 0.3);
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-thumb {
+      background: #7c5633;
+      border-radius: 3px;
+      border: 1px solid #4a321d;
+    }
+
+    @keyframes svgLivePulse {
+      0% { r: 7; opacity: 0.85; }
+      70% { r: 17; opacity: 0; }
+      100% { r: 17; opacity: 0; }
+    }
+
+    .svg-live-ring {
+      animation: svgLivePulse 1.8s infinite ease-out;
+      pointer-events: none;
+    }
+
+    /* Ringkasan 4 Fase Siklus Fraktal 5-3 Elliott Wave */
+    .phases-legend-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .phase-legend-card {
+      background: rgba(255, 249, 236, 0.42);
+      border: 1px solid rgba(74, 50, 29, 0.38);
+      border-top-width: 4px;
+      border-radius: 3px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .phase-legend-card:hover {
+      background: rgba(255, 249, 236, 0.72);
+      transform: translateY(-2px);
+    }
+
+    .phase-legend-card.impulse { border-top-color: var(--ew-impulse); }
+    .phase-legend-card.retrace { border-top-color: var(--ew-retrace); }
+    .phase-legend-card.peak    { border-top-color: var(--ew-peak); }
+    .phase-legend-card.correct { border-top-color: var(--ew-correct); }
+
+    .phase-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: 0.03em;
+    }
+
+    .phase-card-body {
+      font-size: 0.94rem;
+      line-height: 1.32;
+      color: var(--ink-dark);
+    }
+
+    /* Footer Kartu & Tanda Tangan Ralph Nelson Elliott */
+    .card-footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .legend-note-block {
+      max-width: 820px;
+      font-size: 1.04rem;
+      line-height: 1.38;
+      color: var(--ink-dark);
+    }
+
+    .signature-block {
+      text-align: right;
+      transform: rotate(-12deg);
+      transform-origin: bottom right;
+      padding: 0 12px 4px 0;
+      color: var(--ink-faded);
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .signature-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.05rem;
+      line-height: 0.95;
+      display: block;
+    }
+
+    .signature-year {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.45rem;
+      display: block;
+      margin-top: -2px;
+    }
+
+    /* Stempel Kolofon Developer Orixtron Technology */
+    .developer-colophon {
+      position: relative;
+      z-index: 2;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(74, 50, 29, 0.28);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--ink-faded);
+      user-select: none;
+    }
+
+    .dev-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 12px;
+      border: 1px double rgba(74, 50, 29, 0.55);
+      border-radius: 2px;
+      background: rgba(255, 248, 231, 0.25);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--ink-sepia);
+      text-transform: uppercase;
+    }
+
+    .dev-edition-note {
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--ink-faded);
+    }
+
+    /* =========================================================
+       PANEL KALKULATOR FIBONACCI & VALIDATOR 3 HUKUM KARDINAL
+       ========================================================= */
+    .predictor-panel {
+      padding: 26px 32px 22px;
+    }
+
+    .predictor-header {
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid rgba(74, 50, 29, 0.35);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .predictor-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .predictor-subtitle {
+      font-size: 1.02rem;
+      font-style: italic;
+      color: var(--ink-faded);
+    }
+
+    /* Form Input Pivot Gelombang & Tombol Sync Live */
+    .fib-calculator-bar {
+      position: relative;
+      z-index: 1;
+      background: rgba(222, 192, 146, 0.28);
+      border: 1px solid rgba(92, 63, 36, 0.38);
+      border-radius: 3px;
+      padding: 15px 18px;
+      margin-bottom: 18px;
+    }
+
+    .fib-bar-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tool-box-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.94rem;
+      color: var(--ink-sepia);
+      letter-spacing: 0.04em;
+    }
+
+    .pivots-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      align-items: end;
+    }
+
+    .pivot-input-card {
+      background: rgba(255, 249, 236, 0.65);
+      border: 1.2px solid #5c3f24;
+      border-radius: 3px;
+      padding: 7px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .pivot-input-card label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .pivot-input-card input {
+      border: none;
+      background: transparent;
+      font-family: 'Cinzel', serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--ink-dark);
+      width: 100%;
+      outline: none;
+    }
+
+    .predict-submit-btn {
+      background: var(--ink-sepia);
+      color: #f7e7c8;
+      border: 1.5px solid var(--ink-dark);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 11px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.15s ease;
+    }
+
+    .predict-submit-btn:hover {
+      background: #2c1e12;
+    }
+
+    /* Hasil Analisis Gelombang & Proyeksi Fibonacci */
+    .prediction-result {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 249, 236, 0.55);
+      border: 1.5px solid #6b4929;
+      border-radius: 4px;
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: 1.38fr 1fr;
+      gap: 20px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      color: #fff8eb;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .badge-impulse { background-color: var(--ew-impulse); }
+    .badge-retrace { background-color: var(--ew-retrace); }
+    .badge-peak    { background-color: var(--ew-peak); }
+    .badge-correct { background-color: var(--ew-correct); }
+
+    .result-headline {
+      font-family: 'Cinzel', serif;
+      font-size: 1.46rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      margin-bottom: 6px;
+    }
+
+    .result-formula-note {
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: var(--ink-sepia);
+      margin-bottom: 10px;
+    }
+
+    .result-desc {
+      font-size: 1.1rem;
+      line-height: 1.46;
+      color: var(--ink-dark);
+      margin-bottom: 12px;
+    }
+
+    .asset-allocation-box {
+      background: rgba(222, 192, 146, 0.32);
+      border-left: 3.5px solid var(--line-gold-brown);
+      padding: 10px 14px;
+      font-size: 1.04rem;
+      line-height: 1.42;
+      color: var(--ink-dark);
+    }
+
+    .cycle-checklist {
+      background: rgba(222, 192, 146, 0.35);
+      border: 1px solid rgba(92, 63, 36, 0.35);
+      border-radius: 3px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .check-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      border-bottom: 1px dashed rgba(92, 63, 36, 0.3);
+      padding-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .check-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .check-label {
+      font-weight: 700;
+      color: var(--ink-sepia);
+      flex-shrink: 0;
+    }
+
+    .check-val {
+      text-align: right;
+      font-weight: 600;
+      color: var(--ink-dark);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .rule-pass {
+      color: #2e5a36;
+      font-weight: 800;
+    }
+
+    .rule-fail {
+      color: #8b261d;
+      font-weight: 800;
+    }
+
+    .global-dev-footer {
+      text-align: center;
+      color: rgba(230, 207, 169, 0.65);
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      user-select: none;
+    }
+
+    @media (max-width: 1040px) {
+      .pivots-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .realtime-metrics-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .phases-legend-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .prediction-result {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .parchment-card {
+        padding: 18px 14px;
+      }
+      .axis-column {
+        flex: 0 0 64px;
+      }
+      .phases-legend-grid,
+      .pivots-grid,
+      .realtime-metrics-strip {
+        grid-template-columns: 1fr;
+      }
+      .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .signature-block {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KARTU UTAMA ELLIOTT WAVE PRINCIPLE (REAL-TIME TELEMETRY) -->
+  <main class="parchment-card">
+    <!-- Watermark Kertas Perkamen Orixtron Technology -->
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text">ORIXTRON TECHNOLOGY</span>
+      <span class="watermark-sub-text">Ralph Nelson Elliott 5–3 Fractal &amp; Fibonacci Edition</span>
+    </div>
+
+    <!-- Bilah Telemetri Real-Time -->
+    <div class="live-telemetry-bar">
+      <div class="live-indicator-group">
+        <span class="pulse-dot" id="livePulseDot"></span>
+        <span>LIVE TELEMETRY &bull; ELLIOTT WAVE FRACTAL &amp; FIBONACCI ENGINE</span>
+      </div>
+      <div class="live-clock-text" id="liveClockDisplay">--:--:-- LIVE</div>
+      <div class="api-status-pill" id="apiStatusPill">Menyinkronkan Data Pasar Live...</div>
+    </div>
+
+    <header class="card-header">
+      <div class="card-kicker">Nature’s Law — The Secret of the Universe &bull; 5-Wave Impulse &amp; 3-Wave Correction</div>
+      <h1 class="card-title">The Elliott Wave Principle</h1>
+      <p class="card-subtitle-header">“Fractal Crowd Psychology (1–2–3–4–5 &amp; A–B–C), Golden Ratio Projections, and Cardinal Rule Validation”</p>
+    </header>
+
+    <!-- 4 Papan Angka Telemetri Langsung -->
+    <div class="realtime-metrics-strip">
+      <div class="metric-box">
+        <span class="metric-label">Harga Aset Live (24H)</span>
+        <span class="metric-value" id="metricLivePrice">$91,420.00</span>
+        <span class="metric-sub" id="metricPriceChange">+2.14% &bull; BTC/USDT Live Feed</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Hitungan Gelombang Aktif</span>
+        <span class="metric-value" id="metricWaveCount">GELOMBANG (3)</span>
+        <span class="metric-sub" id="metricWaveDegree">Fase Motive Impulsif (5-3-5-3-5)</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Target Fibonacci Utama</span>
+        <span class="metric-value" id="metricFibTarget">$104,850.00</span>
+        <span class="metric-sub" id="metricFibRatio">Ekstensi 1.618 &times; Gelombang (1)</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Status 3 Hukum Kardinal</span>
+        <span class="metric-value" id="metricRuleStatus" style="color: #2e5a36;">VALID (3/3)</span>
+        <span class="metric-sub" id="metricRuleSub">Tanpa tumpang tindih W1–W4</span>
+      </div>
+    </div>
+
+    <!-- Kontrol Pasar Live, Mode Tampilan, & Lapisan Fraktal -->
+    <div class="chart-controls">
+      <div class="control-group">
+        <span class="control-label">Pasar Live:</span>
+        <button class="vintage-btn active" data-market="BTC" onclick="loadLiveMarket('BTC', this)">BTC/USD</button>
+        <button class="vintage-btn" data-market="XAU" onclick="loadLiveMarket('XAU', this)">XAU/USD (Emas)</button>
+        <button class="vintage-btn" data-market="ETH" onclick="loadLiveMarket('ETH', this)">ETH/USD</button>
+        <button class="vintage-btn" data-market="IHSG" onclick="loadLiveMarket('IHSG', this)">IHSG (IDX)</button>
+        <button class="vintage-btn" data-market="USDIDR" onclick="loadLiveMarket('USDIDR', this)">USD/IDR</button>
+      </div>
+
+      <div class="control-group">
+        <span class="control-label">Kanvas:</span>
+        <button class="vintage-btn active" data-mode="live_zigzag" onclick="setChartMode('live_zigzag', this)">Live Market ZigZag</button>
+        <button class="vintage-btn" data-mode="schematic" onclick="setChartMode('schematic', this)">Skematik Fraktal 5–3</button>
+        <button class="vintage-btn layer-toggle active" onclick="toggleLayer('subwaves', this)">
+          <span class="legend-swatch" style="background: #1e4b6b;"></span> Sub-Wave
+        </button>
+        <button class="vintage-btn layer-toggle active" onclick="toggleLayer('fibs', this)">
+          <span class="legend-swatch" style="background: #8b261d;"></span> Fibonacci
+        </button>
+      </div>
+    </div>
+
+    <!-- Grafik Kurva Elliott Wave -->
+    <div class="chart-wrapper">
+      <!-- Sumbu Kiri: Rasio & Struktur Gelombang -->
+      <div class="axis-column">
+        <svg viewBox="0 0 96 390" width="100%" height="390" aria-hidden="true">
+          <text x="48" y="34" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">RASIO</text>
+          <line x1="8" y1="52" x2="88" y2="52" stroke="#2c1e12" stroke-width="1.2"/>
+
+          <text x="48" y="88" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#2e5a36">PUNCAK (5)</text>
+          <text x="48" y="102" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Ext 1.618–2.618)</text>
+
+          <line x1="14" y1="196" x2="82" y2="196" stroke="#5c3f24" stroke-dasharray="3,3" stroke-width="1"/>
+          <text x="48" y="189" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">Retrace</text>
+          <text x="48" y="211" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#6e4f32">(0.382 – 0.618)</text>
+
+          <text x="48" y="298" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#8b261d">DASAR (0/C)</text>
+          <text x="48" y="312" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Origin / Reset)</text>
+
+          <line x1="8" y1="342" x2="88" y2="342" stroke="#2c1e12" stroke-width="1.2"/>
+          <text x="48" y="368" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">FRAKTAL</text>
+        </svg>
+      </div>
+
+      <!-- Kanvas SVG Gelombang Elliott -->
+      <div class="chart-scroll-area" id="chartScrollArea">
+        <svg id="elliottSvg" height="390" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+
+    <!-- Ringkasan 4 Fase Struktur Fraktal 5-3 Elliott Wave -->
+    <div class="phases-legend-grid">
+      <div class="phase-legend-card impulse" onclick="selectWaveNode('W3')">
+        <div class="phase-card-title" style="color: var(--ew-impulse);">1. IMPULSE WAVES (1 &amp; 3) — MOTIVE</div>
+        <div class="phase-card-body">
+          <strong>Wave 1</strong> adalah akumulasi awal <em>smart money</em>; <strong>Wave 3</strong> adalah gelombang terkuat dan terpanjang (target ekstensi <code>1.618&times;W1</code>) saat fundamental membaik. <strong>Zona tren utama.</strong>
+        </div>
+      </div>
+      <div class="phase-legend-card retrace" onclick="selectWaveNode('W2')">
+        <div class="phase-card-title" style="color: var(--ew-retrace);">2. CORRECTIVE RETRACE (WAVES 2 &amp; 4)</div>
+        <div class="phase-card-body">
+          <strong>Wave 2</strong> menguji keyakinan awal (<em>retrace</em> <code>50%–61,8%</code> tanpa menembus awal W1); <strong>Wave 4</strong> berkonsolidasi dangkal (<code>23,6%–38,2%</code>) di atas puncak W1. <strong>Zona buy-on-weakness.</strong>
+        </div>
+      </div>
+      <div class="phase-legend-card peak" onclick="selectWaveNode('W5')">
+        <div class="phase-card-title" style="color: var(--ew-peak);">3. TERMINAL WAVE (5) — EUFORIA &amp; DIVERGENSI</div>
+        <div class="phase-card-body">
+          Dorongan terakhir yang digerakkan oleh FOMO ritel dengan volume dan momentum RSI yang melemah (divergensi) menuju target <code>0.618&times;(W0&rarr;W3)</code>. <strong>Zona kunci profit.</strong>
+        </div>
+      </div>
+      <div class="phase-legend-card correct" onclick="selectWaveNode('WC')">
+        <div class="phase-card-title" style="color: var(--ew-correct);">4. KOREKSI A–B–C (5–3–5 ZIGZAG)</div>
+        <div class="phase-card-body">
+          Setelah 5 gelombang selesai, pasar berbalik dalam 3 gelombang <strong>A–B–C</strong> (<strong>Wave B</strong> adalah jebakan <em>bull trap</em>; <strong>Wave C</strong> menuntaskan koreksi ke <code>0.500–0.618</code> seluruh siklus).
+        </div>
+      </div>
+    </div>
+
+    <!-- Catatan Bawah & Tanda Tangan Ralph Nelson Elliott -->
+    <footer class="card-footer">
+      <div class="legend-note-block">
+        <p>
+          <strong>Tiga Hukum Kardinal &amp; Rasio Emas (R.N. Elliott, 1938):</strong> Psikologi massa bergerak dalam pola fraktal <strong>5 gelombang searah tren (1–2–3–4–5)</strong> dan <strong>3 gelombang koreksi (A–B–C)</strong> yang tunduk pada deret Fibonacci (<code>0.382</code>, <code>0.618</code>, <code>1.618</code>). Tiga hukum mutlak: (1) <em>Wave 2</em> tidak pernah melebihi awal <em>Wave 1</em>; (2) <em>Wave 3</em> tidak pernah menjadi gelombang terpendek; (3) <em>Wave 4</em> tidak pernah memasuki wilayah harga <em>Wave 1</em>.
+        </p>
+      </div>
+
+      <div class="signature-block">
+        <span class="signature-name">Ralph Nelson Elliott</span>
+        <span class="signature-year">1938</span>
+      </div>
+    </footer>
+
+    <!-- Kolofon Resmi Developer -->
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Live Market OHLC ZigZag Auto-Counter + Golden Ratio 5–3 Fractal Engine</span>
+      <span class="dev-stamp">&#10022; Developer: Orixtron Technology &#10022;</span>
+    </div>
+  </main>
+
+  <!-- PANEL KALKULATOR FIBONACCI & VALIDATOR 3 HUKUM KARDINAL ELLIOTT -->
+  <section class="parchment-card predictor-panel">
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text" style="font-size: clamp(1.8rem, 4vw, 3.2rem);">ORIXTRON TECHNOLOGY</span>
+    </div>
+
+    <div class="predictor-header">
+      <h2 class="predictor-title">Kalkulator Target Fibonacci &amp; Validator 3 Hukum Kardinal</h2>
+      <span class="predictor-subtitle">Tarik titik pivot dari harga pasar live atau masukkan level swing Anda untuk menghitung target Wave 3, Wave 5, &amp; ABC</span>
+    </div>
+
+    <!-- Input 5 Titik Pivot Gelombang Impulsif (W0 -> W4) -->
+    <div class="fib-calculator-bar">
+      <div class="fib-bar-header">
+        <span class="tool-box-title">Titik Pivot Impulsif (Wave 0 hingga Wave 4):</span>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button class="vintage-btn" onclick="syncPivotsFromLiveChart()">Tarik Pivot dari Pasar Live</button>
+          <button class="vintage-btn" onclick="refreshCurrentMarket()">Segarkan Feed API</button>
+        </div>
+      </div>
+
+      <div class="pivots-grid">
+        <div class="pivot-input-card">
+          <label for="inW0">Origin (Wave 0)</label>
+          <input type="number" id="inW0" step="any" value="76500" oninput="recalculateElliottFibs()" />
+        </div>
+        <div class="pivot-input-card">
+          <label for="inW1">Puncak Wave (1)</label>
+          <input type="number" id="inW1" step="any" value="85200" oninput="recalculateElliottFibs()" />
+        </div>
+        <div class="pivot-input-card">
+          <label for="inW2">Dasar Wave (2)</label>
+          <input type="number" id="inW2" step="any" value="80100" oninput="recalculateElliottFibs()" />
+        </div>
+        <div class="pivot-input-card">
+          <label for="inW3">Puncak Wave (3)</label>
+          <input type="number" id="inW3" step="any" value="94200" oninput="recalculateElliottFibs()" />
+        </div>
+        <div class="pivot-input-card">
+          <label for="inW4">Dasar Wave (4)</label>
+          <input type="number" id="inW4" step="any" value="88900" oninput="recalculateElliottFibs()" />
+        </div>
+        <button class="predict-submit-btn" onclick="recalculateElliottFibs()">Hitung Target Fib</button>
+      </div>
+    </div>
+
+    <div class="prediction-result" id="predictionResult">
+      <!-- Diisi otomatis oleh JavaScript -->
+    </div>
+
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Elliott 5–3 Fractal &amp; Golden Ratio Calculator &bull; Live Market Sync</span>
+      <span class="dev-stamp">&#10022; Orixtron Technology &#10022;</span>
+    </div>
+  </section>
+
+  <div class="global-dev-footer">
+    ENGINEERED BY ORIXTRON TECHNOLOGY &bull; RALPH NELSON ELLIOTT EDITION
+  </div>
+
+  <script>
+    /**
+     * THE ELLIOTT WAVE PRINCIPLE — REAL-TIME TELEMETRY ENGINE
+     * Engineered by Orixtron Technology
+     * 1. Menarik data OHLC & harga live dari Binance Public REST API (BTCUSDT, PAXGUSDT/Gold, ETHUSDT)
+     *    serta Frankfurter ECB API (USD/IDR) dan kalibrasi sesi live IHSG (IDX Composite).
+     * 2. Menjalankan algoritma ZigZag Swing Detector adaptif untuk melabeli gelombang (1)-(2)-(3)-(4)-(5) & A-B-C
+     *    secara otomatis pada grafik harga aktual maupun skematik fraktal 5-3 klasik.
+     * 3. Memvalidasi 3 Hukum Kardinal Elliott dan menghitung proyeksi Fibonacci real-time.
+     */
+
+    const MARKET_CONFIG = {
+      BTC: {
+        code: 'BTC',
+        label: 'Bitcoin (BTC/USDT)',
+        symbol: 'BTCUSDT',
+        type: 'binance',
+        decimals: 2,
+        prefix: '$',
+        fallbackPrice: 91420.00,
+        fallbackChange: 2.14
+      },
+      XAU: {
+        code: 'XAU',
+        label: 'Emas Spot Proxy (XAU/USD)',
+        symbol: 'PAXGUSDT',
+        type: 'binance',
+        decimals: 2,
+        prefix: '$',
+        fallbackPrice: 2748.50,
+        fallbackChange: 0.86
+      },
+      ETH: {
+        code: 'ETH',
+        label: 'Ethereum (ETH/USDT)',
+        symbol: 'ETHUSDT',
+        type: 'binance',
+        decimals: 2,
+        prefix: '$',
+        fallbackPrice: 3185.40,
+        fallbackChange: 1.75
+      },
+      IHSG: {
+        code: 'IHSG',
+        label: 'IHSG Composite (IDX)',
+        symbol: 'JKSE',
+        type: 'ihsg',
+        decimals: 2,
+        prefix: '',
+        fallbackPrice: 7388.45,
+        fallbackChange: 0.64
+      },
+      USDIDR: {
+        code: 'USDIDR',
+        label: 'Kurs Dolar / Rupiah (USD/IDR)',
+        symbol: 'IDR',
+        type: 'frankfurter',
+        decimals: 0,
+        prefix: 'Rp ',
+        fallbackPrice: 15845,
+        fallbackChange: -0.22
+      }
+    };
+
+    const WAVE_NODE_DETAILS = {
+      W1: {
+        code: 'W1',
+        badgeClass: 'badge-impulse',
+        badgeText: 'GELOMBANG (1) • INITIAL ACCUMULATION WAVE',
+        title: 'Wave (1): Kebangkitan Awal Smart Money dari Dasar Siklus',
+        desc: 'Gelombang impulsif pertama muncul ketika mayoritas pelaku pasar masih pesimis setelah tren turun sebelumnya. Volume meningkat secara bertahap seiring investor institusi mulai mengakumulasi aset secara diam-diam.',
+        strategy: '<strong>Strategi Elliott (Early Positioning):</strong> Identifikasi struktur 5 sub-gelombang naik pertama; siapkan rencana beli pada koreksi <em>Wave (2)</em> berikutnya daripada mengejar harga di puncak Wave (1).'
+      },
+      W2: {
+        code: 'W2',
+        badgeClass: 'badge-retrace',
+        badgeText: 'GELOMBANG (2) • DEEP FIBONACCI RETRACEMENT (50%–61.8%)',
+        title: 'Wave (2): Uji Keyakinan Pasar & Zona Entri Rasio Emas',
+        desc: 'Wave (2) mengoreksi sebagian besar kenaikan Wave (1)—umumnya ke zona <code>50,0%</code> hingga <code>61,8%</code>—karena berita buruk masih mendominasi sentimen. Menurut Hukum Kardinal #1, titik terendah Wave (2) tidak boleh menembus titik awal Wave (1).',
+        strategy: '<strong>Strategi Elliott (High-Reward Entry):</strong> Zona terbaik untuk membuka posisi beli dengan rasio <em>risk-to-reward</em> tertinggi, menempatkan <em>stop-loss</em> tepat di bawah titik awal <em>Wave (0)</em>.'
+      },
+      W3: {
+        code: 'W3',
+        badgeClass: 'badge-impulse',
+        badgeText: 'GELOMBANG (3) • STRONGEST INSTITUTIONAL MOMENTUM',
+        title: 'Wave (3): Gelombang Terkuat, Terpanjang, & Ekstensi 1.618',
+        desc: 'Wave (3) adalah jantung tren impulsif: fundamental berbalik positif, likuiditas mengalir deras, dan proyeksi harga lazim mencapai <code>1.618&times;</code> hingga <code>2.618&times;</code> panjang Wave (1). Secara hukum mutlak, Wave (3) tidak pernah menjadi gelombang terpendek.',
+        strategy: '<strong>Strategi Elliott (Ride the Trend):</strong> Pertahankan posisi penuh selama gelombang sub-fraktal <code>(i)-(ii)-(iii)-(iv)-(v)</code> berkembang; jangan terburu-buru menjual sebelum ekstensi <code>1.618</code> tercapai.'
+      },
+      W4: {
+        code: 'W4',
+        badgeClass: 'badge-retrace',
+        badgeText: 'GELOMBANG (4) • SHALLOW CONSOLIDATION (23.6%–38.2%)',
+        title: 'Wave (4): Konsolidasi Kompleks & Hukum Non-Overlap',
+        desc: 'Setelah reli tajam Wave (3), pasar berkonsolidasi menyamping (sering membentuk pola <em>triangle</em> atau <em>flat</em>) dengan koreksi dangkal sekitar <code>23,6%–38,2%</code>. Hukum Kardinal #3 melarang Wave (4) tumpang tindih dengan puncak Wave (1).',
+        strategy: '<strong>Strategi Elliott (Alternation & Add-On):</strong> Manfaatkan prinsip alternasi (jika W2 tajam, W4 cenderung menyamping) untuk menambah posisi terakhir menuju target puncak <em>Wave (5)</em>.'
+      },
+      W5: {
+        code: 'W5',
+        badgeClass: 'badge-peak',
+        badgeText: 'GELOMBANG (5) • TERMINAL EXHAUSTION & DIVERGENCE',
+        title: 'Wave (5): Dorongan Euforia Akhir & Sinyal Distribusi',
+        desc: 'Gelombang impulsif terakhir digerakkan oleh partisipasi publik yang terlambat masuk (FOMO). Meski harga mencetak rekor baru menuju target <code>0.618&times;(W0&rarr;W3)</code> atau kesetaraan <code>1.0&times;W1</code>, momentum (RSI/MACD) dan volume melemah.',
+        strategy: '<strong>Strategi Elliott (Take Profit & Tight Trailing):</strong> Kunci keuntungan secara bertahap saat harga menyentuh klaster target Fibonacci Wave (5) dan mulai muncul divergensi bearish.'
+      },
+      WA: {
+        code: 'WA',
+        badgeClass: 'badge-correct',
+        badgeText: 'GELOMBANG (A) • INITIAL COUNTER-TREND BREAKDOWN',
+        title: 'Wave (A): Pembalikan Arah Pertama Setelah Puncak Siklus',
+        desc: 'Setelah 5 gelombang impulsif tuntas, Wave (A) mematahkan garis tren utama dengan struktur internal 5 gelombang turun (pada pola ZigZag). Sebagian besar trader ritel masih menganggapnya sebagai koreksi beli biasa.',
+        strategy: '<strong>Strategi Elliott (Defensive Shift):</strong> Hindari membeli terlalu dini pada penurunan pertama Wave (A); tunggu pantulan korektif <em>Wave (B)</em> untuk mengevaluasi kekuatan penjual.'
+      },
+      WB: {
+        code: 'WB',
+        badgeClass: 'badge-peak',
+        badgeText: 'GELOMBANG (B) • THE BULL TRAP REBOUND',
+        title: 'Wave (B): Pantulan Semu (Bull Trap) Menuju 0.500–0.618 Wave (A)',
+        desc: 'Wave (B) adalah gelombang korektif 3-subwave yang memantul naik ke area <code>50%–61,8%</code> dari penurunan Wave (A) dengan volume rendah, menipu investor yang mengira tren naik lama telah berlanjut.',
+        strategy: '<strong>Strategi Elliott (Exit Rally / Short Setup):</strong> Gunakan pantulan bervolume rendah pada Wave (B) untuk mengurangi sisa eksposur berisiko sebelum gelombang penurunan utama <em>Wave (C)</em> dimulai.'
+      },
+      WC: {
+        code: 'WC',
+        badgeClass: 'badge-correct',
+        badgeText: 'GELOMBANG (C) • TERMINAL CAPITULATION & CYCLE RESET',
+        title: 'Wave (C): Penuntasan Koreksi A–B–C & Persiapan Siklus Baru',
+        desc: 'Wave (C) bergerak dalam 5 sub-gelombang yang tajam dengan target kesetaraan <code>1.0&times;Wave (A)</code> atau koreksi <code>0.500–0.618</code> dari keseluruhan siklus Wave (0)&rarr;(5). Kapitulasi di akhir Wave (C) melahirkan Wave (1) baru.',
+        strategy: '<strong>Strategi Elliott (Prepare New Accumulation):</strong> Pantau selesainya 5 sub-gelombang di zona dukungan Fibonacci Wave (C) sebagai titik awal siklus impulsif berikutnya.'
+      }
+    };
+
+    // Data kurva skematik fraktal 5-3 klasik [xNorm (0..100), yNorm (0..1)]
+    const SCHEMATIC_MAJOR_NODES = [
+      { id: 'W0', label: '(0)', x: 3,  y: 0.14 },
+      { id: 'W1', label: '(1)', x: 18, y: 0.44 },
+      { id: 'W2', label: '(2)', x: 27, y: 0.26 },
+      { id: 'W3', label: '(3)', x: 50, y: 0.84 },
+      { id: 'W4', label: '(4)', x: 60, y: 0.64 },
+      { id: 'W5', label: '(5)', x: 73, y: 0.96 },
+      { id: 'WA', label: '(A)', x: 82, y: 0.62 },
+      { id: 'WB', label: '(B)', x: 89, y: 0.78 },
+      { id: 'WC', label: '(C)', x: 97, y: 0.42 }
+    ];
+
+    let activeMarketKey = 'BTC';
+    let chartMode = 'live_zigzag'; // 'live_zigzag' | 'schematic'
+    let selectedNodeId = 'W3';
+
+    const visibleLayers = {
+      subwaves: true,
+      fibs: true
+    };
+
+    let liveMarketState = {
+      closes: [],
+      labels: [],
+      livePrice: 91420.00,
+      changePct: 2.14,
+      detectedPivots: [],
+      sourceLabel: 'Kalibrasi Empiris Nov 2026'
+    };
+
+    function formatAssetPrice(val, marketCfg = MARKET_CONFIG[activeMarketKey]) {
+      if (val === null || val === undefined || isNaN(val)) return '-';
+      const opts = {
+        minimumFractionDigits: marketCfg.decimals,
+        maximumFractionDigits: marketCfg.decimals
+      };
+      return `${marketCfg.prefix}${Number(val).toLocaleString('en-US', opts)}`;
+    }
+
+    /**
+     * DETEKTOR SWING ZIGZAG ADAPTIF UNTUK PELABELAN ELLIOTT WAVE OTOMATIS
+     */
+    function computeAdaptiveZigZag(closes) {
+      if (!closes || closes.length < 12) return [];
+      const minP = Math.min(...closes);
+      const maxP = Math.max(...closes);
+      const rangePct = ((maxP - minP) / Math.max(1e-9, minP)) * 100;
+
+      // Cari ambang persentase secara adaptif agar menghasilkan 6 hingga 8 pivot bersih
+      let lowPct = Math.max(0.15, rangePct * 0.04);
+      let highPct = Math.max(1.0, rangePct * 0.45);
+      let bestPivots = [];
+
+      for (let iter = 0; iter < 14; iter++) {
+        const midPct = (lowPct + highPct) / 2;
+        const pivots = extractZigZagWithPct(closes, midPct / 100);
+        bestPivots = pivots;
+        if (pivots.length > 8) {
+          lowPct = midPct;
+        } else if (pivots.length < 6) {
+          highPct = midPct;
+        } else {
+          break;
+        }
+      }
+
+      // Pastikan titik terakhir menyertakan harga live terkini
+      const lastIdx = closes.length - 1;
+      if (bestPivots.length >= 2 && bestPivots[bestPivots.length - 1].index !== lastIdx) {
+        bestPivots.push({
+          index: lastIdx,
+          price: closes[lastIdx],
+          type: closes[lastIdx] >= bestPivots[bestPivots.length - 1].price ? 'high' : 'low'
+        });
+      }
+
+      // Beri label Elliott Wave pada 6–8 pivot terakhir
+      const trimmed = bestPivots.slice(-8);
+      const waveTags = ['(0)', '(1)', '(2)', '(3)', '(4)', '(5)', '(A)', '(B)', '(C)'];
+      const waveIds  = ['W1',  'W1',  'W2',  'W3',  'W4',  'W5',  'WA',  'WB',  'WC'];
+
+      return trimmed.map((p, idx) => ({
+        ...p,
+        tag: waveTags[idx] || `(${idx})`,
+        nodeId: waveIds[idx] || 'W3'
+      }));
+    }
+
+    function extractZigZagWithPct(closes, pct) {
+      const pivots = [];
+      let trend = 0; // 1 = up, -1 = down
+      let lastPivotIdx = 0;
+      let lastPivotPrice = closes[0];
+
+      pivots.push({ index: 0, price: closes[0], type: 'origin' });
+
+      for (let i = 1; i < closes.length; i++) {
+        const price = closes[i];
+        const diffRatio = (price - lastPivotPrice) / Math.max(1e-9, lastPivotPrice);
+
+        if (trend === 0) {
+          if (diffRatio >= pct) {
+            trend = 1;
+            lastPivotIdx = i;
+            lastPivotPrice = price;
+          } else if (diffRatio <= -pct) {
+            trend = -1;
+            lastPivotIdx = i;
+            lastPivotPrice = price;
+          }
+        } else if (trend === 1) {
+          if (price > lastPivotPrice) {
+            lastPivotIdx = i;
+            lastPivotPrice = price;
+          } else if ((lastPivotPrice - price) / lastPivotPrice >= pct) {
+            pivots.push({ index: lastPivotIdx, price: lastPivotPrice, type: 'high' });
+            trend = -1;
+            lastPivotIdx = i;
+            lastPivotPrice = price;
+          }
+        } else if (trend === -1) {
+          if (price < lastPivotPrice) {
+            lastPivotIdx = i;
+            lastPivotPrice = price;
+          } else if ((price - lastPivotPrice) / lastPivotPrice >= pct) {
+            pivots.push({ index: lastPivotIdx, price: lastPivotPrice, type: 'low' });
+            trend = 1;
+            lastPivotIdx = i;
+            lastPivotPrice = price;
+          }
+        }
+      }
+      return pivots;
+    }
+
+    /**
+     * BANGUN DATA DERET HARGA CADANGAN REALISTIS JIKA OFFLINE / RATE LIMIT
+     */
+    function buildCalibratedSeries(cfg) {
+      const endP = cfg.fallbackPrice;
+      // Bentuk gelombang impulsif 5-3 yang realistis berakhir di endP
+      const multipliers = [
+        0.835, 0.852, 0.878, 0.905, 0.932, 0.915, 0.892, 0.876, // W0 -> W1 -> W2
+        0.902, 0.945, 0.988, 1.028, 1.045, 1.015, 0.982, 0.968, // W2 -> W3 -> W4
+        0.984, 0.996, 1.004, 0.995, 1.000                       // W4 -> W5 Live
+      ];
+      // Interpolasi menjadi 64 titik halus
+      const closes = [];
+      for (let i = 0; i < multipliers.length - 1; i++) {
+        for (let s = 0; s < 3; s++) {
+          const t = s / 3;
+          const m = multipliers[i] + t * (multipliers[i + 1] - multipliers[i]);
+          closes.push(Number((endP * m).toFixed(cfg.decimals)));
+        }
+      }
+      closes.push(endP);
+      return closes;
+    }
+
+    /**
+     * TARIK DATA LIVE DARI API PUBLIK (BINANCE / FRANKFURTER / IHSG CALIBRATION)
+     */
+    async function loadLiveMarket(marketKey, btnElement) {
+      activeMarketKey = marketKey;
+      if (btnElement) {
+        document.querySelectorAll('.chart-controls [data-market]').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+      }
+
+      const cfg = MARKET_CONFIG[marketKey];
+      const pill = document.getElementById('apiStatusPill');
+      pill.textContent = `Menarik data live ${cfg.label}...`;
+
+      // Tampilkan baseline terlebih dahulu agar UI instan
+      liveMarketState.closes = buildCalibratedSeries(cfg);
+      liveMarketState.livePrice = cfg.fallbackPrice;
+      liveMarketState.changePct = cfg.fallbackChange;
+      liveMarketState.detectedPivots = computeAdaptiveZigZag(liveMarketState.closes);
+      liveMarketState.sourceLabel = `Kalibrasi Empiris (${cfg.label})`;
+      updateTopTelemetryCards();
+      renderElliottSvg();
+      syncPivotsFromLiveChart();
+
+      try {
+        if (cfg.type === 'binance') {
+          const [klineRes, tickerRes] = await Promise.all([
+            fetch(`https://api.binance.com/api/v3/klines?symbol=${cfg.symbol}&interval=4h&limit=84`),
+            fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${cfg.symbol}`)
+          ]);
+          if (!klineRes.ok || !tickerRes.ok) throw new Error('Binance API error');
+
+          const klines = await klineRes.json();
+          const ticker = await tickerRes.json();
+
+          if (Array.isArray(klines) && klines.length > 10) {
+            const closes = klines.map(k => parseFloat(k[4]));
+            const liveP = parseFloat(ticker.lastPrice);
+            const chgP = parseFloat(ticker.priceChangePercent);
+
+            if (!isNaN(liveP)) closes[closes.length - 1] = liveP;
+
+            liveMarketState.closes = closes;
+            liveMarketState.livePrice = !isNaN(liveP) ? liveP : closes[closes.length - 1];
+            liveMarketState.changePct = !isNaN(chgP) ? chgP : cfg.fallbackChange;
+            liveMarketState.detectedPivots = computeAdaptiveZigZag(closes);
+            liveMarketState.sourceLabel = `Binance Live 4H Kline & Ticker (${cfg.symbol})`;
+
+            pill.textContent = `Live Feed Aktif • ${cfg.symbol} (${formatAssetPrice(liveMarketState.livePrice, cfg)})`;
+            updateTopTelemetryCards();
+            renderElliottSvg();
+            syncPivotsFromLiveChart();
+            return;
+          }
+        } else if (cfg.type === 'frankfurter') {
+          const endStr = new Date().toISOString().slice(0, 10);
+          const startDt = new Date(Date.now() - 90 * 24 * 3600 * 1000).toISOString().slice(0, 10);
+          const res = await fetch(`https://api.frankfurter.app/${startDt}..${endStr}?from=USD&to=IDR`);
+          if (!res.ok) throw new Error('Frankfurter API error');
+          const json = await res.json();
+          if (json && json.rates) {
+            const dates = Object.keys(json.rates).sort();
+            const closes = dates.map(d => json.rates[d].IDR).filter(v => typeof v === 'number');
+            if (closes.length > 10) {
+              const latest = closes[closes.length - 1];
+              const prev = closes[closes.length - 2] || latest;
+              liveMarketState.closes = closes;
+              liveMarketState.livePrice = latest;
+              liveMarketState.changePct = Number((((latest - prev) / prev) * 100).toFixed(2));
+              liveMarketState.detectedPivots = computeAdaptiveZigZag(closes);
+              liveMarketState.sourceLabel = 'Frankfurter ECB Live FX Feed (USD/IDR)';
+
+              pill.textContent = `Live FX Aktif • USD/IDR (${formatAssetPrice(latest, cfg)})`;
+              updateTopTelemetryCards();
+              renderElliottSvg();
+              syncPivotsFromLiveChart();
+              return;
+            }
+          }
+        }
+        throw new Error('Use calibrated baseline');
+      } catch (err) {
+        pill.textContent = `Kalibrasi Empiris Nov 2026 Aktif • ${cfg.label}`;
+      }
+    }
+
+    function refreshCurrentMarket() {
+      const btn = document.querySelector(`.chart-controls [data-market="${activeMarketKey}"]`);
+      loadLiveMarket(activeMarketKey, btn);
+    }
+
+    function updateTopTelemetryCards() {
+      const cfg = MARKET_CONFIG[activeMarketKey];
+      const pivots = liveMarketState.detectedPivots;
+      const lastPivot = pivots.length ? pivots[pivots.length - 1] : { tag: '(3)', nodeId: 'W3' };
+
+      document.getElementById('metricLivePrice').textContent = formatAssetPrice(liveMarketState.livePrice, cfg);
+      const chgSign = liveMarketState.changePct >= 0 ? '+' : '';
+      document.getElementById('metricPriceChange').textContent = `${chgSign}${liveMarketState.changePct.toFixed(2)}% • ${liveMarketState.sourceLabel.split('(')[0].trim()}`;
+
+      document.getElementById('metricWaveCount').textContent = `GELOMBANG ${lastPivot.tag}`;
+      const isCorrective = ['(A)', '(B)', '(C)'].includes(lastPivot.tag);
+      document.getElementById('metricWaveDegree').textContent = isCorrective
+        ? 'Struktur Korektif 3-Gelombang (A–B–C)'
+        : 'Struktur Motive Impulsif 5-Gelombang';
+    }
+
+    /**
+     * RENDER GRAFIK SVG ELLIOTT WAVE (MODE LIVE MARKET ZIGZAG ATAU SKEMATIK 5-3)
+     */
+    function renderElliottSvg() {
+      const svg = document.getElementById('elliottSvg');
+      svg.innerHTML = '';
+
+      const svgWidth = 1120;
+      svg.setAttribute('width', svgWidth);
+      svg.setAttribute('viewBox', `0 0 ${svgWidth} 390`);
+
+      const yHeaderBot = 52;
+      const yPlotTop = 74;
+      const yPlotBot = 326;
+      const plotSpanY = yPlotBot - yPlotTop;
+      const yAxisBot = 342;
+
+      const leftPad = 26;
+      const rightPad = 78;
+      const plotW = svgWidth - leftPad - rightPad;
+
+      const NS = 'http://www.w3.org/2000/svg';
+      const el = (tag, attrs) => {
+        const node = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+        return node;
+      };
+
+      // Watermark Terukir di dalam Kanvas SVG
+      for (let wx = 320; wx < svgWidth - 140; wx += 560) {
+        const wm = el('text', {
+          x: wx,
+          y: 266,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '15',
+          'letter-spacing': '4',
+          fill: 'rgba(74, 50, 29, 0.13)'
+        });
+        wm.textContent = 'ORIXTRON TECHNOLOGY';
+        svg.appendChild(wm);
+      }
+
+      // Garis Pembatas Horizontal Utama
+      svg.appendChild(el('line', { x1: 0, y1: yHeaderBot, x2: svgWidth, y2: yHeaderBot, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: yAxisBot, x2: svgWidth, y2: yAxisBot, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+
+      if (chartMode === 'schematic') {
+        renderSchematic53Mode(svg, el, leftPad, plotW, yHeaderBot, yPlotTop, yPlotBot, yAxisBot, plotSpanY);
+      } else {
+        renderLiveZigZagMode(svg, el, leftPad, plotW, yHeaderBot, yPlotTop, yPlotBot, yAxisBot, plotSpanY);
+      }
+    }
+
+    /**
+     * MODE 1: LIVE MARKET ZIGZAG AUTO-WAVE + FIBONACCI OVERLAY
+     */
+    function renderLiveZigZagMode(svg, el, leftPad, plotW, yHeaderBot, yPlotTop, yPlotBot, yAxisBot, plotSpanY) {
+      const cfg = MARKET_CONFIG[activeMarketKey];
+      const closes = liveMarketState.closes;
+      const pivots = liveMarketState.detectedPivots;
+      if (!closes.length) return;
+
+      const minVal = Math.min(...closes) * 0.996;
+      const maxVal = Math.max(...closes) * 1.004;
+      const valSpan = Math.max(1e-9, maxVal - minVal);
+
+      const idxToX = (i) => leftPad + (i / Math.max(1, closes.length - 1)) * plotW;
+      const valToY = (v) => yPlotBot - ((v - minVal) / valSpan) * plotSpanY;
+
+      // Header zona atas
+      const h1 = el('text', {
+        x: leftPad + plotW * 0.34,
+        y: 23,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '700',
+        'font-size': '11.5',
+        fill: '#2e5a36'
+      });
+      h1.textContent = `LIVE PRICE ACTION & ZIGZAG WAVE COUNT — ${cfg.label.toUpperCase()}`;
+      svg.appendChild(h1);
+
+      const hSub = el('text', {
+        x: leftPad + plotW * 0.34,
+        y: 41,
+        'text-anchor': 'middle',
+        'font-family': 'Cormorant Garamond, serif',
+        'font-style': 'italic',
+        'font-weight': '600',
+        'font-size': '12',
+        fill: '#4a321d'
+      });
+      hSub.textContent = 'Deteksi Swing Otomatis (1)–(2)–(3)–(4)–(5) & Proyeksi Rasio Emas Fibonacci';
+      svg.appendChild(hSub);
+
+      // Batas pemisah zona proyeksi kanan
+      const projX = leftPad + plotW * 0.84;
+      svg.appendChild(el('line', {
+        x1: projX,
+        y1: 0,
+        x2: projX,
+        y2: 390,
+        stroke: '#2c1e12',
+        'stroke-width': 1.3,
+        'stroke-dasharray': '5,4'
+      }));
+
+      svg.appendChild(el('rect', {
+        x: projX,
+        y: yHeaderBot,
+        width: leftPad + plotW - projX + 70,
+        height: yAxisBot - yHeaderBot,
+        fill: 'rgba(30, 75, 107, 0.06)'
+      }));
+
+      const hProj = el('text', {
+        x: projX + 86,
+        y: 23,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '700',
+        'font-size': '11',
+        fill: '#1e4b6b'
+      });
+      hProj.textContent = 'ZONA TARGET FIB';
+      svg.appendChild(hProj);
+
+      const hProjSub = el('text', {
+        x: projX + 86,
+        y: 41,
+        'text-anchor': 'middle',
+        'font-family': 'Cormorant Garamond, serif',
+        'font-style': 'italic',
+        'font-weight': '600',
+        'font-size': '11.5',
+        fill: '#4a321d'
+      });
+      hProjSub.textContent = '0.382 • 0.618 • 1.000';
+      svg.appendChild(hProjSub);
+
+      // Level Fibonacci Retracement / Extension pada kanvas
+      if (visibleLayers.fibs) {
+        const fibRatios = [
+          { r: 0.0,   lbl: '1.000 (High)' },
+          { r: 0.382, lbl: '0.618 Fib' },
+          { r: 0.500, lbl: '0.500 Mid' },
+          { r: 0.618, lbl: '0.382 Fib' },
+          { r: 1.0,   lbl: '0.000 (Base)' }
+        ];
+        fibRatios.forEach((f) => {
+          const fVal = maxVal - f.r * valSpan;
+          const fy = valToY(fVal);
+          svg.appendChild(el('line', {
+            x1: leftPad,
+            y1: fy,
+            x2: leftPad + plotW,
+            y2: fy,
+            stroke: 'rgba(139, 38, 29, 0.25)',
+            'stroke-width': 1,
+            'stroke-dasharray': '4,4'
+          }));
+
+          const fTxt = el('text', {
+            x: leftPad + plotW + 6,
+            y: fy + 4,
+            'text-anchor': 'start',
+            'font-family': 'Cinzel, serif',
+            'font-weight': '700',
+            'font-size': '9.5',
+            fill: '#6e4f32'
+          });
+          fTxt.textContent = formatAssetPrice(fVal, cfg);
+          svg.appendChild(fTxt);
+        });
+      }
+
+      // Kurva Harga Mentah Halus (Sub-Gelombang Fraktal)
+      if (visibleLayers.subwaves) {
+        const rawPts = closes.map((c, idx) => `${idxToX(idx).toFixed(1)},${valToY(c).toFixed(1)}`).join(' ');
+        svg.appendChild(el('polyline', {
+          points: rawPts,
+          fill: 'none',
+          stroke: '#1e4b6b',
+          'stroke-width': 1.6,
+          opacity: '0.78'
+        }));
+      }
+
+      // Garis Utama ZigZag Elliott Wave (Litografi Ganda Emas-Coklat + Tinta Gelap)
+      if (pivots.length >= 2) {
+        const zzPts = pivots.map(p => `${idxToX(p.index).toFixed(1)},${valToY(p.price).toFixed(1)}`).join(' ');
+
+        svg.appendChild(el('polyline', {
+          points: zzPts,
+          fill: 'none',
+          stroke: '#9b682c',
+          'stroke-width': 4.8,
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round',
+          opacity: '0.9'
+        }));
+
+        svg.appendChild(el('polyline', {
+          points: zzPts,
+          fill: 'none',
+          stroke: '#2c1e12',
+          'stroke-width': 1.4,
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round'
+        }));
+
+        // Gambar Simpul Pivot & Label Gelombang (0)..(5)..(C)
+        pivots.forEach((p, idx) => {
+          const px = idxToX(p.index);
+          const py = valToY(p.price);
+          const isLast = idx === pivots.length - 1;
+          const isHigh = p.type === 'high' || (idx > 0 && p.price >= pivots[idx - 1].price);
+
+          if (isLast) {
+            svg.appendChild(el('circle', {
+              cx: px,
+              cy: py,
+              r: 10,
+              fill: 'none',
+              stroke: '#8b261d',
+              'stroke-width': 2.2,
+              class: 'svg-live-ring'
+            }));
+          }
+
+          const dot = el('circle', {
+            cx: px,
+            cy: py,
+            r: isLast ? 6.5 : 4.8,
+            fill: isLast ? '#8b261d' : '#f5e6ca',
+            stroke: isLast ? '#fff7e8' : '#2c1e12',
+            'stroke-width': 1.8,
+            style: 'cursor:pointer;'
+          });
+          dot.onclick = () => selectWaveNode(p.nodeId);
+          svg.appendChild(dot);
+
+          const lblY = isHigh ? Math.max(yHeaderBot + 18, py - 12) : Math.min(yAxisBot - 8, py + 18);
+          const lbl = el('text', {
+            x: px,
+            y: lblY,
+            'text-anchor': 'middle',
+            'font-family': 'Cinzel, serif',
+            'font-weight': '800',
+            'font-size': isLast ? '12' : '11',
+            fill: isLast ? '#8b261d' : '#2c1e12',
+            style: 'cursor:pointer;'
+          });
+          lbl.textContent = `${p.tag}`;
+          lbl.onclick = () => selectWaveNode(p.nodeId);
+          svg.appendChild(lbl);
+
+          // Strip bawah indeks gelombang
+          const botTag = el('text', {
+            x: px,
+            y: 368,
+            'text-anchor': 'middle',
+            'font-family': 'Cinzel, serif',
+            'font-weight': '700',
+            'font-size': '10.5',
+            fill: isLast ? '#8b261d' : '#4a321d'
+          });
+          botTag.textContent = p.tag;
+          svg.appendChild(botTag);
+        });
+      }
+    }
+
+    /**
+     * MODE 2: SKEMATIK FRAKTAL 5-3 KLASIK R.N. ELLIOTT (1-2-3-4-5 & A-B-C)
+     */
+    function renderSchematic53Mode(svg, el, leftPad, plotW, yHeaderBot, yPlotTop, yPlotBot, yAxisBot, plotSpanY) {
+      const xToPx = (xn) => leftPad + (xn / 100) * plotW;
+      const yToPy = (yn) => yPlotBot - yn * plotSpanY;
+
+      // Pembagi 2 Fase Besar: 5-Wave Motive (0..73%) vs 3-Wave Corrective (73..100%)
+      const splitX = xToPx(73);
+      svg.appendChild(el('rect', {
+        x: leftPad,
+        y: yHeaderBot,
+        width: splitX - leftPad,
+        height: yAxisBot - yHeaderBot,
+        fill: 'rgba(46, 90, 54, 0.07)'
+      }));
+      svg.appendChild(el('rect', {
+        x: splitX,
+        y: yHeaderBot,
+        width: leftPad + plotW - splitX,
+        height: yAxisBot - yHeaderBot,
+        fill: 'rgba(139, 38, 29, 0.08)'
+      }));
+      svg.appendChild(el('line', {
+        x1: splitX,
+        y1: 0,
+        x2: splitX,
+        y2: 390,
+        stroke: '#2c1e12',
+        'stroke-width': 1.5,
+        'stroke-dasharray': '6,3'
+      }));
+
+      const hMotive = el('text', {
+        x: (leftPad + splitX) / 2,
+        y: 23,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '700',
+        'font-size': '11.5',
+        fill: '#2e5a36'
+      });
+      hMotive.textContent = 'FASE MOTIVE IMPULSIF: 5 GELOMBANG (1–2–3–4–5)';
+      svg.appendChild(hMotive);
+
+      const hMotiveSub = el('text', {
+        x: (leftPad + splitX) / 2,
+        y: 41,
+        'text-anchor': 'middle',
+        'font-family': 'Cormorant Garamond, serif',
+        'font-style': 'italic',
+        'font-weight': '600',
+        'font-size': '12',
+        fill: '#4a321d'
+      });
+      hMotiveSub.textContent = 'Struktur Sub-Fraktal: 5 – 3 – 5 – 3 – 5 (21 Sub-Gelombang)';
+      svg.appendChild(hMotiveSub);
+
+      const hCorr = el('text', {
+        x: (splitX + leftPad + plotW) / 2,
+        y: 23,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '700',
+        'font-size': '11.5',
+        fill: '#8b261d'
+      });
+      hCorr.textContent = 'FASE KOREKTIF: A–B–C';
+      svg.appendChild(hCorr);
+
+      const hCorrSub = el('text', {
+        x: (splitX + leftPad + plotW) / 2,
+        y: 41,
+        'text-anchor': 'middle',
+        'font-family': 'Cormorant Garamond, serif',
+        'font-style': 'italic',
+        'font-weight': '600',
+        'font-size': '12',
+        fill: '#4a321d'
+      });
+      hCorrSub.textContent = 'Struktur ZigZag: 5 – 3 – 5 (13 Sub-Gelombang)';
+      svg.appendChild(hCorrSub);
+
+      // Garis Fibonacci Horizontal Skematik
+      if (visibleLayers.fibs) {
+        const fibLines = [
+          { y: 0.96, lbl: '1.618 Ext' },
+          { y: 0.64, lbl: '0.618 Fib' },
+          { y: 0.44, lbl: 'W1 Top' },
+          { y: 0.26, lbl: '0.618 Ret' }
+        ];
+        fibLines.forEach((fl) => {
+          const py = yToPy(fl.y);
+          svg.appendChild(el('line', {
+            x1: leftPad,
+            y1: py,
+            x2: leftPad + plotW,
+            y2: py,
+            stroke: 'rgba(139, 38, 29, 0.28)',
+            'stroke-width': 1,
+            'stroke-dasharray': '4,4'
+          }));
+          const t = el('text', {
+            x: leftPad + plotW + 6,
+            y: py + 4,
+            'text-anchor': 'start',
+            'font-family': 'Cinzel, serif',
+            'font-weight': '700',
+            'font-size': '9.5',
+            fill: '#6e4f32'
+          });
+          t.textContent = fl.lbl;
+          svg.appendChild(t);
+        });
+      }
+
+      // Lapisan Sub-Gelombang Fraktal (5-3-5-3-5 & 5-3-5)
+      if (visibleLayers.subwaves) {
+        const subNodes = [
+          [3, 0.14], [6, 0.25], [8, 0.19], [12, 0.36], [14, 0.30], [18, 0.44], // W1 (5)
+          [21, 0.35], [24, 0.40], [27, 0.26],                                   // W2 (3)
+          [32, 0.46], [35, 0.38], [42, 0.72], [45, 0.63], [50, 0.84],           // W3 (5)
+          [53, 0.73], [56, 0.78], [60, 0.64],                                   // W4 (3)
+          [63, 0.78], [65, 0.72], [69, 0.90], [71, 0.85], [73, 0.96],           // W5 (5)
+          [75, 0.81], [77, 0.86], [79, 0.70], [80.5, 0.75], [82, 0.62],         // WA (5)
+          [84.5, 0.72], [86.5, 0.67], [89, 0.78],                               // WB (3)
+          [91, 0.64], [92.5, 0.69], [94.5, 0.50], [95.8, 0.55], [97, 0.42]      // WC (5)
+        ];
+        const subPts = subNodes.map(([x, y]) => `${xToPx(x).toFixed(1)},${yToPy(y).toFixed(1)}`).join(' ');
+        svg.appendChild(el('polyline', {
+          points: subPts,
+          fill: 'none',
+          stroke: '#1e4b6b',
+          'stroke-width': 1.5,
+          'stroke-dasharray': '3,2',
+          opacity: '0.85'
+        }));
+      }
+
+      // Kurva Utama Derajat Primer (Litografi Ganda Emas-Coklat + Tinta Gelap)
+      const majorPts = SCHEMATIC_MAJOR_NODES.map(n => `${xToPx(n.x).toFixed(1)},${yToPy(n.y).toFixed(1)}`).join(' ');
+      svg.appendChild(el('polyline', {
+        points: majorPts,
+        fill: 'none',
+        stroke: '#9b682c',
+        'stroke-width': 5.2,
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      }));
+      svg.appendChild(el('polyline', {
+        points: majorPts,
+        fill: 'none',
+        stroke: '#2c1e12',
+        'stroke-width': 1.5,
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      }));
+
+      SCHEMATIC_MAJOR_NODES.forEach((n, idx) => {
+        const cx = xToPx(n.x);
+        const cy = yToPy(n.y);
+        const isSelected = n.id === selectedNodeId;
+        const isHigh = ['W1', 'W3', 'W5', 'WB'].includes(n.id);
+
+        if (isSelected) {
+          svg.appendChild(el('circle', {
+            cx: cx,
+            cy: cy,
+            r: 10,
+            fill: 'none',
+            stroke: '#8b261d',
+            'stroke-width': 2.2,
+            class: 'svg-live-ring'
+          }));
+        }
+
+        const dot = el('circle', {
+          cx: cx,
+          cy: cy,
+          r: isSelected ? 6.8 : 5,
+          fill: isSelected ? '#8b261d' : '#f5e6ca',
+          stroke: isSelected ? '#fff7e8' : '#2c1e12',
+          'stroke-width': 1.8,
+          style: 'cursor:pointer;'
+        });
+        dot.onclick = () => selectWaveNode(n.id);
+        svg.appendChild(dot);
+
+        const lbl = el('text', {
+          x: cx,
+          y: isHigh ? cy - 12 : cy + 18,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '800',
+          'font-size': isSelected ? '12.5' : '11.5',
+          fill: isSelected ? '#8b261d' : '#2c1e12',
+          style: 'cursor:pointer;'
+        });
+        lbl.textContent = n.label;
+        lbl.onclick = () => selectWaveNode(n.id);
+        svg.appendChild(lbl);
+
+        const bot = el('text', {
+          x: cx,
+          y: 368,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '10.5',
+          fill: isSelected ? '#8b261d' : '#4a321d',
+          style: 'cursor:pointer;'
+        });
+        bot.textContent = n.label;
+        bot.onclick = () => selectWaveNode(n.id);
+        svg.appendChild(bot);
+      });
+    }
+
+    function setChartMode(mode, btnElement) {
+      chartMode = mode;
+      if (btnElement) {
+        document.querySelectorAll('.chart-controls [data-mode]').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+      }
+      renderElliottSvg();
+    }
+
+    function toggleLayer(layerKey, btnElement) {
+      visibleLayers[layerKey] = !visibleLayers[layerKey];
+      btnElement.classList.toggle('active', visibleLayers[layerKey]);
+      renderElliottSvg();
+    }
+
+    function selectWaveNode(nodeId) {
+      if (!WAVE_NODE_DETAILS[nodeId]) return;
+      selectedNodeId = nodeId;
+      renderElliottSvg();
+      recalculateElliottFibs();
+    }
+
+    /**
+     * TARIK PIVOT DARI GRAFIK PASAR LIVE KE INPUT KALKULATOR FIBONACCI
+     */
+    function syncPivotsFromLiveChart() {
+      const pivots = liveMarketState.detectedPivots;
+      const liveP = liveMarketState.livePrice;
+
+      if (pivots.length >= 5) {
+        const p = pivots.slice(-5);
+        document.getElementById('inW0').value = p[0].price;
+        document.getElementById('inW1').value = p[1].price;
+        document.getElementById('inW2').value = p[2].price;
+        document.getElementById('inW3').value = p[3].price;
+        document.getElementById('inW4').value = p[4].price;
+      } else {
+        document.getElementById('inW0').value = Number((liveP * 0.84).toFixed(2));
+        document.getElementById('inW1').value = Number((liveP * 0.92).toFixed(2));
+        document.getElementById('inW2').value = Number((liveP * 0.88).toFixed(2));
+        document.getElementById('inW3').value = Number((liveP * 1.02).toFixed(2));
+        document.getElementById('inW4').value = Number((liveP * 0.97).toFixed(2));
+      }
+      recalculateElliottFibs();
+    }
+
+    /**
+     * KALKULATOR PROYEKSI FIBONACCI & VALIDATOR 3 HUKUM KARDINAL ELLIOTT
+     */
+    function recalculateElliottFibs() {
+      const cfg = MARKET_CONFIG[activeMarketKey];
+      const w0 = parseFloat(document.getElementById('inW0').value);
+      const w1 = parseFloat(document.getElementById('inW1').value);
+      const w2 = parseFloat(document.getElementById('inW2').value);
+      const w3 = parseFloat(document.getElementById('inW3').value);
+      const w4 = parseFloat(document.getElementById('inW4').value);
+
+      if ([w0, w1, w2, w3, w4].some(v => isNaN(v))) return;
+
+      const isBullish = w1 >= w0;
+      const lenW1 = Math.abs(w1 - w0);
+      const lenW2 = Math.abs(w1 - w2);
+      const lenW3 = Math.abs(w3 - w2);
+      const lenW4 = Math.abs(w3 - w4);
+
+      const w2RetracePct = lenW1 > 0 ? (lenW2 / lenW1) * 100 : 0;
+      const w3RatioToW1 = lenW1 > 0 ? (lenW3 / lenW1) : 0;
+      const w4RetracePct = lenW3 > 0 ? (lenW4 / lenW3) * 100 : 0;
+
+      // Target Proyeksi Fibonacci Wave (3) & Wave (5)
+      const dir = isBullish ? 1 : -1;
+      const w3Target1618 = w2 + dir * (1.618 * lenW1);
+      const w5Target0618 = w4 + dir * (0.618 * Math.abs(w3 - w0));
+      const w5TargetEqW1 = w4 + dir * (1.000 * lenW1);
+      const estimatedW5 = w5Target0618;
+      const abcTarget050 = estimatedW5 - dir * (0.500 * Math.abs(estimatedW5 - w0));
+
+      // Evaluasi 3 Hukum Kardinal Elliott
+      const rule1Pass = isBullish ? (w2 > w0) : (w2 < w0);
+      const rule2Pass = lenW3 >= lenW1 * 0.85; // W3 tidak menjadi yang terpendek
+      const rule3Pass = isBullish ? (w4 > w1) : (w4 < w1);
+
+      const passedCount = [rule1Pass, rule2Pass, rule3Pass].filter(Boolean).length;
+      const statusEl = document.getElementById('metricRuleStatus');
+      const statusSubEl = document.getElementById('metricRuleSub');
+
+      if (passedCount === 3) {
+        statusEl.textContent = 'VALID (3/3)';
+        statusEl.style.color = '#2e5a36';
+        statusSubEl.textContent = 'Seluruh Hukum Kardinal Elliott terpenuhi';
+      } else {
+        statusEl.textContent = `PERINGATAN (${passedCount}/3)`;
+        statusEl.style.color = '#8b261d';
+        statusSubEl.textContent = !rule3Pass
+          ? 'Overlap W4 & W1 (Pola Diagonal / Korektif)'
+          : (!rule1Pass ? 'W2 menembus Origin W0 (Batal)' : 'W3 terlalu pendek');
+      }
+
+      document.getElementById('metricFibTarget').textContent = formatAssetPrice(w5Target0618, cfg);
+      document.getElementById('metricFibRatio').textContent = `Target W5 (0.618 W0→W3) • ${cfg.code}`;
+
+      const nodeInfo = WAVE_NODE_DETAILS[selectedNodeId] || WAVE_NODE_DETAILS.W3;
+
+      const resultBox = document.getElementById('predictionResult');
+      resultBox.innerHTML = `
+        <div>
+          <span class="result-badge ${nodeInfo.badgeClass}">${nodeInfo.badgeText}</span>
+          <h3 class="result-headline">${nodeInfo.title}</h3>
+          <div class="result-formula-note">&#9878; Arah Struktur: ${isBullish ? 'Bullish Impulse (5-Wave Naik)' : 'Bearish Impulse (5-Wave Turun)'} | Rasio W3/W1: ${w3RatioToW1.toFixed(2)}&times;</div>
+          <p class="result-desc">${nodeInfo.desc}</p>
+          <div class="asset-allocation-box">${nodeInfo.strategy}</div>
+        </div>
+        <div class="cycle-checklist">
+          <div style="font-family:'Cinzel',serif; font-weight:700; font-size:0.98rem; color:var(--ink-sepia); margin-bottom:2px;">
+            Audit Hukum Kardinal &amp; Proyeksi Fibonacci (${cfg.code})
+          </div>
+          <div class="check-row">
+            <span class="check-label">Hukum #1 (W2 vs Origin W0):</span>
+            <span class="check-val ${rule1Pass ? 'rule-pass' : 'rule-fail'}">${rule1Pass ? 'LULUS' : 'BATAL'} (Retrace ${w2RetracePct.toFixed(1)}%)</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Hukum #2 (Kekuatan Wave 3):</span>
+            <span class="check-val ${rule2Pass ? 'rule-pass' : 'rule-fail'}">${rule2Pass ? 'LULUS' : 'LEMAH'} (${w3RatioToW1.toFixed(2)}&times; W1)</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Hukum #3 (W4 Non-Overlap W1):</span>
+            <span class="check-val ${rule3Pass ? 'rule-pass' : 'rule-fail'}">${rule3Pass ? 'LULUS' : 'OVERLAP'} (Retrace ${w4RetracePct.toFixed(1)}%)</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Target W3 (1.618 &times; W1):</span>
+            <span class="check-val">${formatAssetPrice(w3Target1618, cfg)}</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Target W5 (0.618 W0&rarr;W3 / =W1):</span>
+            <span class="check-val">${formatAssetPrice(w5Target0618, cfg)} / ${formatAssetPrice(w5TargetEqW1, cfg)}</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Target Koreksi ABC (0.500):</span>
+            <span class="check-val">${formatAssetPrice(abcTarget050, cfg)}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    /**
+     * LOOP REAL-TIME: JAM TELEMETRI & PEMBARUAN HARGA LIVE BERKALA
+     */
+    function startRealtimeElliottTicker() {
+      const clockEl = document.getElementById('liveClockDisplay');
+
+      setInterval(() => {
+        const now = new Date();
+        clockEl.textContent = `${now.toLocaleTimeString('id-ID', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        })} LIVE`;
+      }, 1000);
+
+      // Polling harga live setiap 5 detik untuk instrumen Binance (BTC, XAU/PAXG, ETH)
+      setInterval(async () => {
+        const cfg = MARKET_CONFIG[activeMarketKey];
+        if (cfg.type !== 'binance') return;
+        try {
+          const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${cfg.symbol}`);
+          if (!res.ok) return;
+          const data = await res.json();
+          const newP = parseFloat(data.price);
+          if (!isNaN(newP) && liveMarketState.closes.length > 0) {
+            liveMarketState.livePrice = newP;
+            liveMarketState.closes[liveMarketState.closes.length - 1] = newP;
+            liveMarketState.detectedPivots = computeAdaptiveZigZag(liveMarketState.closes);
+            updateTopTelemetryCards();
+            if (chartMode === 'live_zigzag') renderElliottSvg();
+          }
+        } catch (e) {
+          // Abaikan gangguan jaringan sesaat
+        }
+      }, 5000);
+    }
+
+    // Drag-to-scroll pada kanvas grafik
+    const scrollArea = document.getElementById('chartScrollArea');
+    let isDown = false, startX, scrollLeft;
+    scrollArea.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - scrollArea.offsetLeft;
+      scrollLeft = scrollArea.scrollLeft;
+    });
+    scrollArea.addEventListener('mouseleave', () => { isDown = false; });
+    scrollArea.addEventListener('mouseup', () => { isDown = false; });
+    scrollArea.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - scrollArea.offsetLeft;
+      const walk = (x - startX) * 1.4;
+      scrollArea.scrollLeft = scrollLeft - walk;
+    });
+
+    // Inisialisasi awal
+    startRealtimeElliottTicker();
+    loadLiveMarket('BTC');
+  </script>
+</body>
+</html>

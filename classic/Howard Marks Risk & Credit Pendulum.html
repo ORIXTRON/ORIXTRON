@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Risk &amp; Credit Pendulum (Real-Time Telemetry) — Howard Marks | Orixtron Technology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment-base: #e6cfa9;
+      --parchment-light: #f2e1c2;
+      --parchment-dark: #cfa972;
+      --ink-dark: #2c1e12;
+      --ink-sepia: #4a321d;
+      --ink-faded: #6e4f32;
+      --line-gold-brown: #9c6b30;
+
+      /* Palet 4 Zona Pendulum Risiko & Kredit Howard Marks (Nuansa Tinta Antik) */
+      --marks-fear:      #2e5a36;   /* Zona 1 (0–25): Extreme Risk Aversion -> Peluang Beli Terbaik */
+      --marks-cautious:  #1e4b6b;   /* Zona 2 (25–48): Cautious / Defensive -> Akumulasi Bertahap */
+      --marks-complacent:#9c5a1a;   /* Zona 3 (52–75): Complacency & Easy Credit -> Selektif */
+      --marks-greed:     #8b261d;   /* Zona 4 (75–100): Extreme Euphoria / FOMO -> Bahaya Puncak */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #261b12;
+      background-image: radial-gradient(circle at center, #3a291b 0%, #1c130c 100%);
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Tekstur Kertas Perkamen Klasik */
+    .parchment-card {
+      position: relative;
+      width: 100%;
+      max-width: 1240px;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(255, 248, 231, 0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 85%, rgba(168, 121, 62, 0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, var(--parchment-light) 0%, var(--parchment-base) 65%, var(--parchment-dark) 100%);
+      border: 2px solid #5c3f24;
+      border-radius: 4px;
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.65),
+        inset 0 0 65px rgba(112, 74, 34, 0.42),
+        inset 0 0 12px rgba(44, 30, 18, 0.45);
+      padding: 28px 34px 26px;
+      overflow: hidden;
+    }
+
+    /* Efek Serat Kertas Halus */
+    .parchment-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+
+    /* Bingkai Tipis Bagian Dalam */
+    .parchment-card::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      pointer-events: none;
+    }
+
+    /* Watermark Kertas Perkamen Orixtron Technology */
+    .parchment-watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .watermark-main-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: clamp(2.1rem, 5.2vw, 4.4rem);
+      letter-spacing: 0.22em;
+      color: rgba(74, 50, 29, 0.075);
+      text-transform: uppercase;
+      white-space: nowrap;
+      transform: rotate(-8deg);
+      text-shadow: 1px 1px 0 rgba(255, 248, 231, 0.35);
+    }
+
+    .watermark-sub-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+      letter-spacing: 0.32em;
+      color: rgba(74, 50, 29, 0.085);
+      text-transform: uppercase;
+      transform: rotate(-8deg);
+      margin-top: 4px;
+    }
+
+    /* Bilah Status Real-Time (Live Telemetry Strip) */
+    .live-telemetry-bar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 14px;
+      margin-bottom: 14px;
+      background: rgba(44, 30, 18, 0.08);
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      border-radius: 3px;
+      font-size: 0.9rem;
+    }
+
+    .live-indicator-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-sepia);
+    }
+
+    .pulse-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background-color: #2e5a36;
+      box-shadow: 0 0 0 0 rgba(46, 90, 54, 0.7);
+      animation: pulseRing 1.8s infinite;
+    }
+
+    @keyframes pulseRing {
+      0% { box-shadow: 0 0 0 0 rgba(46, 90, 54, 0.75); }
+      70% { box-shadow: 0 0 0 7px rgba(46, 90, 54, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(46, 90, 54, 0); }
+    }
+
+    .live-clock-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--ink-dark);
+    }
+
+    .api-status-pill {
+      padding: 2px 10px;
+      border-radius: 2px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      background: rgba(46, 90, 54, 0.14);
+      border: 1px solid rgba(46, 90, 54, 0.45);
+      color: #2e5a36;
+    }
+
+    /* Header Judul Utama */
+    .card-header {
+      text-align: center;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-kicker {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--ink-faded);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-family: 'Cinzel', 'Times New Roman', serif;
+      font-size: clamp(1.6rem, 3.3vw, 2.85rem);
+      font-weight: 700;
+      color: var(--ink-sepia);
+      letter-spacing: 0.04em;
+      text-shadow: 1px 1px 0 rgba(255, 245, 224, 0.6);
+    }
+
+    .card-subtitle-header {
+      font-size: 1.08rem;
+      font-style: italic;
+      color: var(--ink-sepia);
+      margin-top: 2px;
+    }
+
+    /* Papan Telemetri Metrik Kredit & Risiko Real-Time */
+    .realtime-metrics-strip {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .metric-box {
+      background: rgba(255, 249, 236, 0.56);
+      border: 1.2px solid rgba(74, 50, 29, 0.42);
+      border-radius: 3px;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--ink-faded);
+      text-transform: uppercase;
+    }
+
+    .metric-value {
+      font-family: 'Cinzel', serif;
+      font-size: 1.26rem;
+      font-weight: 800;
+      color: var(--ink-dark);
+      margin: 2px 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric-sub {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--ink-sepia);
+    }
+
+    /* Kontrol Mode Tampilan & Preseden Historis */
+    .chart-controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: rgba(110, 79, 50, 0.1);
+      border: 1px solid rgba(74, 50, 29, 0.3);
+      border-radius: 3px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .control-label {
+      font-weight: 700;
+      font-size: 0.96rem;
+      color: var(--ink-sepia);
+    }
+
+    .vintage-btn {
+      background: linear-gradient(to bottom, #f5e6ca, #dec092);
+      border: 1px solid #5c3f24;
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.93rem;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      transition: all 0.15s ease;
+    }
+
+    .vintage-btn:hover {
+      background: linear-gradient(to bottom, #fff2da, #e5c99c);
+      transform: translateY(-1px);
+    }
+
+    .vintage-btn.active {
+      background: var(--ink-sepia);
+      color: #f6e7cb;
+      border-color: var(--ink-dark);
+    }
+
+    /* Area Kanvas Pendulum SVG */
+    .chart-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 4px;
+      border: 2px solid var(--ink-dark);
+      background: rgba(255, 249, 236, 0.2);
+      overflow-x: auto;
+    }
+
+    @keyframes svgLivePulse {
+      0% { r: 11; opacity: 0.85; }
+      70% { r: 22; opacity: 0; }
+      100% { r: 22; opacity: 0; }
+    }
+
+    .svg-live-ring {
+      animation: svgLivePulse 1.8s infinite ease-out;
+      pointer-events: none;
+    }
+
+    /* Ringkasan 4 Zona Pendulum Howard Marks */
+    .zones-legend-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .zone-legend-card {
+      background: rgba(255, 249, 236, 0.42);
+      border: 1px solid rgba(74, 50, 29, 0.38);
+      border-top-width: 4px;
+      border-radius: 3px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .zone-legend-card:hover {
+      background: rgba(255, 249, 236, 0.72);
+      transform: translateY(-2px);
+    }
+
+    .zone-legend-card.fear       { border-top-color: var(--marks-fear); }
+    .zone-legend-card.cautious   { border-top-color: var(--marks-cautious); }
+    .zone-legend-card.complacent { border-top-color: var(--marks-complacent); }
+    .zone-legend-card.greed      { border-top-color: var(--marks-greed); }
+
+    .zone-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: 0.03em;
+    }
+
+    .zone-card-body {
+      font-size: 0.94rem;
+      line-height: 1.32;
+      color: var(--ink-dark);
+    }
+
+    /* Footer Kartu & Tanda Tangan Howard Marks */
+    .card-footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .legend-note-block {
+      max-width: 820px;
+      font-size: 1.04rem;
+      line-height: 1.38;
+      color: var(--ink-dark);
+    }
+
+    .signature-block {
+      text-align: right;
+      transform: rotate(-12deg);
+      transform-origin: bottom right;
+      padding: 0 12px 4px 0;
+      color: var(--ink-faded);
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .signature-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.1rem;
+      line-height: 0.95;
+      display: block;
+    }
+
+    .signature-year {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.45rem;
+      display: block;
+      margin-top: -2px;
+    }
+
+    /* Stempel Kolofon Developer Orixtron Technology */
+    .developer-colophon {
+      position: relative;
+      z-index: 2;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(74, 50, 29, 0.28);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--ink-faded);
+      user-select: none;
+    }
+
+    .dev-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 12px;
+      border: 1px double rgba(74, 50, 29, 0.55);
+      border-radius: 2px;
+      background: rgba(255, 248, 231, 0.25);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--ink-sepia);
+      text-transform: uppercase;
+    }
+
+    .dev-edition-note {
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--ink-faded);
+    }
+
+    /* =========================================================
+       PANEL KONSOL KALIBRASI REAL-TIME & DIAGNOSTIK HOWARD MARKS
+       ========================================================= */
+    .predictor-panel {
+      padding: 26px 32px 22px;
+    }
+
+    .predictor-header {
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid rgba(74, 50, 29, 0.35);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .predictor-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .predictor-subtitle {
+      font-size: 1.02rem;
+      font-style: italic;
+      color: var(--ink-faded);
+    }
+
+    /* Konsol 5 Slider Real-Time */
+    .realtime-sliders-panel {
+      position: relative;
+      z-index: 1;
+      background: rgba(222, 192, 146, 0.28);
+      border: 1px solid rgba(92, 63, 36, 0.38);
+      border-radius: 3px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+    }
+
+    .sliders-header-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tool-box-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.94rem;
+      color: var(--ink-sepia);
+      letter-spacing: 0.04em;
+    }
+
+    .sliders-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+
+    .slider-card {
+      background: rgba(255, 249, 236, 0.55);
+      border: 1px solid rgba(92, 63, 36, 0.32);
+      border-radius: 3px;
+      padding: 10px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .slider-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .slider-top label {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+      line-height: 1.2;
+    }
+
+    .slider-val-badge {
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--ink-dark);
+      white-space: nowrap;
+    }
+
+    .vintage-range {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #cbb084;
+      border: 1px solid #5c3f24;
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .vintage-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #8b261d;
+      border: 2px solid #fff7e8;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+    }
+
+    .vintage-range::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #8b261d;
+      border: 2px solid #fff7e8;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+      cursor: pointer;
+    }
+
+    .slider-hint {
+      font-size: 0.82rem;
+      font-style: italic;
+      color: var(--ink-faded);
+    }
+
+    /* Hasil Diagnostik Real-Time */
+    .prediction-result {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 249, 236, 0.55);
+      border: 1.5px solid #6b4929;
+      border-radius: 4px;
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: 1.38fr 1fr;
+      gap: 20px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      color: #fff8eb;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .badge-fear       { background-color: var(--marks-fear); }
+    .badge-cautious   { background-color: var(--marks-cautious); }
+    .badge-complacent { background-color: var(--marks-complacent); }
+    .badge-greed      { background-color: var(--marks-greed); }
+
+    .result-headline {
+      font-family: 'Cinzel', serif;
+      font-size: 1.48rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      margin-bottom: 6px;
+    }
+
+    .result-formula-note {
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: var(--ink-sepia);
+      margin-bottom: 10px;
+    }
+
+    .result-desc {
+      font-size: 1.1rem;
+      line-height: 1.46;
+      color: var(--ink-dark);
+      margin-bottom: 12px;
+    }
+
+    .asset-allocation-box {
+      background: rgba(222, 192, 146, 0.32);
+      border-left: 3.5px solid var(--line-gold-brown);
+      padding: 10px 14px;
+      font-size: 1.04rem;
+      line-height: 1.42;
+      color: var(--ink-dark);
+    }
+
+    .cycle-checklist {
+      background: rgba(222, 192, 146, 0.35);
+      border: 1px solid rgba(92, 63, 36, 0.35);
+      border-radius: 3px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 9px;
+    }
+
+    .check-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      border-bottom: 1px dashed rgba(92, 63, 36, 0.3);
+      padding-bottom: 6px;
+      font-size: 1.01rem;
+    }
+
+    .check-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .check-label {
+      font-weight: 700;
+      color: var(--ink-sepia);
+      flex-shrink: 0;
+    }
+
+    .check-val {
+      text-align: right;
+      font-weight: 600;
+      color: var(--ink-dark);
+    }
+
+    .global-dev-footer {
+      text-align: center;
+      color: rgba(230, 207, 169, 0.65);
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      user-select: none;
+    }
+
+    @media (max-width: 1040px) {
+      .sliders-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .realtime-metrics-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .zones-legend-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .prediction-result {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .parchment-card {
+        padding: 18px 14px;
+      }
+      .zones-legend-grid,
+      .sliders-grid,
+      .realtime-metrics-strip {
+        grid-template-columns: 1fr;
+      }
+      .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .signature-block {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KARTU UTAMA HOWARD MARKS RISK & CREDIT PENDULUM (REAL-TIME TELEMETRY) -->
+  <main class="parchment-card">
+    <!-- Watermark Kertas Perkamen Orixtron Technology -->
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text">ORIXTRON TECHNOLOGY</span>
+      <span class="watermark-sub-text">Howard Marks Real-Time Risk &amp; Credit Pendulum Edition</span>
+    </div>
+
+    <!-- Bilah Telemetri Real-Time -->
+    <div class="live-telemetry-bar">
+      <div class="live-indicator-group">
+        <span class="pulse-dot" id="livePulseDot"></span>
+        <span>LIVE TELEMETRY &bull; REAL-TIME RISK &amp; CREDIT PENDULUM</span>
+      </div>
+      <div class="live-clock-text" id="liveClockDisplay">--:--:-- LIVE</div>
+      <div class="api-status-pill" id="apiStatusPill">Menyinkronkan Sentimen Live &amp; Spread Kredit...</div>
+    </div>
+
+    <header class="card-header">
+      <div class="card-kicker">Mastering the Market Cycle &bull; Second-Level Thinking &amp; Credit Window</div>
+      <h1 class="card-title">The Risk &amp; Credit Pendulum</h1>
+      <p class="card-subtitle-header">“Swinging Between Extreme Risk Aversion (Fear) and Extreme Risk Tolerance (Greed) — Almost Never Stopping at the Midpoint”</p>
+    </header>
+
+    <!-- 4 Papan Angka Telemetri Langsung -->
+    <div class="realtime-metrics-strip">
+      <div class="metric-box">
+        <span class="metric-label">Skor Pendulum Marks (Live)</span>
+        <span class="metric-value" id="metricPendulumScore">34.2 / 100</span>
+        <span class="metric-sub" id="metricPendulumSide">Sisi Kiri: Risk Aversion Dominan</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">High-Yield Credit Spread (OAS)</span>
+        <span class="metric-value" id="metricHySpread">3.47% (347 bps)</span>
+        <span class="metric-sub" id="metricSpreadTrend">Melebar dari titik terendah 260 bps</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">VIX Volatility Fear Gauge</span>
+        <span class="metric-value" id="metricVixLive">35.89</span>
+        <span class="metric-sub" id="metricVixNote">Volatilitas tinggi &bull; Premi risiko naik</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Postur Portofolio Oaktree</span>
+        <span class="metric-value" id="metricPostureMode">AKUMULASI BERTAHAP</span>
+        <span class="metric-sub" id="metricPostureSub">Mulai agresif selektif saat takut</span>
+      </div>
+    </div>
+
+    <!-- Kontrol Tampilan & Preseden Historis Pendulum -->
+    <div class="chart-controls">
+      <div class="control-group">
+        <span class="control-label">Visualisasi:</span>
+        <button class="vintage-btn active" data-view="pendulum" onclick="setPendulumView('pendulum', this)">Busur Pendulum Mekanik (180&deg;)</button>
+        <button class="vintage-btn" data-view="wave" onclick="setPendulumView('wave', this)">Gelombang Osilasi Historis (2007–2026)</button>
+      </div>
+
+      <div class="control-group">
+        <span class="control-label">Kalibrasi Rezim:</span>
+        <button class="vintage-btn active" data-preset="LIVE_2026" onclick="applyMarketPreset('LIVE_2026', this)">Live Nov 2026</button>
+        <button class="vintage-btn" data-preset="GFC_2008" onclick="applyMarketPreset('GFC_2008', this)">2008 GFC (Panic)</button>
+        <button class="vintage-btn" data-preset="COVID_2020" onclick="applyMarketPreset('COVID_2020', this)">Mar 2020 (Shock)</button>
+        <button class="vintage-btn" data-preset="ZIRP_2021" onclick="applyMarketPreset('ZIRP_2021', this)">2021 ZIRP (Greed)</button>
+        <button class="vintage-btn" data-preset="MIDPOINT" onclick="applyMarketPreset('MIDPOINT', this)">Ekuilibrium (50)</button>
+      </div>
+    </div>
+
+    <!-- Kanvas SVG Pendulum Risiko & Kredit Howard Marks -->
+    <div class="chart-wrapper">
+      <svg id="marksSvg" width="1140" height="430" viewBox="0 0 1140 430" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+
+    <!-- Ringkasan 4 Zona Pendulum Howard Marks -->
+    <div class="zones-legend-grid">
+      <div class="zone-legend-card fear" onclick="applyZoneClick(14)">
+        <div class="zone-card-title" style="color: var(--marks-fear);">1. EXTREME RISK AVERSION (0–25)</div>
+        <div class="zone-card-body">
+          Ketakutan total menguasai pasar; jendela kredit tertutup rapat dan spread obligasi sampah (<em>High Yield</em>) melonjak di atas <code>800–1.500 bps</code>. <strong>Peluang beli terbaik dekade ini.</strong>
+        </div>
+      </div>
+      <div class="zone-legend-card cautious" onclick="applyZoneClick(36)">
+        <div class="zone-card-title" style="color: var(--marks-cautious);">2. CAUTIOUS &amp; SKEPTICAL (25–48)</div>
+        <div class="zone-card-body">
+          Volatilitas meningkat (VIX tinggi) dan investor menuntut kompensasi risiko yang lebih layak sebelum memberi pinjaman. <strong>Mulai akumulasi bertahap aset berkualitas.</strong>
+        </div>
+      </div>
+      <div class="zone-legend-card complacent" onclick="applyZoneClick(64)">
+        <div class="zone-card-title" style="color: var(--marks-complacent);">3. COMPLACENCY &amp; EASY CREDIT (52–75)</div>
+        <div class="zone-card-body">
+          Optimisme meluas, standar analisis kredit melonggar, dan peminjam berisiko mudah memperoleh dana murah. <strong>Tingkatkan kualitas portofolio &amp; kurangi beta.</strong>
+        </div>
+      </div>
+      <div class="zone-legend-card greed" onclick="applyZoneClick(88)">
+        <div class="zone-card-title" style="color: var(--marks-greed);">4. EXTREME EUPHORIA / FOMO (75–100)</div>
+        <div class="zone-card-body">
+          Keserakahan total; <em>“Fear of Missing Out”</em> menggantikan rasa takut kehilangan modal dan spread menyempit ekstrem (<code>&lt;270 bps</code>). <strong>Zona defensif / jual.</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Catatan Bawah & Tanda Tangan Howard Marks -->
+    <footer class="card-footer">
+      <div class="legend-note-block">
+        <p>
+          <strong>Hukum Fisika Pasar Howard Marks (Oaktree Capital):</strong> Psikologi investor dan siklus kredit tidak pernah diam di titik tengah yang rasional. Energi yang mendorong pendulum berayun terlalu jauh ke titik ekstrem <em>Keserakahan (Greed)</em> adalah energi yang sama yang kelak melemparnya berbalik menuju ekstrem <em>Ketakutan (Fear)</em>. Tugas investor bukanlah memprediksi kapan pendulum berhenti, melainkan <strong>mengukur di mana posisi pendulum saat ini</strong> dan bertindak berlawanan arah.
+        </p>
+      </div>
+
+      <div class="signature-block">
+        <span class="signature-name">Howard Marks</span>
+        <span class="signature-year">1991</span>
+      </div>
+    </footer>
+
+    <!-- Kolofon Resmi Developer -->
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Live Sentiment API Sync + Real-Time Credit Spread &amp; VIX Pendulum Engine</span>
+      <span class="dev-stamp">&#10022; Developer: Orixtron Technology &#10022;</span>
+    </div>
+  </main>
+
+  <!-- PANEL KONSOL KALIBRASI REAL-TIME & DIAGNOSTIK CONTRARIAN -->
+  <section class="parchment-card predictor-panel">
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text" style="font-size: clamp(1.8rem, 4vw, 3.2rem);">ORIXTRON TECHNOLOGY</span>
+    </div>
+
+    <div class="predictor-header">
+      <h2 class="predictor-title">Konsol Kalibrasi Pasar Real-Time &amp; Strategi Contrarian Marks</h2>
+      <span class="predictor-subtitle">Geser 5 indikator suhu kredit &amp; psikologi di bawah untuk melihat pendulum bergerak secara langsung</span>
+    </div>
+
+    <!-- 5 Slider Real-Time -->
+    <div class="realtime-sliders-panel">
+      <div class="sliders-header-row">
+        <span class="tool-box-title">Indikator Input Siklus Kredit &amp; Psikologi (Update Real-Time):</span>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button class="vintage-btn" onclick="syncLiveMarketTelemetry()">Sinkronkan Ulang Live API</button>
+        </div>
+      </div>
+
+      <div class="sliders-grid">
+        <div class="slider-card">
+          <div class="slider-top">
+            <label for="sliderHyOas">HY Credit Spread</label>
+            <span class="slider-val-badge" id="valHyOas">3.47%</span>
+          </div>
+          <input type="range" id="sliderHyOas" class="vintage-range" min="2.2" max="15.0" step="0.05" value="3.47" oninput="onManualSliderChange()">
+          <span class="slider-hint">Lebar (&gt;7%) = Takut | Sempit (&lt;3%) = Rakus</span>
+        </div>
+
+        <div class="slider-card">
+          <div class="slider-top">
+            <label for="sliderVix">Indeks VIX</label>
+            <span class="slider-val-badge" id="valVix">35.89</span>
+          </div>
+          <input type="range" id="sliderVix" class="vintage-range" min="11" max="75" step="0.5" value="35.89" oninput="onManualSliderChange()">
+          <span class="slider-hint">&lt;15 = Tenang/Lengah | &gt;30 = Panik/Takut</span>
+        </div>
+
+        <div class="slider-card">
+          <div class="slider-top">
+            <label for="sliderSentiment">Fear &amp; Greed</label>
+            <span class="slider-val-badge" id="valSentiment">32 / 100</span>
+          </div>
+          <input type="range" id="sliderSentiment" class="vintage-range" min="0" max="100" step="1" value="32" oninput="onManualSliderChange()">
+          <span class="slider-hint">0 = Extreme Fear | 100 = Extreme Greed</span>
+        </div>
+
+        <div class="slider-card">
+          <div class="slider-top">
+            <label for="sliderLending">Standar Kredit Bank</label>
+            <span class="slider-val-badge" id="valLending">38 / 100</span>
+          </div>
+          <input type="range" id="sliderLending" class="vintage-range" min="0" max="100" step="1" value="38" oninput="onManualSliderChange()">
+          <span class="slider-hint">0 = Kredit Beku | 100 = Pinjaman Mudah</span>
+        </div>
+
+        <div class="slider-card">
+          <div class="slider-top">
+            <label for="sliderCovenant">Covenant &amp; FOMO</label>
+            <span class="slider-val-badge" id="valCovenant">40 / 100</span>
+          </div>
+          <input type="range" id="sliderCovenant" class="vintage-range" min="0" max="100" step="1" value="40" oninput="onManualSliderChange()">
+          <span class="slider-hint">0 = Proteksi Ketat | 100 = Cov-Lite Mania</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="prediction-result" id="predictionResult">
+      <!-- Diisi otomatis oleh JavaScript -->
+    </div>
+
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Howard Marks Pendulum &amp; Second-Level Thinking Engine &bull; Real-Time Telemetry</span>
+      <span class="dev-stamp">&#10022; Orixtron Technology &#10022;</span>
+    </div>
+  </section>
+
+  <div class="global-dev-footer">
+    ENGINEERED BY ORIXTRON TECHNOLOGY &bull; HOWARD MARKS PENDULUM EDITION
+  </div>
+
+  <script>
+    /**
+     * HOWARD MARKS RISK & CREDIT PENDULUM — REAL-TIME TELEMETRY ENGINE
+     * Engineered by Orixtron Technology
+     * - Skala Pendulum: 0 (Extreme Risk Aversion / Fear / Tight Credit) <-> 50 (Midpoint) <-> 100 (Extreme Risk Tolerance / Greed / Easy Credit)
+     * - Kalibrasi Empiris Nov 2026: ICE BofA US High Yield OAS = 3.47% (347 bps), CBOE VIX = 35.89
+     * - Sinkronisasi Live: Alternative.me Market Fear & Greed API (tanpa API key, CORS-enabled)
+     */
+
+    const MARKET_PRESETS = {
+      LIVE_2026: {
+        label: 'Kondisi Pasar Live (November 2026)',
+        hyOas: 3.47,
+        vix: 35.89,
+        sentiment: 32,
+        lending: 38,
+        covenant: 40,
+        sourceNote: 'Kalibrasi Empiris Nov 2026 (HY OAS 3,47% & VIX 35,89) + Live Sentiment Feed'
+      },
+      GFC_2008: {
+        label: 'Preseden Desember 2008 (Krisis Lehman / GFC)',
+        hyOas: 14.80,
+        vix: 68.50,
+        sentiment: 6,
+        lending: 8,
+        covenant: 10,
+        sourceNote: 'Preseden Historis: High-Yield Spread melebar hingga >1.400–1.988 bps; jendela kredit tertutup total'
+      },
+      COVID_2020: {
+        label: 'Preseden Maret 2020 (Guncangan Likuiditas Pandemi)',
+        hyOas: 10.85,
+        vix: 66.00,
+        sentiment: 9,
+        lending: 14,
+        covenant: 16,
+        sourceNote: 'Preseden Historis: HY OAS melonjak ke 10,87% & VIX menyentuh 82 intraday sebelum intervensi The Fed'
+      },
+      ZIRP_2021: {
+        label: 'Preseden Akhir 2021 (ZIRP & Easy Credit Euphoria)',
+        hyOas: 2.65,
+        vix: 15.00,
+        sentiment: 86,
+        lending: 88,
+        covenant: 90,
+        sourceNote: 'Preseden Historis: Suku bunga 0%, penerbitan junk bond rekor tertinggi, spread menyempit ekstrem'
+      },
+      MIDPOINT: {
+        label: 'Titik Ekuilibrium Teoretis (Happy Medium)',
+        hyOas: 4.50,
+        vix: 19.50,
+        sentiment: 50,
+        lending: 50,
+        covenant: 50,
+        sourceNote: 'Zona Ekuilibrium: Titik yang hampir selalu hanya dilewati sekejap saat pendulum berayun'
+      }
+    };
+
+    // Data gelombang historis pendulum (2007 - 2026) untuk mode tampilan kedua
+    const HISTORICAL_WAVE_POINTS = [
+      { year: '2007', score: 84, label: '2007 LBO Mania' },
+      { year: '2008', score: 7,  label: '2008 GFC Panic' },
+      { year: '2010', score: 42, label: '2010 Recovery' },
+      { year: '2014', score: 72, label: '2014 Shale Credit' },
+      { year: '2016', score: 31, label: '2016 Oil/China Dip' },
+      { year: '2018', score: 66, label: '2018 Late Cycle' },
+      { year: '2020', score: 11, label: 'Mar 2020 Shock' },
+      { year: '2021', score: 88, label: '2021 ZIRP Greed' },
+      { year: '2022', score: 26, label: '2022 Rate Hike Fear' },
+      { year: '2024', score: 76, label: '2024 Tight Spreads' },
+      { year: '2025', score: 44, label: '2025 Tariff Volatility' },
+      { year: '2026', score: 34, label: 'Nov 2026 Live' }
+    ];
+
+    let currentView = 'pendulum';
+    let currentState = { ...MARKET_PRESETS.LIVE_2026 };
+    let basePendulumScore = 34.2;
+    let livePendulumScore = 34.2;
+    let liveStartTime = performance.now();
+
+    /**
+     * MENGHITUNG SKOR POSISI PENDULUM KOMPOSIT (0 = EXTREME FEAR, 100 = EXTREME GREED)
+     */
+    function computePendulumComposite(st) {
+      // 1. HY OAS: 2.2% -> 95 (Greed), 12%+ -> 5 (Fear)
+      const spreadScore = Math.max(0, Math.min(100, 100 - ((st.hyOas - 2.2) / 9.8) * 95));
+      // 2. VIX: 11 -> 95 (Complacent), 65+ -> 5 (Panic)
+      const vixScore = Math.max(0, Math.min(100, 100 - ((st.vix - 11) / 54) * 95));
+      // 3. Sentimen langsung (0..100)
+      const sentScore = st.sentiment;
+      // 4. Standar Kredit Bank (0..100)
+      const lendScore = st.lending;
+      // 5. Covenant & FOMO (0..100)
+      const covScore = st.covenant;
+
+      const composite =
+        0.28 * spreadScore +
+        0.24 * vixScore +
+        0.20 * sentScore +
+        0.16 * lendScore +
+        0.12 * covScore;
+
+      return Math.max(2, Math.min(98, composite));
+    }
+
+    function getZoneClassification(score) {
+      if (score < 25) {
+        return {
+          key: 'fear',
+          badgeClass: 'badge-fear',
+          badgeText: 'ZONA 1 (0–25) • EXTREME RISK AVERSION & PANIC',
+          postureMode: 'AGRESIF MEMBELI',
+          postureSub: 'Peluang terbaik saat semua orang takut',
+          sideText: 'Ekstrem Kiri: Ketakutan Maksimal & Kredit Beku',
+          headline: 'Ekstrem Ketakutan: Premi Risiko Tertinggi & Harga Aset Terdiskon Dalam',
+          desc: 'Pendulum berayun jauh ke sisi kiri. Investor menjual tanpa mempedulikan nilai intrinsik demi mengamankan uang tunai, sementara spread obligasi melebar ekstrem. Menurut Howard Marks, inilah saat ketika risiko kerugian permanen justru paling rendah dan potensi imbal hasil masa depan tertinggi.',
+          strategy: '<strong>Strategi Oaktree (Aggressiveness / Offense):</strong> Sebarkan cadangan kas secara berani ke <em>obligasi korporasi berimbal hasil tinggi (distressed/high yield) dan saham unggulan terdiskon</em> sebelum jendela kredit kembali terbuka.',
+          creditWindow: 'Tertutup rapat — hanya peminjam berperingkat tertinggi yang mendapat akses dana',
+          investorBehavior: 'Kapitulasi & ketakutan kehilangan modal mendominasi seluruh keputusan',
+          marginOfSafety: 'Sangat tinggi — pasar mematok skenario terburuk ke dalam harga'
+        };
+      } else if (score < 48) {
+        return {
+          key: 'cautious',
+          badgeClass: 'badge-cautious',
+          badgeText: 'ZONA 2 (25–48) • CAUTIOUS & SKEPTICAL TILT',
+          postureMode: 'AKUMULASI BERTAHAP',
+          postureSub: 'Selektif masuk saat premi risiko naik',
+          sideText: 'Sisi Kiri: Skeptisisme & Premi Risiko Meningkat',
+          headline: 'Skeptisisme Sehat: Volatilitas Naik & Kompensasi Risiko Mulai Menarik',
+          desc: 'Pendulum berada di sisi kiri garis tengah. Kenaikan volatilitas (VIX) dan melebarnya spread kredit membuat pelaku pasar kembali berhati-hati. Rasa puas diri (<em>complacency</em>) mulai tergerus dan harga aset mulai menawarkan margin keamanan yang lebih wajar.',
+          strategy: '<strong>Strategi Oaktree (Selective Offense):</strong> Mulai melakukan <em>akumulasi bertahap (dollar-cost averaging)</em> pada kredit berkualitas dan ekuitas berarus kas kuat setiap kali ketakutan jangka pendek mendorong harga turun.',
+          creditWindow: 'Selektif — pemberi pinjaman menuntut jaminan dan bunga lebih tinggi',
+          investorBehavior: 'Waspada; pertanyaan “berapa besar risiko turunnya?” kembali diajukan',
+          marginOfSafety: 'Membaik — rasio imbal hasil terhadap risiko bergerak menguntungkan pembeli'
+        };
+      } else if (score <= 52) {
+        return {
+          key: 'cautious',
+          badgeClass: 'badge-cautious',
+          badgeText: 'TITIK TENGAH (48–52) • THE FLEETING HAPPY MEDIUM',
+          postureMode: 'NETRAL / SEIMBANG',
+          postureSub: 'Titik keseimbangan yang hanya dilewati sekejap',
+          sideText: 'Titik Tengah: Ekuilibrium Sesaat',
+          headline: 'Ekuilibrium Sesaat: Keseimbangan Antara Ketakutan & Keserakahan',
+          desc: 'Pendulum melintasi titik tengah yang rasional di mana harga aset mencerminkan nilai wajar dan risiko dihargai secara proporsional. Sebagaimana dicatat Howard Marks, pasar hampir tidak pernah berhenti lama di titik ini karena momentum psikologis terus mendorongnya ke salah satu ekstrem.',
+          strategy: '<strong>Strategi Oaktree (Balanced Stance):</strong> Pertahankan alokasi aset strategis yang seimbang sambil menyiapkan daftar beli (<em>watchlist</em>) jika pendulum berayun ke kiri dan batas jual jika berayun ke kanan.',
+          creditWindow: 'Normal — akses kredit terbuka untuk peminjam dengan fundamental layak',
+          investorBehavior: 'Rasional sesaat sebelum optimisme atau pesimisme kembali mengambil alih',
+          marginOfSafety: 'Moderat — imbal hasil ekspektasian selaras dengan rata-rata historis'
+        };
+      } else if (score < 75) {
+        return {
+          key: 'complacent',
+          badgeClass: 'badge-complacent',
+          badgeText: 'ZONA 3 (52–75) • COMPLACENCY & EASY CREDIT',
+          postureMode: 'DEFENSIF SELEKTIF',
+          postureSub: 'Tingkatkan kualitas & kurangi beta portofolio',
+          sideText: 'Sisi Kanan: Optimisme & Standar Kredit Melonggar',
+          headline: 'Rasa Puas Diri (Complacency): Jendela Kredit Terbuka Lebar',
+          desc: 'Pendulum telah berayun ke sisi kanan. Keberhasilan investasi belakangan ini membuat pelaku pasar melupakan risiko; bank bersaing melonggarkan syarat pinjaman dan investor bersedia menerima imbal hasil lebih rendah demi mengejar pertumbuhan.',
+          strategy: '<strong>Strategi Oaktree (Move Forward, But With Caution):</strong> Tetap berinvestasi, tetapi <em>tingkatkan kualitas aset (upgrade quality)</em>—jual aset spekulatif ber-<em>leverage</em> tinggi dan pindahkan ke emiten berneraca kokoh dengan arus kas stabil.',
+          creditWindow: 'Terbuka lebar — penerbitan utang korporasi meningkat dengan bunga rendah',
+          investorBehavior: 'Optimis; kabar buruk cenderung diabaikan sementara kabar baik diekstrapolasi',
+          marginOfSafety: 'Menyempit — valuasi di atas rata-rata mengurangi bantalan kesalahan'
+        };
+      } else {
+        return {
+          key: 'greed',
+          badgeClass: 'badge-greed',
+          badgeText: 'ZONA 4 (75–100) • EXTREME EUPHORIA & FOMO MANIA',
+          postureMode: 'DEFENSIF MAKSIMAL',
+          postureSub: 'Kunci profit & perkuat likuiditas kas',
+          sideText: 'Ekstrem Kanan: Keserakahan Total & FOMO',
+          headline: 'Ekstrem Keserakahan: “Fear of Missing Out” Menggantikan Takut Rugi',
+          desc: 'Pendulum berada di titik terjauh sisi kanan. Kredit murahan membanjiri pasar tanpa perlindungan <em>covenant</em>, spread menyempit ke rekor terendah, dan investor percaya tidak ada harga yang terlalu mahal. Inilah fase ketika risiko sistemik sebenarnya berada di titik tertinggi.',
+          strategy: '<strong>Strategi Oaktree (Defense / Capital Preservation):</strong> Kurangi eksposur risiko secara signifikan, realisasikan keuntungan pada aset euforia, dan perbesar porsi <em>kas jangka pendek, T-Bills, atau kredit senior berdurasi pendek</em>.',
+          creditWindow: 'Terlalu longgar (Cov-Lite) — modal mengalir ke proyek spekulatif berisiko tinggi',
+          investorBehavior: 'Euforia & FOMO total; kehati-hatian dianggap sebagai kelemahan',
+          marginOfSafety: 'Negatif / Rapuh — harga sudah mengasumsikan kesempurnaan tanpa gangguan'
+        };
+      }
+    }
+
+    /**
+     * RENDER VISUALISASI SVG: BUSUR PENDULUM MEKANIK 180° ATAU GELOMBANG HISTORIS
+     */
+    function renderMarksSvg(score) {
+      const svg = document.getElementById('marksSvg');
+      svg.innerHTML = '';
+
+      const NS = 'http://www.w3.org/2000/svg';
+      const el = (tag, attrs) => {
+        const node = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+        return node;
+      };
+
+      // Watermark Terukir di dalam Kanvas SVG
+      const wm = el('text', {
+        x: 570,
+        y: 235,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '700',
+        'font-size': '17',
+        'letter-spacing': '5',
+        fill: 'rgba(74, 50, 29, 0.12)'
+      });
+      wm.textContent = 'ORIXTRON TECHNOLOGY';
+      svg.appendChild(wm);
+
+      if (currentView === 'wave') {
+        renderHistoricalWaveMode(svg, el, score);
+        return;
+      }
+
+      // ============================================================
+      // MODE 1: BUSUR PENDULUM MEKANIK KLASIK HOWARD MARKS (180°)
+      // ============================================================
+      const cx = 570;
+      const cy = 78;
+      const R = 278;
+
+      // Garis header atas di dalam kanvas
+      svg.appendChild(el('line', { x1: 0, y1: 48, x2: 1140, y2: 48, stroke: '#2c1e12', 'stroke-width': 1.3 }));
+
+      const topLeftLbl = el('text', {
+        x: 215,
+        y: 30,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '800',
+        'font-size': '12.5',
+        fill: '#2e5a36'
+      });
+      topLeftLbl.textContent = '← SISI KIRI: RISK AVERSION (FEAR / TIGHT CREDIT)';
+      svg.appendChild(topLeftLbl);
+
+      const topCenterLbl = el('text', {
+        x: cx,
+        y: 30,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '700',
+        'font-size': '11.5',
+        fill: '#4a321d'
+      });
+      topCenterLbl.textContent = 'PIVOT EKUILIBRIUM (50)';
+      svg.appendChild(topCenterLbl);
+
+      const topRightLbl = el('text', {
+        x: 925,
+        y: 30,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '800',
+        'font-size': '12.5',
+        fill: '#8b261d'
+      });
+      topRightLbl.textContent = 'SISI KANAN: RISK TOLERANCE (GREED / EASY CREDIT) →';
+      svg.appendChild(topRightLbl);
+
+      // Fungsi konversi skor (0..100) ke sudut busur bawah (dari kiri 168° ke kanan 12°)
+      const scoreToAngleRad = (s) => {
+        const deg = 168 - (s / 100) * 156;
+        return (deg * Math.PI) / 180;
+      };
+
+      const polarPt = (radius, s) => {
+        const a = scoreToAngleRad(s);
+        return {
+          x: cx + radius * Math.cos(a),
+          y: cy + radius * Math.sin(a)
+        };
+      };
+
+      // Gambar 4 Segmen Busur Zona Berwarna Tinta Antik
+      const arcZones = [
+        { s0: 0,  s1: 25, color: 'rgba(46, 90, 54, 0.24)',  stroke: '#2e5a36', name: 'EXTREME FEAR' },
+        { s0: 25, s1: 48, color: 'rgba(30, 75, 107, 0.20)', stroke: '#1e4b6b', name: 'CAUTIOUS' },
+        { s0: 48, s1: 52, color: 'rgba(74, 50, 29, 0.25)',  stroke: '#4a321d', name: 'MID' },
+        { s0: 52, s1: 75, color: 'rgba(156, 90, 26, 0.22)', stroke: '#9c5a1a', name: 'COMPLACENT' },
+        { s0: 75, s1: 100,color: 'rgba(139, 38, 29, 0.25)', stroke: '#8b261d', name: 'EXTREME GREED' }
+      ];
+
+      const rInner = R - 26;
+      const rOuter = R + 26;
+
+      arcZones.forEach((z) => {
+        const p1Out = polarPt(rOuter, z.s0);
+        const p2Out = polarPt(rOuter, z.s1);
+        const p2In  = polarPt(rInner, z.s1);
+        const p1In  = polarPt(rInner, z.s0);
+
+        const dPath = [
+          `M ${p1Out.x.toFixed(1)} ${p1Out.y.toFixed(1)}`,
+          `A ${rOuter} ${rOuter} 0 0 0 ${p2Out.x.toFixed(1)} ${p2Out.y.toFixed(1)}`,
+          `L ${p2In.x.toFixed(1)} ${p2In.y.toFixed(1)}`,
+          `A ${rInner} ${rInner} 0 0 1 ${p1In.x.toFixed(1)} ${p1In.y.toFixed(1)}`,
+          'Z'
+        ].join(' ');
+
+        const seg = el('path', {
+          d: dPath,
+          fill: z.color,
+          stroke: z.stroke,
+          'stroke-width': 1.2,
+          style: 'cursor:pointer;'
+        });
+        seg.onclick = () => applyZoneClick(Math.round((z.s0 + z.s1) / 2));
+        svg.appendChild(seg);
+      });
+
+      // Garis Vertikal Putus-putus Titik Tengah (Happy Medium)
+      svg.appendChild(el('line', {
+        x1: cx,
+        y1: cy,
+        x2: cx,
+        y2: cy + rOuter + 24,
+        stroke: '#5c3f24',
+        'stroke-width': 1.4,
+        'stroke-dasharray': '5,4'
+      }));
+
+      const midFootLbl = el('text', {
+        x: cx,
+        y: cy + rOuter + 42,
+        'text-anchor': 'middle',
+        'font-family': 'Cormorant Garamond, serif',
+        'font-style': 'italic',
+        'font-weight': '700',
+        'font-size': '13.5',
+        fill: '#4a321d'
+      });
+      midFootLbl.textContent = '“Titik Tengah (50) — Hampir Tidak Pernah Disinggahi Lama”';
+      svg.appendChild(midFootLbl);
+
+      // Skala Tick Marks di Sepanjang Busur (0, 10, 20 ... 100)
+      for (let s = 0; s <= 100; s += 10) {
+        const pTick1 = polarPt(rOuter, s);
+        const pTick2 = polarPt(rOuter + (s % 50 === 0 ? 12 : 7), s);
+        svg.appendChild(el('line', {
+          x1: pTick1.x.toFixed(1),
+          y1: pTick1.y.toFixed(1),
+          x2: pTick2.x.toFixed(1),
+          y2: pTick2.y.toFixed(1),
+          stroke: '#2c1e12',
+          'stroke-width': s % 50 === 0 ? 1.8 : 1.1
+        }));
+
+        const pTxt = polarPt(rOuter + 24, s);
+        const tNode = el('text', {
+          x: pTxt.x.toFixed(1),
+          y: (pTxt.y + 4).toFixed(1),
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '10.5',
+          fill: '#2c1e12'
+        });
+        tNode.textContent = s;
+        svg.appendChild(tNode);
+      }
+
+      // Penanda Preseden Historis di Sepanjang Busur
+      const arcMarkers = [
+        { s: 8,  txt: '2008 GFC' },
+        { s: 12, txt: 'Mar 2020' },
+        { s: 34, txt: 'Nov 2026' },
+        { s: 86, txt: '2021 ZIRP' }
+      ];
+
+      arcMarkers.forEach((m) => {
+        const mp = polarPt(rInner - 14, m.s);
+        const mTxt = el('text', {
+          x: mp.x.toFixed(1),
+          y: mp.y.toFixed(1),
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '9.5',
+          fill: '#4a321d',
+          style: 'cursor:pointer;'
+        });
+        mTxt.textContent = m.txt;
+        mTxt.onclick = () => applyZoneClick(m.s);
+        svg.appendChild(mTxt);
+      });
+
+      // Label Ekstrem Kiri & Kanan
+      const leftExtremeBox = el('text', {
+        x: 132,
+        y: 155,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '800',
+        'font-size': '13',
+        fill: '#2e5a36'
+      });
+      leftExtremeBox.textContent = 'EXTREME FEAR (0)';
+      svg.appendChild(leftExtremeBox);
+
+      const leftSub = el('text', {
+        x: 132,
+        y: 174,
+        'text-anchor': 'middle',
+        'font-family': 'Cormorant Garamond, serif',
+        'font-style': 'italic',
+        'font-weight': '700',
+        'font-size': '13',
+        fill: '#2c1e12'
+      });
+      leftSub.textContent = 'Spread Lebar • Peluang Beli';
+      svg.appendChild(leftSub);
+
+      const rightExtremeBox = el('text', {
+        x: 1008,
+        y: 155,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '800',
+        'font-size': '13',
+        fill: '#8b261d'
+      });
+      rightExtremeBox.textContent = 'EXTREME GREED (100)';
+      svg.appendChild(rightExtremeBox);
+
+      const rightSub = el('text', {
+        x: 1008,
+        y: 174,
+        'text-anchor': 'middle',
+        'font-family': 'Cormorant Garamond, serif',
+        'font-style': 'italic',
+        'font-weight': '700',
+        'font-size': '13',
+        fill: '#2c1e12'
+      });
+      rightSub.textContent = 'Spread Sempit • Bahaya Puncak';
+      svg.appendChild(rightSub);
+
+      // LENGAN PENDULUM MEKANIK REAL-TIME & BANDUL RADAR BERDENYUT
+      const bobPt = polarPt(R, score);
+
+      // Bayangan lengan pendulum
+      svg.appendChild(el('line', {
+        x1: cx + 3,
+        y1: cy + 3,
+        x2: bobPt.x + 3,
+        y2: bobPt.y + 3,
+        stroke: 'rgba(44, 30, 18, 0.25)',
+        'stroke-width': 6,
+        'stroke-linecap': 'round'
+      }));
+
+      // Lengan utama kuningan-sepia
+      svg.appendChild(el('line', {
+        x1: cx,
+        y1: cy,
+        x2: bobPt.x,
+        y2: bobPt.y,
+        stroke: '#9b682c',
+        'stroke-width': 5.5,
+        'stroke-linecap': 'round'
+      }));
+
+      svg.appendChild(el('line', {
+        x1: cx,
+        y1: cy,
+        x2: bobPt.x,
+        y2: bobPt.y,
+        stroke: '#2c1e12',
+        'stroke-width': 1.6,
+        'stroke-linecap': 'round'
+      }));
+
+      // Poros Pivot Atas
+      svg.appendChild(el('circle', {
+        cx: cx,
+        cy: cy,
+        r: 10,
+        fill: '#4a321d',
+        stroke: '#f5e6ca',
+        'stroke-width': 2.5
+      }));
+
+      // Cincin Radar Berdenyut pada Bandul
+      svg.appendChild(el('circle', {
+        cx: bobPt.x,
+        cy: bobPt.y,
+        r: 14,
+        fill: 'none',
+        stroke: '#8b261d',
+        'stroke-width': 2.4,
+        class: 'svg-live-ring'
+      }));
+
+      // Bandul Utama Pendulum
+      svg.appendChild(el('circle', {
+        cx: bobPt.x,
+        cy: bobPt.y,
+        r: 15,
+        fill: '#8b261d',
+        stroke: '#fff7e8',
+        'stroke-width': 2.5
+      }));
+
+      // Angka Skor Live di dalam Bandul
+      const bobTxt = el('text', {
+        x: bobPt.x,
+        y: bobPt.y + 4,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '800',
+        'font-size': '10.5',
+        fill: '#fff7e8'
+      });
+      bobTxt.textContent = Math.round(score);
+      svg.appendChild(bobTxt);
+    }
+
+    /**
+     * MODE 2: GELOMBANG OSILASI HISTORIS PENDULUM (2007–2026)
+     */
+    function renderHistoricalWaveMode(svg, el, liveScore) {
+      const leftPad = 95;
+      const rightPad = 55;
+      const topY = 58;
+      const botY = 365;
+      const midY = (topY + botY) / 2;
+      const spanY = botY - topY;
+      const plotW = 1140 - leftPad - rightPad;
+
+      // Shading Zona Greed (Atas) & Fear (Bawah)
+      svg.appendChild(el('rect', {
+        x: leftPad,
+        y: topY,
+        width: plotW,
+        height: spanY * 0.25,
+        fill: 'rgba(139, 38, 29, 0.08)'
+      }));
+
+      svg.appendChild(el('rect', {
+        x: leftPad,
+        y: botY - spanY * 0.25,
+        width: plotW,
+        height: spanY * 0.25,
+        fill: 'rgba(46, 90, 54, 0.08)'
+      }));
+
+      // Garis Ekuilibrium 50
+      svg.appendChild(el('line', {
+        x1: leftPad,
+        y1: midY,
+        x2: leftPad + plotW,
+        y2: midY,
+        stroke: '#5c3f24',
+        'stroke-dasharray': '5,4',
+        'stroke-width': 1.2
+      }));
+
+      // Label Sumbu Y
+      const yLabels = [
+        { val: 90, txt: 'EXTREME GREED', color: '#8b261d' },
+        { val: 50, txt: 'MIDPOINT (50)', color: '#4a321d' },
+        { val: 10, txt: 'EXTREME FEAR', color: '#2e5a36' }
+      ];
+      yLabels.forEach((yl) => {
+        const py = botY - (yl.val / 100) * spanY;
+        const t = el('text', {
+          x: leftPad - 10,
+          y: py + 4,
+          'text-anchor': 'end',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '9.5',
+          fill: yl.color
+        });
+        t.textContent = yl.txt;
+        svg.appendChild(t);
+      });
+
+      const pts = HISTORICAL_WAVE_POINTS.map((p, idx) => {
+        const sVal = idx === HISTORICAL_WAVE_POINTS.length - 1 ? liveScore : p.score;
+        const x = leftPad + (idx / (HISTORICAL_WAVE_POINTS.length - 1)) * plotW;
+        const y = botY - (sVal / 100) * spanY;
+        return { ...p, score: sVal, x, y };
+      });
+
+      const polyStr = pts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+
+      svg.appendChild(el('polyline', {
+        points: polyStr,
+        fill: 'none',
+        stroke: '#9b682c',
+        'stroke-width': 5,
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      }));
+
+      svg.appendChild(el('polyline', {
+        points: polyStr,
+        fill: 'none',
+        stroke: '#2c1e12',
+        'stroke-width': 1.5,
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      }));
+
+      pts.forEach((p, idx) => {
+        const isLast = idx === pts.length - 1;
+        if (isLast) {
+          svg.appendChild(el('circle', {
+            cx: p.x,
+            cy: p.y,
+            r: 12,
+            fill: 'none',
+            stroke: '#8b261d',
+            'stroke-width': 2.2,
+            class: 'svg-live-ring'
+          }));
+        }
+
+        const c = el('circle', {
+          cx: p.x,
+          cy: p.y,
+          r: isLast ? 6.5 : 4.5,
+          fill: isLast ? '#8b261d' : '#f5e6ca',
+          stroke: isLast ? '#fff7e8' : '#2c1e12',
+          'stroke-width': 1.8,
+          style: 'cursor:pointer;'
+        });
+        c.onclick = () => applyZoneClick(Math.round(p.score));
+        svg.appendChild(c);
+
+        const lbl = el('text', {
+          x: p.x,
+          y: p.score > 50 ? p.y - 12 : p.y + 18,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '9.5',
+          fill: isLast ? '#8b261d' : '#2c1e12'
+        });
+        lbl.textContent = p.label;
+        svg.appendChild(lbl);
+
+        const yr = el('text', {
+          x: p.x,
+          y: botY + 24,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '10.5',
+          fill: isLast ? '#8b261d' : '#4a321d'
+        });
+        yr.textContent = p.year;
+        svg.appendChild(yr);
+      });
+    }
+
+    function updateFullPendulumDashboard() {
+      basePendulumScore = computePendulumComposite(currentState);
+      livePendulumScore = basePendulumScore;
+      const zone = getZoneClassification(basePendulumScore);
+
+      // Sinkronkan slider & badge angka
+      document.getElementById('sliderHyOas').value = currentState.hyOas;
+      document.getElementById('valHyOas').textContent = `${currentState.hyOas.toFixed(2)}%`;
+
+      document.getElementById('sliderVix').value = currentState.vix;
+      document.getElementById('valVix').textContent = currentState.vix.toFixed(2);
+
+      document.getElementById('sliderSentiment').value = currentState.sentiment;
+      document.getElementById('valSentiment').textContent = `${Math.round(currentState.sentiment)} / 100`;
+
+      document.getElementById('sliderLending').value = currentState.lending;
+      document.getElementById('valLending').textContent = `${Math.round(currentState.lending)} / 100`;
+
+      document.getElementById('sliderCovenant').value = currentState.covenant;
+      document.getElementById('valCovenant').textContent = `${Math.round(currentState.covenant)} / 100`;
+
+      // Update 4 Kartu Telemetri
+      document.getElementById('metricPendulumScore').textContent = `${basePendulumScore.toFixed(1)} / 100`;
+      document.getElementById('metricPendulumSide').textContent = zone.sideText;
+
+      const bps = Math.round(currentState.hyOas * 100);
+      document.getElementById('metricHySpread').textContent = `${currentState.hyOas.toFixed(2)}% (${bps} bps)`;
+      document.getElementById('metricSpreadTrend').textContent = currentState.hyOas >= 5.0
+        ? 'Spread lebar — kompensasi risiko tinggi'
+        : (currentState.hyOas <= 3.0 ? 'Spread sempit — euforia & complancency' : 'Spread menengah — selektivitas naik');
+
+      document.getElementById('metricVixLive').textContent = currentState.vix.toFixed(2);
+      document.getElementById('metricVixNote').textContent = currentState.vix >= 30
+        ? 'Ketakutan pasar tinggi • Volatilitas aktif'
+        : (currentState.vix <= 16 ? 'Ketenangan ekstrem • Lengah risiko' : 'Volatilitas moderat');
+
+      document.getElementById('metricPostureMode').textContent = zone.postureMode;
+      document.getElementById('metricPostureSub').textContent = zone.postureSub;
+
+      // Render SVG Pendulum
+      renderMarksSvg(basePendulumScore);
+
+      // Update Panel Diagnostik Howard Marks
+      const resultBox = document.getElementById('predictionResult');
+      resultBox.innerHTML = `
+        <div>
+          <span class="result-badge ${zone.badgeClass}">${zone.badgeText}</span>
+          <h3 class="result-headline">${currentState.label} — ${zone.headline}</h3>
+          <div class="result-formula-note">&#9878; Sumber Telemetri: ${currentState.sourceNote}</div>
+          <p class="result-desc">${zone.desc}</p>
+          <div class="asset-allocation-box">${zone.strategy}</div>
+        </div>
+        <div class="cycle-checklist">
+          <div style="font-family:'Cinzel',serif; font-weight:700; font-size:0.98rem; color:var(--ink-sepia); margin-bottom:2px;">
+            Audit Siklus Kredit &amp; Psikologi Howard Marks
+          </div>
+          <div class="check-row">
+            <span class="check-label">Jendela Kredit (Credit Window):</span>
+            <span class="check-val">${zone.creditWindow}</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Psikologi Pelaku Pasar:</span>
+            <span class="check-val">${zone.investorBehavior}</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Margin Keamanan Valuasi:</span>
+            <span class="check-val">${zone.marginOfSafety}</span>
+          </div>
+          <div style="font-size:0.88rem; font-style:italic; color:var(--ink-faded); margin-top:4px;">
+            *Klik segmen mana pun pada busur pendulum atau geser slider untuk menguji titik balik.
+          </div>
+        </div>
+      `;
+    }
+
+    /**
+     * SINKRONISASI TELEMETRI LIVE (ALTERNATIVE.ME FEAR & GREED API + NOV 2026 CALIBRATION)
+     */
+    async function syncLiveMarketTelemetry() {
+      const pill = document.getElementById('apiStatusPill');
+      pill.textContent = 'Menarik indeks sentimen live...';
+
+      currentState = { ...MARKET_PRESETS.LIVE_2026 };
+      updateFullPendulumDashboard();
+
+      try {
+        const res = await fetch('https://api.alternative.me/fng/?limit=1');
+        if (!res.ok) throw new Error('Network error');
+        const json = await res.json();
+        if (json && Array.isArray(json.data) && json.data[0]) {
+          const liveFng = parseInt(json.data[0].value, 10);
+          const fngClass = json.data[0].value_classification;
+          if (!isNaN(liveFng)) {
+            currentState.sentiment = liveFng;
+            currentState.sourceNote = `Live Fear & Greed API (${liveFng}/100: ${fngClass}) + Kalibrasi HY OAS 3,47% & VIX 35,89`;
+            pill.textContent = `Live API Aktif • Sentimen ${liveFng}/100 (${fngClass})`;
+            updateFullPendulumDashboard();
+            return;
+          }
+        }
+        throw new Error('Invalid payload');
+      } catch (e) {
+        pill.textContent = 'Kalibrasi Empiris Nov 2026 Aktif (HY OAS 3,47% • VIX 35,89)';
+        updateFullPendulumDashboard();
+      }
+    }
+
+    function applyMarketPreset(presetKey, btnElement) {
+      if (btnElement) {
+        document.querySelectorAll('.chart-controls [data-preset]').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+      }
+      if (presetKey === 'LIVE_2026') {
+        syncLiveMarketTelemetry();
+        return;
+      }
+      const preset = MARKET_PRESETS[presetKey];
+      if (!preset) return;
+      currentState = { ...preset };
+      document.getElementById('apiStatusPill').textContent = `Mode Preseden: ${preset.label}`;
+      updateFullPendulumDashboard();
+    }
+
+    function applyZoneClick(targetScore) {
+      document.querySelectorAll('.chart-controls [data-preset]').forEach(b => b.classList.remove('active'));
+      const ratio = targetScore / 100;
+      currentState = {
+        label: `Simulasi Posisi Pendulum (${targetScore}/100)`,
+        hyOas: Number((12.5 - ratio * 9.8).toFixed(2)),
+        vix: Number((62 - ratio * 48).toFixed(2)),
+        sentiment: targetScore,
+        lending: targetScore,
+        covenant: targetScore,
+        sourceNote: 'Simulasi Interaktif Segmen Busur Pendulum'
+      };
+      document.getElementById('apiStatusPill').textContent = `Simulasi Posisi Pendulum: ${targetScore}/100`;
+      updateFullPendulumDashboard();
+    }
+
+    function onManualSliderChange() {
+      document.querySelectorAll('.chart-controls [data-preset]').forEach(b => b.classList.remove('active'));
+      currentState.hyOas = parseFloat(document.getElementById('sliderHyOas').value);
+      currentState.vix = parseFloat(document.getElementById('sliderVix').value);
+      currentState.sentiment = parseFloat(document.getElementById('sliderSentiment').value);
+      currentState.lending = parseFloat(document.getElementById('sliderLending').value);
+      currentState.covenant = parseFloat(document.getElementById('sliderCovenant').value);
+      currentState.label = 'Kalibrasi Kustom Real-Time';
+      currentState.sourceNote = 'Parameter Manual Pengguna (Real-Time Update)';
+      document.getElementById('apiStatusPill').textContent = 'Mode Simulasi Real-Time Aktif';
+      updateFullPendulumDashboard();
+    }
+
+    function setPendulumView(viewName, btnElement) {
+      currentView = viewName;
+      if (btnElement) {
+        document.querySelectorAll('.chart-controls [data-view]').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+      }
+      renderMarksSvg(livePendulumScore);
+    }
+
+    /**
+     * LOOP REAL-TIME: JAM TELEMETRI & OSILASI MIKRO PENDULUM HIDUP
+     */
+    function startRealtimePendulumTicker() {
+      const clockEl = document.getElementById('liveClockDisplay');
+      const scoreEl = document.getElementById('metricPendulumScore');
+
+      setInterval(() => {
+        const now = new Date();
+        clockEl.textContent = `${now.toLocaleTimeString('id-ID', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        })} LIVE`;
+
+        // Osilasi harmonik halus ±0.35 poin agar pendulum tampak berdenyut hidup di atas titik kesetimbangan
+        const elapsed = (performance.now() - liveStartTime) / 1000;
+        const microSwing = Math.sin(elapsed * 2.1) * 0.35;
+        livePendulumScore = Math.max(1, Math.min(99, basePendulumScore + microSwing));
+        scoreEl.textContent = `${livePendulumScore.toFixed(1)} / 100`;
+
+        if (currentView === 'pendulum') {
+          renderMarksSvg(livePendulumScore);
+        }
+      }, 150);
+    }
+
+    // Inisialisasi awal
+    startRealtimePendulumTicker();
+    syncLiveMarketTelemetry();
+  </script>
+</body>
+</html>

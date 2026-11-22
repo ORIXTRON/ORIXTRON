@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monthly Seasonality &amp; Sell in May (Real-Time Telemetry) — Halloween Indicator | Orixtron Technology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment-base: #e6cfa9;
+      --parchment-light: #f2e1c2;
+      --parchment-dark: #cfa972;
+      --ink-dark: #2c1e12;
+      --ink-sepia: #4a321d;
+      --ink-faded: #6e4f32;
+      --line-gold-brown: #9c6b30;
+
+      /* Palet 4 Rezim Musiman Bulanan & Halloween Indicator (Nuansa Tinta Antik) */
+      --seas-best6:    #2e5a36;   /* Nov–Apr: Best Six Months / Window Dressing & Santa Rally */
+      --seas-january:  #1e4b6b;   /* Jan–Apr: January Effect & Q1 Institutional Inflow */
+      --seas-summer:   #9c5a1a;   /* May–Jul: Sell in May & Summer Doldrums */
+      --seas-autumn:   #8b261d;   /* Aug–Oct: Autumn Volatility & Pre-Halloween Shakeout */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #261b12;
+      background-image: radial-gradient(circle at center, #3a291b 0%, #1c130c 100%);
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Tekstur Kertas Perkamen Klasik */
+    .parchment-card {
+      position: relative;
+      width: 100%;
+      max-width: 1240px;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(255, 248, 231, 0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 85%, rgba(168, 121, 62, 0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, var(--parchment-light) 0%, var(--parchment-base) 65%, var(--parchment-dark) 100%);
+      border: 2px solid #5c3f24;
+      border-radius: 4px;
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.65),
+        inset 0 0 65px rgba(112, 74, 34, 0.42),
+        inset 0 0 12px rgba(44, 30, 18, 0.45);
+      padding: 28px 34px 26px;
+      overflow: hidden;
+    }
+
+    /* Efek Serat Kertas Halus */
+    .parchment-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+
+    /* Bingkai Tipis Bagian Dalam */
+    .parchment-card::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      pointer-events: none;
+    }
+
+    /* Watermark Kertas Perkamen Orixtron Technology */
+    .parchment-watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .watermark-main-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: clamp(2.1rem, 5.2vw, 4.4rem);
+      letter-spacing: 0.22em;
+      color: rgba(74, 50, 29, 0.075);
+      text-transform: uppercase;
+      white-space: nowrap;
+      transform: rotate(-8deg);
+      text-shadow: 1px 1px 0 rgba(255, 248, 231, 0.35);
+    }
+
+    .watermark-sub-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+      letter-spacing: 0.32em;
+      color: rgba(74, 50, 29, 0.085);
+      text-transform: uppercase;
+      transform: rotate(-8deg);
+      margin-top: 4px;
+    }
+
+    /* Bilah Status Real-Time (Live Telemetry Strip) */
+    .live-telemetry-bar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 14px;
+      margin-bottom: 14px;
+      background: rgba(44, 30, 18, 0.08);
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      border-radius: 3px;
+      font-size: 0.9rem;
+    }
+
+    .live-indicator-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-sepia);
+    }
+
+    .pulse-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background-color: #2e5a36;
+      box-shadow: 0 0 0 0 rgba(46, 90, 54, 0.7);
+      animation: pulseRing 1.8s infinite;
+    }
+
+    @keyframes pulseRing {
+      0% { box-shadow: 0 0 0 0 rgba(46, 90, 54, 0.75); }
+      70% { box-shadow: 0 0 0 7px rgba(46, 90, 54, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(46, 90, 54, 0); }
+    }
+
+    .live-clock-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--ink-dark);
+    }
+
+    .api-status-pill {
+      padding: 2px 10px;
+      border-radius: 2px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      background: rgba(46, 90, 54, 0.14);
+      border: 1px solid rgba(46, 90, 54, 0.45);
+      color: #2e5a36;
+    }
+
+    /* Header Judul Utama */
+    .card-header {
+      text-align: center;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-kicker {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--ink-faded);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-family: 'Cinzel', 'Times New Roman', serif;
+      font-size: clamp(1.5rem, 3.1vw, 2.75rem);
+      font-weight: 700;
+      color: var(--ink-sepia);
+      letter-spacing: 0.04em;
+      text-shadow: 1px 1px 0 rgba(255, 245, 224, 0.6);
+    }
+
+    .card-subtitle-header {
+      font-size: 1.08rem;
+      font-style: italic;
+      color: var(--ink-sepia);
+      margin-top: 2px;
+    }
+
+    /* Papan Telemetri Metrik Musiman Real-Time */
+    .realtime-metrics-strip {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .metric-box {
+      background: rgba(255, 249, 236, 0.56);
+      border: 1.2px solid rgba(74, 50, 29, 0.42);
+      border-radius: 3px;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--ink-faded);
+      text-transform: uppercase;
+    }
+
+    .metric-value {
+      font-family: 'Cinzel', serif;
+      font-size: 1.22rem;
+      font-weight: 800;
+      color: var(--ink-dark);
+      margin: 2px 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric-sub {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--ink-sepia);
+    }
+
+    /* Kontrol Benchmark & Mode Visualisasi */
+    .chart-controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: rgba(110, 79, 50, 0.1);
+      border: 1px solid rgba(74, 50, 29, 0.3);
+      border-radius: 3px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .control-label {
+      font-weight: 700;
+      font-size: 0.96rem;
+      color: var(--ink-sepia);
+    }
+
+    .vintage-btn {
+      background: linear-gradient(to bottom, #f5e6ca, #dec092);
+      border: 1px solid #5c3f24;
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.93rem;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      transition: all 0.15s ease;
+    }
+
+    .vintage-btn:hover {
+      background: linear-gradient(to bottom, #fff2da, #e5c99c);
+      transform: translateY(-1px);
+    }
+
+    .vintage-btn.active {
+      background: var(--ink-sepia);
+      color: #f6e7cb;
+      border-color: var(--ink-dark);
+    }
+
+    /* Area Grafik Klasik */
+    .chart-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      margin-top: 4px;
+      border: 2px solid var(--ink-dark);
+      background: rgba(255, 249, 236, 0.18);
+    }
+
+    /* Kolom Kiri: Sumbu Return Rata-rata & Win Rate */
+    .axis-column {
+      flex: 0 0 98px;
+      border-right: 1.8px solid var(--ink-dark);
+      background: rgba(110, 79, 50, 0.08);
+      user-select: none;
+    }
+
+    .chart-scroll-area {
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      position: relative;
+    }
+
+    @keyframes svgLivePulse {
+      0% { r: 7; opacity: 0.85; }
+      70% { r: 18; opacity: 0; }
+      100% { r: 18; opacity: 0; }
+    }
+
+    .svg-live-ring {
+      animation: svgLivePulse 1.8s infinite ease-out;
+      pointer-events: none;
+    }
+
+    /* Ringkasan 4 Rezim Musiman (Best Six Months vs Sell in May) */
+    .phases-legend-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .phase-legend-card {
+      background: rgba(255, 249, 236, 0.42);
+      border: 1px solid rgba(74, 50, 29, 0.38);
+      border-top-width: 4px;
+      border-radius: 3px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .phase-legend-card:hover {
+      background: rgba(255, 249, 236, 0.72);
+      transform: translateY(-2px);
+    }
+
+    .phase-legend-card.best6   { border-top-color: var(--seas-best6); }
+    .phase-legend-card.january { border-top-color: var(--seas-january); }
+    .phase-legend-card.summer  { border-top-color: var(--seas-summer); }
+    .phase-legend-card.autumn  { border-top-color: var(--seas-autumn); }
+
+    .phase-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.84rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: 0.03em;
+    }
+
+    .phase-card-body {
+      font-size: 0.94rem;
+      line-height: 1.32;
+      color: var(--ink-dark);
+    }
+
+    /* Footer Kartu & Tanda Tangan Yale Hirsch */
+    .card-footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .legend-note-block {
+      max-width: 820px;
+      font-size: 1.04rem;
+      line-height: 1.38;
+      color: var(--ink-dark);
+    }
+
+    .signature-block {
+      text-align: right;
+      transform: rotate(-12deg);
+      transform-origin: bottom right;
+      padding: 0 12px 4px 0;
+      color: var(--ink-faded);
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .signature-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.1rem;
+      line-height: 0.95;
+      display: block;
+    }
+
+    .signature-year {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.45rem;
+      display: block;
+      margin-top: -2px;
+    }
+
+    /* Stempel Kolofon Developer Orixtron Technology */
+    .developer-colophon {
+      position: relative;
+      z-index: 2;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(74, 50, 29, 0.28);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--ink-faded);
+      user-select: none;
+    }
+
+    .dev-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 12px;
+      border: 1px double rgba(74, 50, 29, 0.55);
+      border-radius: 2px;
+      background: rgba(255, 248, 231, 0.25);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--ink-sepia);
+      text-transform: uppercase;
+    }
+
+    .dev-edition-note {
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--ink-faded);
+    }
+
+    /* =========================================================
+       PANEL SIMULATOR HALLOWEEN INDICATOR & DIAGNOSTIK BULANAN
+       ========================================================= */
+    .predictor-panel {
+      padding: 26px 32px 22px;
+    }
+
+    .predictor-header {
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid rgba(74, 50, 29, 0.35);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .predictor-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .predictor-subtitle {
+      font-size: 1.02rem;
+      font-style: italic;
+      color: var(--ink-faded);
+    }
+
+    /* Bar Kontrol Bulan & Simulator Modal */
+    .predictor-controls-bar {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(222, 192, 146, 0.28);
+      border: 1px solid rgba(92, 63, 36, 0.38);
+      border-radius: 3px;
+      padding: 13px 16px;
+      margin-bottom: 18px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .input-group label {
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: var(--ink-sepia);
+    }
+
+    .vintage-select,
+    .vintage-input {
+      background: #fff7e8;
+      border: 1.5px solid #5c3f24;
+      color: var(--ink-dark);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 6px 10px;
+      border-radius: 3px;
+    }
+
+    .vintage-input {
+      width: 135px;
+    }
+
+    .predict-submit-btn {
+      background: var(--ink-sepia);
+      color: #f7e7c8;
+      border: 1.5px solid var(--ink-dark);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 7px 14px;
+      border-radius: 3px;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.15s ease;
+    }
+
+    .predict-submit-btn:hover {
+      background: #2c1e12;
+    }
+
+    /* Hasil Diagnostik Musiman */
+    .prediction-result {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 249, 236, 0.55);
+      border: 1.5px solid #6b4929;
+      border-radius: 4px;
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: 1.38fr 1fr;
+      gap: 20px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      color: #fff8eb;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .badge-best6   { background-color: var(--seas-best6); }
+    .badge-january { background-color: var(--seas-january); }
+    .badge-summer  { background-color: var(--seas-summer); }
+    .badge-autumn  { background-color: var(--seas-autumn); }
+
+    .result-headline {
+      font-family: 'Cinzel', serif;
+      font-size: 1.46rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      margin-bottom: 6px;
+    }
+
+    .result-formula-note {
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: var(--ink-sepia);
+      margin-bottom: 10px;
+    }
+
+    .result-desc {
+      font-size: 1.1rem;
+      line-height: 1.46;
+      color: var(--ink-dark);
+      margin-bottom: 12px;
+    }
+
+    .asset-allocation-box {
+      background: rgba(222, 192, 146, 0.32);
+      border-left: 3.5px solid var(--line-gold-brown);
+      padding: 10px 14px;
+      font-size: 1.04rem;
+      line-height: 1.42;
+      color: var(--ink-dark);
+    }
+
+    .cycle-checklist {
+      background: rgba(222, 192, 146, 0.35);
+      border: 1px solid rgba(92, 63, 36, 0.35);
+      border-radius: 3px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 9px;
+    }
+
+    .check-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      border-bottom: 1px dashed rgba(92, 63, 36, 0.3);
+      padding-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .check-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .check-label {
+      font-weight: 700;
+      color: var(--ink-sepia);
+      flex-shrink: 0;
+    }
+
+    .check-val {
+      text-align: right;
+      font-weight: 600;
+      color: var(--ink-dark);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .global-dev-footer {
+      text-align: center;
+      color: rgba(230, 207, 169, 0.65);
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      user-select: none;
+    }
+
+    @media (max-width: 1040px) {
+      .realtime-metrics-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .phases-legend-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .prediction-result {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .parchment-card {
+        padding: 18px 14px;
+      }
+      .axis-column {
+        flex: 0 0 64px;
+      }
+      .phases-legend-grid,
+      .realtime-metrics-strip {
+        grid-template-columns: 1fr;
+      }
+      .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .signature-block {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KARTU UTAMA MONTHLY SEASONALITY & SELL IN MAY (REAL-TIME TELEMETRY) -->
+  <main class="parchment-card">
+    <!-- Watermark Kertas Perkamen Orixtron Technology -->
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text">ORIXTRON TECHNOLOGY</span>
+      <span class="watermark-sub-text">Monthly Seasonality &amp; Halloween Indicator Edition</span>
+    </div>
+
+    <!-- Bilah Telemetri Real-Time -->
+    <div class="live-telemetry-bar">
+      <div class="live-indicator-group">
+        <span class="pulse-dot" id="livePulseDot"></span>
+        <span>LIVE TELEMETRY &bull; MONTHLY SEASONALITY &amp; SELL IN MAY ENGINE</span>
+      </div>
+      <div class="live-clock-text" id="liveClockDisplay">--:--:-- LIVE</div>
+      <div class="api-status-pill" id="apiStatusPill">Memindai Kalender Aktif &amp; Harga Live...</div>
+    </div>
+
+    <header class="card-header">
+      <div class="card-kicker">Stock Trader’s Almanac (Yale Hirsch, 1986) &bull; The Halloween Indicator (Nov–Apr vs. May–Oct)</div>
+      <h1 class="card-title">Monthly Seasonality &amp; “Sell in May”</h1>
+      <p class="card-subtitle-header">“Buy in November, Sell in May — Capturing Institutional Window Dressing, Santa Claus Rally, &amp; Q1 Inflows”</p>
+    </header>
+
+    <!-- 4 Papan Angka Telemetri Langsung -->
+    <div class="realtime-metrics-strip">
+      <div class="metric-box">
+        <span class="metric-label">Kalender Musiman Live</span>
+        <span class="metric-value" id="metricActiveDate">22 NOVEMBER 2026</span>
+        <span class="metric-sub" id="metricWindowStatus" style="color: #2e5a36; font-weight: 700;">BEST SIX MONTHS AKTIF (Nov–Apr)</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Return Historis Bulan Ini</span>
+        <span class="metric-value" id="metricMonthAvgReturn">+1.84% (Win 71%)</span>
+        <span class="metric-sub" id="metricMonthRank">Bulan Terbaik #1 dalam Setahun</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Spread Nov–Apr vs May–Oct</span>
+        <span class="metric-value" id="metricHalfSpread">+7.2% vs +1.6%</span>
+        <span class="metric-sub" id="metricSpreadNote">Outperformance 6 Bulan Musim Dingin</span>
+      </div>
+      <div class="metric-box">
+        <span class="metric-label">Hitung Mundur Rotasi 1 Mei</span>
+        <span class="metric-value" id="metricCountdown">160 HARI TERSISA</span>
+        <span class="metric-sub" id="metricCountdownSub">Jendela Penuh Ekspansi &amp; Window Dressing</span>
+      </div>
+    </div>
+
+    <!-- Kontrol Benchmark Aset & Mode Grafik -->
+    <div class="chart-controls">
+      <div class="control-group">
+        <span class="control-label">Benchmark:</span>
+        <button class="vintage-btn active" data-asset="SPX" onclick="selectBenchmarkAsset('SPX', this)">S&amp;P 500 (1950–2026)</button>
+        <button class="vintage-btn" data-asset="IHSG" onclick="selectBenchmarkAsset('IHSG', this)">IHSG / IDX (Window Dressing)</button>
+        <button class="vintage-btn" data-asset="BTC" onclick="selectBenchmarkAsset('BTC', this)">BTC/USD (Live Feed)</button>
+        <button class="vintage-btn" data-asset="XAU" onclick="selectBenchmarkAsset('XAU', this)">XAU/USD Emas (Live Feed)</button>
+      </div>
+
+      <div class="control-group">
+        <span class="control-label">Kanvas:</span>
+        <button class="vintage-btn active" data-view="bar_curve" onclick="setSeasonalityView('bar_curve', this)">Kurva Kumulatif &amp; Batang Bulanan</button>
+        <button class="vintage-btn" data-view="half_split" onclick="setSeasonalityView('half_split', this)">Komparasi 6-Bulan (Nov–Apr vs May–Oct)</button>
+      </div>
+    </div>
+
+    <!-- Area Grafik Musiman 12 Bulan -->
+    <div class="chart-wrapper">
+      <!-- Sumbu Kiri: Rata-Rata Imbal Hasil Bulanan (%) -->
+      <div class="axis-column">
+        <svg viewBox="0 0 98 390" width="100%" height="390" aria-hidden="true">
+          <text x="49" y="34" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">RETURN</text>
+          <line x1="8" y1="52" x2="90" y2="52" stroke="#2c1e12" stroke-width="1.2"/>
+
+          <text x="49" y="88" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#2e5a36">KUAT (+)</text>
+          <text x="49" y="102" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Inflow &amp; Rally)</text>
+
+          <line x1="14" y1="226" x2="84" y2="226" stroke="#5c3f24" stroke-dasharray="3,3" stroke-width="1.2"/>
+          <text x="49" y="219" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">0.0% BASE</text>
+          <text x="49" y="241" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#6e4f32">(Garis Netral)</text>
+
+          <text x="49" y="298" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#8b261d">LEMAH (-)</text>
+          <text x="49" y="312" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Seasonal Dip)</text>
+
+          <line x1="8" y1="342" x2="90" y2="342" stroke="#2c1e12" stroke-width="1.2"/>
+          <text x="49" y="368" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">BULAN</text>
+        </svg>
+      </div>
+
+      <!-- Kanvas SVG 12 Bulan -->
+      <div class="chart-scroll-area" id="chartScrollArea">
+        <svg id="seasonalitySvg" width="1120" height="390" viewBox="0 0 1120 390" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+
+    <!-- Ringkasan 4 Rezim Musiman Tahunan -->
+    <div class="phases-legend-grid">
+      <div class="phase-legend-card best6" onclick="inspectMonth(10)">
+        <div class="phase-card-title" style="color: var(--seas-best6);">1. NOV–DES: HALLOWEEN &amp; WINDOW DRESSING</div>
+        <div class="phase-card-body">
+          Pembukaan siklus <strong>Best Six Months</strong> (1 Nov). Manajer investasi melakukan <em>window dressing</em> akhir tahun, diikuti <em>Santa Claus Rally</em>. <strong>Bulan aktif saat ini (Nov 2026).</strong>
+        </div>
+      </div>
+      <div class="phase-legend-card january" onclick="inspectMonth(0)">
+        <div class="phase-card-title" style="color: var(--seas-january);">2. JAN–APR: JANUARY EFFECT &amp; Q1 INFLOW</div>
+        <div class="phase-card-body">
+          Dana pensiun, bonus tahunan, dan alokasi anggaran baru mengalir masuk ke ekuitas (di IHSG berlanjut ke musim rilis laporan keuangan tahunan &amp; dividen). <strong>Lanjutan tren naik utama.</strong>
+        </div>
+      </div>
+      <div class="phase-legend-card summer" onclick="inspectMonth(4)">
+        <div class="phase-card-title" style="color: var(--seas-summer);">3. MEI–JUL: “SELL IN MAY” &amp; SUMMER LULL</div>
+        <div class="phase-card-body">
+          Pepatah klasik Inggris <em>“Sell in May and go away, come back on St. Leger’s Day”</em>. Volume perdagangan institusi menyusut selama liburan musim panas. <strong>Rotasi defensif / selektif.</strong>
+        </div>
+      </div>
+      <div class="phase-legend-card autumn" onclick="inspectMonth(8)">
+        <div class="phase-card-title" style="color: var(--seas-autumn);">4. AGU–OKT: AUTUMN VOLATILITY &amp; BOTTOM</div>
+        <div class="phase-card-body">
+          <strong>September</strong> secara historis adalah bulan terlemah pasar saham global, disusul <em>tax-loss selling</em> Oktober yang melahirkan titik terendah sebelum reli November. <strong>Zona akumulasi ulang.</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Catatan Bawah & Tanda Tangan Yale Hirsch -->
+    <footer class="card-footer">
+      <div class="legend-note-block">
+        <p>
+          <strong>Anomali Kalender Yale Hirsch (1986) &amp; Bouman–Jacobsen (2002):</strong> Studi empiris lintas lebih dari 35 bursa saham dunia membuktikan bahwa sebagian besar kenaikan pasar saham jangka panjang terkonsentrasi pada periode <strong>November hingga April (Best Six Months)</strong>, sedangkan periode <strong>Mei hingga Oktober (Worst Six Months)</strong> menghasilkan imbal hasil rata-rata jauh lebih rendah dengan volatilitas lebih tinggi.
+        </p>
+      </div>
+
+      <div class="signature-block">
+        <span class="signature-name">Yale Hirsch</span>
+        <span class="signature-year">1986</span>
+      </div>
+    </footer>
+
+    <!-- Kolofon Resmi Developer -->
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Real-Time Calendar Engine (Nov 22, 2026) + Historical S&amp;P 500, IHSG, &amp; Live Crypto/Gold Seasonality</span>
+      <span class="dev-stamp">&#10022; Developer: Orixtron Technology &#10022;</span>
+    </div>
+  </main>
+
+  <!-- PANEL SIMULATOR HALLOWEEN INDICATOR & DIAGNOSTIK BULANAN -->
+  <section class="parchment-card predictor-panel">
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text" style="font-size: clamp(1.8rem, 4vw, 3.2rem);">ORIXTRON TECHNOLOGY</span>
+    </div>
+
+    <div class="predictor-header">
+      <h2 class="predictor-title">Simulator Strategi “Sell in May” &amp; Audit Musiman Bulanan</h2>
+      <span class="predictor-subtitle">Pilih bulan atau simulasikan modal investasi untuk membandingkan strategi Buy &amp; Hold vs. Rotasi Nov–Apr</span>
+    </div>
+
+    <div class="predictor-controls-bar">
+      <div class="input-group">
+        <label for="monthSelect">Pilih Bulan Inspeksi:</label>
+        <select id="monthSelect" class="vintage-select" onchange="onMonthSelectChange()">
+          <option value="0">Januari (Q1 Inflow &amp; January Effect)</option>
+          <option value="1">Februari (Konsolidasi Pasca-Januari)</option>
+          <option value="2">Maret (Penutupan Kuartal I)</option>
+          <option value="3">April (Puncak Best Six Months / Dividen)</option>
+          <option value="4">Mei (Awal Periode “Sell in May”)</option>
+          <option value="5">Juni (Mid-Year Rebalancing)</option>
+          <option value="6">Juli (Reli Musim Panas / Laporan Q2)</option>
+          <option value="7">Agustus (Likuiditas Tipis Akhir Musim Panas)</option>
+          <option value="8">September (Bulan Terlemah Historis)</option>
+          <option value="9">Oktober (Bulan Pembalikan / Bear Killer)</option>
+          <option value="10" selected>November (AKTIF HARI INI — Awal Best 6 Months)</option>
+          <option value="11">Desember (Window Dressing &amp; Santa Claus Rally)</option>
+        </select>
+        <button class="vintage-btn" onclick="jumpToRealToday()">Kembali ke Hari Ini (22 Nov 2026)</button>
+      </div>
+
+      <div class="input-group">
+        <label for="horizonYearsInput">Horizon Simulasi (Tahun):</label>
+        <input type="number" id="horizonYearsInput" class="vintage-input" min="1" max="50" value="10" oninput="renderSeasonalityDiagnostic()" />
+        <button class="predict-submit-btn" onclick="renderSeasonalityDiagnostic()">Hitung Komparasi</button>
+      </div>
+    </div>
+
+    <div class="prediction-result" id="predictionResult">
+      <!-- Diisi otomatis oleh JavaScript -->
+    </div>
+
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Yale Hirsch Best Six Months &amp; Seasonal Rotator &bull; Real-Time Calendar Sync</span>
+      <span class="dev-stamp">&#10022; Orixtron Technology &#10022;</span>
+    </div>
+  </section>
+
+  <div class="global-dev-footer">
+    ENGINEERED BY ORIXTRON TECHNOLOGY &bull; YALE HIRSCH SEASONALITY EDITION
+  </div>
+
+  <script>
+    /**
+     * MONTHLY SEASONALITY & SELL IN MAY — REAL-TIME TELEMETRY ENGINE
+     * Engineered by Orixtron Technology
+     * - Mendeteksi tanggal sistem secara real-time (Kalibrasi aktif: 22 November 2026 -> Best Six Months Window)
+     * - Memuat statistik imbal hasil bulanan & win rate historis untuk S&P 500, IHSG (IDX), BTC/USD, dan XAU/USD
+     * - Menghubungkan API publik Binance untuk memperbarui harga live BTC & Emas (PAXG) secara langsung
+     */
+
+    const MONTHS_ID = [
+      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+
+    const MONTHS_SHORT = ['JAN', 'FEB', 'MAR', 'APR', 'MEI', 'JUN', 'JUL', 'AGU', 'SEP', 'OKT', 'NOV', 'DES'];
+
+    const ASSET_SEASONALITY = {
+      SPX: {
+        code: 'SPX',
+        name: 'S&P 500 Index (1950–2026)',
+        unit: '%',
+        best6Return: 7.2,
+        worst6Return: 1.6,
+        safeYield: 4.2,
+        liveNote: 'Indeks Ekuitas AS • Pola Klasik Stock Trader’s Almanac',
+        // Rata-rata return (%) Jan..Des
+        avgReturns: [1.18, 0.04, 1.12, 1.48, 0.24, 0.08, 1.25, 0.02, -0.68, 0.88, 1.84, 1.52],
+        winRates:   [62,   53,   65,   70,   58,   54,   61,   55,   45,    61,   71,   74],
+        notes: [
+          'January Effect & alokasi dana pensiun awal tahun.',
+          'Konsolidasi pasca-reli Januari dengan likuiditas moderat.',
+          'Penutupan kuartal pertama & rebalancing portofolio institusi.',
+          'Bulan penutup Best Six Months yang secara historis sangat solid.',
+          'Transisi menuju periode musim panas (Sell in May & Go Away).',
+          'Rebalancing tengah tahun dengan volume perdagangan mulai melandai.',
+          'Reli musim laporan keuangan kuartal II sebelum puncak musim panas.',
+          'Likuiditas institusi menipis menjelang akhir musim panas.',
+          'Secara historis bulan terlemah S&P 500 (September Effect).',
+          'Bulan volatil tempat lahirnya banyak titik balik pasar (Bear Killer).',
+          'Bulan terbaik #1 S&P 500; pembukaan jendela Best Six Months.',
+          'Window dressing akhir tahun & Santa Claus Rally di pekan terakhir.'
+        ]
+      },
+      IHSG: {
+        code: 'IHSG',
+        name: 'IHSG / IDX Composite (Bursa Efek Indonesia)',
+        unit: '%',
+        best6Return: 8.6,
+        worst6Return: 0.9,
+        safeYield: 5.5,
+        liveNote: 'Bursa Efek Indonesia • Efek Window Dressing & Musim Dividen',
+        avgReturns: [1.35, 0.45, 0.82, 1.65, -0.52, 0.35, 1.15, -0.25, -0.85, 0.65, 1.42, 2.68],
+        winRates:   [64,   56,   60,   68,   46,   55,   63,   50,   42,    58,   66,   82],
+        notes: [
+          'January Effect pada saham berkapitalisasi besar (blue chip) IDX.',
+          'Antisipasi rilis laporan keuangan tahunan (FY) emiten perbankan.',
+          'Musim RUPST & pengumuman rasio pembagian dividen tunai.',
+          'Cum-date dividen bank-bank besar (BBCA, BBRI, BMRI, BBNI).',
+          'Aksi ambil untung pasca-dividen (Sell in May) & tekanan ex-date.',
+          'Rebalancing indeks tengah tahun & arus keluar dana asing musiman.',
+          'Pemulihan selektif menjelang rilis kinerja semester I (H1).',
+          'Konsolidasi pasar di tengah minimnya katalis domestik baru.',
+          'Koreksi kuartal III & sensitivitas nilai tukar Rupiah.',
+          'Akumulasi bertahap manajer investasi menjelang penutupan tahun.',
+          'Pemanasan pra-window dressing pada saham indeks LQ45 & IDX30.',
+          'Window Dressing terkuat di IDX (probabilitas hijau >80% dalam 2 dekade).'
+        ]
+      },
+      BTC: {
+        code: 'BTC',
+        name: 'Bitcoin (BTC/USD — 2013–2026)',
+        unit: '%',
+        best6Return: 54.0,
+        worst6Return: 14.5,
+        safeYield: 4.5,
+        liveNote: 'Aset Kripto Utama • Efek Q4 Uptober–Moonvember',
+        avgReturns: [3.8, 13.4, 11.2, 12.8, 7.6, -0.4, 7.2, 1.5, -4.8, 21.8, 36.5, 4.9],
+        winRates:   [54,  75,   58,   67,   58,   50,   67,   42,   33,    83,   67,   50],
+        notes: [
+          'Rebalancing portofolio makro & arus ETF awal tahun.',
+          'Secara historis salah satu bulan paling konsisten hijau bagi Bitcoin.',
+          'Momentum kuartal I menjelang penutupan buku kuartalan.',
+          'Puncak reli musim semi sebelum konsolidasi Mei–September.',
+          'Volatilitas pasca-reli Q1 (sering menjadi awal konsolidasi musim panas).',
+          'Rentang harga menyempit dengan likuiditas ritel yang melambat.',
+          'Pemulihan tengah tahun setelah koreksi kuartal II.',
+          'Volatilitas rendah atau koreksi tajam di penghujung musim panas.',
+          '“Redtember” — bulan terlemah Bitcoin secara historis.',
+          '“Uptober” — pemicu pembalikan tren bullish kuartal IV.',
+          '“Moonvember” — bulan dengan rata-rata lonjakan persentase tertinggi.',
+          'Konsolidasi akhir tahun pasca-reli Oktober–November.'
+        ]
+      },
+      XAU: {
+        code: 'XAU',
+        name: 'Emas Spot (XAU/USD — 2000–2026)',
+        unit: '%',
+        best6Return: 6.4,
+        worst6Return: 3.1,
+        safeYield: 0.0,
+        liveNote: 'Logam Mulia • Permintaan Fisik Asia Q4–Q1',
+        avgReturns: [2.45, 0.95, -0.15, 0.85, 0.35, -0.20, 0.90, 1.85, 0.65, -0.35, 1.35, 1.15],
+        winRates:   [68,   58,   48,   56,   52,   46,   58,   65,   54,    46,   62,   60],
+        notes: [
+          'Bulan terkuat emas berkat permintaan fisik Tahun Baru Imlek & rebalancing.',
+          'Lanjutan permintaan perhiasan Asia & lindung nilai inflasi Q1.',
+          'Konsolidasi musim semi seiring penguatan dolar AS musiman.',
+          'Permintaan festival Akshaya Tritiya di India menopang harga emas.',
+          'Aset lindung nilai populer saat investor ekuitas melakukan Sell in May.',
+          'Titik terendah musiman pertengahan tahun (peluang akumulasi fisik).',
+          'Awal pemulihan harga emas memasuki paruh kedua tahun.',
+          'Lonjakan musiman Agustus saat volatilitas pasar saham meningkat.',
+          'Permintaan menjelang musim festival Asia Selatan.',
+          'Koreksi singkat sebelum gelombang pembelian akhir tahun.',
+          'Permintaan bank sentral & musim pernikahan India mendorong harga.',
+          'Penutupan tahun yang solid sebagai aset safe-haven global.'
+        ]
+      }
+    };
+
+    let activeAssetKey = 'SPX';
+    let activeView = 'bar_curve'; // 'bar_curve' | 'half_split'
+    let todayDate = new Date();
+    let activeMonthIndex = todayDate.getMonth(); // 0..11 (November = 10)
+    let liveTickerText = 'Kalender Sistem Aktif (22 Nov 2026)';
+
+    function getMonthRegimeInfo(mIdx, assetCfg) {
+      const avgR = assetCfg.avgReturns[mIdx];
+      const winR = assetCfg.winRates[mIdx];
+      const monthName = MONTHS_ID[mIdx];
+
+      if (mIdx === 10 || mIdx === 11) {
+        return {
+          badgeClass: 'badge-best6',
+          badgeText: 'BEST SIX MONTHS (NOV–APR) • WINDOW DRESSING & HALLOWEEN ENTRY',
+          headline: `${monthName}: Jendela Musiman Terbaik (${avgR >= 0 ? '+' : ''}${avgR.toFixed(2)}% Rata-Rata | Win Rate ${winR}%)`,
+          regimeName: 'Periode Ekspansi Musim Dingin (Best Six Months)',
+          desc: `${assetCfg.notes[mIdx]} Secara historis, periode 1 November hingga 30 April menyumbang mayoritas keuntungan tahunan pasar karena masuknya likuiditas institusi, optimisme tahun baru, dan efek <em>window dressing</em>.`,
+          strategy: `<strong>Strategi Musiman (${assetCfg.code}):</strong> Pertahankan eksposur penuh pada aset utama; manfaatkan koreksi jangka pendek sebagai peluang akumulasi selama jendela <em>Best Six Months</em> berlangsung.`
+        };
+      } else if (mIdx >= 0 && mIdx <= 3) {
+        return {
+          badgeClass: 'badge-january',
+          badgeText: 'BEST SIX MONTHS (NOV–APR) • Q1 INFLOW & DIVIDEND SEASON',
+          headline: `${monthName}: Lanjutan Tren Musiman Positif (${avgR >= 0 ? '+' : ''}${avgR.toFixed(2)}% Rata-Rata | Win Rate ${winR}%)`,
+          regimeName: 'Periode Ekspansi Kuartal I (Best Six Months)',
+          desc: `${assetCfg.notes[mIdx]} Aliran dana segar awal tahun dan ekspektasi dividen menopang permintaan hingga memasuki bulan April sebelum pasar bersiap menghadapi rotasi <em>Sell in May</em>.`,
+          strategy: `<strong>Strategi Musiman (${assetCfg.code}):</strong> Kawal posisi yang dibuka sejak November dengan <em>trailing stop</em> bertahap menjelang akhir April.`
+        };
+      } else if (mIdx >= 4 && mIdx <= 6) {
+        return {
+          badgeClass: 'badge-summer',
+          badgeText: 'WORST SIX MONTHS (MAY–OCT) • SELL IN MAY & SUMMER DOLDRUMS',
+          headline: `${monthName}: Fase “Sell in May” & Perlambatan Musim Panas (${avgR >= 0 ? '+' : ''}${avgR.toFixed(2)}% Rata-Rata | Win Rate ${winR}%)`,
+          regimeName: 'Periode Defensif Musim Panas (Worst Six Months)',
+          desc: `${assetCfg.notes[mIdx]} Memasuki bulan Mei, daya dorong arus dana institusi melambat dan rasio imbal hasil terhadap risiko menyempit dibandingkan periode November–April.`,
+          strategy: `<strong>Strategi Musiman (${assetCfg.code}):</strong> Kurangi <em>leverage</em> dan saham siklikal ber-beta tinggi; rotasikan sebagian portofolio ke <em>instrumen pasar uang, obligasi jangka pendek, emas, atau sektor defensif</em>.`
+        };
+      } else {
+        return {
+          badgeClass: 'badge-autumn',
+          badgeText: 'WORST SIX MONTHS (MAY–OCT) • AUTUMN VOLATILITY & RE-ENTRY PREP',
+          headline: `${monthName}: Volatilitas Musim Gugur & Persiapan Sinyal Halloween (${avgR >= 0 ? '+' : ''}${avgR.toFixed(2)}% Rata-Rata | Win Rate ${winR}%)`,
+          regimeName: 'Periode Volatilitas Akhir Siklus (Agu–Okt)',
+          desc: `${assetCfg.notes[mIdx]} Kuartal ketiga hingga Oktober sering diwarnai fluktuasi tajam dan aksi jual pajak (<em>tax-loss selling</em>) yang justru membersihkan posisi lemah sebelum reli November.`,
+          strategy: `<strong>Strategi Musiman (${assetCfg.code}):</strong> Siapkan likuiditas kas dan daftar beli (<em>watchlist</em>) aset berkualitas tinggi untuk dieksekusi pada sinyal <strong>Halloween Indicator (akhir Oktober – awal November)</strong>.`
+        };
+      }
+    }
+
+    /**
+     * RENDER GRAFIK SVG: BATANG IMBAL HASIL BULANAN + KURVA KUMULATIF 12 BULAN
+     */
+    function renderSeasonalitySvg() {
+      const svg = document.getElementById('seasonalitySvg');
+      svg.innerHTML = '';
+
+      const NS = 'http://www.w3.org/2000/svg';
+      const el = (tag, attrs) => {
+        const node = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+        return node;
+      };
+
+      // Watermark Terukir di dalam Kanvas SVG
+      const wm = el('text', {
+        x: 560,
+        y: 255,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '700',
+        'font-size': '16',
+        'letter-spacing': '5',
+        fill: 'rgba(74, 50, 29, 0.12)'
+      });
+      wm.textContent = 'ORIXTRON TECHNOLOGY';
+      svg.appendChild(wm);
+
+      const yHeaderBot = 52;
+      const yPlotTop = 76;
+      const yPlotBot = 326;
+      const yAxisBot = 342;
+      const leftPad = 24;
+      const rightPad = 24;
+      const plotW = 1120 - leftPad - rightPad;
+
+      svg.appendChild(el('line', { x1: 0, y1: yHeaderBot, x2: 1120, y2: yHeaderBot, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: yAxisBot, x2: 1120, y2: yAxisBot, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+
+      const cfg = ASSET_SEASONALITY[activeAssetKey];
+
+      if (activeView === 'half_split') {
+        renderHalfYearComparisonMode(svg, el, cfg, leftPad, plotW, yHeaderBot, yPlotTop, yPlotBot, yAxisBot);
+        return;
+      }
+
+      // ============================================================
+      // MODE 1: BATANG IMBAL HASIL BULANAN & KURVA KUMULATIF 12 BULAN
+      // ============================================================
+      const colW = plotW / 12;
+
+      // Shading Zona Musiman (Jan–Apr Hijau/Biru, May–Oct Coklat/Merah, Nov–Dec Hijau)
+      const zoneBands = [
+        { m0: 0, m1: 4,  fill: 'rgba(30, 75, 107, 0.06)' },
+        { m0: 4, m1: 10, fill: 'rgba(139, 38, 29, 0.065)' },
+        { m0: 10, m1: 12, fill: 'rgba(46, 90, 54, 0.08)' }
+      ];
+      zoneBands.forEach((zb) => {
+        svg.appendChild(el('rect', {
+          x: leftPad + zb.m0 * colW,
+          y: yHeaderBot,
+          width: (zb.m1 - zb.m0) * colW,
+          height: yAxisBot - yHeaderBot,
+          fill: zb.fill
+        }));
+      });
+
+      // Garis Pemisah Vertikal 1 Mei & 1 November
+      const xMay = leftPad + 4 * colW;
+      const xNov = leftPad + 10 * colW;
+      [xMay, xNov].forEach((vx) => {
+        svg.appendChild(el('line', {
+          x1: vx,
+          y1: 0,
+          x2: vx,
+          y2: 390,
+          stroke: '#2c1e12',
+          'stroke-width': 1.4,
+          'stroke-dasharray': '5,4'
+        }));
+      });
+
+      // Header 3 Segmen Kalender
+      const h1 = el('text', {
+        x: (leftPad + xMay) / 2,
+        y: 23,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '800',
+        'font-size': '11',
+        fill: '#1e4b6b'
+      });
+      h1.textContent = 'BEST 6M (LANJUTAN Q1)';
+      svg.appendChild(h1);
+
+      const h1Sub = el('text', {
+        x: (leftPad + xMay) / 2,
+        y: 41,
+        'text-anchor': 'middle',
+        'font-family': 'Cormorant Garamond, serif',
+        'font-style': 'italic',
+        'font-weight': '600',
+        'font-size': '11.5',
+        fill: '#4a321d'
+      });
+      h1Sub.textContent = 'Jan–Apr: Inflow & Dividen';
+      svg.appendChild(h1Sub);
+
+      const h2 = el('text', {
+        x: (xMay + xNov) / 2,
+        y: 23,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '800',
+        'font-size': '11.5',
+        fill: '#8b261d'
+      });
+      h2.textContent = 'WORST SIX MONTHS: “SELL IN MAY AND GO AWAY” (MEI – OKTOBER)';
+      svg.appendChild(h2);
+
+      const h2Sub = el('text', {
+        x: (xMay + xNov) / 2,
+        y: 41,
+        'text-anchor': 'middle',
+        'font-family': 'Cormorant Garamond, serif',
+        'font-style': 'italic',
+        'font-weight': '600',
+        'font-size': '11.5',
+        fill: '#4a321d'
+      });
+      h2Sub.textContent = 'Likuiditas Musim Panas Melambat • Puncak Volatilitas September–Oktober';
+      svg.appendChild(h2Sub);
+
+      const h3 = el('text', {
+        x: (xNov + leftPad + plotW) / 2,
+        y: 23,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '800',
+        'font-size': '11',
+        fill: '#2e5a36'
+      });
+      h3.textContent = 'HALLOWEEN ENTRY';
+      svg.appendChild(h3);
+
+      const h3Sub = el('text', {
+        x: (xNov + leftPad + plotW) / 2,
+        y: 41,
+        'text-anchor': 'middle',
+        'font-family': 'Cormorant Garamond, serif',
+        'font-style': 'italic',
+        'font-weight': '600',
+        'font-size': '11.5',
+        fill: '#4a321d'
+      });
+      h3Sub.textContent = 'Nov–Des: Window Dressing';
+      svg.appendChild(h3Sub);
+
+      // Skala Y dinamis berdasarkan nilai maksimum & minimum return aset
+      const maxAbs = Math.max(...cfg.avgReturns.map(v => Math.abs(v)), 1.5);
+      const yZero = 226;
+      const upScale = (yZero - yPlotTop - 16) / maxAbs;
+      const downScale = (yPlotBot - yZero - 14) / maxAbs;
+
+      // Garis Nol (0.0%)
+      svg.appendChild(el('line', {
+        x1: leftPad,
+        y1: yZero,
+        x2: leftPad + plotW,
+        y2: yZero,
+        stroke: '#5c3f24',
+        'stroke-width': 1.2,
+        'stroke-dasharray': '4,3'
+      }));
+
+      // Hitung jalur kumulatif 12 bulan untuk kurva tren litografi
+      let cumSum = 0;
+      const cumArr = cfg.avgReturns.map(r => {
+        cumSum += r;
+        return cumSum;
+      });
+      const maxCum = Math.max(...cumArr, 1);
+      const minCum = Math.min(...cumArr, 0);
+      const cumSpan = Math.max(1, maxCum - minCum);
+
+      const cumPoints = [];
+
+      cfg.avgReturns.forEach((ret, idx) => {
+        const cx = leftPad + (idx + 0.5) * colW;
+        const barW = colW * 0.54;
+        const isPos = ret >= 0;
+        const barH = Math.max(4, Math.abs(ret) * (isPos ? upScale : downScale));
+        const barY = isPos ? yZero - barH : yZero;
+        const isSelected = idx === activeMonthIndex;
+
+        const barColor = isPos
+          ? (idx >= 10 || idx <= 3 ? 'rgba(46, 90, 54, 0.55)' : 'rgba(156, 90, 26, 0.45)')
+          : 'rgba(139, 38, 29, 0.58)';
+
+        const rect = el('rect', {
+          x: cx - barW / 2,
+          y: barY,
+          width: barW,
+          height: barH,
+          rx: 2,
+          fill: barColor,
+          stroke: isSelected ? '#8b261d' : '#2c1e12',
+          'stroke-width': isSelected ? 2.2 : 1.1,
+          style: 'cursor:pointer;'
+        });
+        rect.onclick = () => inspectMonth(idx);
+        svg.appendChild(rect);
+
+        // Nilai persentase di atas/bawah batang
+        const valTxt = el('text', {
+          x: cx,
+          y: isPos ? barY - 6 : barY + barH + 13,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '800',
+          'font-size': '10',
+          fill: isPos ? '#2e5a36' : '#8b261d'
+        });
+        valTxt.textContent = `${isPos ? '+' : ''}${ret.toFixed(1)}%`;
+        svg.appendChild(valTxt);
+
+        // Titik kurva kumulatif musiman
+        const cumY = (yPlotBot - 18) - ((cumArr[idx] - minCum) / cumSpan) * (yPlotBot - yPlotTop - 42);
+        cumPoints.push({ x: cx, y: cumY, idx });
+
+        // Label bulan di strip bawah
+        const mTxt = el('text', {
+          x: cx,
+          y: 368,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': isSelected ? '800' : '700',
+          'font-size': '11',
+          fill: isSelected ? '#8b261d' : '#4a321d',
+          style: 'cursor:pointer;'
+        });
+        mTxt.textContent = MONTHS_SHORT[idx];
+        mTxt.onclick = () => inspectMonth(idx);
+        svg.appendChild(mTxt);
+      });
+
+      // Gambar Kurva Kumulatif Litografi Ganda di atas batang
+      const polyStr = cumPoints.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+      svg.appendChild(el('polyline', {
+        points: polyStr,
+        fill: 'none',
+        stroke: '#9b682c',
+        'stroke-width': 4.4,
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round',
+        opacity: '0.88'
+      }));
+      svg.appendChild(el('polyline', {
+        points: polyStr,
+        fill: 'none',
+        stroke: '#2c1e12',
+        'stroke-width': 1.4,
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      }));
+
+      // Titik radar berdenyut pada bulan aktif yang diinspeksi
+      const activePt = cumPoints[activeMonthIndex];
+      if (activePt) {
+        svg.appendChild(el('circle', {
+          cx: activePt.x,
+          cy: activePt.y,
+          r: 10,
+          fill: 'none',
+          stroke: '#8b261d',
+          'stroke-width': 2.2,
+          class: 'svg-live-ring'
+        }));
+        svg.appendChild(el('circle', {
+          cx: activePt.x,
+          cy: activePt.y,
+          r: 6.2,
+          fill: '#8b261d',
+          stroke: '#fff7e8',
+          'stroke-width': 2
+        }));
+      }
+    }
+
+    /**
+     * MODE 2: KOMPARASI HEAD-TO-HEAD NOV–APR (BEST 6M) VS MAY–OCT (WORST 6M)
+     */
+    function renderHalfYearComparisonMode(svg, el, cfg, leftPad, plotW, yHeaderBot, yPlotTop, yPlotBot, yAxisBot) {
+      const headerTxt = el('text', {
+        x: leftPad + plotW / 2,
+        y: 23,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '800',
+        'font-size': '12',
+        fill: '#4a321d'
+      });
+      headerTxt.textContent = `THE HALLOWEEN INDICATOR: NOV–APR VS. MAY–OCT (${cfg.name.toUpperCase()})`;
+      svg.appendChild(headerTxt);
+
+      const subTxt = el('text', {
+        x: leftPad + plotW / 2,
+        y: 41,
+        'text-anchor': 'middle',
+        'font-family': 'Cormorant Garamond, serif',
+        'font-style': 'italic',
+        'font-weight': '600',
+        'font-size': '12',
+        fill: '#6e4f32'
+      });
+      subTxt.textContent = 'Perbandingan Imbal Hasil Rata-Rata 6-Bulanan & Keunggulan Rotasi Musiman';
+      svg.appendChild(subTxt);
+
+      const panels = [
+        {
+          title: 'BEST SIX MONTHS (1 NOV – 30 APR)',
+          sub: 'Periode Aktif Saat Ini (Window Dressing + Q1 Inflow)',
+          val: cfg.best6Return,
+          color: '#2e5a36',
+          fill: 'rgba(46, 90, 54, 0.55)',
+          xCenter: leftPad + plotW * 0.28,
+          isActive: true
+        },
+        {
+          title: 'WORST SIX MONTHS (1 MEI – 31 OKT)',
+          sub: 'Periode “Sell in May and Go Away”',
+          val: cfg.worst6Return,
+          color: '#8b261d',
+          fill: 'rgba(139, 38, 29, 0.52)',
+          xCenter: leftPad + plotW * 0.72,
+          isActive: false
+        }
+      ];
+
+      const maxV = Math.max(cfg.best6Return, cfg.worst6Return, 5);
+      const maxBarH = yPlotBot - yPlotTop - 52;
+
+      panels.forEach((p) => {
+        const bH = Math.max(24, (p.val / maxV) * maxBarH);
+        const bW = 190;
+        const bX = p.xCenter - bW / 2;
+        const bY = yPlotBot - bH;
+
+        svg.appendChild(el('rect', {
+          x: bX,
+          y: bY,
+          width: bW,
+          height: bH,
+          rx: 3,
+          fill: p.fill,
+          stroke: '#2c1e12',
+          'stroke-width': 1.8
+        }));
+
+        const valLabel = el('text', {
+          x: p.xCenter,
+          y: bY - 12,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '800',
+          'font-size': '20',
+          fill: p.color
+        });
+        valLabel.textContent = `+${p.val.toFixed(1)}% / 6 Bulan`;
+        svg.appendChild(valLabel);
+
+        if (p.isActive) {
+          svg.appendChild(el('circle', {
+            cx: p.xCenter,
+            cy: bY + bH / 2,
+            r: 12,
+            fill: 'none',
+            stroke: '#fff7e8',
+            'stroke-width': 2.2,
+            class: 'svg-live-ring'
+          }));
+        }
+
+        const tLabel = el('text', {
+          x: p.xCenter,
+          y: 368,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '800',
+          'font-size': '11.5',
+          fill: p.color
+        });
+        tLabel.textContent = p.title;
+        svg.appendChild(tLabel);
+      });
+    }
+
+    function computeDaysUntilMayFirst(refDate) {
+      const yr = refDate.getFullYear();
+      let mayFirst = new Date(yr, 4, 1); // 1 Mei tahun berjalan
+      if (refDate >= mayFirst) {
+        mayFirst = new Date(yr + 1, 4, 1); // 1 Mei tahun berikutnya
+      }
+      const diffMs = mayFirst.getTime() - refDate.getTime();
+      return Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+    }
+
+    function updateSeasonalityDashboard() {
+      const cfg = ASSET_SEASONALITY[activeAssetKey];
+      const realMonthIdx = todayDate.getMonth();
+      const isBest6Now = (realMonthIdx >= 10 || realMonthIdx <= 3);
+
+      // Update 4 Kartu Telemetri Atas
+      const formattedDate = `${todayDate.getDate()} ${MONTHS_ID[realMonthIdx].toUpperCase()} ${todayDate.getFullYear()}`;
+      document.getElementById('metricActiveDate').textContent = formattedDate;
+      const winStatusEl = document.getElementById('metricWindowStatus');
+      winStatusEl.textContent = isBest6Now
+        ? 'BEST SIX MONTHS AKTIF (Nov–Apr)'
+        : 'WORST SIX MONTHS (May–Oct)';
+      winStatusEl.style.color = isBest6Now ? '#2e5a36' : '#8b261d';
+
+      const selRet = cfg.avgReturns[activeMonthIndex];
+      const selWin = cfg.winRates[activeMonthIndex];
+      document.getElementById('metricMonthAvgReturn').textContent = `${selRet >= 0 ? '+' : ''}${selRet.toFixed(2)}% (Win ${selWin}%)`;
+
+      // Hitung peringkat bulan ini dari 12 bulan
+      const sorted = [...cfg.avgReturns].sort((a, b) => b - a);
+      const rank = sorted.indexOf(selRet) + 1;
+      document.getElementById('metricMonthRank').textContent = `${MONTHS_ID[activeMonthIndex]} • Peringkat #${rank} dari 12 Bulan`;
+
+      document.getElementById('metricHalfSpread').textContent = `+${cfg.best6Return.toFixed(1)}% vs +${cfg.worst6Return.toFixed(1)}%`;
+      document.getElementById('metricSpreadNote').textContent = `Keunggulan Nov–Apr: +${(cfg.best6Return - cfg.worst6Return).toFixed(1)}% / tahun`;
+
+      const daysToMay = computeDaysUntilMayFirst(todayDate);
+      document.getElementById('metricCountdown').textContent = `${daysToMay} HARI TERSISA`;
+      document.getElementById('metricCountdownSub').textContent = isBest6Now
+        ? 'Menuju rotasi musiman 1 Mei berikutnya'
+        : 'Menuju jendela masuk Halloween (1 Nov)';
+
+      renderSeasonalitySvg();
+      renderSeasonalityDiagnostic();
+    }
+
+    function renderSeasonalityDiagnostic() {
+      const cfg = ASSET_SEASONALITY[activeAssetKey];
+      const diag = getMonthRegimeInfo(activeMonthIndex, cfg);
+      const horizonYrs = Math.max(1, Math.min(50, parseInt(document.getElementById('horizonYearsInput').value, 10) || 10));
+
+      // Simulasi Compounding $10,000: Buy & Hold vs. Halloween Rotation (Nov-Apr Saham + May-Oct Safe Yield)
+      const rBest = cfg.best6Return / 100;
+      const rWorst = cfg.worst6Return / 100;
+      const rSafeHalf = (cfg.safeYield / 2) / 100;
+
+      const buyHoldAnnual = (1 + rBest) * (1 + rWorst) - 1;
+      const halloweenAnnual = (1 + rBest) * (1 + rSafeHalf) - 1;
+
+      const finalBuyHold = 10000 * Math.pow(1 + buyHoldAnnual, horizonYrs);
+      const finalHalloween = 10000 * Math.pow(1 + halloweenAnnual, horizonYrs);
+
+      const resultBox = document.getElementById('predictionResult');
+      resultBox.innerHTML = `
+        <div>
+          <span class="result-badge ${diag.badgeClass}">${diag.badgeText}</span>
+          <h3 class="result-headline">${diag.headline}</h3>
+          <div class="result-formula-note">&#9878; Benchmark Aktif: ${cfg.name} | Rezim: ${diag.regimeName}</div>
+          <p class="result-desc">${diag.desc}</p>
+          <div class="asset-allocation-box">${diag.strategy}</div>
+        </div>
+        <div class="cycle-checklist">
+          <div style="font-family:'Cinzel',serif; font-weight:700; font-size:0.98rem; color:var(--ink-sepia); margin-bottom:2px;">
+            Simulasi Backtest ${horizonYrs} Tahun (Modal Awal $10,000)
+          </div>
+          <div class="check-row">
+            <span class="check-label">1. Buy &amp; Hold Sepanjang Tahun:</span>
+            <span class="check-val">$${Math.round(finalBuyHold).toLocaleString('en-US')} (${(buyHoldAnnual * 100).toFixed(1)}%/thn)</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">2. Rotasi Nov–Apr + Safe Yield:</span>
+            <span class="check-val" style="color:#2e5a36; font-weight:800;">$${Math.round(finalHalloween).toLocaleString('en-US')} (${(halloweenAnnual * 100).toFixed(1)}%/thn)</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Keunggulan Efisiensi Risiko:</span>
+            <span class="check-val">Terhindar dari 6 bulan volatilitas Mei–Okt</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Katalis Musiman Bulan Ini:</span>
+            <span class="check-val">${cfg.notes[activeMonthIndex]}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectBenchmarkAsset(assetKey, btnElement) {
+      activeAssetKey = assetKey;
+      if (btnElement) {
+        document.querySelectorAll('.chart-controls [data-asset]').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+      }
+      updateSeasonalityDashboard();
+    }
+
+    function setSeasonalityView(viewName, btnElement) {
+      activeView = viewName;
+      if (btnElement) {
+        document.querySelectorAll('.chart-controls [data-view]').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+      }
+      renderSeasonalitySvg();
+    }
+
+    function inspectMonth(mIdx) {
+      activeMonthIndex = mIdx;
+      document.getElementById('monthSelect').value = String(mIdx);
+      updateSeasonalityDashboard();
+    }
+
+    function onMonthSelectChange() {
+      activeMonthIndex = parseInt(document.getElementById('monthSelect').value, 10);
+      updateSeasonalityDashboard();
+    }
+
+    function jumpToRealToday() {
+      todayDate = new Date();
+      activeMonthIndex = todayDate.getMonth();
+      document.getElementById('monthSelect').value = String(activeMonthIndex);
+      updateSeasonalityDashboard();
+    }
+
+    /**
+     * SINKRONISASI TELEMETRI LIVE (JAM REAL-TIME + HARGA BTC/XAU DARI BINANCE)
+     */
+    async function syncLiveMarketQuotes() {
+      const pill = document.getElementById('apiStatusPill');
+      try {
+        const [btcRes, paxgRes] = await Promise.all([
+          fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT'),
+          fetch('https://api.binance.com/api/v3/ticker/price?symbol=PAXGUSDT')
+        ]);
+        if (!btcRes.ok || !paxgRes.ok) throw new Error('API error');
+        const btcData = await btcRes.json();
+        const paxgData = await paxgRes.json();
+        const btcP = parseFloat(btcData.price);
+        const xauP = parseFloat(paxgData.price);
+
+        if (!isNaN(btcP) && !isNaN(xauP)) {
+          liveTickerText = `Best 6M Aktif • BTC $${btcP.toLocaleString('en-US', { maximumFractionDigits: 0 })} | Gold $${xauP.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+          pill.textContent = liveTickerText;
+          return;
+        }
+        throw new Error('Invalid prices');
+      } catch (e) {
+        pill.textContent = 'Best Six Months Aktif (Nov 2026) • Window Dressing & Halloween Window';
+      }
+    }
+
+    function startRealtimeClock() {
+      const clockEl = document.getElementById('liveClockDisplay');
+      setInterval(() => {
+        const now = new Date();
+        clockEl.textContent = `${now.toLocaleTimeString('id-ID', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        })} LIVE`;
+      }, 1000);
+    }
+
+    // Inisialisasi awal
+    document.getElementById('monthSelect').value = String(activeMonthIndex);
+    startRealtimeClock();
+    updateSeasonalityDashboard();
+    syncLiveMarketQuotes();
+  </script>
+</body>
+</html>

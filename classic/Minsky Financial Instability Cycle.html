@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Minsky Financial Instability Cycle — Hyman Minsky 1974 | Orixtron Technology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment-base: #e6cfa9;
+      --parchment-light: #f2e1c2;
+      --parchment-dark: #cfa972;
+      --ink-dark: #2c1e12;
+      --ink-sepia: #4a321d;
+      --ink-faded: #6e4f32;
+      --line-gold-brown: #9c6b30;
+
+      /* Palet 4 Rezim Pembiayaan Minsky (Nuansa Tinta Antik) */
+      --minsky-hedge:  #2e5a36;   /* Rezim 1: Hedge Finance (Konservatif & Sehat) */
+      --minsky-spec:   #1e4b6b;   /* Rezim 2: Speculative Finance (Rollover Pokok) */
+      --minsky-ponzi:  #9c5a1a;   /* Rezim 3: Ponzi Finance (Euforia & Rapuh) */
+      --minsky-moment: #8b261d;   /* Rezim 4: The Minsky Moment & Deleveraging */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #261b12;
+      background-image: radial-gradient(circle at center, #3a291b 0%, #1c130c 100%);
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Tekstur Kertas Perkamen Klasik */
+    .parchment-card {
+      position: relative;
+      width: 100%;
+      max-width: 1240px;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(255, 248, 231, 0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 85%, rgba(168, 121, 62, 0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, var(--parchment-light) 0%, var(--parchment-base) 65%, var(--parchment-dark) 100%);
+      border: 2px solid #5c3f24;
+      border-radius: 4px;
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.65),
+        inset 0 0 65px rgba(112, 74, 34, 0.42),
+        inset 0 0 12px rgba(44, 30, 18, 0.45);
+      padding: 34px 34px 26px;
+      overflow: hidden;
+    }
+
+    /* Efek Serat Kertas Halus */
+    .parchment-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+
+    /* Bingkai Tipis Bagian Dalam */
+    .parchment-card::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      pointer-events: none;
+    }
+
+    /* Watermark Kertas Perkamen Orixtron Technology */
+    .parchment-watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .watermark-main-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: clamp(2.1rem, 5.2vw, 4.4rem);
+      letter-spacing: 0.22em;
+      color: rgba(74, 50, 29, 0.075);
+      text-transform: uppercase;
+      white-space: nowrap;
+      transform: rotate(-8deg);
+      text-shadow: 1px 1px 0 rgba(255, 248, 231, 0.35);
+    }
+
+    .watermark-sub-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+      letter-spacing: 0.32em;
+      color: rgba(74, 50, 29, 0.085);
+      text-transform: uppercase;
+      transform: rotate(-8deg);
+      margin-top: 4px;
+    }
+
+    /* Header Judul Utama */
+    .card-header {
+      text-align: center;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-kicker {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--ink-faded);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-family: 'Cinzel', 'Times New Roman', serif;
+      font-size: clamp(1.6rem, 3.3vw, 2.85rem);
+      font-weight: 700;
+      color: var(--ink-sepia);
+      letter-spacing: 0.04em;
+      text-shadow: 1px 1px 0 rgba(255, 245, 224, 0.6);
+    }
+
+    .card-subtitle-header {
+      font-size: 1.08rem;
+      font-style: italic;
+      color: var(--ink-sepia);
+      margin-top: 2px;
+    }
+
+    /* Kontrol Tampilan & Layer Kurva Minsky */
+    .chart-controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: rgba(110, 79, 50, 0.1);
+      border: 1px solid rgba(74, 50, 29, 0.3);
+      border-radius: 3px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .control-label {
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: var(--ink-sepia);
+    }
+
+    .vintage-btn {
+      background: linear-gradient(to bottom, #f5e6ca, #dec092);
+      border: 1px solid #5c3f24;
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.94rem;
+      padding: 5px 11px;
+      border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      transition: all 0.15s ease;
+    }
+
+    .vintage-btn:hover {
+      background: linear-gradient(to bottom, #fff2da, #e5c99c);
+      transform: translateY(-1px);
+    }
+
+    .vintage-btn.active {
+      background: var(--ink-sepia);
+      color: #f6e7cb;
+      border-color: var(--ink-dark);
+    }
+
+    .layer-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.92rem;
+    }
+
+    .legend-swatch {
+      display: inline-block;
+      width: 14px;
+      height: 4px;
+      border-radius: 1px;
+    }
+
+    /* Area Grafik Klasik */
+    .chart-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      margin-top: 4px;
+      border: 2px solid var(--ink-dark);
+      background: rgba(255, 249, 236, 0.18);
+    }
+
+    /* Kolom Kiri: Sumbu Valuasi, Leverage, & Fragilitas */
+    .axis-column {
+      flex: 0 0 96px;
+      border-right: 1.8px solid var(--ink-dark);
+      background: rgba(110, 79, 50, 0.08);
+      user-select: none;
+    }
+
+    /* Area Scrollable SVG Kurva Minsky */
+    .chart-scroll-area {
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      position: relative;
+      cursor: grab;
+    }
+
+    .chart-scroll-area:active {
+      cursor: grabbing;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-track {
+      background: rgba(92, 63, 36, 0.15);
+      border-top: 1px solid rgba(92, 63, 36, 0.3);
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-thumb {
+      background: #7c5633;
+      border-radius: 3px;
+      border: 1px solid #4a321d;
+    }
+
+    /* Ringkasan 4 Rezim Pembiayaan Minsky */
+    .regimes-legend-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .regime-legend-card {
+      background: rgba(255, 249, 236, 0.42);
+      border: 1px solid rgba(74, 50, 29, 0.38);
+      border-top-width: 4px;
+      border-radius: 3px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .regime-legend-card:hover {
+      background: rgba(255, 249, 236, 0.72);
+      transform: translateY(-2px);
+    }
+
+    .regime-legend-card.hedge  { border-top-color: var(--minsky-hedge); }
+    .regime-legend-card.spec   { border-top-color: var(--minsky-spec); }
+    .regime-legend-card.ponzi  { border-top-color: var(--minsky-ponzi); }
+    .regime-legend-card.moment { border-top-color: var(--minsky-moment); }
+
+    .regime-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.86rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: 0.03em;
+    }
+
+    .regime-card-body {
+      font-size: 0.94rem;
+      line-height: 1.32;
+      color: var(--ink-dark);
+    }
+
+    /* Footer Kartu & Tanda Tangan Hyman Minsky */
+    .card-footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .legend-note-block {
+      max-width: 820px;
+      font-size: 1.04rem;
+      line-height: 1.38;
+      color: var(--ink-dark);
+    }
+
+    .signature-block {
+      text-align: right;
+      transform: rotate(-12deg);
+      transform-origin: bottom right;
+      padding: 0 12px 4px 0;
+      color: var(--ink-faded);
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .signature-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.05rem;
+      line-height: 0.95;
+      display: block;
+    }
+
+    .signature-year {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.45rem;
+      display: block;
+      margin-top: -2px;
+    }
+
+    /* Stempel Kolofon Developer Orixtron Technology */
+    .developer-colophon {
+      position: relative;
+      z-index: 2;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(74, 50, 29, 0.28);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--ink-faded);
+      user-select: none;
+    }
+
+    .dev-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 12px;
+      border: 1px double rgba(74, 50, 29, 0.55);
+      border-radius: 2px;
+      background: rgba(255, 248, 231, 0.25);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--ink-sepia);
+      text-transform: uppercase;
+    }
+
+    .dev-edition-note {
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--ink-faded);
+    }
+
+    /* =========================================================
+       PANEL DIAGNOSTIK & KLASIFIKASI REZIM MINSKY (TEMA KLASIK)
+       ========================================================= */
+    .predictor-panel {
+      padding: 26px 32px 22px;
+    }
+
+    .predictor-header {
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid rgba(74, 50, 29, 0.35);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .predictor-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .predictor-subtitle {
+      font-size: 1.02rem;
+      font-style: italic;
+      color: var(--ink-faded);
+    }
+
+    /* Bilah Kontrol Pemilihan Tahap, Preseden Krisis, & Audit Arus Kas */
+    .minsky-tools-bar {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+      padding: 14px 16px;
+      background: rgba(222, 192, 146, 0.28);
+      border: 1px solid rgba(92, 63, 36, 0.38);
+      border-radius: 3px;
+    }
+
+    .tool-box-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--ink-sepia);
+      margin-bottom: 8px;
+      letter-spacing: 0.04em;
+    }
+
+    .stage-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .hist-cases-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(92, 63, 36, 0.3);
+      font-size: 0.9rem;
+    }
+
+    .scanner-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 8px;
+      align-items: end;
+    }
+
+    .vintage-select-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .vintage-select-wrap label {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .vintage-select {
+      background: #f9eed9;
+      border: 1.5px solid #5c3f24;
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.98rem;
+      padding: 6px 8px;
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .predict-submit-btn {
+      background: var(--ink-sepia);
+      color: #f7e7c8;
+      border: 1.5px solid var(--ink-dark);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 7px 14px;
+      border-radius: 3px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.15s ease;
+    }
+
+    .predict-submit-btn:hover {
+      background: #2c1e12;
+    }
+
+    /* Hasil Diagnostik */
+    .prediction-result {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 249, 236, 0.55);
+      border: 1.5px solid #6b4929;
+      border-radius: 4px;
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: 1.38fr 1fr;
+      gap: 20px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      color: #fff8eb;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .badge-hedge  { background-color: var(--minsky-hedge); }
+    .badge-spec   { background-color: var(--minsky-spec); }
+    .badge-ponzi  { background-color: var(--minsky-ponzi); }
+    .badge-moment { background-color: var(--minsky-moment); }
+
+    .result-headline {
+      font-family: 'Cinzel', serif;
+      font-size: 1.48rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      margin-bottom: 6px;
+    }
+
+    .result-formula-note {
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: var(--ink-sepia);
+      margin-bottom: 10px;
+    }
+
+    .result-desc {
+      font-size: 1.1rem;
+      line-height: 1.46;
+      color: var(--ink-dark);
+      margin-bottom: 12px;
+    }
+
+    .asset-allocation-box {
+      background: rgba(222, 192, 146, 0.32);
+      border-left: 3.5px solid var(--line-gold-brown);
+      padding: 10px 14px;
+      font-size: 1.04rem;
+      line-height: 1.42;
+      color: var(--ink-dark);
+    }
+
+    .cycle-checklist {
+      background: rgba(222, 192, 146, 0.35);
+      border: 1px solid rgba(92, 63, 36, 0.35);
+      border-radius: 3px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 9px;
+    }
+
+    .check-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      border-bottom: 1px dashed rgba(92, 63, 36, 0.3);
+      padding-bottom: 6px;
+      font-size: 1.01rem;
+    }
+
+    .check-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .check-label {
+      font-weight: 700;
+      color: var(--ink-sepia);
+      flex-shrink: 0;
+    }
+
+    .check-val {
+      text-align: right;
+      font-weight: 600;
+      color: var(--ink-dark);
+    }
+
+    .global-dev-footer {
+      text-align: center;
+      color: rgba(230, 207, 169, 0.65);
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      user-select: none;
+    }
+
+    @media (max-width: 960px) {
+      .minsky-tools-bar {
+        grid-template-columns: 1fr;
+      }
+      .regimes-legend-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .prediction-result {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .parchment-card {
+        padding: 20px 14px;
+      }
+      .axis-column {
+        flex: 0 0 64px;
+      }
+      .regimes-legend-grid {
+        grid-template-columns: 1fr;
+      }
+      .scanner-grid {
+        grid-template-columns: 1fr;
+      }
+      .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .signature-block {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KARTU UTAMA SIKLUS KETIDAKSTABILAN FINANSIAL MINSKY (1974) -->
+  <main class="parchment-card">
+    <!-- Watermark Kertas Perkamen Orixtron Technology -->
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text">ORIXTRON TECHNOLOGY</span>
+      <span class="watermark-sub-text">Hyman Minsky Financial Instability Hypothesis Edition</span>
+    </div>
+
+    <header class="card-header">
+      <div class="card-kicker">The Financial Instability Hypothesis &bull; “Stability Breeds Instability”</div>
+      <h1 class="card-title">Minsky Financial Instability Cycle</h1>
+      <p class="card-subtitle-header">“From Hedge Finance to Speculative &amp; Ponzi Fragility — Anatomy of the Minsky Moment”</p>
+    </header>
+
+    <!-- Kontrol Fokus Tampilan & Layer Kurva -->
+    <div class="chart-controls">
+      <div class="control-group">
+        <span class="control-label">Fokus Tampilan:</span>
+        <button class="vintage-btn active" data-zoom="full" onclick="setMinskyView('full', this)">Siklus Penuh (6 Tahap)</button>
+        <button class="vintage-btn" data-zoom="buildup" onclick="setMinskyView('buildup', this)">Akumulasi Leverage (Hedge &rarr; Ponzi)</button>
+        <button class="vintage-btn" data-zoom="crash" onclick="setMinskyView('crash', this)">Minsky Moment &amp; Deleveraging</button>
+      </div>
+
+      <div class="control-group">
+        <span class="control-label">Tampilkan Kurva:</span>
+        <button class="vintage-btn layer-toggle active" onclick="toggleLayer('price', this)">
+          <span class="legend-swatch" style="background: #9b682c;"></span> Harga Aset
+        </button>
+        <button class="vintage-btn layer-toggle active" onclick="toggleLayer('debt', this)">
+          <span class="legend-swatch" style="background: #1e4b6b;"></span> Rasio Utang
+        </button>
+        <button class="vintage-btn layer-toggle active" onclick="toggleLayer('spread', this)">
+          <span class="legend-swatch" style="background: #8b261d;"></span> Spread Kredit
+        </button>
+      </div>
+    </div>
+
+    <!-- Grafik Kurva Minsky (Harga Aset, Rasio Leverage, & Spread Kredit) -->
+    <div class="chart-wrapper">
+      <!-- Sumbu Kiri: Skala Valuasi & Kerapuhan Kredit -->
+      <div class="axis-column">
+        <svg viewBox="0 0 96 390" width="100%" height="390" aria-hidden="true">
+          <text x="48" y="34" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">REZIM</text>
+          <line x1="8" y1="52" x2="88" y2="52" stroke="#2c1e12" stroke-width="1.2"/>
+
+          <text x="48" y="88" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#8b261d">RAPUH</text>
+          <text x="48" y="102" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Ponzi / Bubble)</text>
+
+          <line x1="14" y1="196" x2="82" y2="196" stroke="#5c3f24" stroke-dasharray="3,3" stroke-width="1"/>
+          <text x="48" y="189" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">Transisi</text>
+          <text x="48" y="211" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#6e4f32">(Speculative)</text>
+
+          <text x="48" y="298" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#2e5a36">STABIL</text>
+          <text x="48" y="312" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Hedge / Reset)</text>
+
+          <line x1="8" y1="342" x2="88" y2="342" stroke="#2c1e12" stroke-width="1.2"/>
+          <text x="48" y="368" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">TAHAP</text>
+        </svg>
+      </div>
+
+      <!-- Kanvas SVG Kurva Minsky -->
+      <div class="chart-scroll-area" id="chartScrollArea">
+        <svg id="minskySvg" height="390" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+
+    <!-- Ringkasan 4 Rezim Pembiayaan Minsky -->
+    <div class="regimes-legend-grid">
+      <div class="regime-legend-card hedge" onclick="selectStage('HEDGE')">
+        <div class="regime-card-title" style="color: var(--minsky-hedge);">1. HEDGE FINANCE (SEHAT)</div>
+        <div class="regime-card-body">
+          Arus kas operasional perusahaan cukup untuk membayar <strong>bunga sekaligus cicilan pokok utang</strong>. Standar kredit ketat dan neraca keuangan konservatif. <strong>Zona akumulasi aman.</strong>
+        </div>
+      </div>
+      <div class="regime-legend-card spec" onclick="selectStage('SPEC')">
+        <div class="regime-card-title" style="color: var(--minsky-spec);">2. SPECULATIVE FINANCE</div>
+        <div class="regime-card-body">
+          Arus kas hanya cukup membayar <strong>bunga utang</strong>; pokok pinjaman harus terus diperpanjang (<em>rollover / refinancing</em>). Sistem masih berjalan selama suku bunga rendah.
+        </div>
+      </div>
+      <div class="regime-legend-card ponzi" onclick="selectStage('PONZI')">
+        <div class="regime-card-title" style="color: var(--minsky-ponzi);">3. PONZI FINANCE (EUFORIA)</div>
+        <div class="regime-card-body">
+          Arus kas <strong>tidak sanggup membayar bunga maupun pokok</strong>; peminjam bergantung penuh pada <strong>kenaikan harga aset</strong> atau utang baru. <strong>Zona distribusi / keluar pasar.</strong>
+        </div>
+      </div>
+      <div class="regime-legend-card moment" onclick="selectStage('MINSKY')">
+        <div class="regime-card-title" style="color: var(--minsky-moment);">4. MINSKY MOMENT &amp; DELEVERAGING</div>
+        <div class="regime-card-body">
+          Kenaikan suku bunga atau gagal bayar memicu <strong>kepanikan likuidasi serentak (fire sale)</strong>; harga aset jatuh vertikal akibat <em>margin call</em> dan pembekuan kredit.
+        </div>
+      </div>
+    </div>
+
+    <!-- Catatan Bawah & Tanda Tangan Hyman Minsky -->
+    <footer class="card-footer">
+      <div class="legend-note-block">
+        <p>
+          <strong>Paradoks “Stability Breeds Instability” (Hyman Minsky, 1974):</strong> Periode stabilitas ekonomi yang terlalu panjang menurunkan persepsi risiko bank dan investor. Akibatnya, standar pinjaman melonggar secara endogen dari <em>Hedge</em> menjadi <em>Speculative</em> hingga <em>Ponzi</em>—sehingga ketenangan pasar yang tampak aman justru menciptakan kerapuhan sistemik terbesar.
+        </p>
+      </div>
+
+      <div class="signature-block">
+        <span class="signature-name">Hyman Minsky</span>
+        <span class="signature-year">1974</span>
+      </div>
+    </footer>
+
+    <!-- Kolofon Resmi Developer -->
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Reconstructed &amp; Interactive Credit Fragility &amp; Leverage Schematic</span>
+      <span class="dev-stamp">&#10022; Developer: Orixtron Technology &#10022;</span>
+    </div>
+  </main>
+
+  <!-- PANEL DIAGNOSTIK REZIM MINSKY & PRESEDEN KRISIS HISTORIS -->
+  <section class="parchment-card predictor-panel">
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text" style="font-size: clamp(1.8rem, 4vw, 3.2rem);">ORIXTRON TECHNOLOGY</span>
+    </div>
+
+    <div class="predictor-header">
+      <h2 class="predictor-title">Diagnostik Rezim Kredit Minsky &amp; Preseden Historis</h2>
+      <span class="predictor-subtitle">Uji ketahanan arus kas vs. kewajiban utang atau telusuri Minsky Moment bersejarah</span>
+    </div>
+
+    <!-- Bilah Kontrol Pemilihan Tahap & Klasifikasi Arus Kas -->
+    <div class="minsky-tools-bar">
+      <div>
+        <div class="tool-box-title">1. Tahap Siklus Kredit (Klik Simpul pada Grafik atau Tombol):</div>
+        <div class="stage-buttons" id="stageButtons">
+          <button class="vintage-btn" data-st="DISP" onclick="selectStage('DISP')">Displacement</button>
+          <button class="vintage-btn" data-st="HEDGE" onclick="selectStage('HEDGE')">Hedge Finance</button>
+          <button class="vintage-btn" data-st="SPEC" onclick="selectStage('SPEC')">Speculative</button>
+          <button class="vintage-btn active" data-st="PONZI" onclick="selectStage('PONZI')">Ponzi Finance</button>
+          <button class="vintage-btn" data-st="MINSKY" onclick="selectStage('MINSKY')">Minsky Moment</button>
+          <button class="vintage-btn" data-st="DELEV" onclick="selectStage('DELEV')">Deleveraging</button>
+        </div>
+
+        <div class="hist-cases-row">
+          <span style="font-weight:700; color:var(--ink-sepia);">Studi Kasus Krisis:</span>
+          <button class="vintage-btn" onclick="selectHistoricalCase('1929')">1929 (Margin Mania)</button>
+          <button class="vintage-btn" onclick="selectHistoricalCase('1997')">1997 (Krisis Asia)</button>
+          <button class="vintage-btn" onclick="selectHistoricalCase('2008')">2008 (Subprime CDO)</button>
+          <button class="vintage-btn" onclick="selectHistoricalCase('2022')">2022 (Rate &amp; Crypto)</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="tool-box-title">2. Kalkulator Klasifikasi Rezim Utang (Arus Kas vs. Kewajiban):</div>
+        <div class="scanner-grid">
+          <div class="vintage-select-wrap">
+            <label for="cashFlowSelect">Cakupan Arus Kas (Cash Flow):</label>
+            <select id="cashFlowSelect" class="vintage-select">
+              <option value="cover_both">Menutup Bunga + Pokok Utang</option>
+              <option value="cover_interest">Hanya Bayar Bunga (Pokok Rollover)</option>
+              <option value="cover_none" selected>Tidak Cukup Bayar Bunga (Butuh Aset Naik)</option>
+              <option value="liquidity_freeze">Refinancing Ditolak &amp; Margin Call</option>
+            </select>
+          </div>
+
+          <div class="vintage-select-wrap">
+            <label for="creditSpreadSelect">Suku Bunga &amp; Spread Kredit:</label>
+            <select id="creditSpreadSelect" class="vintage-select">
+              <option value="tight_calm" selected>Spread Ketat / Volatilitas Rendah</option>
+              <option value="rising_rates">Suku Bunga Naik / Pengetatan Awal</option>
+              <option value="spread_spike">Lonjakan Spread &amp; Pembekuan Kredit</option>
+            </select>
+          </div>
+
+          <button class="predict-submit-btn" onclick="classifyDebtRegime()">Klasifikasi</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="prediction-result" id="predictionResult">
+      <!-- Diisi otomatis oleh JavaScript -->
+    </div>
+
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Minsky Endogenous Credit &amp; Leverage Engine &bull; Macro &amp; Corporate Risk</span>
+      <span class="dev-stamp">&#10022; Orixtron Technology &#10022;</span>
+    </div>
+  </section>
+
+  <div class="global-dev-footer">
+    ENGINEERED BY ORIXTRON TECHNOLOGY &bull; HYMAN MINSKY FIH EDITION
+  </div>
+
+  <script>
+    /**
+     * MODEL SIKLUS KETIDAKSTABILAN FINANSIAL MINSKY (HYMAN MINSKY, 1974)
+     * Engineered by Orixtron Technology
+     * Memetakan 3 kurva utama secara simultan:
+     * 1. Asset Price / Valuation Curve (Harga Aset & Euforia)
+     * 2. Debt-to-Income / Leverage Ratio (Akumulasi Utang)
+     * 3. Credit Spread / Systemic Fragility (Spread Kredit & Kepanikan Likuiditas)
+     */
+
+    // [xNorm (0..100), priceNorm, debtNorm, spreadNorm]
+    const MINSKY_PATH_DATA = [
+      [0.0,  0.22, 0.20, 0.46], // Pasca-restrukturisasi siklus lama
+      [8.0,  0.28, 0.22, 0.35], // DISP: Displacement (Inovasi / Stimulus Awal)
+      [18.0, 0.38, 0.26, 0.24], // HEDGE: Hedge Finance (Arus kas menutup pokok & bunga)
+      [28.0, 0.48, 0.34, 0.18], // Ekspansi sehat mulai menarik kredit baru
+      [40.0, 0.62, 0.48, 0.14], // SPEC: Speculative Finance (Rollover pokok utang)
+      [52.0, 0.76, 0.66, 0.12], // "Stability breeds instability" -> Spread terendah!
+      [63.0, 0.91, 0.85, 0.16], // PONZI: Ponzi Finance (Bergantung kenaikan harga aset)
+      [70.0, 0.96, 0.94, 0.28], // Puncak harga absolut / Smart money mulai keluar
+      [74.0, 0.84, 0.98, 0.56], // MINSKY: The Minsky Moment (Titik balik & gagal rollover)
+      [79.0, 0.42, 0.88, 0.94], // Panic Fire-Sale Liquidation / Cliff Drop
+      [86.0, 0.24, 0.64, 0.82], // DELEV: Deleveraging & Pembersihan Neraca
+      [94.0, 0.20, 0.42, 0.58], // Bottoming & Pembentukan basis Hedge baru
+      [100.0, 0.25, 0.32, 0.44]
+    ];
+
+    const MINSKY_STAGES = {
+      DISP: {
+        code: 'DISP',
+        label: 'Displacement',
+        xNorm: 8.0,
+        badgeClass: 'badge-hedge',
+        badgeText: 'TAHAP 1 • DISPLACEMENT (PEMICU EKSPANSI BARU)',
+        headline: 'Displacement: Kejutan Positif, Inovasi Baru, & Awal Ekspansi Kredit',
+        formulaNote: 'Persamaan Kas: Cash Flow (CF) >> Bunga + Pokok | Leverage Sangat Rendah',
+        desc: 'Siklus dimulai oleh guncangan positif yang mengubah prospek keuntungan—seperti teknologi baru, deregulasi, berakhirnya resesi, atau pemangkasan suku bunga bank sentral. Trauma krisis sebelumnya membuat bank dan investor masih sangat berhati-hati.',
+        strategy: '<strong>Strategi Make Money (Akumulasi Awal Berkeyakinan Tinggi):</strong> Masuk ke <em>saham pemimpin inovasi baru dan sektor siklikal berneraca bersih</em> saat valuasi masih murah dan utang sistemik berada di titik terendah.',
+        cfCondition: 'Arus kas operasional sangat kuat dan melampaui seluruh kewajiban utang',
+        creditBehavior: 'Standar pinjaman bank ketat; hanya peminjam berkualitas tinggi yang mendapat kredit',
+        fragilityState: 'Sangat rendah — sistem finansial memiliki bantalan modal tebal'
+      },
+      HEDGE: {
+        code: 'HEDGE',
+        label: 'Hedge Finance',
+        xNorm: 18.0,
+        badgeClass: 'badge-hedge',
+        badgeText: 'REZIM 1 • HEDGE FINANCE (PERTUMBUHAN SEHAT)',
+        headline: 'Hedge Finance: Ekspansi Berkelanjutan & Neraca Keuangan Konservatif',
+        formulaNote: 'Persamaan Kas: CF ≥ Bunga + Cicilan Pokok (Margin Keamanan Tinggi)',
+        desc: 'Mayoritas perusahaan dan rumah tangga berada dalam posisi <em>Hedge Finance</em>: arus kas dari operasi rutin cukup untuk melunasi bunga sekaligus mengurangi pokok utang secara bertahap. Kenaikan harga aset didukung oleh pertumbuhan laba riil.',
+        strategy: '<strong>Strategi Make Money (Core Trend Holding):</strong> Pertahankan portofolio inti pada <em>ekuitas pertumbuhan berkualitas (quality growth) dan perbankan sehat</em> karena ekspansi kredit masih produktif dan minim risiko gagal bayar.',
+        cfCondition: 'Arus kas rutin menutup 100% beban bunga maupun amortisasi pokok',
+        creditBehavior: 'Pertumbuhan kredit selaras dengan pertumbuhan PDB dan laba korporasi',
+        fragilityState: 'Rendah — guncangan suku bunga kecil dapat diserap tanpa memicu gagal bayar'
+      },
+      SPEC: {
+        code: 'SPEC',
+        label: 'Speculative Finance',
+        xNorm: 40.0,
+        badgeClass: 'badge-spec',
+        badgeText: 'REZIM 2 • SPECULATIVE FINANCE (ERA ROLLOVER UTANG)',
+        headline: 'Speculative Finance: Arus Kas Hanya Menutup Bunga, Pokok Di-Rollover',
+        formulaNote: 'Persamaan Kas: Bunga ≤ CF < Bunga + Pokok (Bergantung Pada Refinancing)',
+        desc: 'Keberhasilan fase <em>Hedge</em> membuat bank dan investor melupakan risiko krisis. Peminjam mengambil utang lebih besar di mana arus kas hanya sanggup membayar bunga, sementara pokok utang harus terus diperpanjang (<em>rollover</em>) dengan pinjaman baru.',
+        strategy: '<strong>Strategi Make Money (Selektif & Fokus Kualitas Neraca):</strong> Nikmati kelanjutan tren naik pasar, namun mulai <em>menyaring saham dengan rasio utang tinggi (Debt-to-Equity tinggi)</em> dan alihkan fokus ke emiten berarus kas bebas (<em>free cash flow</em>) positif.',
+        cfCondition: 'Arus kas cukup untuk membayar bunga, tetapi tidak cukup melunasi pokok utang',
+        creditBehavior: 'Refinancing berjalan lancar selama suku bunga rendah & kepercayaan pasar terjaga',
+        fragilityState: 'Menengah — mulai rentan terhadap kenaikan suku bunga atau pengetatan likuiditas'
+      },
+      PONZI: {
+        code: 'PONZI',
+        label: 'Ponzi Finance',
+        xNorm: 63.0,
+        badgeClass: 'badge-ponzi',
+        badgeText: 'REZIM 3 • PONZI FINANCE (EUFORIA & KERAPUHAN PUNCAK)',
+        headline: 'Ponzi Finance: Arus Kas Defisit, Bergantung Penuh Pada Kenaikan Harga Aset',
+        formulaNote: 'Persamaan Kas: CF < Beban Bunga (Utang Bertambah Hanya Untuk Bayar Bunga)',
+        desc: 'Puncak euforia spekulatif: arus kas operasional bahkan tidak cukup untuk membayar bunga utang. Peminjam harus terus menambah utang baru atau menjual aset pada harga yang terus naik agar tetap bertahan hidup. Spread kredit tampak sangat tenang sebelum badai.',
+        strategy: '<strong>Strategi Make Money (Distribusi Bertahap & Lindung Nilai):</strong> Kurangi eksposur aset spekulatif ber-<em>leverage</em> tinggi, hindari penggunaan margin, dan tingkatkan kepemilikan <em>kas, surat berharga negara jangka pendek, atau emas</em>.',
+        cfCondition: 'Arus kas lebih kecil dari kewajiban bunga (negative carry)',
+        creditBehavior: 'Pemberian kredit berbasis spekulasi kenaikan harga kolateral, bukan arus kas',
+        fragilityState: 'Ekstrem — kenaikan suku bunga kecil saja langsung memicu gagal bayar berantai'
+      },
+      MINSKY: {
+        code: 'MINSKY',
+        label: 'Minsky Moment',
+        xNorm: 74.0,
+        badgeClass: 'badge-moment',
+        badgeText: 'REZIM 4 • THE MINSKY MOMENT (TITIK BALIK KEPANIKAN)',
+        headline: 'The Minsky Moment: Pembekuan Kredit & Likuidasi Paksa (Fire Sale)',
+        formulaNote: 'Pemicu: Gagal Rollover Utang → Margin Call → Harga Aset Jatuh Vertikal',
+        desc: 'Saat suku bunga naik atau investor menyadari harga aset tidak lagi mampu naik lebih tinggi, pemberi pinjaman serentak menarik likuiditas. Peminjam <em>Ponzi</em> dan <em>Speculative</em> terpaksa menjual aset secara bersamaan (<em>fire sale</em>), menjatuhkan harga pasar secara vertikal.',
+        strategy: '<strong>Strategi Make Money (Preservasi Modal & Cash Is King):</strong> Lindungi likuiditas sepenuhnya; jangan terburu-buru menangkap pisau jatuh pada hari-hari pertama <em>margin call</em> sebelum bank sentral melakukan intervensi likuiditas.',
+        cfCondition: 'Gagal bayar bunga & pokok karena pasar refinancing tertutup total',
+        creditBehavior: 'Credit crunch: spread kredit melonjak tajam dan bank membekukan pinjaman baru',
+        fragilityState: 'Krisis sistemik aktif — korelasi seluruh aset berisiko mendekati 1.0 (turun serentak)'
+      },
+      DELEV: {
+        code: 'DELEV',
+        label: 'Deleveraging',
+        xNorm: 86.0,
+        badgeClass: 'badge-moment',
+        badgeText: 'TAHAP 6 • DELEVERAGING & PEMBERSIHAN NERACA',
+        headline: 'Deleveraging: Restrukturisasi Utang & Pembentukan Fondasi Siklus Baru',
+        formulaNote: 'Proses Pemulihan: Penghapusan Utang Macet → Valuasi Terdiskon → Hedge Reset',
+        desc: 'Setelah gelombang panik mereda, sistem ekonomi menjalani proses <em>deleveraging</em>: utang buruk dihapuskan, perusahaan memangkas belanja untuk melunasi kewajiban, dan valuasi aset berkualitas jatuh ke titik diskon ekstrem.',
+        strategy: '<strong>Strategi Make Money (Akumulasi Bertahap Aset Berkualitas):</strong> Mulai mengoleksi <em>saham unggulan dengan kas bersih (net cash) dan arus kas kuat</em> secara bertahap untuk menunggangi fase <em>Hedge Finance</em> berikutnya.',
+        cfCondition: 'Fokus penuh pada perbaikan neraca dan pelunasan utang dari arus kas internal',
+        creditBehavior: 'Perbankan memulihkan rasio modal; suku bunga mulai diturunkan untuk merangsang ekonomi',
+        fragilityState: 'Menurun — risiko sistemik telah terbuang melalui kapitulasi pasar'
+      }
+    };
+
+    const HISTORICAL_CASES = {
+      '1929': {
+        stage: 'MINSKY',
+        customTitle: 'Preseden 1929 (Wall Street Crash): Puncak Kredit Margin & Ponzi Spekulatif',
+        customNote: 'Preseden Historis: Rasio pinjaman margin pialang melonjak ekstrem selama Roaring Twenties sebelum Minsky Moment Oktober 1929.'
+      },
+      '1997': {
+        stage: 'MINSKY',
+        customTitle: 'Preseden 1997 (Krisis Finansial Asia): Utang Valas Jangka Pendek (Speculative/Ponzi)',
+        customNote: 'Preseden Historis: Korporasi Asia meminjam dolar jangka pendek untuk membiayai proyek jangka panjang, memicu Minsky Moment saat nilai tukar melemah.'
+      },
+      '2008': {
+        stage: 'MINSKY',
+        customTitle: 'Preseden 2008 (Subprime Mortgage & CDO): Rezim Ponzi Properti Klasik',
+        customNote: 'Preseden Historis: Kredit KPR subprime bergantung penuh pada kenaikan harga rumah terus-menerus; saat harga stagnan, gagal bayar meruntuhkan Lehman Brothers.'
+      },
+      '2022': {
+        stage: 'PONZI',
+        customTitle: 'Preseden 2021–2022 (ZIRP Euphoria & Rate Shock): Transisi Ponzi ke Pengetatan',
+        customNote: 'Preseden Historis: Suku bunga mendekati nol menciptakan euforia aset spekulatif & kripto berbasis leverage sebelum lonjakan suku bunga 2022 memicu likuidasi.'
+      }
+    };
+
+    let currentView = 'full';
+    let selectedStage = 'PONZI';
+    let customOverride = null;
+
+    const visibleLayers = {
+      price: true,
+      debt: true,
+      spread: true
+    };
+
+    function interpolateMinskyAtX(xNorm) {
+      for (let i = 0; i < MINSKY_PATH_DATA.length - 1; i++) {
+        const [x0, p0, d0, s0] = MINSKY_PATH_DATA[i];
+        const [x1, p1, d1, s1] = MINSKY_PATH_DATA[i + 1];
+        if (xNorm >= x0 && xNorm <= x1) {
+          const t = (xNorm - x0) / (x1 - x0);
+          return {
+            priceNorm: p0 + t * (p1 - p0),
+            debtNorm: d0 + t * (d1 - d0),
+            spreadNorm: s0 + t * (s1 - s0)
+          };
+        }
+      }
+      const last = MINSKY_PATH_DATA[MINSKY_PATH_DATA.length - 1];
+      return { priceNorm: last[1], debtNorm: last[2], spreadNorm: last[3] };
+    }
+
+    function renderMinskyChart() {
+      const svg = document.getElementById('minskySvg');
+      svg.innerHTML = '';
+
+      const svgWidth = currentView === 'full' ? 1120 : 1480;
+      svg.setAttribute('width', svgWidth);
+      svg.setAttribute('viewBox', `0 0 ${svgWidth} 390`);
+
+      const yHeaderBot = 52;
+      const yPlotTop = 74;
+      const yPlotBot = 326;
+      const plotSpanY = yPlotBot - yPlotTop;
+      const yAxisBot = 342;
+
+      const leftPad = 24;
+      const rightPad = 28;
+      const plotW = svgWidth - leftPad - rightPad;
+
+      const NS = 'http://www.w3.org/2000/svg';
+      const el = (tag, attrs) => {
+        const node = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+        return node;
+      };
+
+      const xNormToPx = (xn) => leftPad + (xn / 100) * plotW;
+      const yNormToPy = (yn) => yPlotBot - yn * plotSpanY;
+
+      // Watermark Terukir di dalam Kanvas SVG
+      for (let wx = 320; wx < svgWidth - 140; wx += 560) {
+        const wm = el('text', {
+          x: wx,
+          y: 266,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '15',
+          'letter-spacing': '4',
+          fill: 'rgba(74, 50, 29, 0.13)'
+        });
+        wm.textContent = 'ORIXTRON TECHNOLOGY';
+        svg.appendChild(wm);
+      }
+
+      // Garis Pembatas Horizontal Utama
+      svg.appendChild(el('line', { x1: 0, y1: yHeaderBot, x2: svgWidth, y2: yHeaderBot, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: yAxisBot, x2: svgWidth, y2: yAxisBot, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: 196, x2: svgWidth, y2: 196, stroke: '#5c3f24', 'stroke-dasharray': '4,4', 'stroke-width': 1 }));
+
+      // 4 Zona Rezim Pembiayaan Minsky
+      const regimes = [
+        { title: '1. HEDGE FINANCE', sub: 'Arus Kas Menutup Pokok & Bunga', s: 0, e: 30, fill: 'rgba(46, 90, 54, 0.075)', color: '#2e5a36' },
+        { title: '2. SPECULATIVE FINANCE', sub: 'Rollover Pokok • Spread Menyempit', s: 30, e: 55, fill: 'rgba(30, 75, 107, 0.075)', color: '#1e4b6b' },
+        { title: '3. PONZI FINANCE', sub: 'Euforia Harga Aset • Fragilitas Puncak', s: 55, e: 73, fill: 'rgba(156, 90, 26, 0.09)', color: '#9c5a1a' },
+        { title: '4. MINSKY MOMENT & DELEVERAGING', sub: 'Kepanikan Likuidasi & Pembersihan Utang', s: 73, e: 100, fill: 'rgba(139, 38, 29, 0.085)', color: '#8b261d' }
+      ];
+
+      regimes.forEach((r) => {
+        const x1 = xNormToPx(r.s);
+        const x2 = xNormToPx(r.e);
+        const xc = (x1 + x2) / 2;
+
+        svg.appendChild(el('rect', {
+          x: x1,
+          y: yHeaderBot,
+          width: x2 - x1,
+          height: yAxisBot - yHeaderBot,
+          fill: r.fill
+        }));
+
+        if (r.s > 0) {
+          svg.appendChild(el('line', {
+            x1: x1,
+            y1: 0,
+            x2: x1,
+            y2: 390,
+            stroke: '#2c1e12',
+            'stroke-width': r.s === 73 ? 1.8 : 1.4,
+            'stroke-dasharray': r.s === 73 ? '6,3' : 'none'
+          }));
+        }
+
+        const hTitle = el('text', {
+          x: xc,
+          y: 23,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '11.5',
+          fill: r.color
+        });
+        hTitle.textContent = r.title;
+        svg.appendChild(hTitle);
+
+        const hSub = el('text', {
+          x: xc,
+          y: 41,
+          'text-anchor': 'middle',
+          'font-family': 'Cormorant Garamond, serif',
+          'font-style': 'italic',
+          'font-weight': '600',
+          'font-size': '12',
+          fill: '#4a321d'
+        });
+        hSub.textContent = r.sub;
+        svg.appendChild(hSub);
+      });
+
+      // Bangun Koordinat 3 Kurva (Harga Aset, Rasio Utang, Spread Kredit)
+      const pricePts = MINSKY_PATH_DATA.map(([xn, pn]) => `${xNormToPx(xn).toFixed(1)},${yNormToPy(pn).toFixed(1)}`).join(' ');
+      const debtPts = MINSKY_PATH_DATA.map(([xn, , dn]) => `${xNormToPx(xn).toFixed(1)},${yNormToPy(dn).toFixed(1)}`).join(' ');
+      const spreadPts = MINSKY_PATH_DATA.map(([xn, , , sn]) => `${xNormToPx(xn).toFixed(1)},${yNormToPy(sn).toFixed(1)}`).join(' ');
+
+      // 1. Kurva Spread Kredit / Kerapuhan Sistemik (Merah Tinta Antik Putus-Putus)
+      if (visibleLayers.spread) {
+        svg.appendChild(el('polyline', {
+          points: spreadPts,
+          fill: 'none',
+          stroke: '#8b261d',
+          'stroke-width': 1.9,
+          'stroke-dasharray': '4,3',
+          opacity: '0.88'
+        }));
+      }
+
+      // 2. Kurva Rasio Utang / Leverage (Biru Prusia Antik)
+      if (visibleLayers.debt) {
+        svg.appendChild(el('polyline', {
+          points: debtPts,
+          fill: 'none',
+          stroke: '#1e4b6b',
+          'stroke-width': 2.4,
+          'stroke-dasharray': '7,3',
+          'stroke-linecap': 'round',
+          opacity: '0.92'
+        }));
+      }
+
+      // 3. Kurva Utama Harga Aset & Euforia (Litografi Ganda Emas-Coklat + Tinta Gelap)
+      if (visibleLayers.price) {
+        svg.appendChild(el('polyline', {
+          points: pricePts,
+          fill: 'none',
+          stroke: '#9b682c',
+          'stroke-width': 5.2,
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round',
+          opacity: '0.88'
+        }));
+
+        svg.appendChild(el('polyline', {
+          points: pricePts,
+          fill: 'none',
+          stroke: '#2c1e12',
+          'stroke-width': 1.5,
+          'stroke-linecap': 'round',
+          'stroke-linejoin': 'round'
+        }));
+      }
+
+      // Titik Simpul & Label Tahap yang Dapat Diklik
+      Object.values(MINSKY_STAGES).forEach((st) => {
+        const { priceNorm } = interpolateMinskyAtX(st.xNorm);
+        const cx = xNormToPx(st.xNorm);
+        const cy = yNormToPy(priceNorm);
+        const isSelected = st.code === selectedStage;
+
+        svg.appendChild(el('line', {
+          x1: cx,
+          y1: cy,
+          x2: cx,
+          y2: yAxisBot,
+          stroke: isSelected ? '#8b261d' : 'rgba(74, 50, 29, 0.22)',
+          'stroke-width': isSelected ? 2 : 1,
+          'stroke-dasharray': isSelected ? '4,3' : '2,3'
+        }));
+
+        const dot = el('circle', {
+          cx: cx,
+          cy: cy,
+          r: isSelected ? 7 : 4.8,
+          fill: isSelected ? '#8b261d' : '#f5e6ca',
+          stroke: isSelected ? '#fff7e8' : '#2c1e12',
+          'stroke-width': isSelected ? 2.2 : 1.6,
+          style: 'cursor:pointer;'
+        });
+        dot.onclick = () => selectStage(st.code);
+        svg.appendChild(dot);
+
+        // Posisi label pada kurva agar bebas tabrakan
+        let lblX = cx;
+        let lblY = cy - 12;
+        let anchor = 'middle';
+
+        if (st.code === 'DISP' || st.code === 'DELEV') {
+          lblY = cy + 18;
+        } else if (st.code === 'MINSKY') {
+          lblX = cx + 10;
+          lblY = cy - 4;
+          anchor = 'start';
+        }
+
+        const lblNode = el('text', {
+          x: lblX,
+          y: lblY,
+          'text-anchor': anchor,
+          'font-family': 'Cinzel, serif',
+          'font-weight': '800',
+          'font-size': isSelected ? '11.5' : '10.5',
+          fill: isSelected ? '#8b261d' : '#2c1e12',
+          style: 'cursor:pointer;'
+        });
+        lblNode.textContent = st.label.toUpperCase();
+        lblNode.onclick = () => selectStage(st.code);
+        svg.appendChild(lblNode);
+
+        // Label strip bawah
+        const botLbl = el('text', {
+          x: cx,
+          y: 368,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '10.5',
+          fill: isSelected ? '#8b261d' : '#4a321d',
+          style: 'cursor:pointer;'
+        });
+        botLbl.textContent = st.code;
+        botLbl.onclick = () => selectStage(st.code);
+        svg.appendChild(botLbl);
+      });
+
+      // Lencana Penanda Aktif di Bagian Atas Area Grafik
+      const activeSt = MINSKY_STAGES[selectedStage];
+      if (activeSt) {
+        const ax = xNormToPx(activeSt.xNorm);
+        const badgeW = 104;
+        svg.appendChild(el('rect', {
+          x: ax - badgeW / 2,
+          y: yHeaderBot + 5,
+          width: badgeW,
+          height: 19,
+          rx: 2,
+          fill: '#8b261d'
+        }));
+
+        const badgeTxt = el('text', {
+          x: ax,
+          y: yHeaderBot + 18,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '10',
+          fill: '#fff7e8'
+        });
+        badgeTxt.textContent = activeSt.label.toUpperCase();
+        svg.appendChild(badgeTxt);
+
+        const scrollArea = document.getElementById('chartScrollArea');
+        if (currentView === 'buildup') {
+          scrollArea.scrollLeft = 0;
+        } else if (currentView === 'crash') {
+          scrollArea.scrollLeft = scrollArea.scrollWidth;
+        } else {
+          const targetScroll = ax - scrollArea.clientWidth / 2;
+          scrollArea.scrollLeft = Math.max(0, targetScroll);
+        }
+      }
+    }
+
+    function setMinskyView(viewMode, btnElement) {
+      currentView = viewMode;
+      if (btnElement) {
+        document.querySelectorAll('.chart-controls [data-zoom]').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+      }
+      if (viewMode === 'buildup' && !['DISP', 'HEDGE', 'SPEC', 'PONZI'].includes(selectedStage)) {
+        selectStage('PONZI');
+        return;
+      }
+      if (viewMode === 'crash' && !['MINSKY', 'DELEV'].includes(selectedStage)) {
+        selectStage('MINSKY');
+        return;
+      }
+      renderMinskyChart();
+    }
+
+    function toggleLayer(layerKey, btnElement) {
+      visibleLayers[layerKey] = !visibleLayers[layerKey];
+      btnElement.classList.toggle('active', visibleLayers[layerKey]);
+      renderMinskyChart();
+    }
+
+    function selectStage(code, overrideInfo = null) {
+      if (!MINSKY_STAGES[code]) return;
+      selectedStage = code;
+      customOverride = overrideInfo;
+
+      document.querySelectorAll('#stageButtons .vintage-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.st === code);
+      });
+
+      const st = MINSKY_STAGES[code];
+      const titleText = overrideInfo && overrideInfo.customTitle ? overrideInfo.customTitle : st.headline;
+      const formulaText = overrideInfo && overrideInfo.customNote ? overrideInfo.customNote : st.formulaNote;
+
+      const resultBox = document.getElementById('predictionResult');
+      resultBox.innerHTML = `
+        <div>
+          <span class="result-badge ${st.badgeClass}">${st.badgeText}</span>
+          <h3 class="result-headline">${titleText}</h3>
+          <div class="result-formula-note">&#9878; ${formulaText}</div>
+          <p class="result-desc">${st.desc}</p>
+          <div class="asset-allocation-box">${st.strategy}</div>
+        </div>
+        <div class="cycle-checklist">
+          <div style="font-family:'Cinzel',serif; font-weight:700; font-size:0.98rem; color:var(--ink-sepia); margin-bottom:2px;">
+            Audit Struktural Minsky — ${st.label}
+          </div>
+          <div class="check-row">
+            <span class="check-label">Cakupan Arus Kas:</span>
+            <span class="check-val">${st.cfCondition}</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Perilaku Kredit:</span>
+            <span class="check-val">${st.creditBehavior}</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Tingkat Fragilitas:</span>
+            <span class="check-val">${st.fragilityState}</span>
+          </div>
+          <div style="font-size:0.88rem; font-style:italic; color:var(--ink-faded); margin-top:4px;">
+            *Klik simpul mana pun pada grafik untuk membandingkan fase ekspansi vs. likuidasi.
+          </div>
+        </div>
+      `;
+
+      renderMinskyChart();
+    }
+
+    function selectHistoricalCase(yearKey) {
+      const hCase = HISTORICAL_CASES[yearKey];
+      if (!hCase) return;
+      selectStage(hCase.stage, {
+        customTitle: hCase.customTitle,
+        customNote: hCase.customNote
+      });
+    }
+
+    function classifyDebtRegime() {
+      const cf = document.getElementById('cashFlowSelect').value;
+      const spread = document.getElementById('creditSpreadSelect').value;
+
+      let targetStage = 'HEDGE';
+      let customTitle = null;
+      let customNote = null;
+
+      if (cf === 'liquidity_freeze' || spread === 'spread_spike') {
+        targetStage = 'MINSKY';
+        customTitle = 'Hasil Audit: Pasar / Emiten Berada di Titik The Minsky Moment';
+        customNote = 'Diagnosis: Pembekuan refinancing dan lonjakan spread kredit memaksa likuidasi aset.';
+      } else if (cf === 'cover_none') {
+        targetStage = 'PONZI';
+        customTitle = spread === 'rising_rates'
+          ? 'Hasil Audit: Ponzi Finance di Ambang Minsky Moment (Waspada Tinggi)'
+          : 'Hasil Audit: Rezim Ponzi Finance (Bergantung Penuh Pada Kenaikan Harga Aset)';
+        customNote = 'Diagnosis: Arus kas lebih kecil dari beban bunga; sistem bertahan hanya selama harga aset naik.';
+      } else if (cf === 'cover_interest') {
+        targetStage = 'SPEC';
+        customTitle = 'Hasil Audit: Rezim Speculative Finance (Rentan Risiko Refinancing)';
+        customNote = 'Diagnosis: Arus kas hanya menutup bunga; pokok utang bergantung pada kelancaran rollover.';
+      } else {
+        targetStage = 'HEDGE';
+        customTitle = 'Hasil Audit: Rezim Hedge Finance (Neraca Sehat & Tahan Guncangan)';
+        customNote = 'Diagnosis: Arus kas operasional sanggup melunasi bunga sekaligus pokok utang.';
+      }
+
+      selectStage(targetStage, { customTitle, customNote });
+    }
+
+    // Drag-to-scroll pada kanvas grafik
+    const scrollArea = document.getElementById('chartScrollArea');
+    let isDown = false, startX, scrollLeft;
+    scrollArea.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - scrollArea.offsetLeft;
+      scrollLeft = scrollArea.scrollLeft;
+    });
+    scrollArea.addEventListener('mouseleave', () => { isDown = false; });
+    scrollArea.addEventListener('mouseup', () => { isDown = false; });
+    scrollArea.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - scrollArea.offsetLeft;
+      const walk = (x - startX) * 1.4;
+      scrollArea.scrollLeft = scrollLeft - walk;
+    });
+
+    // Inisialisasi awal pada rezim "PONZI"
+    selectStage('PONZI');
+  </script>
+</body>
+</html>
