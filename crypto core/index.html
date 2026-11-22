@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scalper Pro V25.0 - Professional Adaptive SMC & QM</title>
+    <!-- TradingView Widget Script -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <!-- Font Awesome 6.4.0 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-app: #080b10;
+            --bg-panel: rgba(15, 20, 28, 0.98);
+            --bg-card: rgba(22, 28, 38, 0.75);
+            --bg-card-hover: rgba(30, 38, 52, 0.9);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-active: rgba(41, 98, 255, 0.5);
+            
+            --primary: #2962ff;
+            --primary-glow: rgba(41, 98, 255, 0.35);
+            --accent: #00e5ff;
+            --success: #00c853; 
+            --success-glow: rgba(0, 200, 83, 0.25);
+            --danger: #ff1744;  
+            --danger-glow: rgba(255, 23, 68, 0.25);
+            --warning: #ffab00;
+            --purple: #d500f9; 
+            --qm-color: #f50057;
+            --liq-color: #ff9100;
+            --fib-gold: #ffd700;
+            
+            --text-main: #f0f4f8;
+            --text-muted: #8b98a5;
+            --text-sub: #5c6975;
+            
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.15) transparent; }
+        
+        body {
+            background-color: var(--bg-app);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 5% 10%, rgba(41, 98, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 95% 90%, rgba(245, 0, 87, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, #080b10 0%, #030508 100%);
+        }
+
+        #app-container { display: flex; width: 100%; height: 100%; position: relative; }
+
+        /* --- CHART AREA --- */
+        #chart-area {
+            flex: 1;
+            position: relative;
+            border-right: var(--glass-border);
+            z-index: 1;
+            background: #000;
+        }
+
+        /* --- SIDEBAR AREA --- */
+        #sidebar {
+            width: 440px;
+            background: var(--bg-panel);            
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            border-left: var(--glass-border);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 10;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.7);
+        }
+
+        .sidebar-header {
+            padding: 18px 20px 14px 20px;
+            border-bottom: var(--glass-border);
+            background: linear-gradient(180deg, rgba(41, 98, 255, 0.06) 0%, transparent 100%);
+            flex-shrink: 0;
+        }
+
+        .brand-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        .brand-title-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand-badge {
+            background: linear-gradient(135deg, var(--qm-color), var(--primary));
+            font-size: 0.6rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 900;
+            box-shadow: 0 0 12px rgba(245, 0, 87, 0.4);
+            letter-spacing: 1px;
+        }
+
+        /* Search Controls */
+        .search-wrapper { position: relative; display: flex; gap: 8px; }
+
+        .input-group {
+            position: relative;
+            flex: 1;
+        }
+        .input-group i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        input#symbolInput {
+            background: rgba(10, 14, 20, 0.9);
+            border: 1px solid var(--border-color);
+            color: white; 
+            padding: 11px 12px 11px 36px;
+            border-radius: 8px; 
+            width: 100%; 
+            font-family: var(--font-mono); 
+            font-size: 0.9rem;
+            font-weight: 700;
+            outline: none; 
+            transition: all 0.2s ease; 
+            text-transform: uppercase;
+        }        
+        input#symbolInput:focus { 
+            border-color: var(--primary); 
+            box-shadow: 0 0 0 3px var(--primary-glow);
+            background: #000;
+        }
+
+        button.btn-scan {
+            background: linear-gradient(135deg, var(--primary) 0%, #154ec1 100%);
+            color: white;
+            border: none;
+            padding: 0 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.82rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 14px var(--primary-glow);
+        }
+        button.btn-scan:hover { background: #1e53db; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(41,98,255,0.4); }
+        button.btn-scan:disabled { opacity: 0.5; cursor: wait; filter: grayscale(1); transform: none; }
+
+        .btn-crypto-modal {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--accent);
+            padding: 0 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 700;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-crypto-modal:hover {
+            background: rgba(0, 229, 255, 0.1);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* Quick Asset Chips */
+        .symbol-chips {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 10px 0 2px 0;
+            scrollbar-width: none;
+        }
+        .symbol-chips::-webkit-scrollbar { display: none; }
+        .chip {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .chip:hover {
+            background: rgba(41, 98, 255, 0.15);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .chip.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        /* Ticker Display Header */
+        .ticker-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding: 12px 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .ticker-info h2 { 
+            margin: 0; 
+            font-size: 1.5rem; 
+            line-height: 1.1; 
+            font-family: var(--font-mono); 
+            letter-spacing: -0.5px;
+            color: #fff;
+            font-weight: 800;
+        }
+        .ticker-info span { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+        
+        .trend-pill {
+            font-size: 0.68rem;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .pill-up { background: var(--success-glow); color: #00e676; border: 1px solid rgba(0, 200, 83, 0.4); }
+        .pill-down { background: var(--danger-glow); color: #ff5252; border: 1px solid rgba(255, 23, 68, 0.4); }                
+        .pill-neutral { background: rgba(139, 152, 165, 0.15); color: var(--text-muted); border: 1px solid rgba(139, 152, 165, 0.3); }
+        .pill-sideways { background: rgba(255, 145, 0, 0.15); color: var(--liq-color); border: 1px solid rgba(255, 145, 0, 0.3); }
+        
+        /* Main Sidebar Scroll Area */
+        .scroll-content { flex: 1; overflow-y: auto; padding: 18px 20px; }
+        .section-label {
+            font-size: 0.72rem; 
+            color: var(--text-muted); 
+            text-transform: uppercase;
+            letter-spacing: 1px; 
+            margin-bottom: 12px;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            font-weight: 800;
+        }
+        .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); display: inline-block; margin-right: 6px; }
+        .status-dot.active { background: var(--success); box-shadow: 0 0 10px var(--success); animation: blink 1.8s infinite; }
+        @keyframes blink { 50% { opacity: 0.3; } }
+        
+        /* --- TF GRID --- */
+        .tf-grid {            
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 6px;
+            margin-bottom: 22px;
+        }
+
+        .tf-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 68px;
+        }
+        .tf-card:hover { background: var(--bg-card-hover); transform: translateY(-2px); border-color: var(--primary); }
+        .tf-card.best-choice { 
+            border-color: var(--warning); 
+            background: linear-gradient(180deg, rgba(255, 171, 0, 0.12) 0%, rgba(22, 28, 38, 0.8) 100%);
+            box-shadow: 0 0 14px rgba(255, 171, 0, 0.25);
+        }
+        .tf-label { font-size: 0.8rem; font-weight: 800; color: #fff; margin-bottom: 4px; font-family: var(--font-mono); }                
+        .signal-badge { font-size: 0.58rem; font-weight: 800; padding: 2px 6px; border-radius: 3px; text-transform: uppercase; display: inline-block; min-width: 34px;}
+        .sig-buy { background: var(--success-glow); color: #00e676; border: 1px solid rgba(0,200,83,0.3); }
+        .sig-sell { background: var(--danger-glow); color: #ff5252; border: 1px solid rgba(255,23,68,0.3); }        
+        .sig-wait { color: var(--text-sub); background: rgba(255,255,255,0.04); }                
+        
+        .prob-meter {
+            height: 3px;            
+            background: rgba(255,255,255,0.08);
+            margin-top: 6px;
+            width: 85%;            
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .prob-fill { height: 100%; width: 0%; transition: width 0.5s ease; }
+        .fill-high { background: var(--success); box-shadow: 0 0 6px var(--success); }
+        .fill-med { background: var(--warning); }
+        .fill-low { background: var(--danger); }
+
+        /* --- STRATEGIC GRID --- */
+        .strat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);            
+            gap: 10px;
+            margin-bottom: 22px;
+        }        
+        .strat-card {
+            background: rgba(18, 24, 34, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            overflow: hidden;
+        }
+        .strat-card:hover {
+            background: rgba(30, 38, 52, 0.9);
+            border-color: var(--purple);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+        }
+        .strat-card::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3.5px;
+            background: var(--purple);
+        }
+        .strat-card[data-type="QM"]::before { background: var(--qm-color); }
+        .strat-card[data-type="QM"] { border-color: rgba(245, 0, 87, 0.3); }
+        .strat-card[data-type="SNIPER"]::before { background: var(--accent); }
+        .strat-card[data-type="SNIPER"] { border-color: rgba(0, 229, 255, 0.3); }
+
+        .strat-type {
+            font-size: 0.63rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .strat-tf {
+            font-size: 0.72rem; color: #fff; font-weight: 800; float: right; font-family: var(--font-mono);
+        }
+        .strat-price {
+            font-size: 1.05rem; font-family: var(--font-mono); color: white; margin: 6px 0 4px 0; font-weight: 700;
+        }
+        .strat-desc { font-size: 0.68rem; color: var(--text-muted); line-height: 1.3; }
+
+        /* --- ANALYSIS PANEL --- */
+        .analysis-card {
+            background: rgba(15, 20, 28, 0.95);
+            border: 1px solid var(--border-color);
+            border-radius: 12px; 
+            padding: 18px; 
+            position: relative;
+            overflow: hidden; 
+            box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+        }
+        .analysis-card::before {            
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--text-muted);
+        }
+        .analysis-card.buy-mode::before { background: var(--success); }
+        .analysis-card.sell-mode::before { background: var(--danger); }        
+        .analysis-card.gold-mode::before { background: var(--fib-gold); }
+        .analysis-card.qm-mode::before { background: var(--qm-color); }
+                
+        .analysis-header { display: flex; justify-content: space-between; margin-bottom: 14px; align-items: center; }
+        .ai-badge { display: flex; align-items: center; gap: 6px; color: var(--accent); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.5px; }
+        
+        .setup-row {
+            display: flex; justify-content: space-between; align-items: center;            
+            padding: 9px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.06);
+            font-size: 0.85rem;
+        }
+        .setup-row:last-child { border-bottom: none; }
+        .val-entry { color: var(--primary); font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700; }
+        .val-tp { color: var(--success); font-family: var(--font-mono); font-weight: 700; }
+        .val-sl { color: var(--danger); font-family: var(--font-mono); font-weight: 700; }
+        
+        .logic-text {
+            background: rgba(0, 0, 0, 0.35);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.74rem;            
+            color: #d1d5db;
+            margin-top: 14px;
+            line-height: 1.5;
+            border-left: 3px solid var(--primary);
+        }
+
+        .action-area { margin-top: 16px; }        
+        .btn-action {
+            width: 100%; 
+            padding: 13px; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: 800;            
+            font-size: 0.85rem; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            gap: 8px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.8px;
+        }
+        .btn-ready { background: linear-gradient(135deg, var(--primary) 0%, #154ec1 100%); color: white; box-shadow: 0 4px 16px var(--primary-glow); }
+        .btn-ready:hover { background: #1e53db; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(41,98,255,0.4); }        
+        .btn-taken { background: #1e2634; color: var(--accent); border: 1px solid var(--border-active); cursor: pointer; }
+
+        /* --- MODALS & DRAWERS --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(8px);
+            z-index: 1000; display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }        
+        .modal-box {
+            background: #0e131d; 
+            border: 1px solid rgba(255,255,255,0.12); 
+            border-radius: 14px;
+            width: 92%; max-width: 440px; padding: 22px; 
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+            transform: scale(0.92); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        .modal-overlay.active .modal-box { transform: scale(1); }
+        .modal-close { 
+            position: absolute; top: 16px; right: 16px; 
+            background: rgba(255,255,255,0.06); border: none; 
+            color: var(--text-muted); width: 30px; height: 30px; border-radius: 50%; 
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .modal-close:hover { color: white; background: rgba(255,255,255,0.15); }
+
+        /* Crypto Scanner Drawer Modal */
+        .crypto-drawer-box {
+            background: #0b0f17;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 16px;
+            width: 95%;
+            max-width: 720px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            padding: 22px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.9);
+            position: relative;
+        }
+        .crypto-search-bar {
+            display: flex; gap: 10px; margin: 15px 0 10px 0;
+        }
+        .crypto-list {
+            flex: 1;
+            overflow-y: auto;
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .crypto-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .crypto-item:hover {
+            background: rgba(41, 98, 255, 0.12);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* --- LOADING SPINNER --- */
+        #loader {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 7, 10, 0.92); z-index: 100; display: none;
+            flex-direction: column; justify-content: center; align-items: center;
+            backdrop-filter: blur(6px);
+        }
+        .spinner-ring { 
+            width: 44px; height: 44px; 
+            border: 3.5px solid rgba(255,255,255,0.1);
+            border-top-color: var(--primary); 
+            border-right-color: var(--accent);
+            border-radius: 50%; 
+            animation: spin 0.8s linear infinite; 
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* --- AVATAR WIDGET --- */        
+        .v16-widget-container {
+            position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+            display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+        }
+        .sound-status-indicator {
+            background: rgba(10, 14, 20, 0.9); color: white; padding: 6px 12px;
+            border-radius: 6px; font-size: 0.68rem; font-weight: 800; opacity: 0;
+            transition: opacity 0.3s; pointer-events: none; margin-bottom: 2px;
+            text-transform: uppercase; letter-spacing: 1px; border: 1px solid var(--border-color);
+        }
+        .avatar-trigger { 
+            width: 64px; height: 64px; border-radius: 50%; cursor: pointer;
+            position: relative; background: #000; object-fit: cover;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);            
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6); border: 3px solid var(--danger);
+        }
+        .avatar-trigger.sound-off { border-color: var(--danger); filter: grayscale(0.8); }
+        .avatar-trigger.sound-on { border-color: var(--primary); filter: grayscale(0); animation: pulse-blue 2s infinite; }
+        @keyframes pulse-blue {
+            0% { box-shadow: 0 0 0 0 rgba(41, 98, 255, 0.7); }            
+            70% { box-shadow: 0 0 0 14px rgba(41, 98, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(41, 98, 255, 0); }
+        }
+        .avatar-trigger:hover { transform: scale(1.08); }
+        .sound-icon-overlay {
+            position: absolute; bottom: 0; right: 0; background: #121824; width: 22px; height: 22px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 10px; border: 1px solid rgba(255,255,255,0.2); color: white;
+        }
+
+        /* Freshness Badges */
+        .fresh-badge { font-size: 0.62rem; padding: 3px 8px; border-radius: 4px; font-weight: 800; text-transform: uppercase; display: inline-block; letter-spacing: 0.5px; }
+        .fresh-ok { background: var(--success-glow); color: #00e676; border: 1px solid rgba(0, 200, 83, 0.4); }
+        .fresh-late { background: rgba(255, 171, 0, 0.15); color: var(--warning); border: 1px solid rgba(255, 171, 0, 0.4); }
+        .fresh-bad { background: var(--danger-glow); color: #ff5252; border: 1px solid rgba(255, 23, 68, 0.4); }
+
+        /* Toast Notification */
+        #toast-container { position: fixed; top: 20px; left: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+        .toast-alert {
+            background: rgba(14, 19, 28, 0.96); backdrop-filter: blur(12px); border-left: 4px solid var(--primary);            
+            padding: 14px 18px; border-radius: 8px; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            display: flex; align-items: center; gap: 12px; min-width: 320px; transform: translateX(-120%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: auto;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-right: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .toast-alert.show { transform: translateX(0); }
+        .toast-alert.alert-success { border-left-color: var(--success); }        
+        .toast-alert.alert-warning { border-left-color: var(--warning); }
+        .toast-alert.alert-danger { border-left-color: var(--danger); }
+        .toast-alert.alert-gold { border-left-color: var(--fib-gold); }
+        .toast-icon { font-size: 1.1rem; }
+        .toast-content h4 { margin: 0; font-size: 0.85rem; font-weight: 800; }
+        .toast-content p { margin: 2px 0 0; font-size: 0.72rem; color: var(--text-muted); }
+
+        /* Tooltip Helper */
+        .info-tooltip {
+            cursor: pointer;
+            color: var(--text-muted);
+            margin-left: 4px;
+            font-size: 0.75rem;
+        }
+        .info-tooltip:hover { color: var(--accent); }
+
+        @media (max-width: 1024px) {
+            #app-container { flex-direction: column; overflow-y: auto; height: auto; }
+            #chart-area { height: 50vh; min-height: 380px; border-right: none; border-bottom: var(--glass-border); }
+            #sidebar { width: 100%; height: auto; border-left: none; }
+            .scroll-content { max-height: none; }
+            .tf-grid { grid-template-columns: repeat(6, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container"></div>
+
+    <!-- LOADING SCREEN OVERLAY -->
+    <div id="loader">
+        <div class="spinner-ring"></div>
+        <p style="margin-top:16px; font-size:0.85rem; color:white; font-weight:800; letter-spacing:1px; font-family:var(--font-mono);">
+            V25 PRO: ANALYSING MARKET STRUCTURE (QM/OB/SBR/RBS)...
+        </p>
+    </div>
+
+    <!-- MAIN TERMINAL APP -->
+    <div id="app-container">
+        
+        <!-- TRADINGVIEW CHART SECTION -->
+        <div id="chart-area">
+            <div id="tradingview_chart" style="height:100%; width:100%"></div>
+        </div>
+        
+        <!-- CONTROL & ANALYTICS SIDEBAR -->
+        <div id="sidebar">            
+            <div class="sidebar-header">
+                <div class="brand-title">
+                    <div class="brand-title-left">
+                        <i class="fas fa-chess-knight" style="color:var(--qm-color); font-size:1.1rem;"></i> 
+                        <span>SCALPER PRO</span>
+                    </div>
+                    <span class="brand-badge">V25.0 ADAPTIVE</span>
+                </div>
+                
+                <!-- Search & Crypto Scanner Launcher -->
+                <div class="search-wrapper">
+                    <div class="input-group">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="symbolInput" placeholder="SYMBOL (BTC, SOL, XAU...)" value="XAUUSD" onkeydown="if(event.key==='Enter') startNewScan()">
+                    </div>
+                    <button class="btn-scan" id="scanBtn" onclick="startNewScan()">
+                        <i class="fas fa-bolt"></i> SCAN
+                    </button>
+                    <button class="btn-crypto-modal" onclick="openCryptoScannerModal()" title="Buka Crypto Market Scanner">
+                        <i class="fas fa-coins"></i> ALL
+                    </button>
+                </div>
+
+                <!-- Quick Symbol Chips Bar -->
+                <div class="symbol-chips">
+                    <div class="chip active" onclick="quickSelectSymbol('XAUUSD')">XAUUSD</div>
+                    <div class="chip" onclick="quickSelectSymbol('BTC')">BTC</div>
+                    <div class="chip" onclick="quickSelectSymbol('ETH')">ETH</div>
+                    <div class="chip" onclick="quickSelectSymbol('SOL')">SOL</div>
+                    <div class="chip" onclick="quickSelectSymbol('XRP')">XRP</div>
+                    <div class="chip" onclick="quickSelectSymbol('DOGE')">DOGE</div>
+                    <div class="chip" onclick="quickSelectSymbol('EURUSD')">EURUSD</div>
+                    <div class="chip" onclick="quickSelectSymbol('GBPUSD')">GBPUSD</div>
+                </div>
+
+                <!-- Ticker Banner -->
+                <div class="ticker-display">
+                    <div class="ticker-info">
+                        <span id="mainSymbolDisplay">XAUUSD</span>
+                        <h2 id="mainPrice">---</h2>
+                    </div>
+                    <div id="trendBadge" class="trend-pill pill-neutral">
+                        <i class="fas fa-arrows-left-right"></i> NEUTRAL
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scroll-content">
+                <!-- TIMEFRAME MATRIX SECTION -->
+                <div class="section-label">
+                    <span><i class="fas fa-network-wired" style="color:var(--primary)"></i> Matriks Timeframe</span>
+                    <div id="scanStatus"><span class="status-dot"></span>Ready</div>
+                </div>
+                <div class="tf-grid" id="tfContainer">
+                    <!-- Timeframe Cards Injected Dynamically -->
+                </div>
+
+                <!-- INSTITUTIONAL KEY LEVELS (QM / OB / SBR / RBS) -->
+                <div class="section-label" style="margin-top:20px; color:var(--purple)">
+                    <span><i class="fas fa-layer-group"></i> Level Institusional (SMC & QM)</span>
+                    <span style="font-size:0.62rem; opacity:0.8; text-transform:none;">Klik level untuk detail</span>
+                </div>
+                <div class="strat-grid" id="stratContainer">
+                    <!-- Key Levels Cards Injected Dynamically -->
+                </div>
+
+                <!-- BEST ADAPTIVE SETUP PANEL -->
+                <div class="section-label" style="margin-top:16px;">
+                    <span><i class="fas fa-robot" style="color:var(--accent)"></i> Rencana Rekomendasi Entry</span>
+                    <span style="font-size:0.62rem; color:var(--accent)">ADAPTIVE ENGINE</span>
+                </div>
+
+                <div class="analysis-card" id="mainPanel">
+                    <div class="analysis-header">
+                        <div class="ai-badge"><i class="fas fa-microchip"></i> REKOMENDASI POSISI</div>                        
+                        <div id="signalType" style="font-weight:900; font-size:0.92rem; color:var(--text-muted)">WAIT</div>                    
+                    </div>
+                    
+                    <div class="setup-row">
+                        <span style="color:var(--text-muted)">Zona Limit Entry</span>
+                        <span id="recEntry" class="val-entry">-</span>
+                    </div>
+                    <div class="setup-row">
+                        <span style="color:var(--text-muted)">Target Take Profit (TP)</span>
+                        <span id="recTP" class="val-tp">-</span>
+                    </div>
+                    <div class="setup-row">
+                        <span style="color:var(--text-muted)">Batas Stop Loss (SL)</span>
+                        <span id="recSL" class="val-sl">-</span>                    
+                    </div>
+                    <div class="setup-row">                        
+                        <span style="color:var(--text-muted)">Rasio Risk : Reward</span>
+                        <span id="recRR" style="color:white; font-weight:700; font-family:var(--font-mono);">-</span>
+                    </div>                    
+                    <div class="setup-row">
+                         <span style="color:var(--text-muted)">Status Validitas Sinyal</span>
+                         <span id="recFreshness" class="fresh-badge fresh-ok">MEMERIKSA...</span>
+                    </div>
+                    <div class="logic-text" id="recLogic">
+                        Sistem Scalper Pro V25.0 siap. Silakan klik tombol <strong>SCAN</strong> untuk memulai analisa multi-timeframe SMC & QM.
+                    </div>
+
+                    <div class="action-area">
+                        <button id="confirmBtn" class="btn-action btn-ready" onclick="toggleConfirmSetup()" disabled>
+                            <i class="fas fa-check-circle"></i> KONFIRMASI ENTRY POSISI
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETAIL SIGNAL MODAL -->
+    <div id="signalModal" class="modal-overlay">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:12px;">
+                <span id="modalTf" style="background:var(--primary); color:white; padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; font-family:var(--font-mono);">TF</span>
+                <h3 id="modalSignalTitle" style="margin:0; font-size:1.1rem; text-transform:uppercase; font-weight:800;">DETAIL ANALISA</h3>
+            </div>
+            <div id="modalDesc" style="color:#d1d5db; margin-bottom:18px; font-size:0.82rem; line-height:1.5;">Deskripsi setup...</div>
+            
+            <div class="setup-row"><span>Harga Entry Limit</span><span id="modalEntry" class="val-entry">-</span></div>
+            <div class="setup-row"><span>Take Profit Target</span><span id="modalTP" class="val-tp">-</span></div>
+            <div class="setup-row"><span>Stop Loss Proteksi</span><span id="modalSL" class="val-sl">-</span></div>
+            <div class="setup-row"><span>Risk to Reward</span><span id="modalRR" style="color:white; font-weight:700; font-family:var(--font-mono);">-</span></div>
+            <div class="setup-row">
+                <span>Status Validitas</span>
+                <span id="modalFresh" class="fresh-badge fresh-ok">FRESH</span>
+            </div>
+
+            <button onclick="applyToChart()" style="width:100%; margin-top:20px; padding:12px; background:linear-gradient(135deg, var(--primary) 0%, #154ec1 100%); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:800; font-size:0.85rem; letter-spacing:0.5px; transition:all 0.2s;">                
+                <i class="fas fa-chart-line"></i> Buka Timeframe di Chart
+            </button>        
+        </div>
+    </div>
+
+    <!-- CRYPTO MARKET SCANNER MODAL -->
+    <div id="cryptoScannerModal" class="modal-overlay">
+        <div class="crypto-drawer-box">
+            <button class="modal-close" onclick="closeCryptoScannerModal()">&times;</button>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="font-size:1.1rem; font-weight:800; color:white; display:flex; align-items:center; gap:8px;">
+                    <i class="fas fa-coins" style="color:var(--accent)"></i> CRYPTO MARKET SCANNER (BINANCE SPOT/FUTURES)
+                </h3>
+            </div>
+            <p style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">
+                Cari dan scan koin crypto apapun untuk analisa SMC, SBR/RBS, & Quasimodo secara instan.
+            </p>
+            
+            <div class="crypto-search-bar">
+                <div class="input-group">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="cryptoSearchInput" placeholder="Filter Koin Crypto (Contoh: SOL, SUI, PEPE...)" oninput="filterCryptoList()">
+                </div>
+            </div>
+
+            <div class="crypto-list" id="cryptoListContainer">
+                <!-- Dynamic Crypto Coin Items Injected Here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- AUDIO AVATAR WIDGET -->
+    <div class="v16-widget-container">        
+        <div id="soundText" class="sound-status-indicator">Sound Off</div>
+        <div style="position:relative;">            
+            <img src="avatar.gif" alt="Avatar AI" class="avatar-trigger sound-off" id="avatarBtn" onclick="toggleSoundSystem()" onerror="this.src='https://placehold.co/100x100/121824/ffffff?text=AI+PRO'">
+            <div class="sound-icon-overlay">
+                <i class="fas fa-volume-mute" id="soundIcon"></i>            
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- GLOBAL STATE & CONFIGURATION ---
+        let currentSymbol = "XAUUSD";
+        let assetType = "commodity"; 
+        let tvWidget = null;
+        let scanResultsData = {}; 
+        let strategicLevels = []; 
+        let globalTrend = "NEUTRAL"; 
+        let bestSetupId = null;
+        let priceInterval = null; 
+        let currentLivePrice = 0; 
+        let cryptoTickerCache = [];
+
+        const TIMEFRAMES = [
+            { label: 'M1', interval: '1m' },
+            { label: 'M5', interval: '5m' },
+            { label: 'M15', interval: '15m' },
+            { label: 'M30', interval: '30m' },
+            { label: 'H1', interval: '1h' },
+            { label: 'H4', interval: '4h' }
+        ];
+
+        // SYMBOL MAPPING MATRIX
+        const SYMBOL_MAP = {
+            "XAUUSD": { tv: "OANDA:XAUUSD", api: "PAXGUSDT", type: "commodity", decimals: 2 }, 
+            "XAU": { tv: "OANDA:XAUUSD", api: "PAXGUSDT", type: "commodity", decimals: 2 },
+            "GOLD": { tv: "OANDA:XAUUSD", api: "PAXGUSDT", type: "commodity", decimals: 2 },
+            "BTCUSD": { tv: "BINANCE:BTCUSDT", api: "BTCUSDT", type: "crypto", decimals: 2 },
+            "BTC": { tv: "BINANCE:BTCUSDT", api: "BTCUSDT", type: "crypto", decimals: 2 },
+            "ETHUSD": { tv: "BINANCE:ETHUSDT", api: "ETHUSDT", type: "crypto", decimals: 2 },
+            "ETH": { tv: "BINANCE:ETHUSDT", api: "ETHUSDT", type: "crypto", decimals: 2 },
+            "ETCUSD": { tv: "BINANCE:ETCUSDT", api: "ETCUSDT", type: "crypto", decimals: 3 },
+            "EURUSD": { tv: "FX:EURUSD", api: "EURUSDT", type: "forex", decimals: 5 },
+            "GBPUSD": { tv: "FX:GBPUSD", api: "GBPUSDT", type: "forex", decimals: 5 },
+            "USDJPY": { tv: "FX:USDJPY", api: "USDJPY", type: "forex", decimals: 3 },
+        };
+
+        // --- TRADINGVIEW INTEGRATION ---
+        function initTV(symbol = "XAUUSD", interval = "15") {
+            const container = document.getElementById('tradingview_chart');
+            if(container) container.innerHTML = "";
+            
+            let tvSymbol = "BINANCE:BTCUSDT";
+            const norm = normalizeSymbol(symbol);
+            
+            if (SYMBOL_MAP[norm]) {
+                tvSymbol = SYMBOL_MAP[norm].tv;
+            } else {
+                tvSymbol = `BINANCE:${norm}USDT`;
+            }
+
+            try {
+                tvWidget = new TradingView.widget({
+                    "autosize": true,
+                    "symbol": tvSymbol,
+                    "interval": interval,
+                    "timezone": "Asia/Jakarta",
+                    "theme": "dark",
+                    "style": "1",
+                    "locale": "id",
+                    "toolbar_bg": "#0b0f17",
+                    "enable_publishing": false,
+                    "hide_top_toolbar": false,
+                    "save_image": false,
+                    "container_id": "tradingview_chart",
+                    "studies": ["RSI@tv-basicstudies"]
+                });
+            } catch(e) {
+                console.error("TV Embed error:", e);
+            }
+        }
+
+        function normalizeSymbol(raw) {
+            if(!raw) return "BTC";
+            let s = raw.toUpperCase().trim().replace('/', '').replace('-', '');
+            if (s.endsWith("USDT") && s !== "USDT") s = s.replace("USDT", "");
+            return s;
+        }
+
+        function quickSelectSymbol(sym) {
+            document.querySelectorAll('.chip').forEach(c => {
+                if(c.innerText === sym) c.classList.add('active');
+                else c.classList.remove('active');
+            });
+            document.getElementById('symbolInput').value = sym;
+            startNewScan();
+        }
+
+        // --- CANDLESTICK & INDICATOR CALCULATIONS ---
+        function getSeries(candles) {
+            return {
+                open: candles.map(c => parseFloat(c[1])),
+                high: candles.map(c => parseFloat(c[2])),
+                low: candles.map(c => parseFloat(c[3])),
+                close: candles.map(c => parseFloat(c[4]))
+            };
+        }
+
+        // ADVANCED FRACTAL PIVOT DETECTOR (WITH SWING FILTERING)
+        function findFractalPivots(series, range = 4) {
+            let pivots = []; 
+            const len = series.high.length;
+            for (let i = range; i < len - range; i++) {
+                let isHigh = true;
+                let isLow = true;
+                for (let j = 1; j <= range; j++) {
+                    if (series.high[i] <= series.high[i-j] || series.high[i] <= series.high[i+j]) isHigh = false;
+                    if (series.low[i] >= series.low[i-j] || series.low[i] >= series.low[i+j]) isLow = false;
+                }
+                if (isHigh) pivots.push({ index: i, price: series.high[i], type: 'high' });
+                if (isLow) pivots.push({ index: i, price: series.low[i], type: 'low' });
+            }
+            return pivots;
+        }
+
+        // --- ENHANCED PATTERN ENGINE (HIGH PRECISION QM, OB, SBR, RBS) ---
+        function detectPatterns(series, pivots, atr, tfLabel) {
+            const currentPrice = series.close[series.close.length - 1];
+            let patterns = [];
+            const lastIndex = series.close.length - 1;
+
+            const addPattern = (type, name, baseScore, entry, sl, tp1, tp2, desc, category) => {
+                let risk = Math.abs(entry - sl);
+                let reward = Math.abs(tp1 - entry);
+                if (risk <= 0) return;
+                
+                let rr = reward / risk;
+
+                // Filter unrealistic risk/reward ratios
+                if(rr < 1.3) return; 
+
+                patterns.push({
+                    type, 
+                    name, 
+                    score: Math.min(100, Math.round(baseScore)),
+                    entry, 
+                    sl, 
+                    tp: tp1, 
+                    tp2: tp2 || tp1 * 1.5,
+                    desc: desc,
+                    tf: tfLabel,
+                    rr: rr.toFixed(2),
+                    category: category // 'SCALP' or 'SNIPER'
+                });
+            };
+
+            // 1. ADVANCED QUASIMODO (QM) PATTERN ENGINE
+            // Bearish QM: High (P1) -> Low (P2) -> Higher High / Liquidity Sweep (P3) -> Lower Low / BOS (P4)
+            // Bullish QM: Low (P1) -> High (P2) -> Lower Low / Liquidity Sweep (P3) -> Higher High / BOS (P4)
+            if(pivots.length >= 4) {
+                for(let i = pivots.length - 4; i >= Math.max(0, pivots.length - 16); i--) {
+                    const p1 = pivots[i];     
+                    const p2 = pivots[i+1];   
+                    const p3 = pivots[i+2];   
+                    const p4 = pivots[i+3];   
+
+                    // BEARISH QM (SELL SETUP)
+                    if(p1.type === 'high' && p2.type === 'low' && p3.type === 'high' && p4.type === 'low') {
+                        // Strict HH and LL conditions
+                        if(p3.price > p1.price + (atr * 0.1) && p4.price < p2.price - (atr * 0.1)) {
+                            const leftShoulder = p1.price;
+                            const head = p3.price;
+                            
+                            // Check price returning to Left Shoulder zone (mitigation)
+                            const entryZoneMax = leftShoulder + (atr * 0.6);
+                            const entryZoneMin = leftShoulder - (atr * 0.4);
+
+                            if(currentPrice >= entryZoneMin && currentPrice <= entryZoneMax + (atr * 1.2)) {
+                                const targetTP1 = p2.price;
+                                const targetTP2 = p4.price;
+                                const stopLoss = head + (atr * 0.5);
+
+                                addPattern('SELL', 'Bearish Quasimodo (QM)', 94, 
+                                    leftShoulder, 
+                                    stopLoss, 
+                                    targetTP1,
+                                    targetTP2,
+                                    "Struktur QM Bearish terkonfirmasi (Sweep High & BOS Break Low). Re-entry ideal pada bahu kiri (Left Shoulder).",
+                                    'SNIPER'
+                                );
+                            }
+                        }
+                    }
+
+                    // BULLISH QM (BUY SETUP)
+                    if(p1.type === 'low' && p2.type === 'high' && p3.type === 'low' && p4.type === 'high') {
+                        if(p3.price < p1.price - (atr * 0.1) && p4.price > p2.price + (atr * 0.1)) {
+                            const leftShoulder = p1.price;
+                            const head = p3.price;
+                            
+                            const entryZoneMin = leftShoulder - (atr * 0.6);
+                            const entryZoneMax = leftShoulder + (atr * 0.4);
+
+                            if(currentPrice <= entryZoneMax && currentPrice >= entryZoneMin - (atr * 1.2)) {
+                                const targetTP1 = p2.price;
+                                const targetTP2 = p4.price;
+                                const stopLoss = head - (atr * 0.5);
+
+                                addPattern('BUY', 'Bullish Quasimodo (QM)', 94, 
+                                    leftShoulder, 
+                                    stopLoss, 
+                                    targetTP1,
+                                    targetTP2,
+                                    "Struktur QM Bullish terkonfirmasi (Sweep Low & BOS Break High). Re-entry ideal pada bahu kiri (Left Shoulder).",
+                                    'SNIPER'
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 2. PRECISION HIGH-PROBABILITY ORDER BLOCK (OB) SNIPER
+            for(let i = pivots.length - 2; i >= Math.max(0, pivots.length - 12); i--) {
+                const p = pivots[i];
+                
+                // BULLISH ORDER BLOCK (Demand Zone)
+                if(p.type === 'low') {
+                    const impulseMove = series.high[Math.min(lastIndex, p.index + 6)] - p.price; 
+                    if(impulseMove > atr * 2.2) { 
+                        const obEntry = series.high[p.index];
+                        const obStop = series.low[p.index] - (atr * 0.4);
+                        
+                        if(currentPrice >= obStop && currentPrice <= obEntry + (atr * 1.2)) {
+                             let nextTarget = currentPrice + (impulseMove * 0.7);
+                             for(let k=pivots.length-1; k>i; k--) {
+                                 if(pivots[k].type === 'high' && pivots[k].price > currentPrice) {
+                                     nextTarget = pivots[k].price; break;
+                                 }
+                             }
+
+                             addPattern('BUY', 'Bullish Order Block (OB)', 92, 
+                                obEntry, 
+                                obStop, 
+                                nextTarget,
+                                nextTarget + (atr * 2),
+                                "Demand Zone / Unmitigated Order Block terdeteksi dengan dorongan impulsif kuat.",
+                                'SNIPER'
+                             );
+                        }
+                    }
+                }
+
+                // BEARISH ORDER BLOCK (Supply Zone)
+                if(p.type === 'high') {
+                    const impulseMove = p.price - series.low[Math.min(lastIndex, p.index + 6)];
+                    if(impulseMove > atr * 2.2) { 
+                        const obEntry = series.low[p.index];
+                        const obStop = series.high[p.index] + (atr * 0.4);
+
+                        if(currentPrice <= obStop && currentPrice >= obEntry - (atr * 1.2)) {
+                             let nextTarget = currentPrice - (impulseMove * 0.7);
+                             for(let k=pivots.length-1; k>i; k--) {
+                                 if(pivots[k].type === 'low' && pivots[k].price < currentPrice) {
+                                     nextTarget = pivots[k].price; break;
+                                 }
+                             }
+
+                             addPattern('SELL', 'Bearish Order Block (OB)', 92, 
+                                obEntry, 
+                                obStop, 
+                                nextTarget,
+                                nextTarget - (atr * 2),
+                                "Supply Zone / Unmitigated Order Block terdeteksi dengan dorongan impulsif kuat.",
+                                'SNIPER'
+                             );
+                        }
+                    }
+                }
+            }
+
+            // 3. REFINED SBR (Support Become Resistance) & RBS (Resistance Become Support)
+            for(let i = 0; i < pivots.length - 2; i++) {
+                const p = pivots[i];
+                
+                // RBS SETUP (Looking for Pullback BUY)
+                if(p.type === 'high') {
+                    const resLevel = p.price;
+                    let deciselyBroken = false;
+                    for(let j = i+1; j <= lastIndex; j++) {
+                        // Body Candle close above Resistance with ATR clearance
+                        if(series.close[j] > resLevel + (atr * 0.2)) { deciselyBroken = true; break; }
+                    }
+                    
+                    if(deciselyBroken && currentPrice >= resLevel - (atr * 0.4) && currentPrice <= resLevel + (atr * 1.2)) {
+                        let target = currentPrice + (atr * 4);
+                        for(let k=i+1; k<pivots.length; k++) {
+                            if(pivots[k].type === 'high' && pivots[k].price > resLevel) { target = pivots[k].price; break; }
+                        }
+
+                        addPattern('BUY', 'RBS (Resistance Become Support)', 89, 
+                            resLevel, 
+                            resLevel - (atr * 1.5), 
+                            target,
+                            target + (atr * 3),
+                            "Breakout Resistance terkonfirmasi. Level berubah fungsi menjadi Support kuat (RBS).",
+                            'SCALP'
+                        );
+                    }
+                }
+
+                // SBR SETUP (Looking for Pullback SELL)
+                if(p.type === 'low') {
+                    const supLevel = p.price;
+                    let deciselyBroken = false;
+                    for(let j = i+1; j <= lastIndex; j++) {
+                        if(series.close[j] < supLevel - (atr * 0.2)) { deciselyBroken = true; break; }
+                    }
+
+                    if(deciselyBroken && currentPrice <= supLevel + (atr * 0.4) && currentPrice >= supLevel - (atr * 1.2)) {
+                        let target = currentPrice - (atr * 4);
+                        for(let k=i+1; k<pivots.length; k++) {
+                            if(pivots[k].type === 'low' && pivots[k].price < supLevel) { target = pivots[k].price; break; }
+                        }
+
+                        addPattern('SELL', 'SBR (Support Become Resistance)', 89, 
+                            supLevel, 
+                            supLevel + (atr * 1.5), 
+                            target,
+                            target - (atr * 3),
+                            "Breakout Support terkonfirmasi. Level berubah fungsi menjadi Resistance kuat (SBR).",
+                            'SCALP'
+                        );
+                    }
+                }
+            }
+
+            return patterns;
+        }
+
+        function formatPrice(price) {
+            if(!price || isNaN(price)) return "-";
+            if(price >= 1000) return price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            if(price >= 1) return price.toFixed(3);
+            if(price >= 0.001) return price.toFixed(5);
+            return price.toFixed(7);
+        }
+
+        // --- FRESHNESS & VALIDITY CHECKER ---
+        function checkFreshness(setup, currentPrice) {
+            if (!setup || !currentPrice) return { status: 'UNKNOWN', text: 'MENUNGGU HAK', class: 'fresh-late' };
+            
+            const buffer = Math.abs(setup.entry - setup.sl) * 0.35; 
+            
+            if (setup.type === 'BUY') {
+                if (currentPrice < setup.sl) return { status: 'INVALID', text: 'SL TERSENTUH (STOP)', class: 'fresh-bad' };                
+                if (currentPrice > setup.tp) return { status: 'INVALID', text: 'TP REAVERED (TAKEN)', class: 'fresh-bad' };
+                if (currentPrice >= (setup.entry - buffer) && currentPrice <= (setup.entry + buffer)) return { status: 'FRESH', text: 'ZONA RE-ENTRY IDEAL', class: 'fresh-ok' };
+                if (currentPrice < setup.entry && currentPrice > setup.sl) return { status: 'ACTIVE', text: 'POSISI AKTIF (PL)', class: 'fresh-ok' };
+                if (currentPrice > setup.entry + buffer) return { status: 'LATE', text: 'HARGA SUDAH JAUH', class: 'fresh-late' };            
+            } else {
+                if (currentPrice > setup.sl) return { status: 'INVALID', text: 'SL TERSENTUH (STOP)', class: 'fresh-bad' };
+                if (currentPrice < setup.tp) return { status: 'INVALID', text: 'TP REAVERED (TAKEN)', class: 'fresh-bad' };
+                if (currentPrice <= (setup.entry + buffer) && currentPrice >= (setup.entry - buffer)) return { status: 'FRESH', text: 'ZONA RE-ENTRY IDEAL', class: 'fresh-ok' };
+                if (currentPrice > setup.entry && currentPrice < setup.sl) return { status: 'ACTIVE', text: 'POSISI AKTIF (PL)', class: 'fresh-ok' };
+                if (currentPrice < setup.entry - buffer) return { status: 'LATE', text: 'HARGA SUDAH JAUH', class: 'fresh-late' };
+            }
+            return { status: 'UNKNOWN', text: 'MENGANALISA...', class: 'fresh-late' };
+        }
+
+        // --- TOAST NOTIFICATION SYSTEM ---
+        function showToast(title, message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');            
+            let iconClass = 'fa-info-circle';
+            let alertClass = 'alert-success';
+            
+            if (type === 'gold') { iconClass = 'fa-coins'; alertClass = 'alert-gold'; }
+            else if (type === 'smc') { iconClass = 'fa-chess-rook'; alertClass = 'alert-warning'; }
+            else if (type === 'timeframe') { iconClass = 'fa-clock'; alertClass = 'alert-success'; }
+            else if (type === 'error') { iconClass = 'fa-exclamation-triangle'; alertClass = 'alert-danger'; }
+            
+            toast.className = `toast-alert ${alertClass}`;
+            toast.innerHTML = `
+                <div class="toast-icon"><i class="fas ${iconClass}"></i></div>
+                <div class="toast-content">
+                    <h4>${title}</h4>
+                    <p>${message}</p>
+                </div>
+            `;
+            
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 50);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        // --- MAIN SCANNER EXECUTION ---
+        async function startNewScan() {
+            const input = document.getElementById('symbolInput');
+            let rawSymbol = input.value.trim();
+            const norm = normalizeSymbol(rawSymbol);
+            
+            currentSymbol = norm;
+            if (SYMBOL_MAP[norm]) {
+                assetType = SYMBOL_MAP[norm].type;
+            } else {
+                assetType = "crypto"; 
+            }
+
+            document.getElementById('mainSymbolDisplay').innerText = currentSymbol;
+            document.getElementById('loader').style.display = 'flex';
+            document.getElementById('scanBtn').disabled = true;
+            document.getElementById('scanStatus').innerHTML = '<span class="status-dot active"></span>Scanned';
+            resetValues();
+
+            if(priceInterval) clearInterval(priceInterval);
+
+            try {
+                initTV(currentSymbol);
+                await updateLivePrice();
+                priceInterval = setInterval(updateLivePrice, 3000);
+                
+                const promises = TIMEFRAMES.map(tf => fetchTimeframeData(tf));
+                const results = await Promise.all(promises);
+                
+                renderCards(results);
+                renderStrategicGrid(results); 
+                
+                showToast("Analisa Selesai", `Multi-Timeframe SMC & QM untuk ${currentSymbol} berhasil diperbarui.`, "timeframe");
+            } catch (e) {                
+                console.error("Scan Error:", e);
+                showToast("Kesalahan", "Gagal mengambil data dari server Binance / TV.", "error");
+            } finally {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('scanBtn').disabled = false;
+                document.getElementById('scanStatus').innerHTML = '<span class="status-dot active"></span>Live';
+            }
+        }
+
+        async function updateLivePrice() {
+            try {
+                let fetchedPrice = 0;
+                let apiSymbol = "";
+                const norm = normalizeSymbol(currentSymbol);
+
+                if (SYMBOL_MAP[norm]) {
+                    apiSymbol = SYMBOL_MAP[norm].api;
+                } else {
+                    apiSymbol = norm + "USDT";
+                }
+
+                const ticker = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${apiSymbol}`);                
+                if(ticker.ok) {
+                    const priceJson = await ticker.json();
+                    fetchedPrice = parseFloat(priceJson.price);
+                }
+                                
+                if(fetchedPrice > 0) {
+                    currentLivePrice = fetchedPrice;
+                    document.getElementById('mainPrice').innerText = formatPrice(fetchedPrice);
+                    
+                    checkAndRefreshSetup();
+                    updateMainPanelFreshness();
+                }
+            } catch(e) { 
+                console.log("Ticker update error", e); 
+            }
+        }
+
+        function checkAndRefreshSetup() {
+            const recEntry = document.getElementById('recEntry').innerText;
+            const recTP = document.getElementById('recTP').innerText;
+            const recSL = document.getElementById('recSL').innerText;
+            const sigType = document.getElementById('signalType').innerText;
+
+            if(recEntry !== '-' && currentLivePrice > 0) {
+                const entry = parseFloat(recEntry.replace(/,/g, ''));
+                const tp = parseFloat(recTP.replace(/,/g, ''));
+                const sl = parseFloat(recSL.replace(/,/g, ''));
+                
+                let hitTarget = false;
+                let reason = "";
+
+                if(sigType.includes("BUY")) {
+                    if(currentLivePrice >= tp) { hitTarget = true; reason = "TAKE PROFIT HIT (TARGET REACHED)"; }
+                    if(currentLivePrice <= sl) { hitTarget = true; reason = "STOP LOSS HIT (PROTECTED)"; }
+                } else if (sigType.includes("SELL")) {
+                    if(currentLivePrice <= tp) { hitTarget = true; reason = "TAKE PROFIT HIT (TARGET REACHED)"; }
+                    if(currentLivePrice >= sl) { hitTarget = true; reason = "STOP LOSS HIT (PROTECTED)"; }
+                }
+
+                if(hitTarget) {
+                    showToast("Status Posisi", `${reason}: Mencari peluang baru...`, "warning");
+                    resetValues(); 
+                    bestSetupId = null;
+                    updateConfirmButton(null);
+                }
+            }
+        }
+
+        async function fetchTimeframeData(tfObj) {
+            try {
+                let rawData = [];
+                const norm = normalizeSymbol(currentSymbol);
+                let apiSymbol = SYMBOL_MAP[norm] ? SYMBOL_MAP[norm].api : norm + "USDT";
+                
+                const url = `https://api.binance.com/api/v3/klines?symbol=${apiSymbol}&interval=${tfObj.interval}&limit=600`;
+                const response = await fetch(url);
+                
+                if(!response.ok) return null;
+                rawData = await response.json();                                
+                if(!rawData || rawData.length < 40) return null;
+
+                const series = getSeries(rawData);
+                
+                // Average True Range (ATR)
+                let trs = [];
+                for(let i=1; i<series.close.length; i++) {
+                    let tr1 = series.high[i] - series.low[i];
+                    let tr2 = Math.abs(series.high[i] - series.close[i-1]);
+                    let tr3 = Math.abs(series.low[i] - series.close[i-1]);
+                    trs.push(Math.max(tr1, tr2, tr3));
+                }
+                const atr = trs.slice(-14).reduce((a,b)=>a+b,0) / 14 || (series.close[series.close.length-1] * 0.01);
+
+                const pivotRange = ['1m','5m'].includes(tfObj.interval) ? 3 : 4;
+                const pivots = findFractalPivots(series, pivotRange);
+                
+                const patterns = detectPatterns(series, pivots, atr, tfObj.label);
+                const bestPattern = patterns.sort((a,b) => b.score - a.score)[0];
+
+                return { 
+                    tf: tfObj.label, 
+                    price: series.close[series.close.length-1], 
+                    pattern: bestPattern || null, 
+                    allPatterns: patterns, 
+                    series: series, 
+                    pivots: pivots, 
+                    atr: atr 
+                };
+            } catch (e) {
+                console.error("Fetch TF Error:", e);
+                return null;
+            }
+        }
+
+        // --- UI RENDER FUNCTIONS ---
+        function renderCards(allData) {
+            const container = document.getElementById('tfContainer');
+            container.innerHTML = '';
+            scanResultsData = {}; 
+            
+            let globalBestSetup = null;
+            let highestScore = 0;
+            let buyCount = 0;
+            let sellCount = 0;
+
+            allData.forEach(d => {
+                if(!d) return;
+                const p = d.pattern;
+                scanResultsData[d.tf] = d;
+                let badgeClass = 'sig-wait';
+                let cardClass = '';                
+                let signalText = 'Wait';
+                let probClass = 'fill-low';
+
+                if (p) {
+                    signalText = p.type;
+                    badgeClass = p.type === 'BUY' ? 'sig-buy' : 'sig-sell';
+                    cardClass = 'has-pattern';
+                    
+                    if(p.type === 'BUY') buyCount++;                    
+                    if(p.type === 'SELL') sellCount++;
+                    
+                    if(p.score >= 88) probClass = 'fill-high';
+                    else if(p.score >= 70) probClass = 'fill-med';
+                    
+                    if(p.score > highestScore) {
+                        highestScore = p.score;
+                        globalBestSetup = { ...p, tf: d.tf };
+                    }
+                }
+                const card = document.createElement('div');
+                card.className = `tf-card ${cardClass}`;
+                if(globalBestSetup && globalBestSetup.tf === d.tf) card.classList.add('best-choice');
+                
+                card.onclick = () => openModal(d.tf);
+                card.innerHTML = `
+                    <div class="tf-label">${d.tf}</div>
+                    <span class="signal-badge ${badgeClass}">${signalText}</span>
+                    <div class="prob-meter"><div class="prob-fill ${probClass}" style="width:${p ? p.score : 0}%"></div></div>
+                `;
+                container.appendChild(card);
+            });
+
+            updateMainPanel(globalBestSetup, buyCount, sellCount);
+        }
+
+        function renderStrategicGrid(allData) {
+            const container = document.getElementById('stratContainer');
+            container.innerHTML = '';
+            strategicLevels = [];
+
+            allData.forEach(d => {
+                if(!d || !d.allPatterns) return;
+                d.allPatterns.forEach(pat => {
+                    if(pat.score >= 85) {
+                        strategicLevels.push(pat);
+                    }
+                });
+            });
+
+            strategicLevels.sort((a,b) => b.score - a.score);
+            const topLevels = strategicLevels.slice(0, 4);
+            
+            if(topLevels.length === 0) {
+                container.innerHTML = `<div style="grid-column:span 2; text-align:center; color:var(--text-sub); padding:16px; font-size:0.75rem;">Belum ada setup QM/OB/SBR yang terkonfirmasi.</div>`;
+                return;
+            }
+
+            topLevels.forEach((lvl, index) => {                
+                const card = document.createElement('div');
+                card.className = 'strat-card';
+                
+                if(lvl.name.includes("QM")) card.setAttribute('data-type', 'QM');
+                else if(lvl.name.includes("Block") || lvl.name.includes("OB")) card.setAttribute('data-type', 'SNIPER');
+                
+                card.onclick = () => openStratModal(index);
+                
+                const isBuy = lvl.type === 'BUY';
+                const color = isBuy ? 'var(--success)' : 'var(--danger)';
+                const freshData = checkFreshness(lvl, currentLivePrice);
+                
+                card.innerHTML = `
+                    <div style="overflow:hidden;">
+                        <span class="strat-type" style="color:${color}">${lvl.type} • ${lvl.category}</span>
+                        <span class="strat-tf">${lvl.tf}</span>
+                    </div>
+                    <div class="strat-price">${formatPrice(lvl.entry)}</div>
+                    <div class="strat-desc">
+                        ${lvl.name} • RR: 1:${lvl.rr}
+                    </div>
+                    <div style="margin-top:6px; text-align:right;">
+                        <span class="fresh-badge ${freshData.class}">${freshData.text}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateMainPanel(setup, buyCount, sellCount) {
+            const typeEl = document.getElementById('signalType');
+            const panel = document.getElementById('mainPanel');
+            const trendBadge = document.getElementById('trendBadge');
+            
+            let bias = "NEUTRAL";
+            if(buyCount > sellCount + 1) {
+                bias = "UPTREND";
+                trendBadge.className = "trend-pill pill-up";
+                trendBadge.innerHTML = `<i class="fas fa-arrow-trend-up"></i> BULLISH TREND`;
+            } else if (sellCount > buyCount + 1) {
+                bias = "DOWNTREND";
+                trendBadge.className = "trend-pill pill-down";
+                trendBadge.innerHTML = `<i class="fas fa-arrow-trend-down"></i> BEARISH TREND`;
+            } else {
+                bias = "SIDEWAYS";
+                trendBadge.className = "trend-pill pill-sideways";
+                trendBadge.innerHTML = `<i class="fas fa-arrows-left-right"></i> SIDEWAYS`;
+            }
+            globalTrend = bias;
+
+            if (!setup) {
+                typeEl.innerText = "WAIT";
+                typeEl.style.color = "var(--text-muted)";                
+                panel.className = "analysis-card";
+                document.getElementById('recLogic').innerHTML = `Struktur pasar saat ini belum memberikan konfirmasi QM / OB yang presisi. Trend pasar saat ini: <strong>${globalTrend}</strong>.`;
+                bestSetupId = null;
+                updateConfirmButton(null);
+                resetValues();
+                return;
+            }
+
+            const isBuy = setup.type === "BUY";
+            bestSetupId = `${currentSymbol}_${setup.tf}_${setup.type}_${formatPrice(setup.entry)}`;
+            
+            typeEl.innerText = setup.type + " " + setup.tf;
+            typeEl.style.color = isBuy ? "var(--success)" : "var(--danger)";
+            
+            if(setup.name.includes("QM")) panel.className = "analysis-card qm-mode";
+            else panel.className = `analysis-card ${isBuy ? 'buy-mode' : 'sell-mode'}`;
+
+            document.getElementById('recEntry').innerText = formatPrice(setup.entry);
+            document.getElementById('recTP').innerText = formatPrice(setup.tp);
+            document.getElementById('recSL').innerText = formatPrice(setup.sl);
+            document.getElementById('recRR').innerText = `1 : ${setup.rr}`;
+            
+            document.getElementById('recLogic').innerHTML = `
+                <strong style="color:${isBuy ? 'var(--success)' : 'var(--danger)'}">${setup.name} (${setup.tf})</strong><br>
+                Akurasi Setup: <strong>${setup.score}%</strong> • Kategori: <strong>${setup.category}</strong><br>
+                ${setup.desc}
+            `;
+            
+            updateMainPanelFreshness();
+            updateConfirmButton(bestSetupId);
+        }
+        
+        function resetValues() {
+            ['recEntry', 'recTP', 'recSL', 'recRR'].forEach(id => document.getElementById(id).innerText = '-');
+            document.getElementById('mainPanel').className = "analysis-card";
+            document.getElementById('recFreshness').innerText = "MENUNGGU SCAN";
+            document.getElementById('recFreshness').className = "fresh-badge fresh-late";
+        }
+
+        function updateMainPanelFreshness() {
+            const entryTxt = document.getElementById('recEntry').innerText;
+            const tpTxt = document.getElementById('recTP').innerText;
+            const slTxt = document.getElementById('recSL').innerText;
+            const typeTxt = document.getElementById('signalType').innerText;
+            const badge = document.getElementById('recFreshness');
+            
+            if(entryTxt === '-' || currentLivePrice === 0) return;
+
+            const entry = parseFloat(entryTxt.replace(/,/g, ''));
+            const tp = parseFloat(tpTxt.replace(/,/g, ''));
+            const sl = parseFloat(slTxt.replace(/,/g, ''));
+            
+            const tempSetup = {                
+                entry: entry, tp: tp, sl: sl,                
+                type: typeTxt.includes("BUY") ? "BUY" : "SELL"
+            };
+
+            const fresh = checkFreshness(tempSetup, currentLivePrice);
+            badge.innerText = fresh.text;
+            badge.className = `fresh-badge ${fresh.class}`;
+        }
+
+        // --- ENTRY CONFIRMATION BUTTON SYSTEM ---
+        function toggleConfirmSetup() {
+            if (!bestSetupId) return;
+            const btn = document.getElementById('confirmBtn');            
+            const isConfirmed = btn.classList.contains('btn-taken');
+            
+            if (!isConfirmed) {
+                localStorage.setItem(`scalper_conf_${bestSetupId}`, Date.now().toString());
+                updateConfirmButton(bestSetupId);            
+                showToast("Konfirmasi Posisi", "Entry tercatat. Timer durasi trade mulai berjalan.", "gold");
+            } else {
+                if(confirm("Apakah Anda yakin ingin membatalkan status konfirmasi entry posisi ini?")) {
+                    localStorage.removeItem(`scalper_conf_${bestSetupId}`);
+                    updateConfirmButton(bestSetupId);
+                }
+            }
+        }
+
+        function updateConfirmButton(id) {
+            const btn = document.getElementById('confirmBtn');
+            if (!id) {
+                btn.className = "btn-action btn-ready";
+                btn.innerHTML = `<i class="fas fa-check-circle"></i> KONFIRMASI ENTRY POSISI`;
+                btn.disabled = true;
+                btn.style.opacity = "0.5";
+                return;
+            }
+            btn.disabled = false;
+            btn.style.opacity = "1";
+
+            const savedTime = localStorage.getItem(`scalper_conf_${id}`);
+            if (savedTime) {
+                btn.className = "btn-action btn-taken";
+                updateTimers();
+            } else {
+                btn.className = "btn-action btn-ready";
+                btn.innerHTML = `<i class="fas fa-check-circle"></i> KONFIRMASI ENTRY POSISI`;
+            }
+        }
+
+        function updateTimers() {
+            if (!bestSetupId) return;
+            const savedTime = localStorage.getItem(`scalper_conf_${bestSetupId}`);
+            const btn = document.getElementById('confirmBtn');
+
+            if (savedTime && btn.classList.contains('btn-taken')) {                
+                const diffMs = Date.now() - parseInt(savedTime);
+                const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
+                const hours = Math.floor((diffMs / (1000 * 60 * 60)));                
+                const timeStr = (hours > 0 ? hours + "j " : "") + (minutes < 10 ? "0" + minutes : minutes) + "m";
+                btn.innerHTML = `<i class="fas fa-clock"></i> POSISI DIBUKA: ${timeStr} (BATALKAN)`;
+            }
+        }
+        setInterval(updateTimers, 1000);
+
+        // --- MODALS & DRAWERS MANAGEMENT ---
+        function openModal(tfLabel) {
+            const data = scanResultsData[tfLabel];
+            const modal = document.getElementById('signalModal');            
+            document.getElementById('modalTf').innerText = tfLabel;
+            
+            if(data && data.pattern) {
+                const p = data.pattern;
+                const isBuy = p.type === 'BUY';
+                document.getElementById('modalSignalTitle').innerText = p.type + " • " + p.name;
+                document.getElementById('modalSignalTitle').style.color = isBuy ? 'var(--success)' : 'var(--danger)';
+                document.getElementById('modalDesc').innerText = p.desc;
+                
+                document.getElementById('modalEntry').innerText = formatPrice(p.entry);
+                document.getElementById('modalTP').innerText = formatPrice(p.tp);
+                document.getElementById('modalSL').innerText = formatPrice(p.sl);
+                document.getElementById('modalRR').innerText = `1 : ${p.rr}`;
+                
+                const fresh = checkFreshness(p, currentLivePrice);
+                const mFresh = document.getElementById('modalFresh');
+                mFresh.innerText = fresh.text;
+                mFresh.className = `fresh-badge ${fresh.class}`;
+            } else {
+                document.getElementById('modalSignalTitle').innerText = "MENUNGGU SETUP";
+                document.getElementById('modalSignalTitle').style.color = 'var(--text-muted)';
+                document.getElementById('modalDesc').innerText = "Belum terdeteksi struktur QM/OB yang valid pada timeframe ini.";
+                ['modalEntry','modalTP','modalSL','modalRR'].forEach(id => document.getElementById(id).innerText = "-");
+                document.getElementById('modalFresh').innerText = "N/A";
+                document.getElementById('modalFresh').className = "fresh-badge fresh-late";
+            }
+            modal.classList.add('active');
+        }
+
+        function openStratModal(index) {
+            const strat = strategicLevels[index];
+            if(!strat) return;
+            const modal = document.getElementById('signalModal');
+            
+            document.getElementById('modalTf').innerText = strat.tf;
+            const isBuy = strat.type === 'BUY';
+
+            document.getElementById('modalSignalTitle').innerText = strat.type + " • " + strat.name;            
+            document.getElementById('modalSignalTitle').style.color = isBuy ? 'var(--success)' : 'var(--danger)';
+            document.getElementById('modalDesc').innerText = strat.desc + " (Key Level Institusional Terkonfirmasi)";
+            
+            document.getElementById('modalEntry').innerText = formatPrice(strat.entry);
+            document.getElementById('modalTP').innerText = formatPrice(strat.tp);
+            document.getElementById('modalSL').innerText = formatPrice(strat.sl);            
+            document.getElementById('modalRR').innerText = `1 : ${strat.rr}`;
+
+            const fresh = checkFreshness(strat, currentLivePrice);
+            const mFresh = document.getElementById('modalFresh');
+            mFresh.innerText = fresh.text;
+            mFresh.className = `fresh-badge ${fresh.class}`;
+
+            modal.classList.add('active');        
+        }
+
+        function closeModal() {
+            document.getElementById('signalModal').classList.remove('active');
+        }
+
+        function applyToChart() {
+            const tfLabel = document.getElementById('modalTf').innerText;
+            const tfObj = TIMEFRAMES.find(t => t.label === tfLabel);
+            if(tfObj) {
+                let tvInterval = tfObj.interval.replace('m','').replace('h','').replace('d','D');
+                initTV(currentSymbol, tvInterval);
+                closeModal();
+            }
+        }
+
+        // --- ALL CRYPTO SCANNER MODAL FUNCTIONS ---
+        async function openCryptoScannerModal() {
+            const modal = document.getElementById('cryptoScannerModal');
+            modal.classList.add('active');
+            
+            if(cryptoTickerCache.length === 0) {
+                await loadTopCryptoList();
+            } else {
+                renderCryptoList(cryptoTickerCache);
+            }
+        }
+
+        function closeCryptoScannerModal() {
+            document.getElementById('cryptoScannerModal').classList.remove('active');
+        }
+
+        async function loadTopCryptoList() {
+            const container = document.getElementById('cryptoListContainer');
+            container.innerHTML = `<div style="grid-column:span full; text-align:center; padding:30px; color:var(--accent);"><i class="fas fa-spinner fa-spin"></i> Memuat daftar koin crypto Binance...</div>`;
+
+            try {
+                const res = await fetch('https://api.binance.com/api/v3/ticker/24hr');
+                if(!res.ok) throw new Error("Binance API error");
+                const data = await res.json();
+
+                // Filter top USDT pairs by 24h quote volume
+                cryptoTickerCache = data
+                    .filter(item => item.symbol.endsWith('USDT') && !item.symbol.includes('UP') && !item.symbol.includes('DOWN'))
+                    .sort((a,b) => parseFloat(b.quoteVolume) - parseFloat(a.quoteVolume))
+                    .slice(0, 70);
+
+                renderCryptoList(cryptoTickerCache);
+            } catch(e) {
+                container.innerHTML = `<div style="grid-column:span full; text-align:center; padding:20px; color:var(--danger);">Gagal memuat koin crypto: ${e.message}</div>`;
+            }
+        }
+
+        function renderCryptoList(list) {
+            const container = document.getElementById('cryptoListContainer');
+            container.innerHTML = '';
+
+            list.forEach(item => {
+                const baseSymbol = item.symbol.replace('USDT', '');
+                const price = parseFloat(item.priceChangePercent);
+                const isPositive = price >= 0;
+                
+                const card = document.createElement('div');
+                card.className = 'crypto-item';
+                card.onclick = () => {
+                    closeCryptoScannerModal();
+                    quickSelectSymbol(baseSymbol);
+                };
+
+                card.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:800; font-family:var(--font-mono); color:white; font-size:0.95rem;">${baseSymbol}</span>
+                        <span style="font-size:0.75rem; font-weight:800; color:${isPositive ? 'var(--success)' : 'var(--danger)'}">
+                            ${isPositive ? '+' : ''}${price.toFixed(2)}%
+                        </span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                        <span style="font-size:0.8rem; font-family:var(--font-mono); color:var(--text-muted);">${formatPrice(parseFloat(item.lastPrice))}</span>
+                        <span style="font-size:0.65rem; color:var(--text-sub);">Vol: $${(parseFloat(item.quoteVolume)/1000000).toFixed(1)}M</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterCryptoList() {
+            const query = document.getElementById('cryptoSearchInput').value.toUpperCase().trim();
+            const filtered = cryptoTickerCache.filter(item => item.symbol.includes(query));
+            renderCryptoList(filtered);
+        }
+
+        // --- AUDIO AVATAR SYSTEM ---
+        let soundEnabled = false;
+        let currentTrackIndex = 1;
+        const totalTracks = 6;
+        const audioPlayer = new Audio();
+        let soundLoopTimer = null;
+        const TRACK_DELAY = 2000;
+
+        function toggleSoundSystem() {
+            const avatar = document.getElementById('avatarBtn');
+            const icon = document.getElementById('soundIcon');
+            const statusText = document.getElementById('soundText');
+
+            soundEnabled = !soundEnabled;
+
+            if (soundEnabled) {
+                avatar.classList.remove('sound-off');
+                avatar.classList.add('sound-on');
+                icon.className = 'fas fa-volume-up';
+                statusText.innerText = "Sound On";                
+                statusText.style.opacity = 1;
+                playNextTrack();
+            } else {
+                avatar.classList.remove('sound-on');
+                avatar.classList.add('sound-off');
+                icon.className = 'fas fa-volume-mute';
+                statusText.innerText = "Sound Off";
+                audioPlayer.pause();
+                clearTimeout(soundLoopTimer);            
+            }
+            setTimeout(() => { statusText.style.opacity = 0; }, 2000);
+        }
+
+        function playNextTrack() {
+            if (!soundEnabled) return;            
+            const fileName = `${currentTrackIndex}.mp3`;
+            audioPlayer.src = fileName;
+            audioPlayer.play().catch(error => {
+                console.log("Audio playback failed (check if mp3 exists):", error);
+                scheduleNextTrack();
+            });
+            audioPlayer.onended = () => { scheduleNextTrack(); };        
+        }
+
+        function scheduleNextTrack() {
+            if (!soundEnabled) return;
+            currentTrackIndex++;
+            if (currentTrackIndex > totalTracks) currentTrackIndex = 1;
+            soundLoopTimer = setTimeout(() => { playNextTrack(); }, TRACK_DELAY);
+        }
+
+        // INITIALIZATION ON LOAD
+        window.onload = () => {
+            initTV();
+            startNewScan();
+        };    
+    </script>
+</body>
+</html>
