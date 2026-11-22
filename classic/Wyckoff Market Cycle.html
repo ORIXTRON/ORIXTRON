@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Wyckoff Market Cycle — Richard D. Wyckoff 1931 | Orixtron Technology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment-base: #e6cfa9;
+      --parchment-light: #f2e1c2;
+      --parchment-dark: #cfa972;
+      --ink-dark: #2c1e12;
+      --ink-sepia: #4a321d;
+      --ink-faded: #6e4f32;
+      --line-gold-brown: #9c6b30;
+
+      /* Palet 4 Fase Struktur Wyckoff (Nuansa Tinta Antik) */
+      --wyckoff-accum: #1e4b6b;   /* Fase 1: Accumulation (Smart Money Buy) */
+      --wyckoff-mark:  #2e5a36;   /* Fase 2: Markup (Uptrend / Public Participation) */
+      --wyckoff-dist:  #9c5a1a;   /* Fase 3: Distribution (Smart Money Unload) */
+      --wyckoff-down:  #8b261d;   /* Fase 4: Markdown (Downtrend / Capitulation) */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #261b12;
+      background-image: radial-gradient(circle at center, #3a291b 0%, #1c130c 100%);
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Tekstur Kertas Perkamen Klasik */
+    .parchment-card {
+      position: relative;
+      width: 100%;
+      max-width: 1240px;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(255, 248, 231, 0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 85%, rgba(168, 121, 62, 0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, var(--parchment-light) 0%, var(--parchment-base) 65%, var(--parchment-dark) 100%);
+      border: 2px solid #5c3f24;
+      border-radius: 4px;
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.65),
+        inset 0 0 65px rgba(112, 74, 34, 0.42),
+        inset 0 0 12px rgba(44, 30, 18, 0.45);
+      padding: 34px 34px 26px;
+      overflow: hidden;
+    }
+
+    /* Efek Serat Kertas Halus */
+    .parchment-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+
+    /* Bingkai Tipis Bagian Dalam */
+    .parchment-card::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      pointer-events: none;
+    }
+
+    /* Watermark Kertas Perkamen Orixtron Technology */
+    .parchment-watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .watermark-main-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: clamp(2.1rem, 5.2vw, 4.4rem);
+      letter-spacing: 0.22em;
+      color: rgba(74, 50, 29, 0.075);
+      text-transform: uppercase;
+      white-space: nowrap;
+      transform: rotate(-8deg);
+      text-shadow: 1px 1px 0 rgba(255, 248, 231, 0.35);
+    }
+
+    .watermark-sub-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+      letter-spacing: 0.32em;
+      color: rgba(74, 50, 29, 0.085);
+      text-transform: uppercase;
+      transform: rotate(-8deg);
+      margin-top: 4px;
+    }
+
+    /* Header Judul Utama */
+    .card-header {
+      text-align: center;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-kicker {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--ink-faded);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-family: 'Cinzel', 'Times New Roman', serif;
+      font-size: clamp(1.65rem, 3.4vw, 2.95rem);
+      font-weight: 700;
+      color: var(--ink-sepia);
+      letter-spacing: 0.04em;
+      text-shadow: 1px 1px 0 rgba(255, 245, 224, 0.6);
+    }
+
+    .card-subtitle-header {
+      font-size: 1.08rem;
+      font-style: italic;
+      color: var(--ink-sepia);
+      margin-top: 2px;
+    }
+
+    /* Kontrol Tampilan Skema & Lapisan Volume */
+    .chart-controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: rgba(110, 79, 50, 0.1);
+      border: 1px solid rgba(74, 50, 29, 0.3);
+      border-radius: 3px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .control-label {
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: var(--ink-sepia);
+    }
+
+    .vintage-btn {
+      background: linear-gradient(to bottom, #f5e6ca, #dec092);
+      border: 1px solid #5c3f24;
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.94rem;
+      padding: 5px 11px;
+      border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      transition: all 0.15s ease;
+    }
+
+    .vintage-btn:hover {
+      background: linear-gradient(to bottom, #fff2da, #e5c99c);
+      transform: translateY(-1px);
+    }
+
+    .vintage-btn.active {
+      background: var(--ink-sepia);
+      color: #f6e7cb;
+      border-color: var(--ink-dark);
+    }
+
+    /* Area Grafik Skematik Wyckoff */
+    .chart-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      margin-top: 4px;
+      border: 2px solid var(--ink-dark);
+      background: rgba(255, 249, 236, 0.18);
+    }
+
+    /* Kolom Kiri: Sumbu Harga & Volume */
+    .axis-column {
+      flex: 0 0 96px;
+      border-right: 1.8px solid var(--ink-dark);
+      background: rgba(110, 79, 50, 0.08);
+      user-select: none;
+    }
+
+    /* Area Scrollable SVG Skematik */
+    .chart-scroll-area {
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      position: relative;
+      cursor: grab;
+    }
+
+    .chart-scroll-area:active {
+      cursor: grabbing;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-track {
+      background: rgba(92, 63, 36, 0.15);
+      border-top: 1px solid rgba(92, 63, 36, 0.3);
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-thumb {
+      background: #7c5633;
+      border-radius: 3px;
+      border: 1px solid #4a321d;
+    }
+
+    /* Ringkasan 4 Fase Struktur Wyckoff */
+    .phases-legend-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .phase-legend-card {
+      background: rgba(255, 249, 236, 0.42);
+      border: 1px solid rgba(74, 50, 29, 0.38);
+      border-top-width: 4px;
+      border-radius: 3px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .phase-legend-card:hover {
+      background: rgba(255, 249, 236, 0.72);
+      transform: translateY(-2px);
+    }
+
+    .phase-legend-card.accum { border-top-color: var(--wyckoff-accum); }
+    .phase-legend-card.mark  { border-top-color: var(--wyckoff-mark); }
+    .phase-legend-card.dist  { border-top-color: var(--wyckoff-dist); }
+    .phase-legend-card.down  { border-top-color: var(--wyckoff-down); }
+
+    .phase-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.86rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: 0.03em;
+    }
+
+    .phase-card-body {
+      font-size: 0.94rem;
+      line-height: 1.32;
+      color: var(--ink-dark);
+    }
+
+    /* Footer Kartu & Tanda Tangan Richard D. Wyckoff */
+    .card-footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .legend-note-block {
+      max-width: 820px;
+      font-size: 1.04rem;
+      line-height: 1.38;
+      color: var(--ink-dark);
+    }
+
+    .signature-block {
+      text-align: right;
+      transform: rotate(-12deg);
+      transform-origin: bottom right;
+      padding: 0 12px 4px 0;
+      color: var(--ink-faded);
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .signature-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2rem;
+      line-height: 0.95;
+      display: block;
+    }
+
+    .signature-year {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.45rem;
+      display: block;
+      margin-top: -2px;
+    }
+
+    /* Stempel Kolofon Developer Orixtron Technology */
+    .developer-colophon {
+      position: relative;
+      z-index: 2;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(74, 50, 29, 0.28);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--ink-faded);
+      user-select: none;
+    }
+
+    .dev-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 12px;
+      border: 1px double rgba(74, 50, 29, 0.55);
+      border-radius: 2px;
+      background: rgba(255, 248, 231, 0.25);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--ink-sepia);
+      text-transform: uppercase;
+    }
+
+    .dev-edition-note {
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--ink-faded);
+    }
+
+    /* =========================================================
+       PANEL ANALYZER & DIAGNOSTIK WYCKOFF (TEMA KLASIK SENADA)
+       ========================================================= */
+    .predictor-panel {
+      padding: 26px 32px 22px;
+    }
+
+    .predictor-header {
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid rgba(74, 50, 29, 0.35);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .predictor-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .predictor-subtitle {
+      font-size: 1.02rem;
+      font-style: italic;
+      color: var(--ink-faded);
+    }
+
+    /* Baris Kontrol Simulator Skematik & Scanner Kondisi Pasar */
+    .wyckoff-tools-bar {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+      padding: 14px 16px;
+      background: rgba(222, 192, 146, 0.28);
+      border: 1px solid rgba(92, 63, 36, 0.38);
+      border-radius: 3px;
+    }
+
+    .tool-box-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--ink-sepia);
+      margin-bottom: 8px;
+      letter-spacing: 0.04em;
+    }
+
+    .landmark-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .scanner-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 8px;
+      align-items: end;
+    }
+
+    .vintage-select-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .vintage-select-wrap label {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .vintage-select {
+      background: #f9eed9;
+      border: 1.5px solid #5c3f24;
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.98rem;
+      padding: 6px 8px;
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .predict-submit-btn {
+      background: var(--ink-sepia);
+      color: #f7e7c8;
+      border: 1.5px solid var(--ink-dark);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 7px 14px;
+      border-radius: 3px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.15s ease;
+    }
+
+    .predict-submit-btn:hover {
+      background: #2c1e12;
+    }
+
+    /* Hasil Diagnostik */
+    .prediction-result {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 249, 236, 0.55);
+      border: 1.5px solid #6b4929;
+      border-radius: 4px;
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: 1.38fr 1fr;
+      gap: 20px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      color: #fff8eb;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .badge-accum { background-color: var(--wyckoff-accum); }
+    .badge-mark  { background-color: var(--wyckoff-mark); }
+    .badge-dist  { background-color: var(--wyckoff-dist); }
+    .badge-down  { background-color: var(--wyckoff-down); }
+
+    .result-headline {
+      font-family: 'Cinzel', serif;
+      font-size: 1.48rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      margin-bottom: 6px;
+    }
+
+    .result-law-note {
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: var(--ink-sepia);
+      margin-bottom: 10px;
+    }
+
+    .result-desc {
+      font-size: 1.1rem;
+      line-height: 1.46;
+      color: var(--ink-dark);
+      margin-bottom: 12px;
+    }
+
+    .asset-allocation-box {
+      background: rgba(222, 192, 146, 0.32);
+      border-left: 3.5px solid var(--line-gold-brown);
+      padding: 10px 14px;
+      font-size: 1.04rem;
+      line-height: 1.42;
+      color: var(--ink-dark);
+    }
+
+    .cycle-checklist {
+      background: rgba(222, 192, 146, 0.35);
+      border: 1px solid rgba(92, 63, 36, 0.35);
+      border-radius: 3px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 9px;
+    }
+
+    .check-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      border-bottom: 1px dashed rgba(92, 63, 36, 0.3);
+      padding-bottom: 6px;
+      font-size: 1.01rem;
+    }
+
+    .check-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .check-label {
+      font-weight: 700;
+      color: var(--ink-sepia);
+      flex-shrink: 0;
+    }
+
+    .check-val {
+      text-align: right;
+      font-weight: 600;
+      color: var(--ink-dark);
+    }
+
+    .global-dev-footer {
+      text-align: center;
+      color: rgba(230, 207, 169, 0.65);
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      user-select: none;
+    }
+
+    @media (max-width: 960px) {
+      .wyckoff-tools-bar {
+        grid-template-columns: 1fr;
+      }
+      .phases-legend-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .prediction-result {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .parchment-card {
+        padding: 20px 14px;
+      }
+      .axis-column {
+        flex: 0 0 64px;
+      }
+      .phases-legend-grid {
+        grid-template-columns: 1fr;
+      }
+      .scanner-grid {
+        grid-template-columns: 1fr;
+      }
+      .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .signature-block {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KARTU UTAMA SIKLUS PASAR WYCKOFF (RICHARD D. WYCKOFF, 1931) -->
+  <main class="parchment-card">
+    <!-- Watermark Kertas Perkamen Orixtron Technology -->
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text">ORIXTRON TECHNOLOGY</span>
+      <span class="watermark-sub-text">Richard D. Wyckoff Price &amp; Volume Schematic Edition</span>
+    </div>
+
+    <header class="card-header">
+      <div class="card-kicker">The Composite Man &bull; Law of Supply &amp; Demand, Cause &amp; Effect, Effort vs. Result</div>
+      <h1 class="card-title">The Wyckoff Market Cycle</h1>
+      <p class="card-subtitle-header">“Accumulation, Markup, Distribution, and Markdown — Reading Institutional Footprints via Price &amp; Volume”</p>
+    </header>
+
+    <!-- Kontrol Fokus Skematik & Lapisan Trading Range / Volume -->
+    <div class="chart-controls">
+      <div class="control-group">
+        <span class="control-label">Fokus Skematik:</span>
+        <button class="vintage-btn active" data-zoom="full" onclick="setSchematicView('full', this)">Siklus Penuh (4 Fase)</button>
+        <button class="vintage-btn" data-zoom="accum" onclick="setSchematicView('accum', this)">Akumulasi &amp; Markup</button>
+        <button class="vintage-btn" data-zoom="dist" onclick="setSchematicView('dist', this)">Distribusi &amp; Markdown</button>
+      </div>
+      <div class="control-group">
+        <button class="vintage-btn active" id="btnToggleTR" onclick="toggleOption('showTR', this)">Batas Support/Resistance (TR)</button>
+        <button class="vintage-btn active" id="btnToggleVol" onclick="toggleOption('showVol', this)">Histogram Volume</button>
+      </div>
+    </div>
+
+    <!-- Grafik Skematik Wyckoff (Harga + Trading Range + Volume) -->
+    <div class="chart-wrapper">
+      <!-- Sumbu Kiri: Level Harga & Effort/Volume -->
+      <div class="axis-column">
+        <svg viewBox="0 0 96 410" width="100%" height="410" aria-hidden="true">
+          <text x="48" y="32" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">FASE</text>
+          <line x1="8" y1="50" x2="88" y2="50" stroke="#2c1e12" stroke-width="1.2"/>
+
+          <text x="48" y="84" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#9c5a1a">SUPPLY</text>
+          <text x="48" y="98" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Distribusi)</text>
+
+          <line x1="14" y1="184" x2="82" y2="184" stroke="#5c3f24" stroke-dasharray="3,3" stroke-width="1"/>
+          <text x="48" y="178" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">Harga</text>
+          <text x="48" y="198" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#6e4f32">(Price Action)</text>
+
+          <text x="48" y="274" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#1e4b6b">DEMAND</text>
+          <text x="48" y="288" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Akumulasi)</text>
+
+          <line x1="8" y1="312" x2="88" y2="312" stroke="#2c1e12" stroke-width="1.2"/>
+          <text x="48" y="346" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10" fill="#4a321d">VOLUME</text>
+          <text x="48" y="360" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="#6e4f32">(Effort)</text>
+
+          <line x1="8" y1="376" x2="88" y2="376" stroke="#2c1e12" stroke-width="1.2"/>
+          <text x="48" y="397" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10" fill="#4a321d">EVENT</text>
+        </svg>
+      </div>
+
+      <!-- Kanvas SVG Skematik Wyckoff -->
+      <div class="chart-scroll-area" id="chartScrollArea">
+        <svg id="wyckoffSvg" height="410" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+
+    <!-- Ringkasan 4 Fase Utama Wyckoff -->
+    <div class="phases-legend-grid">
+      <div class="phase-legend-card accum" onclick="selectLandmark('SPRING')">
+        <div class="phase-card-title" style="color: var(--wyckoff-accum);">1. ACCUMULATION (FASE A–E)</div>
+        <div class="phase-card-body">
+          Institusi (<em>Composite Man</em>) menyerap pasokan panik ritel di dalam <em>Trading Range</em> bawah (<code>SC &rarr; AR &rarr; ST &rarr; Spring &rarr; SOS</code>). <strong>Zona beli utama.</strong>
+        </div>
+      </div>
+      <div class="phase-legend-card mark" onclick="selectLandmark('MARKUP')">
+        <div class="phase-card-title" style="color: var(--wyckoff-mark);">2. MARKUP (TREN NAIK)</div>
+        <div class="phase-card-body">
+          Permintaan mengungguli penawaran; harga menembus resistensi (<code>SOS / LPS</code>) dan membentuk <em>Higher Highs &amp; Higher Lows</em>. <strong>Hold &amp; ikuti momentum tren.</strong>
+        </div>
+      </div>
+      <div class="phase-legend-card dist" onclick="selectLandmark('UTAD')">
+        <div class="phase-card-title" style="color: var(--wyckoff-dist);">3. DISTRIBUTION (FASE A–E)</div>
+        <div class="phase-card-body">
+          Institusi melepas barang secara bertahap di puncak euforia (<code>BC &rarr; AR &rarr; UTAD &rarr; SOW &rarr; LPSY</code>) sebelum harga dijatuhkan. <strong>Zona distribusi / jual.</strong>
+        </div>
+      </div>
+      <div class="phase-legend-card down" onclick="selectLandmark('MARKDOWN')">
+        <div class="phase-card-title" style="color: var(--wyckoff-down);">4. MARKDOWN (TREN TURUN)</div>
+        <div class="phase-card-body">
+          Penawaran membanjiri pasar setelah support jebol (<code>LPSY</code>). Publik ritel terjebak di pucuk hingga kapitulasi berikutnya. <strong>Jaga likuiditas kas.</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Catatan Bawah & Tanda Tangan Richard D. Wyckoff -->
+    <footer class="card-footer">
+      <div class="legend-note-block">
+        <p>
+          <strong>Tiga Hukum Utama Wyckoff (1931):</strong> (1) <em>Law of Supply &amp; Demand</em> menentukan arah harga; (2) <em>Law of Cause &amp; Effect</em> menyatakan lebar fase <em>Accumulation/Distribution</em> (Cause) sebanding dengan jarak reli/penurunan berikutnya (Effect); (3) <em>Law of Effort vs. Result</em> membandingkan volume transaksi dengan pergerakan harga untuk mendeteksi pembalikan lebih dini.
+        </p>
+      </div>
+
+      <div class="signature-block">
+        <span class="signature-name">Richard D. Wyckoff</span>
+        <span class="signature-year">1931</span>
+      </div>
+    </footer>
+
+    <!-- Kolofon Resmi Developer -->
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Reconstructed &amp; Interactive Composite Man Schematic (Multi-Timeframe)</span>
+      <span class="dev-stamp">&#10022; Developer: Orixtron Technology &#10022;</span>
+    </div>
+  </main>
+
+  <!-- PANEL DIAGNOSTIK & SIMULATOR SKEMATIK WYCKOFF -->
+  <section class="parchment-card predictor-panel">
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text" style="font-size: clamp(1.8rem, 4vw, 3.2rem);">ORIXTRON TECHNOLOGY</span>
+    </div>
+
+    <div class="predictor-header">
+      <h2 class="predictor-title">Simulator Skematik &amp; Diagnostik Price-Volume Wyckoff</h2>
+      <span class="predictor-subtitle">Berlaku lintas timeframe (Intraday, Swing, maupun Siklus Tahunan)</span>
+    </div>
+
+    <!-- Bilah Kontrol Pemilihan Landmark & Scanner Struktur Pasar -->
+    <div class="wyckoff-tools-bar">
+      <div>
+        <div class="tool-box-title">1. Jelajahi Titik Kunci Skematik (Klik Event pada Grafik atau Tombol):</div>
+        <div class="landmark-buttons" id="landmarkButtons">
+          <button class="vintage-btn" data-lm="SC" onclick="selectLandmark('SC')">SC (Selling Climax)</button>
+          <button class="vintage-btn" data-lm="ST" onclick="selectLandmark('ST')">AR &amp; ST (Range)</button>
+          <button class="vintage-btn active" data-lm="SPRING" onclick="selectLandmark('SPRING')">Spring (Shakeout)</button>
+          <button class="vintage-btn" data-lm="SOS" onclick="selectLandmark('SOS')">SOS &amp; LPS (Breakout)</button>
+          <button class="vintage-btn" data-lm="MARKUP" onclick="selectLandmark('MARKUP')">Markup (Uptrend)</button>
+          <button class="vintage-btn" data-lm="BC" onclick="selectLandmark('BC')">BC (Buying Climax)</button>
+          <button class="vintage-btn" data-lm="UTAD" onclick="selectLandmark('UTAD')">UTAD (Bull Trap)</button>
+          <button class="vintage-btn" data-lm="LPSY" onclick="selectLandmark('LPSY')">SOW &amp; LPSY</button>
+          <button class="vintage-btn" data-lm="MARKDOWN" onclick="selectLandmark('MARKDOWN')">Markdown</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="tool-box-title">2. Diagnostik Cepat Kondisi Chart Anda (Price + Volume):</div>
+        <div class="scanner-grid">
+          <div class="vintage-select-wrap">
+            <label for="priceActionSelect">Aksi Harga (Price Action):</label>
+            <select id="priceActionSelect" class="vintage-select">
+              <option value="false_break_down" selected>False Breakdown di Bawah Support</option>
+              <option value="climax_drop">Jatuh Tajam Setelah Downtrend Panjang</option>
+              <option value="breakout_up">Menembus Resistensi Range Atas</option>
+              <option value="higher_highs">Membentuk Higher High &amp; Higher Low</option>
+              <option value="climax_rally">Lonjakan Parabolik di Puncak Tren</option>
+              <option value="false_break_up">False Breakout di Atas Resistensi</option>
+              <option value="breakdown_support">Jebol Support &amp; Gagal Rebound</option>
+            </select>
+          </div>
+
+          <div class="vintage-select-wrap">
+            <label for="volumeBehaviorSelect">Perilaku Volume:</label>
+            <select id="volumeBehaviorSelect" class="vintage-select">
+              <option value="low_dry" selected>Volume Kecil / Mengering (Low)</option>
+              <option value="ultra_high">Volume Meledak Ekstrem (Climax)</option>
+              <option value="expanding_up">Volume Membesar Saat Naik</option>
+              <option value="expanding_down">Volume Membesar Saat Turun</option>
+            </select>
+          </div>
+
+          <button class="predict-submit-btn" onclick="diagnoseCustomChart()">Diagnosa</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="prediction-result" id="predictionResult">
+      <!-- Diisi otomatis oleh JavaScript -->
+    </div>
+
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Wyckoff Structural &amp; Order-Flow Engine &bull; All-Timeframe Support</span>
+      <span class="dev-stamp">&#10022; Orixtron Technology &#10022;</span>
+    </div>
+  </section>
+
+  <div class="global-dev-footer">
+    ENGINEERED BY ORIXTRON TECHNOLOGY &bull; RICHARD D. WYCKOFF SCHEMATIC EDITION
+  </div>
+
+  <script>
+    /**
+     * SKEMATIK SIKLUS PASAR WYCKOFF (RICHARD D. WYCKOFF, 1931)
+     * Engineered by Orixtron Technology
+     * Memetakan kurva harga, batas Trading Range (Support/Resistance), dan histogram volume
+     * di seluruh siklus: Accumulation -> Markup -> Distribution -> Markdown.
+     */
+
+    // Koordinat kurva harga skematik: [xNorm (0..100), priceYNorm (0..1), volNorm (0..1)]
+    const WYCKOFF_PATH_DATA = [
+      // Masuk dari Markdown sebelumnya ke Accumulation Phase A
+      [0.0,  0.62, 0.42],
+      [2.5,  0.44, 0.55],
+      [5.0,  0.30, 0.72], // PS (Preliminary Support)
+      [7.0,  0.34, 0.40],
+      [9.5,  0.14, 0.96], // SC (Selling Climax - Volume Ultra Tinggi)
+      [13.0, 0.35, 0.65], // AR (Automatic Rally - Menetapkan batas atas TR)
+      [16.0, 0.17, 0.48], // ST (Secondary Test)
+      [19.0, 0.33, 0.36], // Phase B Oscillation
+      [21.5, 0.16, 0.32], // ST in Phase B
+      [24.0, 0.34, 0.38],
+      [26.5, 0.08, 0.24], // SPRING (Phase C - False Breakdown dengan volume kering!)
+      [28.5, 0.22, 0.28], // Test of Spring (Volume rendah)
+      [31.5, 0.42, 0.84], // SOS (Sign of Strength - Breakout di atas TR dengan volume besar)
+      [34.0, 0.35, 0.34], // LPS (Last Point of Support - Pullback sehat di atas resistance lama)
+
+      // Phase 2: MARKUP (Uptrend Institusi)
+      [38.5, 0.54, 0.66],
+      [41.0, 0.47, 0.38], // Re-accumulation step 1
+      [46.0, 0.68, 0.70],
+      [48.5, 0.61, 0.40], // Re-accumulation step 2
+      [53.5, 0.82, 0.76],
+
+      // Phase 3: DISTRIBUTION (Phase A - E)
+      [56.0, 0.75, 0.58], // PSY (Preliminary Supply)
+      [59.0, 0.91, 0.98], // BC (Buying Climax - Volume Euforia Ritel)
+      [62.0, 0.71, 0.68], // AR (Automatic Reaction - Menetapkan batas bawah TR)
+      [65.0, 0.88, 0.50], // ST (Secondary Test)
+      [68.0, 0.72, 0.42], // Phase B Oscillation
+      [71.0, 0.89, 0.44], // ST in Phase B
+      [74.0, 0.97, 0.82], // UTAD (Upthrust After Distribution - Bull Trap di atas resistensi)
+      [77.0, 0.68, 0.78], // SOW (Sign of Weakness - Menembus support bawah TR)
+      [80.0, 0.74, 0.35], // LPSY (Last Point of Supply - Pantulan lemah dengan volume kecil)
+
+      // Phase 4: MARKDOWN (Downtrend)
+      [84.5, 0.54, 0.68],
+      [87.5, 0.60, 0.38], // Bear flag / Redistribution step 1
+      [92.0, 0.38, 0.74],
+      [95.0, 0.43, 0.40], // Redistribution step 2
+      [100.0, 0.22, 0.80]
+    ];
+
+    const LANDMARKS = {
+      SC: {
+        code: 'SC',
+        label: 'SC (Selling Climax)',
+        xNorm: 9.5,
+        phaseKey: 'accum',
+        badgeClass: 'badge-accum',
+        badgeText: 'ACCUMULATION • PHASE A — SELLING CLIMAX (SC)',
+        headline: 'Selling Climax (SC): Kapitulasi Ritel & Penyerapan Awal Smart Money',
+        lawFocus: 'Hukum Effort vs. Result: Volume ekstrem terbesar menghentikan tren turun.',
+        desc: 'Kepanikan jual publik mencapai puncaknya dengan rentang candle lebar dan lonjakan volume masif. Namun, penurunan berhenti karena Composite Man (institusi besar) mulai menyerap seluruh pasokan murah yang dilepas pasar.',
+        strategy: '<strong>Strategi Eksekusi:</strong> Jangan ikut menjual dalam kepanikan; tandai titik terendah <code>SC</code> sebagai batas <em>Support</em> awal dan tunggu reli otomatis (<code>AR</code>) serta uji ulang (<code>ST</code>) untuk konfirmasi lantai harga.',
+        priceBehavior: 'Penurunan tajam berkecepatan tinggi diikuti pantulan cepat (AR)',
+        volumeProfile: 'Lonjakan volume ekstrem (puncak kapitulasi)',
+        compositeAction: 'Mulai menyerap pasokan panik secara pasif di area bawah'
+      },
+      ST: {
+        code: 'ST',
+        label: 'AR & ST',
+        xNorm: 21.5,
+        phaseKey: 'accum',
+        badgeClass: 'badge-accum',
+        badgeText: 'ACCUMULATION • PHASE B — BUILDING A CAUSE (AR & ST)',
+        headline: 'Fase B (AR & Secondary Test): Konsolidasi & Pengurasan Sisa Pasokan',
+        lawFocus: 'Hukum Cause & Effect: Semakin lama konsolidasi Fase B, semakin besar reli berikutnya.',
+        desc: 'Harga bergerak menyamping di antara Support (<code>SC</code>) dan Resistance (<code>AR</code>). Institusi menguji berkali-kali (<em>Secondary Test</em>) untuk memastikan penjual lemah sudah keluar dan saham berpindah ke tangan kuat.',
+        strategy: '<strong>Strategi Eksekusi:</strong> Hindari mengejar harga di dekat resistensi atas kotak; pantau penyusutan volume setiap kali harga mendekati area support bawah sebagai tanda pasokan mulai habis.',
+        priceBehavior: 'Bergerak mendatar (sideways) dalam Trading Range bawah',
+        volumeProfile: 'Volume berangsur mengecil saat menguji support',
+        compositeAction: 'Mengakumulasi secara diam-diam tanpa memicu kenaikan harga'
+      },
+      SPRING: {
+        code: 'SPRING',
+        label: 'SPRING',
+        xNorm: 26.5,
+        phaseKey: 'accum',
+        badgeClass: 'badge-accum',
+        badgeText: 'ACCUMULATION • PHASE C — THE SPRING (SHAKEOUT)',
+        headline: 'The Spring: Jebakan False Breakdown & Titik Beli Terbaik Wyckoff',
+        lawFocus: 'Hukum Supply & Demand: Penembusan support gagal karena tidak ada lagi tekanan jual.',
+        desc: 'Composite Man sengaja menekan harga sedikit menembus support bawah Trading Range untuk memicu <em>stop-loss</em> ritel dan memancing posisi <em>short</em>, lalu segera menarik harga kembali masuk ke dalam range dengan volume kecil.',
+        strategy: '<strong>Strategi Eksekusi (High-Conviction Entry):</strong> Eksekusi pembelian saat harga berbalik menutup di atas support (<em>Spring reversal</em>) atau saat <em>Test of Spring</em> bervolume rendah, dengan <em>stop-loss</em> ketat tepat di bawah ekor Spring.',
+        priceBehavior: 'Menembus support sesaat lalu cepat berbalik naik ke dalam range',
+        volumeProfile: 'Volume rendah / mengering (menandakan absennya penjual)',
+        compositeAction: 'Menyapu likuiditas stop-loss terakhir sebelum memulai Markup'
+      },
+      SOS: {
+        code: 'SOS',
+        label: 'SOS & LPS',
+        xNorm: 34.0,
+        phaseKey: 'accum',
+        badgeClass: 'badge-accum',
+        badgeText: 'ACCUMULATION • PHASE D/E — SIGN OF STRENGTH (SOS) & LPS',
+        headline: 'Sign of Strength (SOS) & Last Point of Support (LPS): Konfirmasi Breakout',
+        lawFocus: 'Hukum Effort vs. Result: Lonjakan volume mengonfirmasi penembusan resistensi.',
+        desc: 'Harga menembus batas atas Trading Range dengan candle kuat dan ekspansi volume (<code>SOS</code>), lalu melakukan koreksi ringan bervolume kecil (<code>LPS</code>) yang bertahan di atas resistensi lama sebagai pijakan baru.',
+        strategy: '<strong>Strategi Eksekusi (Breakout & Pullback Entry):</strong> Masuk pada saat <code>SOS</code> terkonfirmasi volume atau lakukan <em>buy on pullback</em> di titik <code>LPS</code> untuk menangkap awal gelombang <em>Markup</em>.',
+        priceBehavior: 'Menembus resistensi range & bertahan di atasnya saat pullback',
+        volumeProfile: 'Volume mengembang kuat saat naik, menyusut saat pullback LPS',
+        compositeAction: 'Menggeser bid secara agresif ke atas karena pasokan telah terkunci'
+      },
+      MARKUP: {
+        code: 'MARKUP',
+        label: 'MARKUP',
+        xNorm: 46.0,
+        phaseKey: 'mark',
+        badgeClass: 'badge-mark',
+        badgeText: 'FASE 2 • MARKUP (INSTITUTIONAL UPTREND)',
+        headline: 'Fase Markup: Tren Naik Berkelanjutan & Partisipasi Publik',
+        lawFocus: 'Hukum Supply & Demand: Permintaan jauh melampaui pasokan yang tersedia di pasar.',
+        desc: 'Harga bergerak naik secara teratur membentuk struktur <em>Higher Highs</em> dan <em>Higher Lows</em>, diselingi jeda konsolidasi singkat (<em>Re-Accumulation</em>). Berita fundamental dan sentimen media mulai berubah menjadi sangat optimis.',
+        strategy: '<strong>Strategi Eksekusi (Trend Following / Pyramiding):</strong> Pertahankan posisi inti dari fase akumulasi (<em>let profits run</em>) dan gunakan pola <em>Re-Accumulation</em> sebagai titik tambah posisi dengan risiko terukur.',
+        priceBehavior: 'Rangkaian Higher Highs & Higher Lows dengan koreksi dangkal',
+        volumeProfile: 'Volume sehat saat reli, mengecil saat konsolidasi tangga naik',
+        compositeAction: 'Menjaga momentum tren dan menarik masuk likuiditas ritel/institusi lain'
+      },
+      BC: {
+        code: 'BC',
+        label: 'BC (Buying Climax)',
+        xNorm: 59.0,
+        phaseKey: 'dist',
+        badgeClass: 'badge-dist',
+        badgeText: 'DISTRIBUTION • PHASE A — BUYING CLIMAX (BC)',
+        headline: 'Buying Climax (BC): Euforia Puncak & Pelepasan Awal Smart Money',
+        lawFocus: 'Hukum Effort vs. Result: Volume pembelian ritel sangat besar, namun harga mulai tertahan.',
+        desc: 'Setelah reli panjang, publik ritel berlomba mengejar harga karena berita positif di puncak tren. Composite Man memanfaatkan tingginya likuiditas beli tersebut untuk mulai menjual saham dalam jumlah besar tanpa menjatuhkan harga sekaligus.',
+        strategy: '<strong>Strategi Eksekusi:</strong> Hentikan pembelian baru (<em>no FOMO</em>); mulai realisasikan sebagian keuntungan (<em>partial take profit</em>) dan perketat <em>trailing stop</em> di bawah titik <code>AR</code>.',
+        priceBehavior: 'Reli parabolik curam diikuti penurunan cepat pertama (AR)',
+        volumeProfile: 'Volume sangat tinggi di puncak akibat euforia beli publik',
+        compositeAction: 'Mulai mendistribusikan kepemilikan ke tangan pembeli ritel'
+      },
+      UTAD: {
+        code: 'UTAD',
+        label: 'UTAD',
+        xNorm: 74.0,
+        phaseKey: 'dist',
+        badgeClass: 'badge-dist',
+        badgeText: 'DISTRIBUTION • PHASE C — UPTHRUST AFTER DISTRIBUTION (UTAD)',
+        headline: 'UTAD: Jebakan False Breakout di Puncak Trading Range',
+        lawFocus: 'Hukum Effort vs. Result: Upaya menembus puncak baru gagal dan harga kembali masuk ke range.',
+        desc: 'Kebalikan dari <em>Spring</em>: harga didorong menembus resistensi atas Trading Range untuk memancing pembeli <em>breakout</em> terakhir masuk, sebelum Composite Man membanting harga kembali ke bawah resistensi.',
+        strategy: '<strong>Strategi Eksekusi (Exit & Short Setup):</strong> Tutup seluruh sisa posisi beli segera saat harga gagal bertahan di atas resistensi; bagi trader dua arah, pembalikan pasca-<code>UTAD</code> merupakan sinyal <em>short</em> berprobabilitas tinggi.',
+        priceBehavior: 'Breakout palsu di atas puncak range lalu berbalik turun cepat',
+        volumeProfile: 'Volume tinggi saat gagal bertahan (supply membanjiri demand)',
+        compositeAction: 'Menyelesaikan distribusi besar dan membuka posisi lindung nilai / short'
+      },
+      LPSY: {
+        code: 'LPSY',
+        label: 'SOW & LPSY',
+        xNorm: 80.0,
+        phaseKey: 'dist',
+        badgeClass: 'badge-dist',
+        badgeText: 'DISTRIBUTION • PHASE D/E — SIGN OF WEAKNESS (SOW) & LPSY',
+        headline: 'Sign of Weakness (SOW) & Last Point of Supply (LPSY): Konfirmasi Breakdown',
+        lawFocus: 'Hukum Supply & Demand: Permintaan telah habis; pantulan kecil langsung disambut jual.',
+        desc: 'Harga menjebol support bawah Trading Range dengan tekanan jual kuat (<code>SOW</code>), diikuti pantulan lemah bervolume tipis (<code>LPSY</code>) yang tertahan di bawah support lama sebelum kejatuhan <em>Markdown</em> dimulai.',
+        strategy: '<strong>Strategi Eksekusi:</strong> Jangan mencoba menangkap pisau jatuh pada pantulan <code>LPSY</code>; amankan modal dalam bentuk kas likuid hingga siklus kembali membentuk <code>SC</code> baru.',
+        priceBehavior: 'Menembus support bawah range dan gagal merebutnya kembali',
+        volumeProfile: 'Volume membesar saat turun (SOW), mengering saat pantulan (LPSY)',
+        compositeAction: 'Menarik dukungan bid sepenuhnya sehingga harga jatuh oleh gravitasi supply'
+      },
+      MARKDOWN: {
+        code: 'MARKDOWN',
+        label: 'MARKDOWN',
+        xNorm: 92.0,
+        phaseKey: 'down',
+        badgeClass: 'badge-down',
+        badgeText: 'FASE 4 • MARKDOWN (INSTITUTIONAL DOWNTREND)',
+        headline: 'Fase Markdown: Tren Turun & Likuidasi Posisi Terjebak',
+        lawFocus: 'Hukum Cause & Effect: Efek penuh dari distribusi di puncak terealisasi ke bawah.',
+        desc: 'Harga membentuk rangkaian <em>Lower Highs</em> dan <em>Lower Lows</em>. Investor yang membeli di puncak mulai mengalami tekanan psikologis hingga akhirnya menyerah di area <em>Selling Climax</em> berikutnya.',
+        strategy: '<strong>Strategi Eksekusi (Capital Preservation):</strong> Utamakan pelestarian modal (kas / instrumen pasar uang); tunggu hingga tanda-tanda <em>Accumulation Phase A–C</em> muncul kembali sebelum masuk pasar.',
+        priceBehavior: 'Rangkaian Lower Highs & Lower Lows berkesinambungan',
+        volumeProfile: 'Tekanan jual konsisten pada setiap gelombang penurunan',
+        compositeAction: 'Menunggu harga mencapai target valuasi diskon untuk siklus akumulasi baru'
+      }
+    };
+
+    let currentView = 'full';
+    let showTR = true;
+    let showVol = true;
+    let selectedCode = 'SPRING';
+
+    function interpolatePathAtX(xNorm) {
+      for (let i = 0; i < WYCKOFF_PATH_DATA.length - 1; i++) {
+        const [x0, p0, v0] = WYCKOFF_PATH_DATA[i];
+        const [x1, p1, v1] = WYCKOFF_PATH_DATA[i + 1];
+        if (xNorm >= x0 && xNorm <= x1) {
+          const t = (xNorm - x0) / (x1 - x0);
+          return {
+            priceNorm: p0 + t * (p1 - p0),
+            volNorm: v0 + t * (v1 - v0)
+          };
+        }
+      }
+      const last = WYCKOFF_PATH_DATA[WYCKOFF_PATH_DATA.length - 1];
+      return { priceNorm: last[1], volNorm: last[2] };
+    }
+
+    function renderWyckoffChart() {
+      const svg = document.getElementById('wyckoffSvg');
+      svg.innerHTML = '';
+
+      const svgWidth = currentView === 'full' ? 1120 : 1480;
+      svg.setAttribute('width', svgWidth);
+      svg.setAttribute('viewBox', `0 0 ${svgWidth} 410`);
+
+      const yHeaderBot = 50;
+      const yPriceTop = 66;
+      const yPriceBot = 298;
+      const priceSpan = yPriceBot - yPriceTop;
+
+      const yVolTop = 318;
+      const yVolBot = 374;
+      const volSpan = yVolBot - yVolTop;
+
+      const leftPad = 24;
+      const rightPad = 24;
+      const plotW = svgWidth - leftPad - rightPad;
+
+      const NS = 'http://www.w3.org/2000/svg';
+      const el = (tag, attrs) => {
+        const node = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+        return node;
+      };
+
+      const xNormToPx = (xn) => leftPad + (xn / 100) * plotW;
+      const priceNormToPy = (pn) => yPriceBot - pn * priceSpan;
+
+      // Watermark Terukir di dalam Kanvas SVG
+      for (let wx = 320; wx < svgWidth - 140; wx += 560) {
+        const wm = el('text', {
+          x: wx,
+          y: 235,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '15',
+          'letter-spacing': '4',
+          fill: 'rgba(74, 50, 29, 0.13)'
+        });
+        wm.textContent = 'ORIXTRON TECHNOLOGY';
+        svg.appendChild(wm);
+      }
+
+      // Garis Pembatas Horizontal Utama
+      svg.appendChild(el('line', { x1: 0, y1: yHeaderBot, x2: svgWidth, y2: yHeaderBot, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: 312, x2: svgWidth, y2: 312, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: 376, x2: svgWidth, y2: 376, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: 184, x2: svgWidth, y2: 184, stroke: '#5c3f24', 'stroke-dasharray': '4,4', 'stroke-width': 1 }));
+
+      // 4 Zona Fase Wyckoff
+      const zones = [
+        { title: '1. ACCUMULATION', sub: 'Smart Money Menyerap Pasokan', s: 0, e: 35, fill: 'rgba(30, 75, 107, 0.08)', color: '#1e4b6b' },
+        { title: '2. MARKUP', sub: 'Tren Naik & Partisipasi Publik', s: 35, e: 55, fill: 'rgba(46, 90, 54, 0.075)', color: '#2e5a36' },
+        { title: '3. DISTRIBUTION', sub: 'Smart Money Melepas Barang', s: 55, e: 82, fill: 'rgba(156, 90, 26, 0.085)', color: '#9c5a1a' },
+        { title: '4. MARKDOWN', sub: 'Tren Turun & Kapitulasi', s: 82, e: 100, fill: 'rgba(139, 38, 29, 0.08)', color: '#8b261d' }
+      ];
+
+      zones.forEach((z) => {
+        const x1 = xNormToPx(z.s);
+        const x2 = xNormToPx(z.e);
+        const xc = (x1 + x2) / 2;
+
+        svg.appendChild(el('rect', {
+          x: x1,
+          y: yHeaderBot,
+          width: x2 - x1,
+          height: 312 - yHeaderBot,
+          fill: z.fill
+        }));
+
+        if (z.s > 0) {
+          svg.appendChild(el('line', {
+            x1: x1,
+            y1: 0,
+            x2: x1,
+            y2: 410,
+            stroke: '#2c1e12',
+            'stroke-width': 1.4
+          }));
+        }
+
+        const hTitle = el('text', {
+          x: xc,
+          y: 22,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '12',
+          fill: z.color
+        });
+        hTitle.textContent = z.title;
+        svg.appendChild(hTitle);
+
+        const hSub = el('text', {
+          x: xc,
+          y: 40,
+          'text-anchor': 'middle',
+          'font-family': 'Cormorant Garamond, serif',
+          'font-style': 'italic',
+          'font-weight': '600',
+          'font-size': '12',
+          fill: '#4a321d'
+        });
+        hSub.textContent = z.sub;
+        svg.appendChild(hSub);
+      });
+
+      // Batas Trading Range (Support & Resistance Kotak Akumulasi & Distribusi)
+      if (showTR) {
+        // Kotak Trading Range Accumulation (x: 8..33, yNorm: 0.14..0.35)
+        const accX1 = xNormToPx(8.0);
+        const accX2 = xNormToPx(33.5);
+        const accResY = priceNormToPy(0.35);
+        const accSupY = priceNormToPy(0.14);
+
+        svg.appendChild(el('rect', {
+          x: accX1,
+          y: accResY,
+          width: accX2 - accX1,
+          height: accSupY - accResY,
+          fill: 'rgba(30, 75, 107, 0.06)',
+          stroke: '#1e4b6b',
+          'stroke-width': 1.2,
+          'stroke-dasharray': '5,3'
+        }));
+
+        const accLbl = el('text', {
+          x: accX1 + 6,
+          y: accResY - 5,
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '9.5',
+          fill: '#1e4b6b'
+        });
+        accLbl.textContent = 'TRADING RANGE AKUMULASI (RESISTANCE / SUPPORT)';
+        svg.appendChild(accLbl);
+
+        // Kotak Trading Range Distribution (x: 57..79, yNorm: 0.71..0.91)
+        const distX1 = xNormToPx(57.0);
+        const distX2 = xNormToPx(79.5);
+        const distResY = priceNormToPy(0.91);
+        const distSupY = priceNormToPy(0.71);
+
+        svg.appendChild(el('rect', {
+          x: distX1,
+          y: distResY,
+          width: distX2 - distX1,
+          height: distSupY - distResY,
+          fill: 'rgba(156, 90, 26, 0.06)',
+          stroke: '#9c5a1a',
+          'stroke-width': 1.2,
+          'stroke-dasharray': '5,3'
+        }));
+
+        const distLbl = el('text', {
+          x: distX1 + 6,
+          y: distResY - 5,
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '9.5',
+          fill: '#9c5a1a'
+        });
+        distLbl.textContent = 'TRADING RANGE DISTRIBUSI (RESISTANCE / SUPPORT)';
+        svg.appendChild(distLbl);
+      }
+
+      // Histogram Volume di Panel Bawah
+      if (showVol) {
+        const barCount = 86;
+        const barW = (plotW / barCount) * 0.64;
+        for (let i = 0; i < barCount; i++) {
+          const xn = (i / (barCount - 1)) * 100;
+          const { volNorm } = interpolatePathAtX(xn);
+          // Variasi tekstur batang volume alami
+          const jitter = 0.90 + 0.18 * Math.abs(Math.sin(i * 1.7));
+          const vFinal = Math.min(1.0, volNorm * jitter);
+          const bh = Math.max(4, vFinal * volSpan);
+          const bx = xNormToPx(xn) - barW / 2;
+          const by = yVolBot - bh;
+
+          const isSpike = vFinal > 0.78;
+          svg.appendChild(el('rect', {
+            x: bx,
+            y: by,
+            width: barW,
+            height: bh,
+            fill: isSpike ? '#8b261d' : '#7c5633',
+            opacity: isSpike ? '0.88' : '0.68'
+          }));
+        }
+      }
+
+      // Kurva Harga Utama Wyckoff (Litografi Ganda Emas-Coklat + Tinta Gelap)
+      const polyPoints = WYCKOFF_PATH_DATA.map(([xn, pn]) => {
+        return `${xNormToPx(xn).toFixed(1)},${priceNormToPy(pn).toFixed(1)}`;
+      }).join(' ');
+
+      svg.appendChild(el('polyline', {
+        points: polyPoints,
+        fill: 'none',
+        stroke: '#9b682c',
+        'stroke-width': 5.2,
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round',
+        opacity: '0.88'
+      }));
+
+      svg.appendChild(el('polyline', {
+        points: polyPoints,
+        fill: 'none',
+        stroke: '#2c1e12',
+        'stroke-width': 1.5,
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      }));
+
+      // Titik Simpul & Label Event Wyckoff yang Dapat Diklik
+      Object.values(LANDMARKS).forEach((lm) => {
+        const { priceNorm } = interpolatePathAtX(lm.xNorm);
+        const cx = xNormToPx(lm.xNorm);
+        const cy = priceNormToPy(priceNorm);
+        const isSelected = lm.code === selectedCode;
+
+        // Garis bantu vertikal tipis ke label bawah
+        svg.appendChild(el('line', {
+          x1: cx,
+          y1: cy,
+          x2: cx,
+          y2: 376,
+          stroke: isSelected ? '#8b261d' : 'rgba(74, 50, 29, 0.22)',
+          'stroke-width': isSelected ? 2 : 1,
+          'stroke-dasharray': isSelected ? '4,3' : '2,3'
+        }));
+
+        // Titik simpul pada kurva harga
+        const dot = el('circle', {
+          cx: cx,
+          cy: cy,
+          r: isSelected ? 7 : 4.8,
+          fill: isSelected ? '#8b261d' : '#f5e6ca',
+          stroke: isSelected ? '#fff7e8' : '#2c1e12',
+          'stroke-width': isSelected ? 2.2 : 1.6,
+          style: 'cursor:pointer;'
+        });
+        dot.onclick = () => selectLandmark(lm.code);
+        svg.appendChild(dot);
+
+        // Label Kode Event di dekat kurva
+        const isLowPoint = ['SC', 'SPRING', 'LPSY', 'MARKDOWN'].includes(lm.code);
+        const lblY = isLowPoint ? cy + 17 : cy - 11;
+        const lblNode = el('text', {
+          x: cx,
+          y: lblY,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '800',
+          'font-size': isSelected ? '11.5' : '10.5',
+          fill: isSelected ? '#8b261d' : '#2c1e12',
+          style: 'cursor:pointer;'
+        });
+        lblNode.textContent = lm.code;
+        lblNode.onclick = () => selectLandmark(lm.code);
+        svg.appendChild(lblNode);
+
+        // Label strip paling bawah
+        const botLbl = el('text', {
+          x: cx,
+          y: 397,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '10.5',
+          fill: isSelected ? '#8b261d' : '#4a321d',
+          style: 'cursor:pointer;'
+        });
+        botLbl.textContent = lm.code;
+        botLbl.onclick = () => selectLandmark(lm.code);
+        svg.appendChild(botLbl);
+      });
+
+      // Lencana Penanda Aktif di Bagian Atas Area Grafik
+      const activeLm = LANDMARKS[selectedCode];
+      if (activeLm) {
+        const ax = xNormToPx(activeLm.xNorm);
+        const badgeW = 92;
+        svg.appendChild(el('rect', {
+          x: ax - badgeW / 2,
+          y: yHeaderBot + 4,
+          width: badgeW,
+          height: 19,
+          rx: 2,
+          fill: '#8b261d'
+        }));
+
+        const badgeTxt = el('text', {
+          x: ax,
+          y: yHeaderBot + 17,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '10.5',
+          fill: '#fff7e8'
+        });
+        badgeTxt.textContent = activeLm.code;
+        svg.appendChild(badgeTxt);
+
+        // Scroll otomatis sesuai mode tampilan
+        const scrollArea = document.getElementById('chartScrollArea');
+        if (currentView === 'accum') {
+          scrollArea.scrollLeft = 0;
+        } else if (currentView === 'dist') {
+          scrollArea.scrollLeft = scrollArea.scrollWidth;
+        } else {
+          const targetScroll = ax - scrollArea.clientWidth / 2;
+          scrollArea.scrollLeft = Math.max(0, targetScroll);
+        }
+      }
+    }
+
+    function setSchematicView(viewMode, btnElement) {
+      currentView = viewMode;
+      if (btnElement) {
+        document.querySelectorAll('.chart-controls [data-zoom]').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+      }
+      if (viewMode === 'accum' && !['SC', 'ST', 'SPRING', 'SOS', 'MARKUP'].includes(selectedCode)) {
+        selectLandmark('SPRING');
+        return;
+      }
+      if (viewMode === 'dist' && !['BC', 'UTAD', 'LPSY', 'MARKDOWN'].includes(selectedCode)) {
+        selectLandmark('UTAD');
+        return;
+      }
+      renderWyckoffChart();
+    }
+
+    function toggleOption(optKey, btnElement) {
+      if (optKey === 'showTR') showTR = !showTR;
+      if (optKey === 'showVol') showVol = !showVol;
+      btnElement.classList.toggle('active');
+      renderWyckoffChart();
+    }
+
+    function selectLandmark(code) {
+      if (!LANDMARKS[code]) return;
+      selectedCode = code;
+
+      document.querySelectorAll('#landmarkButtons .vintage-btn').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.lm === code);
+      });
+
+      const lm = LANDMARKS[code];
+      const resultBox = document.getElementById('predictionResult');
+      resultBox.innerHTML = `
+        <div>
+          <span class="result-badge ${lm.badgeClass}">${lm.badgeText}</span>
+          <h3 class="result-headline">${lm.headline}</h3>
+          <div class="result-law-note">&#9878; ${lm.lawFocus}</div>
+          <p class="result-desc">${lm.desc}</p>
+          <div class="asset-allocation-box">${lm.strategy}</div>
+        </div>
+        <div class="cycle-checklist">
+          <div style="font-family:'Cinzel',serif; font-weight:700; font-size:0.98rem; color:var(--ink-sepia); margin-bottom:2px;">
+            Checklist Validasi Wyckoff — Event ${lm.code}
+          </div>
+          <div class="check-row">
+            <span class="check-label">Struktur Harga:</span>
+            <span class="check-val">${lm.priceBehavior}</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Profil Volume:</span>
+            <span class="check-val">${lm.volumeProfile}</span>
+          </div>
+          <div class="check-row">
+            <span class="check-label">Aksi Composite Man:</span>
+            <span class="check-val">${lm.compositeAction}</span>
+          </div>
+          <div style="font-size:0.88rem; font-style:italic; color:var(--ink-faded); margin-top:4px;">
+            *Klik titik simpul mana pun pada kurva harga di atas untuk membandingkan fase.
+          </div>
+        </div>
+      `;
+
+      renderWyckoffChart();
+    }
+
+    function diagnoseCustomChart() {
+      const pa = document.getElementById('priceActionSelect').value;
+      const vol = document.getElementById('volumeBehaviorSelect').value;
+
+      let targetCode = 'SPRING';
+      if (pa === 'false_break_down') {
+        targetCode = 'SPRING';
+      } else if (pa === 'climax_drop') {
+        targetCode = vol === 'ultra_high' ? 'SC' : 'MARKDOWN';
+      } else if (pa === 'breakout_up') {
+        targetCode = vol === 'expanding_up' || vol === 'ultra_high' ? 'SOS' : 'UTAD';
+      } else if (pa === 'higher_highs') {
+        targetCode = 'MARKUP';
+      } else if (pa === 'climax_rally') {
+        targetCode = 'BC';
+      } else if (pa === 'false_break_up') {
+        targetCode = 'UTAD';
+      } else if (pa === 'breakdown_support') {
+        targetCode = vol === 'low_dry' ? 'LPSY' : 'MARKDOWN';
+      }
+
+      selectLandmark(targetCode);
+    }
+
+    // Drag-to-scroll pada kanvas skematik
+    const scrollArea = document.getElementById('chartScrollArea');
+    let isDown = false, startX, scrollLeft;
+    scrollArea.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - scrollArea.offsetLeft;
+      scrollLeft = scrollArea.scrollLeft;
+    });
+    scrollArea.addEventListener('mouseleave', () => { isDown = false; });
+    scrollArea.addEventListener('mouseup', () => { isDown = false; });
+    scrollArea.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - scrollArea.offsetLeft;
+      const walk = (x - startX) * 1.4;
+      scrollArea.scrollLeft = scrollLeft - walk;
+    });
+
+    // Inisialisasi awal pada titik kunci "SPRING"
+    selectLandmark('SPRING');
+  </script>
+</body>
+</html>
