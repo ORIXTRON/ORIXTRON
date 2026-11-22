@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.orixtron.my.id/sitemap.xml
+Sitemap: https://orixtron.my.id/sitemap.xml
