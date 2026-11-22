@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juglar &amp; Kitchin Business Cycles — 1862 &amp; 1923 | Orixtron Technology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment-base: #e6cfa9;
+      --parchment-light: #f2e1c2;
+      --parchment-dark: #cfa972;
+      --ink-dark: #2c1e12;
+      --ink-sepia: #4a321d;
+      --ink-faded: #6e4f32;
+      --line-gold-brown: #9c6b30;
+
+      /* Palet Tinta Antik untuk Juglar, Kitchin, & Komposit */
+      --juglar-ink: #8c5319;      /* Siklus Investasi Modal / CapEx (~9 Thn) */
+      --kitchin-ink: #1e4b6b;     /* Siklus Inventaris / Stok (~3,5 Thn) */
+      --composite-ink: #8b261d;   /* Kurva Gabungan / Resonansi Siklus */
+      --bull-green: #2e5a36;
+      --neutral-ochre: #6d4c2f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #261b12;
+      background-image: radial-gradient(circle at center, #3a291b 0%, #1c130c 100%);
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Tekstur Kertas Perkamen Klasik */
+    .parchment-card {
+      position: relative;
+      width: 100%;
+      max-width: 1240px;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(255, 248, 231, 0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 85%, rgba(168, 121, 62, 0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, var(--parchment-light) 0%, var(--parchment-base) 65%, var(--parchment-dark) 100%);
+      border: 2px solid #5c3f24;
+      border-radius: 4px;
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.65),
+        inset 0 0 65px rgba(112, 74, 34, 0.42),
+        inset 0 0 12px rgba(44, 30, 18, 0.45);
+      padding: 34px 34px 26px;
+      overflow: hidden;
+    }
+
+    /* Efek Serat Kertas Halus */
+    .parchment-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+
+    /* Bingkai Tipis Bagian Dalam */
+    .parchment-card::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      pointer-events: none;
+    }
+
+    /* Watermark Kertas Perkamen Orixtron Technology */
+    .parchment-watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .watermark-main-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: clamp(2.1rem, 5.2vw, 4.4rem);
+      letter-spacing: 0.22em;
+      color: rgba(74, 50, 29, 0.075);
+      text-transform: uppercase;
+      white-space: nowrap;
+      transform: rotate(-8deg);
+      text-shadow: 1px 1px 0 rgba(255, 248, 231, 0.35);
+    }
+
+    .watermark-sub-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+      letter-spacing: 0.32em;
+      color: rgba(74, 50, 29, 0.085);
+      text-transform: uppercase;
+      transform: rotate(-8deg);
+      margin-top: 4px;
+    }
+
+    /* Header Judul Utama */
+    .card-header {
+      text-align: center;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-kicker {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--ink-faded);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-family: 'Cinzel', 'Times New Roman', serif;
+      font-size: clamp(1.65rem, 3.4vw, 2.95rem);
+      font-weight: 700;
+      color: var(--ink-sepia);
+      letter-spacing: 0.04em;
+      text-shadow: 1px 1px 0 rgba(255, 245, 224, 0.6);
+    }
+
+    .card-subtitle-header {
+      font-size: 1.08rem;
+      font-style: italic;
+      color: var(--ink-sepia);
+      margin-top: 2px;
+    }
+
+    /* Kontrol Rentang Tahun & Layer Kurva */
+    .chart-controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: rgba(110, 79, 50, 0.1);
+      border: 1px solid rgba(74, 50, 29, 0.3);
+      border-radius: 3px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .control-label {
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: var(--ink-sepia);
+    }
+
+    .vintage-btn {
+      background: linear-gradient(to bottom, #f5e6ca, #dec092);
+      border: 1px solid #5c3f24;
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.94rem;
+      padding: 5px 11px;
+      border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      transition: all 0.15s ease;
+    }
+
+    .vintage-btn:hover {
+      background: linear-gradient(to bottom, #fff2da, #e5c99c);
+      transform: translateY(-1px);
+    }
+
+    .vintage-btn.active {
+      background: var(--ink-sepia);
+      color: #f6e7cb;
+      border-color: var(--ink-dark);
+    }
+
+    .layer-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.92rem;
+    }
+
+    .legend-swatch {
+      display: inline-block;
+      width: 14px;
+      height: 4px;
+      border-radius: 1px;
+    }
+
+    /* Area Grafik Klasik */
+    .chart-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      margin-top: 4px;
+      border: 2px solid var(--ink-dark);
+      background: rgba(255, 249, 236, 0.18);
+    }
+
+    /* Kolom Kiri: Sumbu Amplitudo Bisnis */
+    .axis-column {
+      flex: 0 0 96px;
+      border-right: 1.8px solid var(--ink-dark);
+      background: rgba(110, 79, 50, 0.08);
+      user-select: none;
+    }
+
+    /* Area Scrollable SVG Gelombang */
+    .chart-scroll-area {
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      position: relative;
+      cursor: grab;
+    }
+
+    .chart-scroll-area:active {
+      cursor: grabbing;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-track {
+      background: rgba(92, 63, 36, 0.15);
+      border-top: 1px solid rgba(92, 63, 36, 0.3);
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-thumb {
+      background: #7c5633;
+      border-radius: 3px;
+      border: 1px solid #4a321d;
+    }
+
+    /* Kartu Penjelasan 3 Lapisan Harmonik (Juglar, Kitchin, Resonansi) */
+    .cycles-legend-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .cycle-legend-card {
+      background: rgba(255, 249, 236, 0.44);
+      border: 1px solid rgba(74, 50, 29, 0.38);
+      border-top-width: 4px;
+      border-radius: 3px;
+      padding: 11px 14px;
+    }
+
+    .cycle-legend-card.juglar    { border-top-color: var(--juglar-ink); }
+    .cycle-legend-card.kitchin   { border-top-color: var(--kitchin-ink); }
+    .cycle-legend-card.composite { border-top-color: var(--composite-ink); }
+
+    .cycle-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: 0.03em;
+    }
+
+    .cycle-card-body {
+      font-size: 0.96rem;
+      line-height: 1.35;
+      color: var(--ink-dark);
+    }
+
+    /* Footer Kartu & Tanda Tangan Ganda (Clément Juglar & Joseph Kitchin) */
+    .card-footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .legend-note-block {
+      max-width: 720px;
+      font-size: 1.03rem;
+      line-height: 1.38;
+      color: var(--ink-dark);
+    }
+
+    .signatures-pair {
+      display: flex;
+      gap: 24px;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    .signature-block {
+      text-align: right;
+      transform: rotate(-11deg);
+      transform-origin: bottom right;
+      padding: 0 8px 4px 0;
+      color: var(--ink-faded);
+      user-select: none;
+    }
+
+    .signature-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.85rem;
+      line-height: 0.95;
+      display: block;
+    }
+
+    .signature-year {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.38rem;
+      display: block;
+      margin-top: -2px;
+    }
+
+    /* Stempel Kolofon Developer Orixtron Technology */
+    .developer-colophon {
+      position: relative;
+      z-index: 2;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(74, 50, 29, 0.28);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--ink-faded);
+      user-select: none;
+    }
+
+    .dev-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 12px;
+      border: 1px double rgba(74, 50, 29, 0.55);
+      border-radius: 2px;
+      background: rgba(255, 248, 231, 0.25);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--ink-sepia);
+      text-transform: uppercase;
+    }
+
+    .dev-edition-note {
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--ink-faded);
+    }
+
+    /* =========================================================
+       PANEL PREDIKSI JUGLAR & KITCHIN (TEMA KLASIK SENADA)
+       ========================================================= */
+    .predictor-panel {
+      padding: 26px 32px 22px;
+    }
+
+    .predictor-header {
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid rgba(74, 50, 29, 0.35);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .predictor-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .predictor-subtitle {
+      font-size: 1.02rem;
+      font-style: italic;
+      color: var(--ink-faded);
+    }
+
+    .predictor-form {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .year-input-box {
+      display: flex;
+      align-items: center;
+      background: #f9eed9;
+      border: 2px solid #5c3f24;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.12);
+    }
+
+    .year-input-box label {
+      padding: 8px 12px;
+      background: rgba(92, 63, 36, 0.14);
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-right: 1px solid rgba(92, 63, 36, 0.35);
+    }
+
+    .year-input-box input {
+      border: none;
+      background: transparent;
+      padding: 8px 14px;
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      width: 130px;
+      outline: none;
+    }
+
+    .predict-submit-btn {
+      background: var(--ink-sepia);
+      color: #f7e7c8;
+      border: 2px solid var(--ink-dark);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 9px 20px;
+      border-radius: 3px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.15s ease;
+    }
+
+    .predict-submit-btn:hover {
+      background: #2c1e12;
+    }
+
+    .quick-years {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.95rem;
+    }
+
+    /* Hasil Prediksi */
+    .prediction-result {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 249, 236, 0.55);
+      border: 1.5px solid #6b4929;
+      border-radius: 4px;
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: 1.32fr 1fr;
+      gap: 20px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      color: #fff8eb;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .badge-bull   { background-color: var(--bull-green); }
+    .badge-peak   { background-color: var(--juglar-ink); }
+    .badge-bear   { background-color: var(--composite-ink); }
+    .badge-mixed  { background-color: var(--kitchin-ink); }
+
+    .result-headline {
+      font-family: 'Cinzel', serif;
+      font-size: 1.46rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      margin-bottom: 8px;
+    }
+
+    .result-desc {
+      font-size: 1.1rem;
+      line-height: 1.46;
+      color: var(--ink-dark);
+      margin-bottom: 12px;
+    }
+
+    .asset-allocation-box {
+      background: rgba(222, 192, 146, 0.32);
+      border-left: 3.5px solid var(--line-gold-brown);
+      padding: 10px 14px;
+      font-size: 1.04rem;
+      line-height: 1.42;
+      color: var(--ink-dark);
+    }
+
+    .cycle-breakdown-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sub-cycle-card {
+      background: rgba(222, 192, 146, 0.35);
+      border: 1px solid rgba(92, 63, 36, 0.35);
+      border-left-width: 4px;
+      border-radius: 3px;
+      padding: 11px 14px;
+    }
+
+    .sub-cycle-card.juglar-box  { border-left-color: var(--juglar-ink); }
+    .sub-cycle-card.kitchin-box { border-left-color: var(--kitchin-ink); }
+
+    .sub-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.94rem;
+      margin-bottom: 4px;
+    }
+
+    .sub-card-meta {
+      font-size: 0.98rem;
+      line-height: 1.35;
+      color: var(--ink-dark);
+    }
+
+    .clickable-year {
+      cursor: pointer;
+      font-weight: 700;
+      text-decoration: underline dotted;
+      transition: opacity 0.15s;
+    }
+    .clickable-year:hover {
+      opacity: 0.65;
+    }
+
+    .global-dev-footer {
+      text-align: center;
+      color: rgba(230, 207, 169, 0.65);
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      user-select: none;
+    }
+
+    @media (max-width: 900px) {
+      .cycles-legend-grid {
+        grid-template-columns: 1fr;
+      }
+      .prediction-result {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .parchment-card {
+        padding: 20px 14px;
+      }
+      .axis-column {
+        flex: 0 0 64px;
+      }
+      .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .signatures-pair {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KARTU UTAMA SIKLUS JUGLAR & KITCHIN (1862 & 1923) -->
+  <main class="parchment-card">
+    <!-- Watermark Kertas Perkamen Orixtron Technology -->
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text">ORIXTRON TECHNOLOGY</span>
+      <span class="watermark-sub-text">Juglar &amp; Kitchin Harmonic Business Cycles</span>
+    </div>
+
+    <header class="card-header">
+      <div class="card-kicker">Fixed Capital Investment (9-Yr) &amp; Inventory Oscillation (3.5-Yr)</div>
+      <h1 class="card-title">Juglar &amp; Kitchin Business Cycles</h1>
+      <p class="card-subtitle-header">“Harmonic Superposition of Credit-Driven CapEx Waves and Short-Term Inventory Restocking”</p>
+    </header>
+
+    <!-- Kontrol Rentang Tahun & Layer Kurva -->
+    <div class="chart-controls">
+      <div class="control-group">
+        <span class="control-label">Rentang Tahun:</span>
+        <button class="vintage-btn" data-range="1995-2022" onclick="setCycleRange(1995, 2022, this)">Era Modern Awal (1995–2022)</button>
+        <button class="vintage-btn active" data-range="2015-2042" onclick="setCycleRange(2015, 2042, this)">Siklus Aktif &amp; Proyeksi (2015–2042)</button>
+        <button class="vintage-btn" data-range="2000-2054" onclick="setCycleRange(2000, 2054, this)">Super-Siklus 54 Thn (2000–2054)</button>
+      </div>
+
+      <div class="control-group">
+        <span class="control-label">Tampilkan Kurva:</span>
+        <button class="vintage-btn layer-toggle active" id="toggleJuglar" onclick="toggleLayer('juglar', this)">
+          <span class="legend-swatch" style="background: var(--juglar-ink);"></span> Juglar (9 Thn)
+        </button>
+        <button class="vintage-btn layer-toggle active" id="toggleKitchin" onclick="toggleLayer('kitchin', this)">
+          <span class="legend-swatch" style="background: var(--kitchin-ink);"></span> Kitchin (3,5 Thn)
+        </button>
+        <button class="vintage-btn layer-toggle active" id="toggleComposite" onclick="toggleLayer('composite', this)">
+          <span class="legend-swatch" style="background: var(--composite-ink);"></span> Komposit
+        </button>
+      </div>
+    </div>
+
+    <!-- Grafik Harmonik Ganda Juglar & Kitchin -->
+    <div class="chart-wrapper">
+      <!-- Sumbu Kiri: Level Aktivitas Industri & Inventaris -->
+      <div class="axis-column">
+        <svg viewBox="0 0 96 380" width="100%" height="380" aria-hidden="true">
+          <text x="48" y="34" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">JUGLAR</text>
+          <line x1="8" y1="54" x2="88" y2="54" stroke="#2c1e12" stroke-width="1.2"/>
+
+          <text x="48" y="88" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#8b261d">OVERHEAT</text>
+          <text x="48" y="102" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Puncak Kredit)</text>
+
+          <line x1="14" y1="195" x2="82" y2="195" stroke="#5c3f24" stroke-dasharray="3,3" stroke-width="1"/>
+          <text x="48" y="188" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">Ekuilibrium</text>
+          <text x="48" y="210" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#6e4f32">(Tren Kapasitas)</text>
+
+          <text x="48" y="294" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#2e5a36">KONTRAKSI</text>
+          <text x="48" y="308" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Dasar Beli)</text>
+
+          <line x1="8" y1="336" x2="88" y2="336" stroke="#2c1e12" stroke-width="1.2"/>
+          <text x="48" y="362" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">TAHUN</text>
+        </svg>
+      </div>
+
+      <!-- Kanvas SVG Kurva Harmonik -->
+      <div class="chart-scroll-area" id="chartScrollArea">
+        <svg id="jkSvg" height="380" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+
+    <!-- Ringkasan 3 Lapisan Harmonik -->
+    <div class="cycles-legend-grid">
+      <div class="cycle-legend-card juglar">
+        <div class="cycle-card-title" style="color: var(--juglar-ink);">1. JUGLAR CYCLE (7–11 THN / RATA-RATA 9 THN)</div>
+        <div class="cycle-card-body">
+          Siklus <strong>investasi modal tetap (CapEx), pembangunan pabrik, dan ekspansi kredit perbankan</strong>. Puncaknya menandai kelebihan kapasitas produksi dan pengetatan suku bunga.
+        </div>
+      </div>
+      <div class="cycle-legend-card kitchin">
+        <div class="cycle-card-title" style="color: var(--kitchin-ink);">2. KITCHIN CYCLE (3–5 THN / ±42 BULAN)</div>
+        <div class="cycle-card-body">
+          Siklus <strong>persediaan barang (inventory restocking &amp; destocking)</strong> akibat jeda informasi antara permintaan konsumen dan output manufaktur/semikonduktor.
+        </div>
+      </div>
+      <div class="cycle-legend-card composite">
+        <div class="cycle-card-title" style="color: var(--composite-ink);">3. RESONANSI KOMPOSIT (JUGLAR + KITCHIN)</div>
+        <div class="cycle-card-body">
+          Ketika lembah Juglar dan Kitchin bertemu bersamaan, tercipta <strong>titik beli siklus terbaik</strong>. Ketika keduanya memuncak bersamaan, pasar memasuki <strong>zona distribusi</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Catatan Bawah & Tanda Tangan Ganda (Clément Juglar & Joseph Kitchin) -->
+    <footer class="card-footer">
+      <div class="legend-note-block">
+        <p>
+          <strong>Sintesis Harmonik Schumpeter (1939):</strong> Satu gelombang penuh Kondratiev (54 tahun) tersusun atas enam siklus investasi Juglar (9 tahun), sementara setiap siklus Juglar memuat sekitar dua hingga tiga gelombang inventaris Kitchin (40–42 bulan) yang menggerakkan rotasi sektor siklikal di bursa saham.
+        </p>
+      </div>
+
+      <div class="signatures-pair">
+        <div class="signature-block">
+          <span class="signature-name">Clément Juglar</span>
+          <span class="signature-year">1862</span>
+        </div>
+        <div class="signature-block">
+          <span class="signature-name">Joseph Kitchin</span>
+          <span class="signature-year">1923</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Kolofon Resmi Developer -->
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Reconstructed &amp; Extended Dual-Wave Business Cycle Projection</span>
+      <span class="dev-stamp">&#10022; Developer: Orixtron Technology &#10022;</span>
+    </div>
+  </main>
+
+  <!-- KALKULATOR PREDIKSI JUGLAR & KITCHIN (SEMUA TAHUN) -->
+  <section class="parchment-card predictor-panel">
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text" style="font-size: clamp(1.8rem, 4vw, 3.2rem);">ORIXTRON TECHNOLOGY</span>
+    </div>
+
+    <div class="predictor-header">
+      <h2 class="predictor-title">Kalkulator Resonansi Juglar &amp; Kitchin (Semua Tahun)</h2>
+      <span class="predictor-subtitle">Analisis gabungan siklus belanja modal (9 thn) &amp; siklus inventaris (42 bln)</span>
+    </div>
+
+    <div class="predictor-form">
+      <div class="year-input-box">
+        <label for="targetYearInput">Masukkan Tahun:</label>
+        <input type="number" id="targetYearInput" value="2026" min="1" max="9999" />
+      </div>
+      <button class="predict-submit-btn" onclick="runJKPrediction()">Analisis Tahun</button>
+
+      <div class="quick-years">
+        <span style="font-weight:700; color:var(--ink-sepia);">Uji Cepat:</span>
+        <button class="vintage-btn" onclick="selectYear(2009)">2009</button>
+        <button class="vintage-btn" onclick="selectYear(2020)">2020</button>
+        <button class="vintage-btn" onclick="selectYear(2021)">2021</button>
+        <button class="vintage-btn" onclick="selectYear(2023)">2023</button>
+        <button class="vintage-btn" onclick="selectYear(2026)">2026</button>
+        <button class="vintage-btn" onclick="selectYear(2027)">2027</button>
+        <button class="vintage-btn" onclick="selectYear(2029)">2029</button>
+        <button class="vintage-btn" onclick="selectYear(2034)">2034</button>
+      </div>
+    </div>
+
+    <div class="prediction-result" id="predictionResult">
+      <!-- Diisi otomatis oleh JavaScript -->
+    </div>
+
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Juglar-Kitchin Harmonic Engine &bull; Multi-Century Support</span>
+      <span class="dev-stamp">&#10022; Orixtron Technology &#10022;</span>
+    </div>
+  </section>
+
+  <div class="global-dev-footer">
+    ENGINEERED BY ORIXTRON TECHNOLOGY &bull; JUGLAR &amp; KITCHIN CYCLES EDITION
+  </div>
+
+  <script>
+    /**
+     * MODEL HARMONIK SIKLUS JUGLAR & KITCHIN
+     * Engineered by Orixtron Technology
+     * - Jangkar kalibrasi modern: 2020.2 (Reset/Trough global Maret 2020)
+     * - Periode Juglar (CapEx & Kredit): 9.0 Tahun (108 Bulan) -> 6 siklus = 54 tahun (1 Kondratiev)
+     * - Periode Kitchin (Inventaris): 3.5 Tahun (42 Bulan / ~40 bulan klasik)
+     */
+
+    const ANCHOR_EPOCH = 2020.2;
+    const JUGLAR_PERIOD = 9.0;
+    const KITCHIN_PERIOD = 3.5;
+
+    let currentStartYear = 2015;
+    let currentEndYear = 2042;
+    let highlightedYear = 2026;
+
+    const visibleLayers = {
+      juglar: true,
+      kitchin: true,
+      composite: true
+    };
+
+    function getHarmonicState(tEval, period) {
+      const raw = (tEval - ANCHOR_EPOCH) / period;
+      const cycleIdx = Math.floor(raw);
+      const startExact = ANCHOR_EPOCH + cycleIdx * period;
+      const endExact = startExact + period;
+      const peakExact = startExact + period * 0.5;
+      const age = tEval - startExact;
+      const progress = age / period; // 0.0 -> 1.0
+
+      // Nilai gelombang [-1 .. +1]: -1 di lembah (0.0 & 1.0), +1 di puncak (0.5)
+      const value = -Math.cos(progress * 2 * Math.PI);
+      // Kemiringan [+1 .. -1]: > 0 artinya sedang naik/ekspansi, < 0 artinya sedang turun/kontraksi
+      const slope = Math.sin(progress * 2 * Math.PI);
+
+      let phaseName, phaseShort;
+      if (progress < 0.25) {
+        phaseName = 'Early Recovery (Pemulihan Awal)';
+        phaseShort = 'Ekspansi Awal';
+      } else if (progress < 0.50) {
+        phaseName = 'Late Expansion / Boom (Ekspansi Puncak)';
+        phaseShort = 'Menuju Puncak';
+      } else if (progress < 0.75) {
+        phaseName = 'Early Contraction / Tightening (Perlambatan)';
+        phaseShort = 'Pendinginan';
+      } else {
+        phaseName = 'Liquidation / Trough Formation (Dasar Siklus)';
+        phaseShort = 'Dasar / Reset';
+      }
+
+      return {
+        cycleIdx,
+        startExact,
+        endExact,
+        peakExact,
+        startYear: Math.round(startExact),
+        peakYear: Math.round(peakExact),
+        endYear: Math.round(endExact),
+        age,
+        progress,
+        value,
+        slope,
+        phaseName,
+        phaseShort
+      };
+    }
+
+    function classifyJKYear(year) {
+      const tEval = year + 0.5;
+      const juglar = getHarmonicState(tEval, JUGLAR_PERIOD);
+      const kitchin = getHarmonicState(tEval, KITCHIN_PERIOD);
+
+      // Skor komposit berbobot: 62% Juglar (CapEx/Kredit) + 38% Kitchin (Inventaris)
+      const compositeVal = 0.62 * juglar.value + 0.38 * kitchin.value;
+      const jUp = juglar.slope >= 0;
+      const kUp = kitchin.slope >= 0;
+
+      let badgeClass, badgeText, headline, desc, strategy;
+
+      if (compositeVal <= -0.55) {
+        badgeClass = 'badge-bull';
+        badgeText = 'RESONANSI LEMBAH GANDA — ZONA AKUMULASI TERBAIK (STRONG BUY)';
+        headline = `Tahun ${year}: Titik Temu Dasar Investasi & Likuidasi Inventaris`;
+        desc = `Baik siklus belanja modal Juglar maupun siklus stok barang Kitchin berada di area dasar (skor komposit ${compositeVal.toFixed(2)}). Tekanan persediaan dan pengetatan kredit mencapai titik jenuh jual sebelum pemulihan serentak.`;
+        strategy = `<strong>Strategi Make Money (Akumulasi Maksimal):</strong> Momen terbaik mengoleksi <em>saham siklikal, manufaktur, semikonduktor, dan perbankan</em> saat valuasi terdiskon sebelum gelombang restocking &amp; CapEx baru dimulai.`;
+      } else if (compositeVal >= 0.55) {
+        badgeClass = 'badge-peak';
+        badgeText = 'RESONANSI PUNCAK GANDA — OVERHEATING & DISTRIBUSI (SELL / TRIM)';
+        headline = `Tahun ${year}: Puncak Ekspansi CapEx & Penumpukan Inventaris`;
+        desc = `Kedua siklus bergerak serentak di zona atas (skor komposit +${compositeVal.toFixed(2)}). Pabrik beroperasi pada utilisasi maksimal dan gudang terisi penuh, meningkatkan risiko kelebihan pasokan serta pengetatan suku bunga.`;
+        strategy = `<strong>Strategi Make Money (Realisasi Profit & Rotasi Defensif):</strong> Kunci keuntungan pada <em>saham siklikal &amp; komoditas industri</em>; pindahkan porsi portofolio ke aset defensif, obligasi berkualitas, atau kas likuid.`;
+      } else if (jUp && kUp) {
+        badgeClass = 'badge-bull';
+        badgeText = 'EKSPANSI HARMONIK — JUGLAR & KITCHIN SERENTAK NAIK';
+        headline = `Tahun ${year}: Fase Pertumbuhan Sinkron (CapEx & Restocking Aktif)`;
+        desc = `Kedua gelombang memiliki momentum naik (Juglar di fase ${juglar.phaseShort}, Kitchin di fase ${kitchin.phaseShort}). Belanja modal perusahaan dan permintaan pengisian ulang stok saling memperkuat pertumbuhan laba.`;
+        strategy = `<strong>Strategi Make Money (Trend Following / Hold):</strong> Pertahankan eksposur pada <em>ekuitas pertumbuhan, industri, dan sektor berorientasi ekspansi</em> hingga Kitchin menyentuh puncaknya di sekitar tahun ${kitchin.peakYear}.`;
+      } else if (!jUp && !kUp) {
+        badgeClass = 'badge-bear';
+        badgeText = 'KONTRAKSI HARMONIK — JUGLAR & KITCHIN SERENTAK TURUN';
+        headline = `Tahun ${year}: Fase Pendinginan CapEx & Pengurangan Stok (Destocking)`;
+        desc = `Kedua siklus berada pada lereng penurunan (Juglar menuju dasar ${juglar.endYear}, Kitchin menuju dasar ${kitchin.endYear}). Perusahaan menahan belanja modal baru sembari menghabiskan sisa inventaris.`;
+        strategy = `<strong>Strategi Make Money (Preservasi Modal & Sabar Menunggu Dasar):</strong> Kurangi leverage dan hindari saham siklikal berutang tinggi; kumpulkan likuiditas untuk titik balik Kitchin berikutnya pada tahun ${kitchin.endYear}.`;
+      } else if (jUp && !kUp) {
+        badgeClass = 'badge-mixed';
+        badgeText = 'DIVERGENSI SEHAT — JUGLAR EKSPANSI vs KITCHIN DESTOCKING';
+        headline = `Tahun ${year}: Koreksi Inventaris Jangka Pendek di Tengah Tren Naik Utama`;
+        desc = `Siklus besar Juglar masih menanjak menuju puncak ${juglar.peakYear}, namun siklus pendek Kitchin sedang mengalami koreksi persediaan (destocking) menuju lembah ${kitchin.endYear}.`;
+        strategy = `<strong>Strategi Make Money (Buy the Mid-Cycle Pullback):</strong> Gunakan pelemahan akibat siklus inventaris Kitchin sebagai <em>peluang akumulasi bertahap</em> pada pemimpin sektor CapEx selama tren Juglar masih menopang.`;
+      } else {
+        badgeClass = 'badge-mixed';
+        badgeText = 'DIVERGENSI AKHIR SIKLUS — JUGLAR MENURUN vs KITCHIN REBOUND';
+        headline = `Tahun ${year}: Reli Inventaris Sementara di Tengah Pengetatan Kredit`;
+        desc = `Siklus investasi besar Juglar sedang melambat pasca-puncak ${juglar.peakYear}, sementara siklus pendek Kitchin memicu reli teknikal pengisian stok sementara menuju ${kitchin.peakYear}.`;
+        strategy = `<strong>Strategi Make Money (Tactical Swing Trading):</strong> Manfaatkan pantulan siklus Kitchin untuk <em>trading jangka menengah</em>, namun disiplin melakukan take-profit sebelum tekanan makro Juglar menuju ${juglar.endYear} mendominasi.`;
+      }
+
+      return {
+        juglar,
+        kitchin,
+        compositeVal,
+        badgeClass,
+        badgeText,
+        headline,
+        desc,
+        strategy
+      };
+    }
+
+    /**
+     * RENDER GRAFIK SVG HARMONIK JUGLAR & KITCHIN
+     */
+    function renderJKChart(startYear, endYear) {
+      const svg = document.getElementById('jkSvg');
+      svg.innerHTML = '';
+
+      const firstExact = startYear;
+      const lastExact = endYear + 1;
+      const totalYears = lastExact - firstExact;
+
+      const pxPerYear = 34;
+      const leftPad = 24;
+      const rightPad = 28;
+      const svgWidth = Math.max(960, Math.round(leftPad + totalYears * pxPerYear + rightPad));
+
+      svg.setAttribute('width', svgWidth);
+      svg.setAttribute('viewBox', `0 0 ${svgWidth} 380`);
+
+      const yHeaderBottom = 54;
+      const yAxisBottom = 336;
+      const yMid = 195;
+
+      const NS = 'http://www.w3.org/2000/svg';
+      const el = (tag, attrs) => {
+        const node = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+        return node;
+      };
+
+      const yearToX = (y) => leftPad + (y - firstExact) * pxPerYear;
+
+      // Watermark Terukir di dalam Kanvas SVG
+      for (let wx = 320; wx < svgWidth - 140; wx += 580) {
+        const wm = el('text', {
+          x: wx,
+          y: 266,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '15',
+          'letter-spacing': '4',
+          fill: 'rgba(74, 50, 29, 0.13)'
+        });
+        wm.textContent = 'ORIXTRON TECHNOLOGY';
+        svg.appendChild(wm);
+      }
+
+      // Garis Pembatas Horizontal
+      svg.appendChild(el('line', { x1: 0, y1: yHeaderBottom, x2: svgWidth, y2: yHeaderBottom, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: yAxisBottom, x2: svgWidth, y2: yAxisBottom, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: yMid, x2: svgWidth, y2: yMid, stroke: '#5c3f24', 'stroke-dasharray': '4,4', 'stroke-width': 1 }));
+
+      // Shading Zona Berdasarkan Siklus Juglar 9-Tahun & Grid Tahun
+      const startJuglarIdx = Math.floor((firstExact - ANCHOR_EPOCH) / JUGLAR_PERIOD);
+      const endJuglarIdx = Math.ceil((lastExact - ANCHOR_EPOCH) / JUGLAR_PERIOD);
+
+      for (let idx = startJuglarIdx; idx <= endJuglarIdx; idx++) {
+        const jStart = ANCHOR_EPOCH + idx * JUGLAR_PERIOD;
+        const jPeak = jStart + JUGLAR_PERIOD * 0.5;
+        const jEnd = jStart + JUGLAR_PERIOD;
+
+        // Zona Ekspansi Juglar (jStart -> jPeak)
+        const expX1 = Math.max(leftPad, yearToX(jStart));
+        const expX2 = Math.min(svgWidth - rightPad, yearToX(jPeak));
+        if (expX2 > expX1) {
+          svg.appendChild(el('rect', {
+            x: expX1,
+            y: yHeaderBottom,
+            width: expX2 - expX1,
+            height: yAxisBottom - yHeaderBottom,
+            fill: 'rgba(46, 90, 54, 0.065)'
+          }));
+        }
+
+        // Zona Kontraksi Juglar (jPeak -> jEnd)
+        const conX1 = Math.max(leftPad, yearToX(jPeak));
+        const conX2 = Math.min(svgWidth - rightPad, yearToX(jEnd));
+        if (conX2 > conX1) {
+          svg.appendChild(el('rect', {
+            x: conX1,
+            y: yHeaderBottom,
+            width: conX2 - conX1,
+            height: yAxisBottom - yHeaderBottom,
+            fill: 'rgba(139, 38, 29, 0.065)'
+          }));
+        }
+
+        // Garis Vertikal Batas Siklus Juglar
+        if (jStart >= firstExact && jStart <= lastExact) {
+          const jx = yearToX(jStart);
+          svg.appendChild(el('line', {
+            x1: jx,
+            y1: 0,
+            x2: jx,
+            y2: 380,
+            stroke: '#2c1e12',
+            'stroke-width': 1.4
+          }));
+        }
+
+        // Header Blok Juglar di Bagian Atas
+        const visCenterX = (Math.max(leftPad, yearToX(jStart)) + Math.min(svgWidth - rightPad, yearToX(jEnd))) / 2;
+        if (visCenterX > leftPad + 50 && visCenterX < svgWidth - rightPad - 50) {
+          const jHeader = el('text', {
+            x: visCenterX,
+            y: 23,
+            'text-anchor': 'middle',
+            'font-family': 'Cinzel, serif',
+            'font-weight': '700',
+            'font-size': '12',
+            fill: '#2c1e12'
+          });
+          jHeader.textContent = `SIKLUS JUGLAR (${Math.round(jStart)}–${Math.round(jEnd)})`;
+          svg.appendChild(jHeader);
+
+          const jSub = el('text', {
+            x: visCenterX,
+            y: 42,
+            'text-anchor': 'middle',
+            'font-family': 'Cormorant Garamond, serif',
+            'font-style': 'italic',
+            'font-weight': '600',
+            'font-size': '12.5',
+            fill: '#4a321d'
+          });
+          jSub.textContent = `Ekspansi CapEx → Puncak ${Math.round(jPeak)} → Kontraksi`;
+          svg.appendChild(jSub);
+        }
+      }
+
+      // Garis Grid Vertikal Tahunan & Label Tahun Sumbu Bawah
+      for (let y = startYear; y <= endYear; y++) {
+        const x = yearToX(y + 0.5);
+        svg.appendChild(el('line', {
+          x1: x,
+          y1: yHeaderBottom,
+          x2: x,
+          y2: yAxisBottom,
+          stroke: 'rgba(74, 50, 29, 0.16)',
+          'stroke-width': 1
+        }));
+
+        // Tampilkan label setiap tahun jika lebar memadai, atau tiap 2 tahun jika rentang panjang
+        const showLabel = totalYears <= 32 || y % 2 === 0;
+        if (showLabel) {
+          const lblY = el('text', {
+            x: x,
+            y: 363,
+            'text-anchor': 'middle',
+            'font-family': y === highlightedYear ? 'Cinzel, serif' : 'Cormorant Garamond, serif',
+            'font-weight': '700',
+            'font-size': y === highlightedYear ? '12.5' : '12',
+            fill: y === highlightedYear ? '#8b261d' : '#2c1e12',
+            style: 'cursor:pointer;'
+          });
+          lblY.textContent = y;
+          lblY.onclick = () => selectYear(y);
+          svg.appendChild(lblY);
+        }
+      }
+
+      // Hitung Titik-Titik Kurva Harmonik
+      let juglarPts = [];
+      let kitchinPts = [];
+      let compositePts = [];
+
+      const step = 0.1;
+      for (let t = firstExact; t <= lastExact; t += step) {
+        const jState = getHarmonicState(t, JUGLAR_PERIOD);
+        const kState = getHarmonicState(t, KITCHIN_PERIOD);
+        const compVal = 0.62 * jState.value + 0.38 * kState.value;
+
+        const px = yearToX(t).toFixed(1);
+        const jy = (yMid - jState.value * 76).toFixed(1);
+        const ky = (yMid - kState.value * 44).toFixed(1);
+        const cy = (yMid - compVal * 102).toFixed(1);
+
+        juglarPts.push(`${px},${jy}`);
+        kitchinPts.push(`${px},${ky}`);
+        compositePts.push(`${px},${cy}`);
+      }
+
+      // 1. Layer Kitchin Wave (3.5 Tahun — Biru Prusia Antik)
+      if (visibleLayers.kitchin) {
+        svg.appendChild(el('polyline', {
+          points: kitchinPts.join(' '),
+          fill: 'none',
+          stroke: '#1e4b6b',
+          'stroke-width': 1.8,
+          'stroke-dasharray': '5,3',
+          opacity: '0.88'
+        }));
+      }
+
+      // 2. Layer Juglar Wave (9.0 Tahun — Litografi Ganda Emas-Coklat)
+      if (visibleLayers.juglar) {
+        svg.appendChild(el('polyline', {
+          points: juglarPts.join(' '),
+          fill: 'none',
+          stroke: '#9b682c',
+          'stroke-width': 4.8,
+          'stroke-linecap': 'round',
+          opacity: '0.85'
+        }));
+        svg.appendChild(el('polyline', {
+          points: juglarPts.join(' '),
+          fill: 'none',
+          stroke: '#2c1e12',
+          'stroke-width': 1.3,
+          'stroke-linecap': 'round'
+        }));
+      }
+
+      // 3. Layer Komposit Gabungan (Juglar + Kitchin — Merah Tinta Antik)
+      if (visibleLayers.composite) {
+        svg.appendChild(el('polyline', {
+          points: compositePts.join(' '),
+          fill: 'none',
+          stroke: '#8b261d',
+          'stroke-width': 2.4,
+          'stroke-linecap': 'round',
+          opacity: '0.92'
+        }));
+      }
+
+      // Jarum Penanda Tahun Aktif
+      const targetExact = highlightedYear + 0.5;
+      if (targetExact >= firstExact && targetExact <= lastExact) {
+        const hx = yearToX(targetExact);
+        const jState = getHarmonicState(targetExact, JUGLAR_PERIOD);
+        const kState = getHarmonicState(targetExact, KITCHIN_PERIOD);
+        const compVal = 0.62 * jState.value + 0.38 * kState.value;
+        const hyComp = yMid - compVal * 102;
+
+        svg.appendChild(el('line', {
+          x1: hx,
+          y1: yHeaderBottom,
+          x2: hx,
+          y2: yAxisBottom,
+          stroke: '#8b261d',
+          'stroke-width': 2,
+          'stroke-dasharray': '4,3'
+        }));
+
+        if (visibleLayers.composite) {
+          svg.appendChild(el('circle', {
+            cx: hx,
+            cy: hyComp,
+            r: 5.5,
+            fill: '#8b261d',
+            stroke: '#fff7e8',
+            'stroke-width': 2
+          }));
+        }
+
+        const badgeW = 54;
+        svg.appendChild(el('rect', {
+          x: hx - badgeW / 2,
+          y: yHeaderBottom + 6,
+          width: badgeW,
+          height: 20,
+          rx: 2,
+          fill: '#8b261d'
+        }));
+
+        const badgeTxt = el('text', {
+          x: hx,
+          y: yHeaderBottom + 20,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '11.5',
+          fill: '#fff7e8'
+        });
+        badgeTxt.textContent = highlightedYear;
+        svg.appendChild(badgeTxt);
+
+        const scrollArea = document.getElementById('chartScrollArea');
+        const targetScroll = hx - scrollArea.clientWidth / 2;
+        scrollArea.scrollLeft = Math.max(0, targetScroll);
+      }
+
+      // Klik pada kanvas untuk memilih tahun
+      svg.onclick = (e) => {
+        if (e.target.tagName === 'text') return;
+        const rect = svg.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const clickedYear = Math.floor(firstExact + (clickX - leftPad) / pxPerYear);
+        if (clickedYear >= startYear && clickedYear <= endYear) {
+          selectYear(clickedYear);
+        }
+      };
+    }
+
+    function setCycleRange(start, end, btnElement) {
+      currentStartYear = start;
+      currentEndYear = end;
+      if (btnElement) {
+        document.querySelectorAll('.chart-controls [data-range]').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+      }
+      renderJKChart(currentStartYear, currentEndYear);
+    }
+
+    function toggleLayer(layerKey, btnElement) {
+      visibleLayers[layerKey] = !visibleLayers[layerKey];
+      btnElement.classList.toggle('active', visibleLayers[layerKey]);
+      renderJKChart(currentStartYear, currentEndYear);
+    }
+
+    function selectYear(year) {
+      document.getElementById('targetYearInput').value = year;
+      runJKPrediction();
+    }
+
+    function runJKPrediction() {
+      const input = document.getElementById('targetYearInput');
+      const year = parseInt(input.value, 10);
+      if (isNaN(year)) return;
+
+      highlightedYear = year;
+      const data = classifyJKYear(year);
+      const { juglar, kitchin, compositeVal } = data;
+
+      const jAgeMonths = Math.round(juglar.age * 12);
+      const kAgeMonths = Math.round(kitchin.age * 12);
+
+      const resultBox = document.getElementById('predictionResult');
+      resultBox.innerHTML = `
+        <div>
+          <span class="result-badge ${data.badgeClass}">${data.badgeText}</span>
+          <h3 class="result-headline">${data.headline}</h3>
+          <p class="result-desc">${data.desc}</p>
+          <div class="asset-allocation-box">${data.strategy}</div>
+        </div>
+
+        <div class="cycle-breakdown-col">
+          <div class="sub-cycle-card juglar-box">
+            <div class="sub-card-header" style="color: var(--juglar-ink);">
+              <span>JUGLAR CYCLE (9 THN / 108 BLN)</span>
+              <span>Usia: ${juglar.age.toFixed(1)} Thn (${jAgeMonths} Bln)</span>
+            </div>
+            <div class="sub-card-meta">
+              <strong>Fase:</strong> ${juglar.phaseName}<br/>
+              <strong>Peta Siklus:</strong> Dasar <span class="clickable-year" onclick="selectYear(${juglar.startYear})">${juglar.startYear}</span> &rarr; Puncak <span class="clickable-year" onclick="selectYear(${juglar.peakYear})">${juglar.peakYear}</span> &rarr; Dasar <span class="clickable-year" onclick="selectYear(${juglar.endYear})">${juglar.endYear}</span>
+            </div>
+          </div>
+
+          <div class="sub-cycle-card kitchin-box">
+            <div class="sub-card-header" style="color: var(--kitchin-ink);">
+              <span>KITCHIN CYCLE (3,5 THN / 42 BLN)</span>
+              <span>Usia: ${kitchin.age.toFixed(1)} Thn (${kAgeMonths} Bln)</span>
+            </div>
+            <div class="sub-card-meta">
+              <strong>Fase:</strong> ${kitchin.phaseName}<br/>
+              <strong>Peta Siklus:</strong> Dasar <span class="clickable-year" onclick="selectYear(${kitchin.startYear})">${kitchin.startYear}</span> &rarr; Puncak <span class="clickable-year" onclick="selectYear(${kitchin.peakYear})">${kitchin.peakYear}</span> &rarr; Dasar <span class="clickable-year" onclick="selectYear(${kitchin.endYear})">${kitchin.endYear}</span>
+            </div>
+          </div>
+
+          <div style="font-size:0.92rem; font-style:italic; color:var(--ink-faded); padding-left:4px;">
+            Indeks Resonansi Komposit Tahun ${year}: <strong>${compositeVal >= 0 ? '+' : ''}${compositeVal.toFixed(2)}</strong> (skala -1.00 Lembah s/d +1.00 Puncak).
+          </div>
+        </div>
+      `;
+
+      // Sesuaikan rentang grafik otomatis jika tahun berada di luar rentang aktif
+      if (year < currentStartYear || year > currentEndYear) {
+        document.querySelectorAll('.chart-controls [data-range]').forEach(b => b.classList.remove('active'));
+        currentStartYear = juglar.startYear - 4;
+        currentEndYear = juglar.endYear + 14;
+      }
+
+      renderJKChart(currentStartYear, currentEndYear);
+    }
+
+    document.getElementById('targetYearInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') runJKPrediction();
+    });
+
+    // Drag-to-scroll pada kanvas gelombang
+    const scrollArea = document.getElementById('chartScrollArea');
+    let isDown = false, startX, scrollLeft;
+    scrollArea.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - scrollArea.offsetLeft;
+      scrollLeft = scrollArea.scrollLeft;
+    });
+    scrollArea.addEventListener('mouseleave', () => { isDown = false; });
+    scrollArea.addEventListener('mouseup', () => { isDown = false; });
+    scrollArea.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - scrollArea.offsetLeft;
+      const walk = (x - startX) * 1.4;
+      scrollArea.scrollLeft = scrollLeft - walk;
+    });
+
+    // Inisialisasi awal
+    runJKPrediction();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The 4-Year Presidential Cycle — Yale Hirsch 1967 | Orixtron Technology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment-base: #e6cfa9;
+      --parchment-light: #f2e1c2;
+      --parchment-dark: #cfa972;
+      --ink-dark: #2c1e12;
+      --ink-sepia: #4a321d;
+      --ink-faded: #6e4f32;
+      --line-gold-brown: #9c6b30;
+
+      /* Palet 4 Fase Siklus Kepresidenan (Nuansa Tinta Antik) */
+      --yr1-post:    #7a3b2e;   /* Year 1: Post-Election Hangover / Reform */
+      --yr2-midterm: #1e4b6b;   /* Year 2: Midterm Bottom & Q4 Sweet Spot */
+      --yr3-preelec: #2e5a36;   /* Year 3: Pre-Election Stimulus Surge */
+      --yr4-elec:    #9c5a1a;   /* Year 4: Election Year Rally & Climax */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #261b12;
+      background-image: radial-gradient(circle at center, #3a291b 0%, #1c130c 100%);
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Tekstur Kertas Perkamen Klasik */
+    .parchment-card {
+      position: relative;
+      width: 100%;
+      max-width: 1240px;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(255, 248, 231, 0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 85%, rgba(168, 121, 62, 0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, var(--parchment-light) 0%, var(--parchment-base) 65%, var(--parchment-dark) 100%);
+      border: 2px solid #5c3f24;
+      border-radius: 4px;
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.65),
+        inset 0 0 65px rgba(112, 74, 34, 0.42),
+        inset 0 0 12px rgba(44, 30, 18, 0.45);
+      padding: 34px 34px 26px;
+      overflow: hidden;
+    }
+
+    /* Efek Serat Kertas Halus */
+    .parchment-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+
+    /* Bingkai Tipis Bagian Dalam */
+    .parchment-card::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      pointer-events: none;
+    }
+
+    /* Watermark Kertas Perkamen Orixtron Technology */
+    .parchment-watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .watermark-main-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: clamp(2.1rem, 5.2vw, 4.4rem);
+      letter-spacing: 0.22em;
+      color: rgba(74, 50, 29, 0.075);
+      text-transform: uppercase;
+      white-space: nowrap;
+      transform: rotate(-8deg);
+      text-shadow: 1px 1px 0 rgba(255, 248, 231, 0.35);
+    }
+
+    .watermark-sub-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+      letter-spacing: 0.32em;
+      color: rgba(74, 50, 29, 0.085);
+      text-transform: uppercase;
+      transform: rotate(-8deg);
+      margin-top: 4px;
+    }
+
+    /* Header Judul Utama */
+    .card-header {
+      text-align: center;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-kicker {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--ink-faded);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-family: 'Cinzel', 'Times New Roman', serif;
+      font-size: clamp(1.65rem, 3.4vw, 2.95rem);
+      font-weight: 700;
+      color: var(--ink-sepia);
+      letter-spacing: 0.04em;
+      text-shadow: 1px 1px 0 rgba(255, 245, 224, 0.6);
+    }
+
+    .card-subtitle-header {
+      font-size: 1.08rem;
+      font-style: italic;
+      color: var(--ink-sepia);
+      margin-top: 2px;
+    }
+
+    /* Kontrol Rentang Siklus & Navigasi Grafik */
+    .chart-controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: rgba(110, 79, 50, 0.1);
+      border: 1px solid rgba(74, 50, 29, 0.3);
+      border-radius: 3px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .control-label {
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: var(--ink-sepia);
+    }
+
+    .vintage-btn {
+      background: linear-gradient(to bottom, #f5e6ca, #dec092);
+      border: 1px solid #5c3f24;
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.94rem;
+      padding: 5px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      transition: all 0.15s ease;
+    }
+
+    .vintage-btn:hover {
+      background: linear-gradient(to bottom, #fff2da, #e5c99c);
+      transform: translateY(-1px);
+    }
+
+    .vintage-btn.active {
+      background: var(--ink-sepia);
+      color: #f6e7cb;
+      border-color: var(--ink-dark);
+    }
+
+    /* Area Grafik Klasik */
+    .chart-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      margin-top: 4px;
+      border: 2px solid var(--ink-dark);
+      background: rgba(255, 249, 236, 0.18);
+    }
+
+    /* Kolom Kiri: Sumbu Kuadran Siklus Politik */
+    .axis-column {
+      flex: 0 0 96px;
+      border-right: 1.8px solid var(--ink-dark);
+      background: rgba(110, 79, 50, 0.08);
+      user-select: none;
+    }
+
+    /* Area Scrollable SVG Kurva Hirsch */
+    .chart-scroll-area {
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      position: relative;
+      cursor: grab;
+    }
+
+    .chart-scroll-area:active {
+      cursor: grabbing;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-track {
+      background: rgba(92, 63, 36, 0.15);
+      border-top: 1px solid rgba(92, 63, 36, 0.3);
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-thumb {
+      background: #7c5633;
+      border-radius: 3px;
+      border: 1px solid #4a321d;
+    }
+
+    /* Ringkasan 4 Tahun dalam Siklus Kepresidenan */
+    .years-legend-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .year-legend-card {
+      background: rgba(255, 249, 236, 0.42);
+      border: 1px solid rgba(74, 50, 29, 0.38);
+      border-top-width: 4px;
+      border-radius: 3px;
+      padding: 10px 12px;
+    }
+
+    .year-legend-card.yr1 { border-top-color: var(--yr1-post); }
+    .year-legend-card.yr2 { border-top-color: var(--yr2-midterm); }
+    .year-legend-card.yr3 { border-top-color: var(--yr3-preelec); }
+    .year-legend-card.yr4 { border-top-color: var(--yr4-elec); }
+
+    .year-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.86rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: 0.03em;
+    }
+
+    .year-card-body {
+      font-size: 0.94rem;
+      line-height: 1.32;
+      color: var(--ink-dark);
+    }
+
+    /* Footer Kartu & Tanda Tangan Yale Hirsch */
+    .card-footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .legend-note-block {
+      max-width: 820px;
+      font-size: 1.04rem;
+      line-height: 1.38;
+      color: var(--ink-dark);
+    }
+
+    .signature-block {
+      text-align: right;
+      transform: rotate(-12deg);
+      transform-origin: bottom right;
+      padding: 0 12px 4px 0;
+      color: var(--ink-faded);
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .signature-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.1rem;
+      line-height: 0.95;
+      display: block;
+    }
+
+    .signature-year {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.45rem;
+      display: block;
+      margin-top: -2px;
+    }
+
+    /* Stempel Kolofon Developer Orixtron Technology */
+    .developer-colophon {
+      position: relative;
+      z-index: 2;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(74, 50, 29, 0.28);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--ink-faded);
+      user-select: none;
+    }
+
+    .dev-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 12px;
+      border: 1px double rgba(74, 50, 29, 0.55);
+      border-radius: 2px;
+      background: rgba(255, 248, 231, 0.25);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--ink-sepia);
+      text-transform: uppercase;
+    }
+
+    .dev-edition-note {
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--ink-faded);
+    }
+
+    /* =========================================================
+       PANEL PREDIKSI SIKLUS KEPRESIDENAN (TEMA KLASIK SENADA)
+       ========================================================= */
+    .predictor-panel {
+      padding: 26px 32px 22px;
+    }
+
+    .predictor-header {
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid rgba(74, 50, 29, 0.35);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .predictor-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .predictor-subtitle {
+      font-size: 1.02rem;
+      font-style: italic;
+      color: var(--ink-faded);
+    }
+
+    .predictor-form {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .year-input-box {
+      display: flex;
+      align-items: center;
+      background: #f9eed9;
+      border: 2px solid #5c3f24;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.12);
+    }
+
+    .year-input-box label {
+      padding: 8px 12px;
+      background: rgba(92, 63, 36, 0.14);
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-right: 1px solid rgba(92, 63, 36, 0.35);
+    }
+
+    .year-input-box input {
+      border: none;
+      background: transparent;
+      padding: 8px 14px;
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      width: 130px;
+      outline: none;
+    }
+
+    .predict-submit-btn {
+      background: var(--ink-sepia);
+      color: #f7e7c8;
+      border: 2px solid var(--ink-dark);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 9px 20px;
+      border-radius: 3px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.15s ease;
+    }
+
+    .predict-submit-btn:hover {
+      background: #2c1e12;
+    }
+
+    .quick-years {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.95rem;
+    }
+
+    /* Hasil Prediksi */
+    .prediction-result {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 249, 236, 0.55);
+      border: 1.5px solid #6b4929;
+      border-radius: 4px;
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: 1.38fr 1fr;
+      gap: 20px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      color: #fff8eb;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .badge-yr1 { background-color: var(--yr1-post); }
+    .badge-yr2 { background-color: var(--yr2-midterm); }
+    .badge-yr3 { background-color: var(--yr3-preelec); }
+    .badge-yr4 { background-color: var(--yr4-elec); }
+
+    .result-headline {
+      font-family: 'Cinzel', serif;
+      font-size: 1.48rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      margin-bottom: 6px;
+    }
+
+    .result-term-note {
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: var(--ink-sepia);
+      margin-bottom: 10px;
+    }
+
+    .result-desc {
+      font-size: 1.1rem;
+      line-height: 1.46;
+      color: var(--ink-dark);
+      margin-bottom: 12px;
+    }
+
+    .asset-allocation-box {
+      background: rgba(222, 192, 146, 0.32);
+      border-left: 3.5px solid var(--line-gold-brown);
+      padding: 10px 14px;
+      font-size: 1.04rem;
+      line-height: 1.42;
+      color: var(--ink-dark);
+    }
+
+    .cycle-neighbors {
+      background: rgba(222, 192, 146, 0.35);
+      border: 1px solid rgba(92, 63, 36, 0.35);
+      border-radius: 3px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 9px;
+    }
+
+    .neighbor-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed rgba(92, 63, 36, 0.3);
+      padding-bottom: 6px;
+      font-size: 1.02rem;
+    }
+
+    .neighbor-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .neighbor-row.active-term-row {
+      background: rgba(156, 107, 48, 0.16);
+      padding: 5px 8px;
+      border-radius: 2px;
+      border-bottom: none;
+    }
+
+    .neighbor-label {
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .neighbor-years {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--ink-dark);
+    }
+
+    .clickable-year {
+      cursor: pointer;
+      text-decoration: underline dotted;
+      transition: opacity 0.15s;
+    }
+    .clickable-year:hover {
+      opacity: 0.65;
+    }
+
+    .global-dev-footer {
+      text-align: center;
+      color: rgba(230, 207, 169, 0.65);
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      user-select: none;
+    }
+
+    @media (max-width: 900px) {
+      .years-legend-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .prediction-result {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .parchment-card {
+        padding: 20px 14px;
+      }
+      .axis-column {
+        flex: 0 0 64px;
+      }
+      .years-legend-grid {
+        grid-template-columns: 1fr;
+      }
+      .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .signature-block {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KARTU UTAMA SIKLUS KEPRESIDENAN 4 TAHUN (YALE HIRSCH, 1967) -->
+  <main class="parchment-card">
+    <!-- Watermark Kertas Perkamen Orixtron Technology -->
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text">ORIXTRON TECHNOLOGY</span>
+      <span class="watermark-sub-text">Yale Hirsch 4-Year Presidential Cycle Edition</span>
+    </div>
+
+    <header class="card-header">
+      <div class="card-kicker">Stock Trader’s Almanac &bull; Fiscal Stimulus &amp; Electoral Liquidity Rhythm</div>
+      <h1 class="card-title">The 4-Year Presidential Cycle</h1>
+      <p class="card-subtitle-header">“Post-Election Hangover, Midterm Bottom Sweet Spot, Pre-Election Surge, and Election Climax”</p>
+    </header>
+
+    <!-- Kontrol Rentang Siklus & Navigasi Grafik -->
+    <div class="chart-controls">
+      <div class="control-group">
+        <span class="control-label">Rentang Masa Jabatan:</span>
+        <button class="vintage-btn active" data-range="2021-2028" onclick="setTermRange(2021, 2028, this)">Term ke-59 &amp; ke-60 (2021–2028)</button>
+        <button class="vintage-btn" data-range="2009-2032" onclick="setTermRange(2009, 2032, this)">Era Modern (2009–2032)</button>
+        <button class="vintage-btn" data-range="1981-2040" onclick="setTermRange(1981, 2040, this)">60 Tahun (1981–2040)</button>
+      </div>
+      <div class="control-group">
+        <span style="font-size: 0.92rem; font-style: italic; color: var(--ink-sepia);">
+          *Klik pada grafik atau angka tahun untuk membaca fase siklus kepresidenan
+        </span>
+      </div>
+    </div>
+
+    <!-- Grafik Siklus Kepresidenan 4 Tahun -->
+    <div class="chart-wrapper">
+      <!-- Sumbu Kiri: Kuadran Likuiditas & Momentum -->
+      <div class="axis-column">
+        <svg viewBox="0 0 96 380" width="100%" height="380" aria-hidden="true">
+          <text x="48" y="34" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">PERIODE</text>
+          <line x1="8" y1="54" x2="88" y2="54" stroke="#2c1e12" stroke-width="1.2"/>
+
+          <text x="48" y="88" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#9c5a1a">PUNCAK</text>
+          <text x="48" y="102" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Election Rally)</text>
+
+          <line x1="14" y1="195" x2="82" y2="195" stroke="#5c3f24" stroke-dasharray="3,3" stroke-width="1"/>
+          <text x="48" y="188" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">Rata-Rata</text>
+          <text x="48" y="210" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#6e4f32">(Baseline)</text>
+
+          <text x="48" y="294" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#1e4b6b">LEMBAH</text>
+          <text x="48" y="308" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#4a321d">(Midterm Low)</text>
+
+          <line x1="8" y1="336" x2="88" y2="336" stroke="#2c1e12" stroke-width="1.2"/>
+          <text x="48" y="362" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">TAHUN</text>
+        </svg>
+      </div>
+
+      <!-- Kanvas SVG Kurva 4-Year Presidential Cycle -->
+      <div class="chart-scroll-area" id="chartScrollArea">
+        <svg id="hirschSvg" height="380" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+
+    <!-- Ringkasan 4 Tahun dalam Masa Jabatan Kepresidenan -->
+    <div class="years-legend-grid">
+      <div class="year-legend-card yr1">
+        <div class="year-card-title" style="color: var(--yr1-post);">1. POST-ELECTION YEAR (THN KE-1)</div>
+        <div class="year-card-body">
+          Pemerintahan baru mengeksekusi reformasi berat, pengetatan fiskal, &amp; penyesuaian kebijakan di awal jabatan. <strong>Secara historis paling bergejolak &amp; rawan koreksi.</strong>
+        </div>
+      </div>
+      <div class="year-legend-card yr2">
+        <div class="year-card-title" style="color: var(--yr2-midterm);">2. MIDTERM YEAR (THN KE-2)</div>
+        <div class="year-card-body">
+          Tekanan pasar mencapai titik jenuh jual pada Q2–Q3 (<em>Midterm Bottom</em>), lalu memicu <strong>“The Sweet Spot” mulai Kuartal IV (Oktober) — waktu beli terbaik.</strong>
+        </div>
+      </div>
+      <div class="year-legend-card yr3">
+        <div class="year-card-title" style="color: var(--yr3-preelec);">3. PRE-ELECTION YEAR (THN KE-3)</div>
+        <div class="year-card-body">
+          <strong>Tahun paling bullish dalam seluruh siklus 4 tahun.</strong> Stimulus fiskal, belanja infrastruktur, &amp; ekspansi likuiditas digenjot menjelang tahun pemilu.
+        </div>
+      </div>
+      <div class="year-legend-card yr4">
+        <div class="year-card-title" style="color: var(--yr4-elec);">4. ELECTION YEAR (THN KE-4)</div>
+        <div class="year-card-body">
+          Volatilitas musiman di musim semi akibat ketidakpastian kandidat, diikuti reli musim panas &amp; <em>post-election relief rally</em>. <strong>Zona penguncian profit sebelum Thn ke-1.</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Catatan Bawah & Tanda Tangan Yale Hirsch -->
+    <footer class="card-footer">
+      <div class="legend-note-block">
+        <p>
+          <strong>Aturan “Sweet Spot” Yale Hirsch (1967):</strong> Jendela peluang paling konsisten dalam siklus kepresidenan berlangsung sejak <strong>Kuartal IV Tahun Midterm (Tahun ke-2) hingga Kuartal II Tahun Pre-Election (Tahun ke-3)</strong>, bertepatan dengan periode musiman terkuat bursa saham (<em>Best Six Months: November–April</em>).
+        </p>
+      </div>
+
+      <div class="signature-block">
+        <span class="signature-name">Yale Hirsch</span>
+        <span class="signature-year">1967</span>
+      </div>
+    </footer>
+
+    <!-- Kolofon Resmi Developer -->
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Reconstructed &amp; Extended 4-Year Electoral &amp; Seasonal Cycle Projection</span>
+      <span class="dev-stamp">&#10022; Developer: Orixtron Technology &#10022;</span>
+    </div>
+  </main>
+
+  <!-- KALKULATOR PREDIKSI SIKLUS KEPRESIDENAN 4 TAHUN (SEMUA TAHUN) -->
+  <section class="parchment-card predictor-panel">
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text" style="font-size: clamp(1.8rem, 4vw, 3.2rem);">ORIXTRON TECHNOLOGY</span>
+    </div>
+
+    <div class="predictor-header">
+      <h2 class="predictor-title">Kalkulator Siklus Kepresidenan 4 Tahun (Semua Tahun)</h2>
+      <span class="predictor-subtitle">Pemetaan posisi Tahun ke-1 hingga ke-4 masa jabatan &amp; jendela “Midterm Sweet Spot”</span>
+    </div>
+
+    <div class="predictor-form">
+      <div class="year-input-box">
+        <label for="targetYearInput">Masukkan Tahun:</label>
+        <input type="number" id="targetYearInput" value="2026" min="1" max="9999" />
+      </div>
+      <button class="predict-submit-btn" onclick="runHirschPrediction()">Analisis Tahun</button>
+
+      <div class="quick-years">
+        <span style="font-weight:700; color:var(--ink-sepia);">Uji Cepat:</span>
+        <button class="vintage-btn" onclick="selectYear(2021)">2021 (Thn 1)</button>
+        <button class="vintage-btn" onclick="selectYear(2022)">2022 (Thn 2)</button>
+        <button class="vintage-btn" onclick="selectYear(2023)">2023 (Thn 3)</button>
+        <button class="vintage-btn" onclick="selectYear(2024)">2024 (Thn 4)</button>
+        <button class="vintage-btn" onclick="selectYear(2025)">2025 (Thn 1)</button>
+        <button class="vintage-btn" onclick="selectYear(2026)">2026 (Thn 2)</button>
+        <button class="vintage-btn" onclick="selectYear(2027)">2027 (Thn 3)</button>
+        <button class="vintage-btn" onclick="selectYear(2028)">2028 (Thn 4)</button>
+      </div>
+    </div>
+
+    <div class="prediction-result" id="predictionResult">
+      <!-- Diisi otomatis oleh JavaScript -->
+    </div>
+
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Yale Hirsch Electoral Cycle Engine &bull; Multi-Century Support</span>
+      <span class="dev-stamp">&#10022; Orixtron Technology &#10022;</span>
+    </div>
+  </section>
+
+  <div class="global-dev-footer">
+    ENGINEERED BY ORIXTRON TECHNOLOGY &bull; YALE HIRSCH 4-YEAR CYCLE EDITION
+  </div>
+
+  <script>
+    /**
+     * MODEL SIKLUS KEPRESIDENAN 4 TAHUN (YALE HIRSCH, 1967)
+     * Engineered by Orixtron Technology
+     * Siklus 4 tahun masa jabatan (contoh: 2025-2028 = Term ke-60):
+     * - Year 1 (Y % 4 === 1): Post-Election Year (2021, 2025, 2029...)
+     * - Year 2 (Y % 4 === 2): Midterm Election Year (2022, 2026, 2030...)
+     * - Year 3 (Y % 4 === 3): Pre-Election Year (2023, 2027, 2031...)
+     * - Year 4 (Y % 4 === 0): Presidential Election Year (2020, 2024, 2028...)
+     */
+
+    const CYCLE_PROFILES = {
+      1: {
+        key: 'yr1',
+        badgeClass: 'badge-yr1',
+        roleShort: 'Post-Election',
+        badgeLabel: 'TAHUN KE-1 DARI 4 • POST-ELECTION YEAR',
+        headlineSuffix: 'Tahun Pasca-Pemilu: Reformasi Kebijakan & Ujian Likuiditas',
+        histNote: 'Preseden Historis Tahun ke-1: 1929, 1937, 1973, 1981, 2001, 2009 (Bottom), 2021, 2025',
+        desc: 'Tahun pertama setelah pelantikan adalah waktu bagi pemerintah untuk meloloskan kebijakan fiskal, pajak, atau regulasi yang tidak populer di awal masa jabatan agar beban ekonomi selesai lebih cepat. Secara statistik, tahun ke-1 mencatat imbal hasil terendah dan volatilitas penurunan paling sering dalam siklus 4 tahun.',
+        strategy: '<strong>Strategi Make Money (Selektif & Manajemen Risiko Ketat):</strong> Hindari <em>over-leverage</em> setelah reli tahun pemilu; fokus pada <em>trading taktis, rotasi defensif,</em> dan siapkan cadangan kas untuk menangkap peluang koreksi menuju Tahun Midterm.'
+      },
+      2: {
+        key: 'yr2',
+        badgeClass: 'badge-yr2',
+        roleShort: 'Midterm Low',
+        badgeLabel: 'TAHUN KE-2 DARI 4 • MIDTERM ELECTION YEAR',
+        headlineSuffix: 'Tahun Pemilu Sela: Pembentukan “Midterm Bottom” & Awal Sweet Spot',
+        histNote: 'Preseden Historis Tahun ke-2: 1962, 1974, 1982, 1990, 1998, 2002, 2010, 2018, 2022, 2026',
+        desc: 'Ketidakpastian politik menjelang pemilihan paruh waktu (Midterm) kerap menekan pasar pada paruh pertama hingga Kuartal III. Namun, begitu hasil pemilu sela semakin terbaca pada Kuartal IV (Oktober), tercipta titik balik historis terkuat (“Midterm Bottom”) yang memulai jendela <em>Sweet Spot</em>.',
+        strategy: '<strong>Strategi Make Money (Akumulasi Utama di Q3–Q4):</strong> Gunakan pelemahan di pertengahan tahun untuk <em>mengakumulasi indeks &amp; saham pertumbuhan berfundamental kuat</em> menjelang pembukaan jendela <strong>Midterm Sweet Spot (Oktober)</strong>.'
+      },
+      3: {
+        key: 'yr3',
+        badgeClass: 'badge-yr3',
+        roleShort: 'Pre-Election',
+        badgeLabel: 'TAHUN KE-3 DARI 4 • PRE-ELECTION YEAR (MOST BULLISH)',
+        headlineSuffix: 'Tahun Pra-Pemilu: Puncak Stimulus Fiskal & Reli Terkuat',
+        histNote: 'Preseden Historis Tahun ke-3: 1955, 1975, 1983, 1991, 1995, 1999, 2003, 2013, 2019, 2023, 2027',
+        desc: 'Dalam catatan <em>Stock Trader’s Almanac</em>, Tahun Pre-Election adalah bintang utama dalam siklus 4 tahun dengan tingkat kemenangan historis tertinggi. Partai petahana memaksimalkan belanja pemerintah, stimulus ekonomi, dan stabilitas moneter demi menjaga sentimen pemilih tetap positif.',
+        strategy: '<strong>Strategi Make Money (Hold & Ride the Primary Trend):</strong> Pertahankan posisi inti dari titik beli Midterm sepanjang gelombang ekspansi; fokus pada <em>ekuitas siklikal, teknologi, dan sektor penerima manfaat belanja fiskal</em>.'
+      },
+      4: {
+        key: 'yr4',
+        badgeClass: 'badge-yr4',
+        roleShort: 'Election Yr',
+        badgeLabel: 'TAHUN KE-4 DARI 4 • PRESIDENTIAL ELECTION YEAR',
+        headlineSuffix: 'Tahun Pemilihan Presiden: Volatilitas Kandidat & Reli Akhir Siklus',
+        histNote: 'Preseden Historis Tahun ke-4: 1964, 1976, 1984, 1996, 2000, 2008 (GFC), 2012, 2016, 2020, 2024, 2028',
+        desc: 'Tahun pemilu secara rata-rata membukukan kinerja positif (terkuat kedua setelah Tahun ke-3), namun diwarnai jeda konsolidasi pada musim semi saat pasar menimbang program kandidat, diikuti reli musim panas serta <em>post-election relief rally</em> setelah pemenang dipastikan di bulan November.',
+        strategy: '<strong>Strategi Make Money (Distribusi Bertahap di Puncak Q4):</strong> Manfaatkan reli akhir tahun pemilu untuk <em>mengunci sebagian keuntungan (take profit)</em> dan memperketat manajemen risiko sebelum memasuki siklus baru Tahun ke-1.'
+      }
+    };
+
+    // Titik kontrol kurva empiris Yale Hirsch untuk t dalam [0.0 .. 4.0]
+    const HIRSCH_CURVE_POINTS = [
+      [0.00, 0.78], // Awal Yr 1 (Post-Election)
+      [0.55, 0.46], // Pertengahan Yr 1 (Policy tightening)
+      [1.10, 0.28], // Awal Yr 2 (Midterm)
+      [1.72, 0.08], // Q3/Okt Yr 2 (Midterm Bottom -> Sweet Spot Start)
+      [2.00, 0.42], // Awal Yr 3 (Pre-Election)
+      [2.48, 0.72], // Pertengahan Yr 3
+      [2.95, 0.86], // Akhir Yr 3
+      [3.35, 0.80], // Musim Semi Yr 4 (Primary/Election uncertainty)
+      [3.82, 0.96], // Q4 Yr 4 (Election Climax Rally)
+      [4.00, 0.78]  // Transisi ke Yr 1 berikutnya
+    ];
+
+    let currentStartYear = 2021;
+    let currentEndYear = 2028;
+    let highlightedYear = 2026;
+
+    function getCycleYearPosition(year) {
+      const m = ((year % 4) + 4) % 4;
+      return m === 0 ? 4 : m; // 1, 2, 3, atau 4
+    }
+
+    function getTermStartYear(year) {
+      const pos = getCycleYearPosition(year);
+      return year - (pos - 1);
+    }
+
+    function getTermNumber(termStartYear) {
+      if (termStartYear < 1789) return null;
+      return Math.floor((termStartYear - 1789) / 4) + 1;
+    }
+
+    function getHirschCurveY(exactYear) {
+      const pos = getCycleYearPosition(Math.floor(exactYear));
+      const frac = exactYear - Math.floor(exactYear);
+      const t = (pos - 1) + frac; // [0.0 .. 4.0]
+
+      for (let i = 0; i < HIRSCH_CURVE_POINTS.length - 1; i++) {
+        const [x0, y0] = HIRSCH_CURVE_POINTS[i];
+        const [x1, y1] = HIRSCH_CURVE_POINTS[i + 1];
+        if (t >= x0 && t <= x1) {
+          const u = (t - x0) / (x1 - x0);
+          const mu = (1 - Math.cos(u * Math.PI)) / 2;
+          return y0 * (1 - mu) + y1 * mu;
+        }
+      }
+      return 0.5;
+    }
+
+    function renderHirschChart(startYear, endYear) {
+      const svg = document.getElementById('hirschSvg');
+      svg.innerHTML = '';
+
+      const firstExact = startYear;
+      const lastExact = endYear + 1;
+      const totalYears = lastExact - firstExact;
+
+      const pxPerYear = totalYears <= 10 ? 112 : (totalYears <= 28 ? 44 : 22);
+      const leftPad = 24;
+      const rightPad = 28;
+      const svgWidth = Math.max(960, Math.round(leftPad + totalYears * pxPerYear + rightPad));
+
+      svg.setAttribute('width', svgWidth);
+      svg.setAttribute('viewBox', `0 0 ${svgWidth} 380`);
+
+      const yHeaderBottom = 54;
+      const yAxisBottom = 336;
+      const yCurveTop = 82;
+      const yCurveBot = 304;
+      const curveSpanY = yCurveBot - yCurveTop;
+
+      const NS = 'http://www.w3.org/2000/svg';
+      const el = (tag, attrs) => {
+        const node = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+        return node;
+      };
+
+      const yearToX = (y) => leftPad + (y - firstExact) * pxPerYear;
+
+      // Watermark Terukir di dalam Kanvas SVG
+      for (let wx = 320; wx < svgWidth - 140; wx += 580) {
+        const wm = el('text', {
+          x: wx,
+          y: 266,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '15',
+          'letter-spacing': '4',
+          fill: 'rgba(74, 50, 29, 0.13)'
+        });
+        wm.textContent = 'ORIXTRON TECHNOLOGY';
+        svg.appendChild(wm);
+      }
+
+      // Garis Pembatas Horizontal
+      svg.appendChild(el('line', { x1: 0, y1: yHeaderBottom, x2: svgWidth, y2: yHeaderBottom, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: yAxisBottom, x2: svgWidth, y2: yAxisBottom, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: 195, x2: svgWidth, y2: 195, stroke: '#5c3f24', 'stroke-dasharray': '4,4', 'stroke-width': 1 }));
+
+      // Header Masa Jabatan (Term) 4-Tahunan
+      const firstTermStart = getTermStartYear(startYear);
+      const lastTermStart = getTermStartYear(endYear);
+
+      for (let tStart = firstTermStart; tStart <= lastTermStart; tStart += 4) {
+        const x1 = Math.max(leftPad, yearToX(tStart));
+        const x2 = Math.min(svgWidth - rightPad, yearToX(tStart + 4));
+        const termNum = getTermNumber(tStart);
+
+        if (tStart >= firstExact && tStart <= lastExact) {
+          svg.appendChild(el('line', {
+            x1: yearToX(tStart),
+            y1: 0,
+            x2: yearToX(tStart),
+            y2: 380,
+            stroke: '#2c1e12',
+            'stroke-width': 1.5
+          }));
+        }
+
+        // Sorot Jendela "Midterm Sweet Spot" (Okt Thn ke-2 s/d Mei Thn ke-3)
+        const ssStart = tStart + 1.75; // Oktober Tahun Midterm
+        const ssEnd = tStart + 2.38;   // Mei Tahun Pre-Election
+        const visSS1 = Math.max(leftPad, yearToX(ssStart));
+        const visSS2 = Math.min(svgWidth - rightPad, yearToX(ssEnd));
+        if (visSS2 > visSS1) {
+          svg.appendChild(el('rect', {
+            x: visSS1,
+            y: yHeaderBottom,
+            width: visSS2 - visSS1,
+            height: yAxisBottom - yHeaderBottom,
+            fill: 'rgba(46, 90, 54, 0.14)'
+          }));
+
+          if (pxPerYear >= 40) {
+            const ssLabel = el('text', {
+              x: (visSS1 + visSS2) / 2,
+              y: yHeaderBottom + 36,
+              'text-anchor': 'middle',
+              'font-family': 'Cinzel, serif',
+              'font-weight': '700',
+              'font-size': '9.5',
+              fill: '#2e5a36'
+            });
+            ssLabel.textContent = 'SWEET SPOT';
+            svg.appendChild(ssLabel);
+          }
+        }
+
+        if (x2 - x1 > 95) {
+          const center = (x1 + x2) / 2;
+          const hTitle = el('text', {
+            x: center,
+            y: 23,
+            'text-anchor': 'middle',
+            'font-family': 'Cinzel, serif',
+            'font-weight': '700',
+            'font-size': '12.5',
+            fill: '#2c1e12'
+          });
+          hTitle.textContent = termNum
+            ? `TERM KE-${termNum} (${tStart}–${tStart + 3})`
+            : `SIKLUS 4-TAHUN (${tStart}–${tStart + 3})`;
+          svg.appendChild(hTitle);
+
+          const hSub = el('text', {
+            x: center,
+            y: 42,
+            'text-anchor': 'middle',
+            'font-family': 'Cormorant Garamond, serif',
+            'font-style': 'italic',
+            'font-weight': '600',
+            'font-size': '12.5',
+            fill: '#4a321d'
+          });
+          hSub.textContent = `Midterm Low: ${tStart + 1} • Pre-Election Surge: ${tStart + 2}`;
+          svg.appendChild(hSub);
+        }
+      }
+
+      // Shading Per Tahun (1–4) & Label Sumbu Bawah
+      const zoneFills = {
+        yr1: 'rgba(122, 59, 46, 0.08)',
+        yr2: 'rgba(30, 75, 107, 0.08)',
+        yr3: 'rgba(46, 90, 54, 0.07)',
+        yr4: 'rgba(156, 90, 26, 0.08)'
+      };
+
+      const roleColors = {
+        yr1: '#7a3b2e',
+        yr2: '#1e4b6b',
+        yr3: '#2e5a36',
+        yr4: '#9c5a1a'
+      };
+
+      for (let y = startYear; y <= endYear; y++) {
+        const pos = getCycleYearPosition(y);
+        const profile = CYCLE_PROFILES[pos];
+        const xLeft = yearToX(y);
+        const xCenter = yearToX(y + 0.5);
+
+        svg.appendChild(el('rect', {
+          x: xLeft,
+          y: yHeaderBottom,
+          width: pxPerYear,
+          height: yAxisBottom - yHeaderBottom,
+          fill: zoneFills[profile.key]
+        }));
+
+        svg.appendChild(el('line', {
+          x1: xLeft,
+          y1: yHeaderBottom,
+          x2: xLeft,
+          y2: yAxisBottom,
+          stroke: 'rgba(74, 50, 29, 0.18)',
+          'stroke-dasharray': pos === 1 ? 'none' : '2,3',
+          'stroke-width': pos === 1 ? 1.4 : 1
+        }));
+
+        if (pxPerYear >= 38) {
+          const roleLbl = el('text', {
+            x: xCenter,
+            y: yAxisBottom - 10,
+            'text-anchor': 'middle',
+            'font-family': 'Cinzel, serif',
+            'font-weight': '700',
+            'font-size': pxPerYear >= 85 ? '10.5' : '8.8',
+            fill: roleColors[profile.key]
+          });
+          roleLbl.textContent = pxPerYear >= 85 ? `Thn ${pos}: ${profile.roleShort}` : `Thn ${pos}`;
+          svg.appendChild(roleLbl);
+        }
+
+        const showYearLbl = pxPerYear >= 30 || pos === 1 || pos === 3 || y === highlightedYear;
+        if (showYearLbl) {
+          const yLbl = el('text', {
+            x: xCenter,
+            y: 363,
+            'text-anchor': 'middle',
+            'font-family': y === highlightedYear ? 'Cinzel, serif' : 'Cormorant Garamond, serif',
+            'font-weight': '700',
+            'font-size': y === highlightedYear ? '13' : '12.5',
+            fill: y === highlightedYear ? '#8b261d' : '#2c1e12',
+            style: 'cursor:pointer;'
+          });
+          yLbl.textContent = y;
+          yLbl.onclick = () => selectYear(y);
+          svg.appendChild(yLbl);
+        }
+      }
+
+      // Bangun Path Kurva 4-Year Presidential Cycle
+      let mainPts = [];
+      const step = 0.05;
+      for (let t = firstExact; t <= lastExact; t += step) {
+        const yNorm = getHirschCurveY(t);
+        const py = yCurveBot - yNorm * curveSpanY;
+        const px = yearToX(t).toFixed(1);
+        mainPts.push(`${px},${py.toFixed(1)}`);
+      }
+
+      // Garis Lithograph Ganda Emas-Coklat & Tinta Gelap
+      svg.appendChild(el('polyline', {
+        points: mainPts.join(' '),
+        fill: 'none',
+        stroke: '#9b682c',
+        'stroke-width': 5.2,
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round',
+        opacity: '0.88'
+      }));
+
+      svg.appendChild(el('polyline', {
+        points: mainPts.join(' '),
+        fill: 'none',
+        stroke: '#2c1e12',
+        'stroke-width': 1.5,
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      }));
+
+      // Titik Simpul Tahun (1–4)
+      if (pxPerYear >= 38) {
+        for (let y = startYear; y <= endYear; y++) {
+          const cx = yearToX(y + 0.5);
+          const cy = yCurveBot - getHirschCurveY(y + 0.5) * curveSpanY;
+          const pos = getCycleYearPosition(y);
+
+          const node = el('circle', {
+            cx: cx,
+            cy: cy,
+            r: y === highlightedYear ? 6.5 : 4.2,
+            fill: y === highlightedYear ? '#8b261d' : '#f5e6ca',
+            stroke: y === highlightedYear ? '#fff7e8' : '#2c1e12',
+            'stroke-width': y === highlightedYear ? 2 : 1.5,
+            style: 'cursor:pointer;'
+          });
+          node.onclick = () => selectYear(y);
+          svg.appendChild(node);
+
+          if (pxPerYear >= 85 && y !== highlightedYear) {
+            const pBadge = el('text', {
+              x: cx,
+              y: cy - 11,
+              'text-anchor': 'middle',
+              'font-family': 'Cinzel, serif',
+              'font-weight': '700',
+              'font-size': '10.5',
+              fill: '#4a321d',
+              style: 'cursor:pointer;'
+            });
+            pBadge.textContent = `Tahun ke-${pos}`;
+            pBadge.onclick = () => selectYear(y);
+            svg.appendChild(pBadge);
+          }
+        }
+      }
+
+      // Jarum Penanda Tahun Aktif
+      const targetExact = highlightedYear + 0.5;
+      if (targetExact >= firstExact && targetExact <= lastExact) {
+        const hx = yearToX(targetExact);
+        const hy = yCurveBot - getHirschCurveY(targetExact) * curveSpanY;
+        const pos = getCycleYearPosition(highlightedYear);
+
+        svg.appendChild(el('line', {
+          x1: hx,
+          y1: yHeaderBottom,
+          x2: hx,
+          y2: yAxisBottom,
+          stroke: '#8b261d',
+          'stroke-width': 2.2,
+          'stroke-dasharray': '5,3'
+        }));
+
+        svg.appendChild(el('circle', {
+          cx: hx,
+          cy: hy,
+          r: 6.5,
+          fill: '#8b261d',
+          stroke: '#fff7e8',
+          'stroke-width': 2
+        }));
+
+        const badgeW = 78;
+        svg.appendChild(el('rect', {
+          x: hx - badgeW / 2,
+          y: yHeaderBottom + 6,
+          width: badgeW,
+          height: 20,
+          rx: 2,
+          fill: '#8b261d'
+        }));
+
+        const badgeTxt = el('text', {
+          x: hx,
+          y: yHeaderBottom + 20,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '10.8',
+          fill: '#fff7e8'
+        });
+        badgeTxt.textContent = `${highlightedYear} (Thn ${pos})`;
+        svg.appendChild(badgeTxt);
+
+        const scrollArea = document.getElementById('chartScrollArea');
+        const targetScroll = hx - scrollArea.clientWidth / 2;
+        scrollArea.scrollLeft = Math.max(0, targetScroll);
+      }
+
+      // Klik pada kanvas untuk memilih tahun
+      svg.onclick = (e) => {
+        if (e.target.tagName === 'text' || e.target.tagName === 'circle') return;
+        const rect = svg.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const clickedYear = Math.floor(firstExact + (clickX - leftPad) / pxPerYear);
+        if (clickedYear >= startYear && clickedYear <= endYear) {
+          selectYear(clickedYear);
+        }
+      };
+    }
+
+    function setTermRange(start, end, btnElement) {
+      currentStartYear = start;
+      currentEndYear = end;
+      if (btnElement) {
+        document.querySelectorAll('.chart-controls .vintage-btn').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+      }
+      renderHirschChart(currentStartYear, currentEndYear);
+    }
+
+    function selectYear(year) {
+      document.getElementById('targetYearInput').value = year;
+      runHirschPrediction();
+    }
+
+    function runHirschPrediction() {
+      const input = document.getElementById('targetYearInput');
+      const year = parseInt(input.value, 10);
+      if (isNaN(year)) return;
+
+      highlightedYear = year;
+      const pos = getCycleYearPosition(year);
+      const profile = CYCLE_PROFILES[pos];
+      const termStart = getTermStartYear(year);
+      const termNum = getTermNumber(termStart);
+
+      const y1 = termStart;
+      const y2 = termStart + 1;
+      const y3 = termStart + 2;
+      const y4 = termStart + 3;
+
+      const termLabel = termNum
+        ? `Masa Jabatan Presiden AS ke-${termNum} (${y1}–${y4})`
+        : `Siklus 4-Tahun Harmonik (${y1}–${y4})`;
+
+      const resultBox = document.getElementById('predictionResult');
+      resultBox.innerHTML = `
+        <div>
+          <span class="result-badge ${profile.badgeClass}">${profile.badgeLabel}</span>
+          <h3 class="result-headline">Tahun ${year}: ${profile.headlineSuffix}</h3>
+          <div class="result-term-note">&#127963; ${termLabel} &bull; ${profile.histNote}</div>
+          <p class="result-desc">${profile.desc}</p>
+          <div class="asset-allocation-box">${profile.strategy}</div>
+        </div>
+        <div class="cycle-neighbors">
+          <div style="font-family:'Cinzel',serif; font-weight:700; font-size:0.98rem; color:var(--ink-sepia); margin-bottom:2px;">
+            Peta 4 Tahun dalam Siklus (${y1}–${y4})
+          </div>
+          <div class="neighbor-row ${pos === 1 ? 'active-term-row' : ''}">
+            <span class="neighbor-label" style="color:var(--yr1-post);">1. Post-Election Year:</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${y1})">${y1}</span>
+            </span>
+          </div>
+          <div class="neighbor-row ${pos === 2 ? 'active-term-row' : ''}">
+            <span class="neighbor-label" style="color:var(--yr2-midterm);">2. Midterm Year (Sweet Spot Q4):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${y2})">${y2}</span>
+            </span>
+          </div>
+          <div class="neighbor-row ${pos === 3 ? 'active-term-row' : ''}">
+            <span class="neighbor-label" style="color:var(--yr3-preelec);">3. Pre-Election Year (Bullish):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${y3})">${y3}</span>
+            </span>
+          </div>
+          <div class="neighbor-row ${pos === 4 ? 'active-term-row' : ''}">
+            <span class="neighbor-label" style="color:var(--yr4-elec);">4. Election Year (Climax):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${y4})">${y4}</span>
+            </span>
+          </div>
+          <div style="font-size:0.88rem; font-style:italic; color:var(--ink-faded); margin-top:4px;">
+            *Jendela <strong>Midterm Sweet Spot</strong> siklus ini berlangsung: <strong>Okt ${y2} &ndash; Mei ${y3}</strong>.
+          </div>
+        </div>
+      `;
+
+      // Sesuaikan rentang grafik otomatis jika tahun berada di luar rentang aktif
+      if (year < currentStartYear || year > currentEndYear) {
+        document.querySelectorAll('.chart-controls .vintage-btn').forEach(b => b.classList.remove('active'));
+        currentStartYear = termStart;
+        currentEndYear = termStart + 7;
+      }
+
+      renderHirschChart(currentStartYear, currentEndYear);
+    }
+
+    document.getElementById('targetYearInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') runHirschPrediction();
+    });
+
+    // Drag-to-scroll pada kanvas grafik
+    const scrollArea = document.getElementById('chartScrollArea');
+    let isDown = false, startX, scrollLeft;
+    scrollArea.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - scrollArea.offsetLeft;
+      scrollLeft = scrollArea.scrollLeft;
+    });
+    scrollArea.addEventListener('mouseleave', () => { isDown = false; });
+    scrollArea.addEventListener('mouseup', () => { isDown = false; });
+    scrollArea.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - scrollArea.offsetLeft;
+      const walk = (x - startX) * 1.4;
+      scrollArea.scrollLeft = scrollLeft - walk;
+    });
+
+    // Inisialisasi awal
+    runHirschPrediction();
+  </script>
+</body>
+</html>

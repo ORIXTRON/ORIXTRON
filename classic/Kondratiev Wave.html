@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Kondratiev Long-Wave Cycle — Nikolai Kondratiev 1925 | Orixtron Technology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment-base: #e6cfa9;
+      --parchment-light: #f2e1c2;
+      --parchment-dark: #cfa972;
+      --ink-dark: #2c1e12;
+      --ink-sepia: #4a321d;
+      --ink-faded: #6e4f32;
+      --line-gold-brown: #9c6b30;
+
+      /* Palet 4 Musim Kondratiev (Nuansa Tinta Antik) */
+      --season-spring: #2e5a36;   /* E - Improvement / Spring */
+      --season-summer: #9c5a1a;   /* P - Prosperity / Summer */
+      --season-autumn: #7a3b2e;   /* R - Recession / Autumn */
+      --season-winter: #1e4b6b;   /* D - Depression / Winter */
+      --accent-needle: #8b261d;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #261b12;
+      background-image: radial-gradient(circle at center, #3a291b 0%, #1c130c 100%);
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Tekstur Kertas Perkamen Klasik */
+    .parchment-card {
+      position: relative;
+      width: 100%;
+      max-width: 1240px;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(255, 248, 231, 0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 85%, rgba(168, 121, 62, 0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, var(--parchment-light) 0%, var(--parchment-base) 65%, var(--parchment-dark) 100%);
+      border: 2px solid #5c3f24;
+      border-radius: 4px;
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.65),
+        inset 0 0 65px rgba(112, 74, 34, 0.42),
+        inset 0 0 12px rgba(44, 30, 18, 0.45);
+      padding: 34px 34px 26px;
+      overflow: hidden;
+    }
+
+    /* Efek Serat Kertas Halus */
+    .parchment-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+
+    /* Bingkai Tipis Bagian Dalam */
+    .parchment-card::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      pointer-events: none;
+    }
+
+    /* Watermark Kertas Perkamen Orixtron Technology */
+    .parchment-watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .watermark-main-text {
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: clamp(2.1rem, 5.2vw, 4.4rem);
+      letter-spacing: 0.22em;
+      color: rgba(74, 50, 29, 0.075);
+      text-transform: uppercase;
+      white-space: nowrap;
+      transform: rotate(-8deg);
+      text-shadow: 1px 1px 0 rgba(255, 248, 231, 0.35);
+    }
+
+    .watermark-sub-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+      letter-spacing: 0.32em;
+      color: rgba(74, 50, 29, 0.085);
+      text-transform: uppercase;
+      transform: rotate(-8deg);
+      margin-top: 4px;
+    }
+
+    /* Header Judul Utama */
+    .card-header {
+      text-align: center;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-kicker {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: var(--ink-faded);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-family: 'Cinzel', 'Times New Roman', serif;
+      font-size: clamp(1.65rem, 3.4vw, 2.95rem);
+      font-weight: 700;
+      color: var(--ink-sepia);
+      letter-spacing: 0.04em;
+      text-shadow: 1px 1px 0 rgba(255, 245, 224, 0.6);
+    }
+
+    .card-subtitle-header {
+      font-size: 1.08rem;
+      font-style: italic;
+      color: var(--ink-sepia);
+      margin-top: 2px;
+    }
+
+    /* Kontrol Rentang Era & Navigasi Grafik */
+    .chart-controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: rgba(110, 79, 50, 0.1);
+      border: 1px solid rgba(74, 50, 29, 0.3);
+      border-radius: 3px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .control-label {
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: var(--ink-sepia);
+    }
+
+    .vintage-btn {
+      background: linear-gradient(to bottom, #f5e6ca, #dec092);
+      border: 1px solid #5c3f24;
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 5px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      transition: all 0.15s ease;
+    }
+
+    .vintage-btn:hover {
+      background: linear-gradient(to bottom, #fff2da, #e5c99c);
+      transform: translateY(-1px);
+    }
+
+    .vintage-btn.active {
+      background: var(--ink-sepia);
+      color: #f6e7cb;
+      border-color: var(--ink-dark);
+    }
+
+    /* Area Grafik Klasik */
+    .chart-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      margin-top: 4px;
+      border: 2px solid var(--ink-dark);
+      background: rgba(255, 249, 236, 0.18);
+    }
+
+    /* Kolom Kiri: Sumbu Kuadran Ekonomi */
+    .axis-column {
+      flex: 0 0 92px;
+      border-right: 1.8px solid var(--ink-dark);
+      background: rgba(110, 79, 50, 0.08);
+      user-select: none;
+    }
+
+    /* Area Scrollable SVG Gelombang */
+    .chart-scroll-area {
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      position: relative;
+      cursor: grab;
+    }
+
+    .chart-scroll-area:active {
+      cursor: grabbing;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-track {
+      background: rgba(92, 63, 36, 0.15);
+      border-top: 1px solid rgba(92, 63, 36, 0.3);
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-thumb {
+      background: #7c5633;
+      border-radius: 3px;
+      border: 1px solid #4a321d;
+    }
+
+    /* Legenda 4 Musim Ekonomi di Bawah Grafik */
+    .seasons-legend-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .season-legend-card {
+      background: rgba(255, 249, 236, 0.42);
+      border: 1px solid rgba(74, 50, 29, 0.38);
+      border-top-width: 4px;
+      border-radius: 3px;
+      padding: 10px 12px;
+    }
+
+    .season-legend-card.spring { border-top-color: var(--season-spring); }
+    .season-legend-card.summer { border-top-color: var(--season-summer); }
+    .season-legend-card.autumn { border-top-color: var(--season-autumn); }
+    .season-legend-card.winter { border-top-color: var(--season-winter); }
+
+    .season-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.88rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: 0.03em;
+    }
+
+    .season-card-body {
+      font-size: 0.94rem;
+      line-height: 1.32;
+      color: var(--ink-dark);
+    }
+
+    /* Footer Kartu & Tanda Tangan Nikolai Kondratiev */
+    .card-footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .legend-note-block {
+      max-width: 820px;
+      font-size: 1.04rem;
+      line-height: 1.38;
+      color: var(--ink-dark);
+    }
+
+    .signature-block {
+      text-align: right;
+      transform: rotate(-12deg);
+      transform-origin: bottom right;
+      padding: 0 12px 4px 0;
+      color: var(--ink-faded);
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .signature-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2rem;
+      line-height: 0.95;
+      display: block;
+    }
+
+    .signature-year {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.45rem;
+      display: block;
+      margin-top: -2px;
+    }
+
+    /* Stempel Kolofon Developer Orixtron Technology */
+    .developer-colophon {
+      position: relative;
+      z-index: 2;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(74, 50, 29, 0.28);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--ink-faded);
+      user-select: none;
+    }
+
+    .dev-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 12px;
+      border: 1px double rgba(74, 50, 29, 0.55);
+      border-radius: 2px;
+      background: rgba(255, 248, 231, 0.25);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--ink-sepia);
+      text-transform: uppercase;
+    }
+
+    .dev-edition-note {
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--ink-faded);
+    }
+
+    /* =========================================================
+       PANEL PREDIKSI GELOMBANG KONDRATIEV (TEMA KLASIK SENADA)
+       ========================================================= */
+    .predictor-panel {
+      padding: 26px 32px 22px;
+    }
+
+    .predictor-header {
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid rgba(74, 50, 29, 0.35);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .predictor-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .predictor-subtitle {
+      font-size: 1.02rem;
+      font-style: italic;
+      color: var(--ink-faded);
+    }
+
+    .predictor-form {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .year-input-box {
+      display: flex;
+      align-items: center;
+      background: #f9eed9;
+      border: 2px solid #5c3f24;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.12);
+    }
+
+    .year-input-box label {
+      padding: 8px 12px;
+      background: rgba(92, 63, 36, 0.14);
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-right: 1px solid rgba(92, 63, 36, 0.35);
+    }
+
+    .year-input-box input {
+      border: none;
+      background: transparent;
+      padding: 8px 14px;
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      width: 130px;
+      outline: none;
+    }
+
+    .predict-submit-btn {
+      background: var(--ink-sepia);
+      color: #f7e7c8;
+      border: 2px solid var(--ink-dark);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 9px 20px;
+      border-radius: 3px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.15s ease;
+    }
+
+    .predict-submit-btn:hover {
+      background: #2c1e12;
+    }
+
+    .quick-years {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.95rem;
+    }
+
+    /* Hasil Prediksi */
+    .prediction-result {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 249, 236, 0.55);
+      border: 1.5px solid #6b4929;
+      border-radius: 4px;
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: 1.38fr 1fr;
+      gap: 20px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      color: #fff8eb;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .badge-spring { background-color: var(--season-spring); }
+    .badge-summer { background-color: var(--season-summer); }
+    .badge-autumn { background-color: var(--season-autumn); }
+    .badge-winter { background-color: var(--season-winter); }
+
+    .result-headline {
+      font-family: 'Cinzel', serif;
+      font-size: 1.48rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      margin-bottom: 6px;
+    }
+
+    .result-tech-era {
+      font-weight: 700;
+      font-size: 1.04rem;
+      color: var(--ink-sepia);
+      margin-bottom: 10px;
+    }
+
+    .result-desc {
+      font-size: 1.1rem;
+      line-height: 1.46;
+      color: var(--ink-dark);
+      margin-bottom: 12px;
+    }
+
+    .asset-allocation-box {
+      background: rgba(222, 192, 146, 0.32);
+      border-left: 3.5px solid var(--line-gold-brown);
+      padding: 10px 14px;
+      font-size: 1.04rem;
+      line-height: 1.42;
+      color: var(--ink-dark);
+    }
+
+    .cycle-neighbors {
+      background: rgba(222, 192, 146, 0.35);
+      border: 1px solid rgba(92, 63, 36, 0.35);
+      border-radius: 3px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 9px;
+    }
+
+    .neighbor-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed rgba(92, 63, 36, 0.3);
+      padding-bottom: 6px;
+      font-size: 1.02rem;
+    }
+
+    .neighbor-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .neighbor-row.active-season-row {
+      background: rgba(156, 107, 48, 0.16);
+      padding: 5px 8px;
+      border-radius: 2px;
+      border-bottom: none;
+    }
+
+    .neighbor-label {
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .neighbor-years {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--ink-dark);
+    }
+
+    .clickable-year {
+      cursor: pointer;
+      text-decoration: underline dotted;
+      transition: opacity 0.15s;
+    }
+    .clickable-year:hover {
+      opacity: 0.65;
+    }
+
+    .global-dev-footer {
+      text-align: center;
+      color: rgba(230, 207, 169, 0.65);
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      user-select: none;
+    }
+
+    @media (max-width: 900px) {
+      .seasons-legend-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .prediction-result {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .parchment-card {
+        padding: 20px 14px;
+      }
+      .axis-column {
+        flex: 0 0 64px;
+      }
+      .seasons-legend-grid {
+        grid-template-columns: 1fr;
+      }
+      .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .signature-block {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KARTU UTAMA GELOMBANG KONDRATIEV (1925) -->
+  <main class="parchment-card">
+    <!-- Watermark Kertas Perkamen Orixtron Technology -->
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text">ORIXTRON TECHNOLOGY</span>
+      <span class="watermark-sub-text">Kondratiev Long-Wave Harmonic Edition</span>
+    </div>
+
+    <header class="card-header">
+      <div class="card-kicker">The 54-Year Supercycle of Capitalism &amp; Technological Revolutions</div>
+      <h1 class="card-title">The Kondratiev Long-Wave Cycle</h1>
+      <p class="card-subtitle-header">“Periods of Expansion, Prosperity, Recession, and Depression Across Industrial Eras”</p>
+    </header>
+
+    <!-- Kontrol Rentang Era -->
+    <div class="chart-controls">
+      <div class="control-group">
+        <span class="control-label">Rentang Era:</span>
+        <button class="vintage-btn" data-range="1789-1949" onclick="setWaveRange(1789, 1949, this)">Era Klasik (1789–1949)</button>
+        <button class="vintage-btn active" data-range="1949-2116" onclick="setWaveRange(1949, 2116, this)">Modern &amp; Masa Depan (1949–2116)</button>
+        <button class="vintage-btn" data-range="1789-2170" onclick="setWaveRange(1789, 2170, this)">Seluruh Gelombang I–VII (1789–2170)</button>
+      </div>
+      <div class="control-group">
+        <span style="font-size: 0.92rem; font-style: italic; color: var(--ink-sepia);">
+          *Klik pada grafik gelombang atau tahun untuk membaca fase ekonomi
+        </span>
+      </div>
+    </div>
+
+    <!-- Grafik Gelombang Kondratiev -->
+    <div class="chart-wrapper">
+      <!-- Sumbu Kiri: Level Aktivitas Ekonomi & Harga -->
+      <div class="axis-column">
+        <svg viewBox="0 0 92 380" width="100%" height="380" aria-hidden="true">
+          <text x="46" y="34" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">ERA</text>
+          <line x1="8" y1="54" x2="84" y2="54" stroke="#2c1e12" stroke-width="1.2"/>
+
+          <text x="46" y="92" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="11" fill="#9c5a1a">PUNCAK</text>
+          <text x="46" y="106" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="12" fill="#4a321d">(Prosperity)</text>
+
+          <line x1="16" y1="195" x2="76" y2="195" stroke="#5c3f24" stroke-dasharray="3,3" stroke-width="1"/>
+          <text x="46" y="188" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">Ekuilibrium</text>
+          <text x="46" y="210" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="11.5" fill="#6e4f32">Jangka Panjang</text>
+
+          <text x="46" y="294" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="11" fill="#1e4b6b">LEMBAH</text>
+          <text x="46" y="308" text-anchor="middle" font-family="Cormorant Garamond, serif" font-style="italic" font-size="12" fill="#4a321d">(Reset / Beli)</text>
+
+          <line x1="8" y1="336" x2="84" y2="336" stroke="#2c1e12" stroke-width="1.2"/>
+          <text x="46" y="362" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="10.5" fill="#4a321d">TAHUN</text>
+        </svg>
+      </div>
+
+      <!-- Kanvas SVG Gelombang Sinusoidal Kondratiev -->
+      <div class="chart-scroll-area" id="chartScrollArea">
+        <svg id="kondratievSvg" height="380" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+
+    <!-- Ringkasan 4 Musim Ekonomi (E - P - R - D) -->
+    <div class="seasons-legend-grid">
+      <div class="season-legend-card spring">
+        <div class="season-card-title" style="color: var(--season-spring);">1. SPRING — IMPROVEMENT (E)</div>
+        <div class="season-card-body">
+          Pemulihan pasca-krisis, inflasi rendah, suku bunga turun. <strong>Waktu terbaik membeli saham teknologi baru &amp; properti.</strong>
+        </div>
+      </div>
+      <div class="season-legend-card summer">
+        <div class="season-card-title" style="color: var(--season-summer);">2. SUMMER — PROSPERITY (P)</div>
+        <div class="season-card-body">
+          Ekspansi maksimal, inflasi menanjak, suku bunga naik. <strong>Komoditas, energi, &amp; aset riil mencetak puncak harga.</strong>
+        </div>
+      </div>
+      <div class="season-legend-card autumn">
+        <div class="season-card-title" style="color: var(--season-autumn);">3. AUTUMN — RECESSION (R)</div>
+        <div class="season-card-body">
+          Disinflasi &amp; ledakan kredit spekulatif. <strong>Reli akhir saham &amp; obligasi sebelum gelembung pecah; waktu distribusi.</strong>
+        </div>
+      </div>
+      <div class="season-legend-card winter">
+        <div class="season-card-title" style="color: var(--season-winter);">4. WINTER — DEPRESSION (D)</div>
+        <div class="season-card-body">
+          Deleveraging utang, deflasi aset, &amp; seleksi alam bisnis. <strong>Amankan kas, emas, &amp; likuiditas hingga titik balik Spring.</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Catatan Bawah & Tanda Tangan Nikolai Kondratiev -->
+    <footer class="card-footer">
+      <div class="legend-note-block">
+        <p>
+          <strong>Prinsip Gelombang Panjang (45–60 Tahun):</strong> Setiap gelombang Kondratiev digerakkan oleh klaster inovasi teknologi besar yang mengubah struktur produksi global, diikuti ekspansi kredit hingga titik jenuh utang dan pembaruan siklus berikutnya.
+        </p>
+      </div>
+
+      <div class="signature-block">
+        <span class="signature-name">Nikolai Kondratiev</span>
+        <span class="signature-year">1925</span>
+      </div>
+    </footer>
+
+    <!-- Kolofon Resmi Developer -->
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Reconstructed &amp; Extended Long-Wave Macro Projection</span>
+      <span class="dev-stamp">&#10022; Developer: Orixtron Technology &#10022;</span>
+    </div>
+  </main>
+
+  <!-- KALKULATOR PREDIKSI GELOMBANG KONDRATIEV (SEMUA TAHUN) -->
+  <section class="parchment-card predictor-panel">
+    <div class="parchment-watermark" aria-hidden="true">
+      <span class="watermark-main-text" style="font-size: clamp(1.8rem, 4vw, 3.2rem);">ORIXTRON TECHNOLOGY</span>
+    </div>
+
+    <div class="predictor-header">
+      <h2 class="predictor-title">Kalkulator Prediksi Musim Ekonomi Kondratiev (Semua Tahun)</h2>
+      <span class="predictor-subtitle">Pemetaan fase E-P-R-D &amp; strategi alokasi aset lintas revolusi teknologi</span>
+    </div>
+
+    <div class="predictor-form">
+      <div class="year-input-box">
+        <label for="targetYearInput">Masukkan Tahun:</label>
+        <input type="number" id="targetYearInput" value="2026" min="1" max="9999" />
+      </div>
+      <button class="predict-submit-btn" onclick="runKondratievPrediction()">Analisis Tahun</button>
+
+      <div class="quick-years">
+        <span style="font-weight:700; color:var(--ink-sepia);">Uji Cepat:</span>
+        <button class="vintage-btn" onclick="selectYear(1929)">1929</button>
+        <button class="vintage-btn" onclick="selectYear(1980)">1980</button>
+        <button class="vintage-btn" onclick="selectYear(2008)">2008</button>
+        <button class="vintage-btn" onclick="selectYear(2026)">2026</button>
+        <button class="vintage-btn" onclick="selectYear(2035)">2035</button>
+        <button class="vintage-btn" onclick="selectYear(2049)">2049</button>
+        <button class="vintage-btn" onclick="selectYear(2062)">2062</button>
+      </div>
+    </div>
+
+    <div class="prediction-result" id="predictionResult">
+      <!-- Diisi otomatis oleh JavaScript -->
+    </div>
+
+    <div class="developer-colophon">
+      <span class="dev-edition-note">Kondratiev Harmonic Engine &bull; Historical &amp; Multi-Century Projection</span>
+      <span class="dev-stamp">&#10022; Orixtron Technology &#10022;</span>
+    </div>
+  </section>
+
+  <div class="global-dev-footer">
+    ENGINEERED BY ORIXTRON TECHNOLOGY &bull; KONDRATIEV LONG-WAVE EDITION
+  </div>
+
+  <script>
+    /**
+     * MODEL GELOMBANG KONDRATIEV (NIKOLAI KONDRATIEV, 1925)
+     * Engineered by Orixtron Technology
+     * Gelombang historis I–V dikalibrasi secara empiris dan diperpanjang secara harmonik (siklus 54 tahun)
+     * untuk memetakan masa depan maupun masa lalu secara konsisten.
+     */
+
+    const HISTORICAL_WAVES = [
+      {
+        num: 1,
+        roman: 'I',
+        start: 1789,
+        end: 1844,
+        tech: 'Revolusi Industri Pertama: Mesin Uap, Tekstil Kapas & Kanal',
+        driver: 'Mekanisasi pabrik tekstil di Inggris dan transisi energi air ke tenaga uap.'
+      },
+      {
+        num: 2,
+        roman: 'II',
+        start: 1844,
+        end: 1896,
+        tech: 'Era Kereta Api, Baja (Bessemer) & Batubara',
+        driver: 'Ekspansi jaringan rel lintas benua, kapal uap besi, dan industrialisasi berat.'
+      },
+      {
+        num: 3,
+        roman: 'III',
+        start: 1896,
+        end: 1949,
+        tech: 'Elektrifikasi, Industri Kimia & Mesin Pembakaran Internal',
+        driver: 'Jaringan listrik perkotaan, telegraf/telepon, dan munculnya industri otomotif awal.'
+      },
+      {
+        num: 4,
+        roman: 'IV',
+        start: 1949,
+        end: 2008,
+        tech: 'Petrokimia, Produksi Massal Otomotif & Aviasi',
+        driver: 'Suburbanisasi, energi minyak bumi murah, elektronika konsumen, dan globalisasi perdagangan.'
+      },
+      {
+        num: 5,
+        roman: 'V',
+        start: 2008,
+        end: 2062,
+        tech: 'Era Informasi, Kecerdasan Buatan (AI) & Transisi Energi Bersih',
+        driver: 'Komputasi awan, otomatisasi AI generatif, semikonduktor lanjut, dan elektrifikasi energi terbarukan.'
+      },
+      {
+        num: 6,
+        roman: 'VI',
+        start: 2062,
+        end: 2116,
+        tech: 'Bioteknologi Genomik, Komputasi Kuantum & Ekonomi Antariksa',
+        driver: 'Rekayasa genetika presisi, material superkonduktor, dan industrialisasi orbit rendah bumi.'
+      },
+      {
+        num: 7,
+        roman: 'VII',
+        start: 2116,
+        end: 2170,
+        tech: 'Energi Fusi Komersial & Otomatisasi Otonom Penuh',
+        driver: 'Kelimpahan energi bersih berbiaya mendekati nol dan sistem produksi berbasis robotika mandiri.'
+      }
+    ];
+
+    const FUTURE_TECH_THEMES = [
+      'Rekayasa Planet & Infrastruktur Antar-Planet',
+      'Komputasi Neuro-Biologis & Sintesis Materi',
+      'Peradaban Energi Stellar & Ekosistem Tertutup'
+    ];
+
+    let currentStartYear = 1949;
+    let currentEndYear = 2116;
+    let highlightedYear = 2026;
+
+    function toRoman(num) {
+      if (num <= 0) return `Pra-I (${num})`;
+      const map = [
+        [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'],
+        [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'],
+        [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']
+      ];
+      let res = '';
+      let n = num;
+      for (const [val, sym] of map) {
+        while (n >= val) { res += sym; n -= val; }
+      }
+      return res;
+    }
+
+    function getWaveForYear(year) {
+      // Cek daftar gelombang utama
+      for (const w of HISTORICAL_WAVES) {
+        if (year >= w.start && year < w.end) return w;
+      }
+
+      // Ekstrapolasi harmonik 54-tahun sebelum 1789
+      if (year < 1789) {
+        const diff = 1789 - year;
+        const stepsBack = Math.ceil(diff / 54);
+        const start = 1789 - stepsBack * 54;
+        const end = start + 54;
+        const num = 1 - stepsBack;
+        return {
+          num,
+          roman: num >= 1 ? toRoman(num) : `Pra-I`,
+          start,
+          end,
+          tech: 'Era Agraris, Merkantilisme & Perdagangan Maritim Klasik',
+          driver: 'Ekspansi jalur perdagangan laut, perbankan dagang awal, dan manufaktur kerajinan.'
+        };
+      }
+
+      // Ekstrapolasi harmonik 54-tahun setelah 2170
+      const diff = year - 2170;
+      const stepsForward = Math.floor(diff / 54);
+      const start = 2170 + stepsForward * 54;
+      const end = start + 54;
+      const num = 8 + stepsForward;
+      const theme = FUTURE_TECH_THEMES[stepsForward % FUTURE_TECH_THEMES.length];
+      return {
+        num,
+        roman: toRoman(num),
+        start,
+        end,
+        tech: `Gelombang Teknologi Lanjutan: ${theme}`,
+        driver: 'Proyeksi harmonik 54-tahun berbasis inovasi energi dan komputasi generasi baru.'
+      };
+    }
+
+    function getSeasonBounds(wave) {
+      const span = wave.end - wave.start;
+      const sEnd = Math.round(wave.start + span * 0.26);
+      const suEnd = Math.round(wave.start + span * 0.50);
+      const aEnd = Math.round(wave.start + span * 0.76);
+      return {
+        spring: { start: wave.start, end: sEnd },
+        summer: { start: sEnd, end: suEnd },
+        autumn: { start: suEnd, end: aEnd },
+        winter: { start: aEnd, end: wave.end }
+      };
+    }
+
+    function classifyKondratievYear(year) {
+      const wave = getWaveForYear(year);
+      const bounds = getSeasonBounds(wave);
+      const progress = (year - wave.start) / (wave.end - wave.start);
+
+      let seasonKey, badgeClass, badgeText, seasonTitle, macroDesc, strategy;
+
+      if (year < bounds.spring.end) {
+        seasonKey = 'spring';
+        badgeClass = 'badge-spring';
+        badgeText = `GELOMBANG ${wave.roman} • MUSIM SEMI / IMPROVEMENT (FASE E)`;
+        seasonTitle = `Tahun ${year}: Fase Kebangkitan & Ekspansi Awal`;
+        macroDesc = `Ekonomi baru saja keluar dari pembersihan utang gelombang sebelumnya. Inflasi rendah, suku bunga akomodatif, dan adopsi teknologi inti (${wave.tech.split(':')[0]}) mulai meluas.`;
+        strategy = `<strong>Strategi Make Money (Akumulasi Agresif):</strong> Fokus pada <em>saham pertumbuhan (growth stocks)</em> di sektor teknologi pemimpin gelombang baru, ekuitas siklus awal, dan properti produktif.`;
+      } else if (year < bounds.summer.end) {
+        seasonKey = 'summer';
+        badgeClass = 'badge-summer';
+        badgeText = `GELOMBANG ${wave.roman} • MUSIM PANAS / PROSPERITY (FASE P)`;
+        seasonTitle = `Tahun ${year}: Puncak Kemakmuran & Tekanan Inflasi`;
+        macroDesc = `Permintaan global mencapai kapasitas penuh, memicu kenaikan harga komoditas, energi, dan suku bunga. Friksi geopolitik serta biaya bahan baku meningkat tajam mendekati puncak gelombang.`;
+        strategy = `<strong>Strategi Make Money (Rotasi Aset Riil):</strong> Kurangi obligasi berbunga tetap; alokasikan modal ke <em>komoditas energi, logam mulia, agrikultur, saham berdividen riil,</em> dan aset pelindung inflasi.`;
+      } else if (year < bounds.autumn.end) {
+        seasonKey = 'autumn';
+        badgeClass = 'badge-autumn';
+        badgeText = `GELOMBANG ${wave.roman} • MUSIM GUGUR / RECESSION (FASE R)`;
+        seasonTitle = `Tahun ${year}: Ledakan Kredit Spekulatif & Puncak Finansial`;
+        macroDesc = `Inflasi komoditas mereda (disinflasi), memicu euforia pasar keuangan dan ekspansi utang besar-besaran. Valuasi aset finansial melambung jauh melampaui ekonomi riil sebelum titik balik krisis.`;
+        strategy = `<strong>Strategi Make Money (Distribusi & Penguncian Profit):</strong> Manfaatkan reli akhir pada <em>saham blue-chip & obligasi</em> untuk mulai melepas aset berisiko tinggi (unload) secara bertahap sebelum musim dingin tiba.`;
+      } else {
+        seasonKey = 'winter';
+        badgeClass = 'badge-winter';
+        badgeText = `GELOMBANG ${wave.roman} • MUSIM DINGIN / DEPRESSION (FASE D)`;
+        seasonTitle = `Tahun ${year}: Fase Deleveraging Utang & Reset Pasar`;
+        macroDesc = `Sistem keuangan membersihkan kelebihan utang melalui deflasi aset, restrukturisasi kredit, dan konsolidasi industri. Harga aset terdiskon dalam untuk menyiapkan fondasi gelombang berikutnya (${wave.end}).`;
+        strategy = `<strong>Strategi Make Money (Preservasi Modal & Siap Beli):</strong> Prioritaskan <em>kas likuid, emas fisik, dan instrumen bebas risiko gagal bayar</em> sambil mengincar saham berkualitas di titik dasar menjelang tahun ${wave.end}.`;
+      }
+
+      return {
+        wave,
+        bounds,
+        progress,
+        seasonKey,
+        badgeClass,
+        badgeText,
+        seasonTitle,
+        macroDesc,
+        strategy
+      };
+    }
+
+    /**
+     * RENDER GRAFIK SVG GELOMBANG KONDRATIEV KLASIK
+     */
+    function renderKondratievChart(startYear, endYear) {
+      const svg = document.getElementById('kondratievSvg');
+      svg.innerHTML = '';
+
+      // Kumpulkan gelombang yang bersinggungan dengan [startYear, endYear]
+      let waves = [];
+      let cursor = getWaveForYear(startYear).start;
+      while (cursor < endYear) {
+        const w = getWaveForYear(cursor);
+        waves.push(w);
+        cursor = w.end;
+      }
+
+      const firstYear = waves[0].start;
+      const lastYear = waves[waves.length - 1].end;
+      const totalYears = lastYear - firstYear;
+      const pxPerYear = 13.5;
+      const leftPad = 24;
+      const rightPad = 28;
+      const svgWidth = Math.max(960, Math.round(leftPad + totalYears * pxPerYear + rightPad));
+
+      svg.setAttribute('width', svgWidth);
+      svg.setAttribute('viewBox', `0 0 ${svgWidth} 380`);
+
+      const yHeaderBottom = 54;
+      const yAxisBottom = 336;
+      const yWaveMid = 195;
+      const waveAmp = 104; // Puncak y = 91, Lembah y = 299
+
+      const NS = 'http://www.w3.org/2000/svg';
+      const el = (tag, attrs) => {
+        const node = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+        return node;
+      };
+
+      const yearToX = (y) => leftPad + (y - firstYear) * pxPerYear;
+
+      // Watermark Terukir di dalam Kanvas SVG
+      for (let wx = 340; wx < svgWidth - 150; wx += 620) {
+        const wm = el('text', {
+          x: wx,
+          y: 258,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '15',
+          'letter-spacing': '4',
+          fill: 'rgba(74, 50, 29, 0.13)'
+        });
+        wm.textContent = 'ORIXTRON TECHNOLOGY';
+        svg.appendChild(wm);
+      }
+
+      // Garis horizontal pembatas header era & sumbu bawah tahun
+      svg.appendChild(el('line', { x1: 0, y1: yHeaderBottom, x2: svgWidth, y2: yHeaderBottom, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: yAxisBottom, x2: svgWidth, y2: yAxisBottom, stroke: '#2c1e12', 'stroke-width': 1.4 }));
+      svg.appendChild(el('line', { x1: 0, y1: yWaveMid, x2: svgWidth, y2: yWaveMid, stroke: '#5c3f24', 'stroke-dasharray': '4,4', 'stroke-width': 1 }));
+
+      // Gambar setiap gelombang & 4 kuadran musimnya
+      waves.forEach((w) => {
+        const xStart = yearToX(w.start);
+        const xEnd = yearToX(w.end);
+        const xCenter = (xStart + xEnd) / 2;
+        const bounds = getSeasonBounds(w);
+
+        const seasonsMeta = [
+          { key: 'E', name: 'Spring', range: bounds.spring, fill: 'rgba(46, 90, 54, 0.08)', color: '#2e5a36' },
+          { key: 'P', name: 'Summer', range: bounds.summer, fill: 'rgba(156, 90, 26, 0.09)', color: '#9c5a1a' },
+          { key: 'R', name: 'Autumn', range: bounds.autumn, fill: 'rgba(122, 59, 46, 0.08)', color: '#7a3b2e' },
+          { key: 'D', name: 'Winter', range: bounds.winter, fill: 'rgba(30, 75, 107, 0.09)', color: '#1e4b6b' }
+        ];
+
+        seasonsMeta.forEach((s) => {
+          const sx1 = yearToX(s.range.start);
+          const sx2 = yearToX(s.range.end);
+          const sMid = (sx1 + sx2) / 2;
+
+          // Shading halus per musim
+          svg.appendChild(el('rect', {
+            x: sx1,
+            y: yHeaderBottom,
+            width: sx2 - sx1,
+            height: yAxisBottom - yHeaderBottom,
+            fill: s.fill
+          }));
+
+          // Garis vertikal pemisah musim
+          svg.appendChild(el('line', {
+            x1: sx1,
+            y1: yHeaderBottom,
+            x2: sx1,
+            y2: yAxisBottom,
+            stroke: 'rgba(74, 50, 29, 0.25)',
+            'stroke-dasharray': '2,3',
+            'stroke-width': 1
+          }));
+
+          // Label Kode Musim (E, P, R, D) di bagian bawah area plot
+          const lblSeason = el('text', {
+            x: sMid,
+            y: yAxisBottom - 10,
+            'text-anchor': 'middle',
+            'font-family': 'Cinzel, serif',
+            'font-weight': '700',
+            'font-size': '11.5',
+            fill: s.color
+          });
+          lblSeason.textContent = `${s.key} • ${s.name}`;
+          svg.appendChild(lblSeason);
+        });
+
+        // Garis vertikal tegas batas antar-gelombang
+        svg.appendChild(el('line', {
+          x1: xStart,
+          y1: 0,
+          x2: xStart,
+          y2: 380,
+          stroke: '#2c1e12',
+          'stroke-width': 1.5
+        }));
+
+        // Header Era Teknologi di bagian atas
+        const shortTech = w.tech.includes(':') ? w.tech.split(':')[1].trim() : w.tech;
+        const eraTitle = el('text', {
+          x: xCenter,
+          y: 23,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '12.5',
+          fill: '#2c1e12'
+        });
+        eraTitle.textContent = `GELOMBANG ${w.roman} (${w.start}–${w.end})`;
+        svg.appendChild(eraTitle);
+
+        const eraSub = el('text', {
+          x: xCenter,
+          y: 42,
+          'text-anchor': 'middle',
+          'font-family': 'Cormorant Garamond, serif',
+          'font-style': 'italic',
+          'font-weight': '600',
+          'font-size': '13',
+          fill: '#4a321d'
+        });
+        eraSub.textContent = shortTech.length > 48 ? shortTech.slice(0, 46) + '…' : shortTech;
+        svg.appendChild(eraSub);
+
+        // Label Tahun Titik Awal Gelombang (Trough) di Sumbu Bawah
+        const yLabelStart = el('text', {
+          x: xStart,
+          y: 363,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '13',
+          fill: '#2c1e12',
+          style: 'cursor:pointer;'
+        });
+        yLabelStart.textContent = w.start;
+        yLabelStart.onclick = () => selectYear(w.start);
+        svg.appendChild(yLabelStart);
+
+        // Label Tahun Puncak Gelombang (Summer Peak) di Sumbu Bawah
+        const peakYear = Math.round((w.start + w.end) / 2);
+        const yLabelPeak = el('text', {
+          x: yearToX(peakYear),
+          y: 363,
+          'text-anchor': 'middle',
+          'font-family': 'Cormorant Garamond, serif',
+          'font-style': 'italic',
+          'font-weight': '700',
+          'font-size': '13.5',
+          fill: '#6e4f32',
+          style: 'cursor:pointer;'
+        });
+        yLabelPeak.textContent = peakYear;
+        yLabelPeak.onclick = () => selectYear(peakYear);
+        svg.appendChild(yLabelPeak);
+      });
+
+      // Label tahun akhir paling kanan
+      const yLabelLast = el('text', {
+        x: yearToX(lastYear),
+        y: 363,
+        'text-anchor': 'middle',
+        'font-family': 'Cinzel, serif',
+        'font-weight': '700',
+        'font-size': '13',
+        fill: '#2c1e12',
+        style: 'cursor:pointer;'
+      });
+      yLabelLast.textContent = lastYear;
+      yLabelLast.onclick = () => selectYear(lastYear);
+      svg.appendChild(yLabelLast);
+
+      // Bangun Path Kurva Utama Kondratiev + Kurva Harmonik Sekunder (Juglar Ripple)
+      let mainPoints = [];
+      let subPoints = [];
+      const stepYears = 0.5;
+
+      for (let y = firstYear; y <= lastYear; y += stepYears) {
+        const w = getWaveForYear(y === lastYear ? y - 0.01 : y);
+        const phase = ((y - w.start) / (w.end - w.start)) * 2 * Math.PI;
+        // Kurva dasar: -cos(phase) -> Lembah di 0, Puncak di PI, Lembah di 2*PI
+        const primaryY = yWaveMid + waveAmp * Math.cos(phase);
+        // Riak siklus Juglar (~9 tahun = 6 sub-siklus per 54 tahun)
+        const secondaryY = primaryY + 13 * Math.sin(phase * 6);
+
+        const px = yearToX(y).toFixed(1);
+        mainPoints.push(`${px},${primaryY.toFixed(1)}`);
+        subPoints.push(`${px},${secondaryY.toFixed(1)}`);
+      }
+
+      // Garis Riak Siklus Menengah (Juglar) tipis putus-putus
+      svg.appendChild(el('polyline', {
+        points: subPoints.join(' '),
+        fill: 'none',
+        stroke: 'rgba(110, 79, 50, 0.55)',
+        'stroke-width': 1.2,
+        'stroke-dasharray': '3,2'
+      }));
+
+      // Garis Utama Gelombang Kondratiev (Gaya Litografi Ganda Emas-Coklat & Tinta Gelap)
+      svg.appendChild(el('polyline', {
+        points: mainPoints.join(' '),
+        fill: 'none',
+        stroke: '#9b682c',
+        'stroke-width': 5.2,
+        'stroke-linecap': 'round',
+        opacity: '0.88'
+      }));
+
+      svg.appendChild(el('polyline', {
+        points: mainPoints.join(' '),
+        fill: 'none',
+        stroke: '#2c1e12',
+        'stroke-width': 1.5,
+        'stroke-linecap': 'round'
+      }));
+
+      // Penanda Tahun Aktif (Jarum Vertikal Merah Antik)
+      if (highlightedYear >= firstYear && highlightedYear <= lastYear) {
+        const hx = yearToX(highlightedYear);
+        const w = getWaveForYear(highlightedYear === lastYear ? highlightedYear - 0.01 : highlightedYear);
+        const phase = ((highlightedYear - w.start) / (w.end - w.start)) * 2 * Math.PI;
+        const hy = yWaveMid + waveAmp * Math.cos(phase);
+
+        svg.appendChild(el('line', {
+          x1: hx,
+          y1: yHeaderBottom,
+          x2: hx,
+          y2: yAxisBottom,
+          stroke: '#8b261d',
+          'stroke-width': 2.2,
+          'stroke-dasharray': '5,3'
+        }));
+
+        // Titik simpul pada kurva
+        svg.appendChild(el('circle', {
+          cx: hx,
+          cy: hy,
+          r: 6,
+          fill: '#8b261d',
+          stroke: '#fff7e8',
+          'stroke-width': 2
+        }));
+
+        // Lencana Tahun Aktif di bagian atas area plot
+        const badgeW = 54;
+        svg.appendChild(el('rect', {
+          x: hx - badgeW / 2,
+          y: yHeaderBottom + 6,
+          width: badgeW,
+          height: 20,
+          rx: 2,
+          fill: '#8b261d'
+        }));
+
+        const badgeTxt = el('text', {
+          x: hx,
+          y: yHeaderBottom + 20,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '11.5',
+          fill: '#fff7e8'
+        });
+        badgeTxt.textContent = highlightedYear;
+        svg.appendChild(badgeTxt);
+
+        // Auto-scroll ke posisi tahun terpilih
+        const scrollArea = document.getElementById('chartScrollArea');
+        const targetScroll = hx - scrollArea.clientWidth / 2;
+        scrollArea.scrollLeft = Math.max(0, targetScroll);
+      }
+
+      // Klik di mana saja pada kanvas untuk memilih tahun
+      svg.onclick = (e) => {
+        if (e.target.tagName === 'text') return;
+        const rect = svg.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const clickedYear = Math.round(firstYear + (clickX - leftPad) / pxPerYear);
+        if (clickedYear >= firstYear && clickedYear <= lastYear) {
+          selectYear(clickedYear);
+        }
+      };
+    }
+
+    function setWaveRange(start, end, btnElement) {
+      currentStartYear = start;
+      currentEndYear = end;
+      if (btnElement) {
+        document.querySelectorAll('.chart-controls .vintage-btn').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+      }
+      renderKondratievChart(currentStartYear, currentEndYear);
+    }
+
+    function selectYear(year) {
+      document.getElementById('targetYearInput').value = year;
+      runKondratievPrediction();
+    }
+
+    function runKondratievPrediction() {
+      const input = document.getElementById('targetYearInput');
+      const year = parseInt(input.value, 10);
+      if (isNaN(year)) return;
+
+      highlightedYear = year;
+      const data = classifyKondratievYear(year);
+      const { wave, bounds, seasonKey } = data;
+
+      const resultBox = document.getElementById('predictionResult');
+      resultBox.innerHTML = `
+        <div>
+          <span class="result-badge ${data.badgeClass}">${data.badgeText}</span>
+          <h3 class="result-headline">${data.seasonTitle}</h3>
+          <div class="result-tech-era">&#9881; ${wave.tech}</div>
+          <p class="result-desc">${data.macroDesc}</p>
+          <div class="asset-allocation-box">${data.strategy}</div>
+        </div>
+        <div class="cycle-neighbors">
+          <div style="font-family:'Cinzel',serif; font-weight:700; font-size:0.98rem; color:var(--ink-sepia); margin-bottom:2px;">
+            Kalender 4 Musim — Gelombang ${wave.roman} (${wave.start}–${wave.end})
+          </div>
+          <div class="neighbor-row ${seasonKey === 'spring' ? 'active-season-row' : ''}">
+            <span class="neighbor-label" style="color:var(--season-spring);">1. Spring / Improvement (E):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${bounds.spring.start})">${bounds.spring.start}</span> &ndash; ${bounds.spring.end - 1}
+            </span>
+          </div>
+          <div class="neighbor-row ${seasonKey === 'summer' ? 'active-season-row' : ''}">
+            <span class="neighbor-label" style="color:var(--season-summer);">2. Summer / Prosperity (P):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${bounds.summer.start})">${bounds.summer.start}</span> &ndash; ${bounds.summer.end - 1}
+            </span>
+          </div>
+          <div class="neighbor-row ${seasonKey === 'autumn' ? 'active-season-row' : ''}">
+            <span class="neighbor-label" style="color:var(--season-autumn);">3. Autumn / Recession (R):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${bounds.autumn.start})">${bounds.autumn.start}</span> &ndash; ${bounds.autumn.end - 1}
+            </span>
+          </div>
+          <div class="neighbor-row ${seasonKey === 'winter' ? 'active-season-row' : ''}">
+            <span class="neighbor-label" style="color:var(--season-winter);">4. Winter / Depression (D):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${bounds.winter.start})">${bounds.winter.start}</span> &ndash; <span class="clickable-year" onclick="selectYear(${bounds.winter.end})">${bounds.winter.end}</span>
+            </span>
+          </div>
+          <div style="font-size:0.88rem; font-style:italic; color:var(--ink-faded); margin-top:4px;">
+            *Gelombang berikutnya (Gelombang ${toRoman(wave.num + 1)}) dimulai pada tahun <strong>${wave.end}</strong>.
+          </div>
+        </div>
+      `;
+
+      // Sesuaikan rentang grafik otomatis jika tahun berada di luar rentang aktif
+      if (year < currentStartYear || year >= currentEndYear) {
+        document.querySelectorAll('.chart-controls .vintage-btn').forEach(b => b.classList.remove('active'));
+        currentStartYear = wave.start;
+        currentEndYear = wave.end + 108;
+      }
+
+      renderKondratievChart(currentStartYear, currentEndYear);
+    }
+
+    // Enter key support
+    document.getElementById('targetYearInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') runKondratievPrediction();
+    });
+
+    // Drag-to-scroll pada kanvas gelombang
+    const scrollArea = document.getElementById('chartScrollArea');
+    let isDown = false, startX, scrollLeft;
+    scrollArea.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - scrollArea.offsetLeft;
+      scrollLeft = scrollArea.scrollLeft;
+    });
+    scrollArea.addEventListener('mouseleave', () => { isDown = false; });
+    scrollArea.addEventListener('mouseup', () => { isDown = false; });
+    scrollArea.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - scrollArea.offsetLeft;
+      const walk = (x - startX) * 1.4;
+      scrollArea.scrollLeft = scrollLeft - walk;
+    });
+
+    // Inisialisasi awal
+    runKondratievPrediction();
+  </script>
+</body>
+</html>

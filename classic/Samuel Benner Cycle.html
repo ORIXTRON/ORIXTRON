@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Periods When to Make Money — Samuel Benner 1875 (Extended Interactive)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment-base: #e6cfa9;
+      --parchment-light: #f2e1c2;
+      --parchment-dark: #cfa972;
+      --ink-dark: #2c1e12;
+      --ink-sepia: #4a321d;
+      --ink-faded: #6e4f32;
+      --line-gold-brown: #9c6b30;
+      --accent-panic: #8b261d;
+      --accent-sell: #2e5a36;
+      --accent-buy: #1e4b6b;
+      --accent-neutral: #6d4c2f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #261b12;
+      background-image: radial-gradient(circle at center, #3a291b 0%, #1c130c 100%);
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* Tekstur Kertas Perkamen Klasik */
+    .parchment-card {
+      position: relative;
+      width: 100%;
+      max-width: 1220px;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(255, 248, 231, 0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 85%, rgba(168, 121, 62, 0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, var(--parchment-light) 0%, var(--parchment-base) 65%, var(--parchment-dark) 100%);
+      border: 2px solid #5c3f24;
+      border-radius: 4px;
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.65),
+        inset 0 0 65px rgba(112, 74, 34, 0.42),
+        inset 0 0 12px rgba(44, 30, 18, 0.45);
+      padding: 36px 34px 32px;
+      overflow: hidden;
+    }
+
+    /* Efek serat kertas halus */
+    .parchment-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+
+    /* Bingkai tipis bagian dalam seperti kartu antik */
+    .parchment-card::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(74, 50, 29, 0.35);
+      pointer-events: none;
+    }
+
+    /* Header Judul Utama */
+    .card-header {
+      text-align: center;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-title {
+      font-family: 'Cinzel', 'Times New Roman', serif;
+      font-size: clamp(1.75rem, 3.6vw, 3.15rem);
+      font-weight: 700;
+      color: var(--ink-sepia);
+      letter-spacing: 0.04em;
+      text-shadow: 1px 1px 0 rgba(255, 245, 224, 0.6);
+    }
+
+    /* Kontrol Rentang Tahun & Navigasi Grafik */
+    .chart-controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      background: rgba(110, 79, 50, 0.1);
+      border: 1px solid rgba(74, 50, 29, 0.3);
+      border-radius: 3px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .control-label {
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: var(--ink-sepia);
+    }
+
+    .vintage-btn {
+      background: linear-gradient(to bottom, #f5e6ca, #dec092);
+      border: 1px solid #5c3f24;
+      color: var(--ink-dark);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 5px 12px;
+      border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      transition: all 0.15s ease;
+    }
+
+    .vintage-btn:hover {
+      background: linear-gradient(to bottom, #fff2da, #e5c99c);
+      transform: translateY(-1px);
+    }
+
+    .vintage-btn.active {
+      background: var(--ink-sepia);
+      color: #f6e7cb;
+      border-color: var(--ink-dark);
+    }
+
+    /* Area Grafik Klasik */
+    .chart-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      margin-top: 6px;
+    }
+
+    /* Kolom Kiri: Tangan Penunjuk A, B, C */
+    .hands-column {
+      flex: 0 0 88px;
+      position: relative;
+      user-select: none;
+    }
+
+    /* Area Scrollable SVG Grafik */
+    .chart-scroll-area {
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      border-right: 2px solid var(--ink-dark);
+      position: relative;
+      cursor: grab;
+    }
+
+    .chart-scroll-area:active {
+      cursor: grabbing;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-track {
+      background: rgba(92, 63, 36, 0.15);
+      border-top: 1px solid rgba(92, 63, 36, 0.3);
+    }
+
+    .chart-scroll-area::-webkit-scrollbar-thumb {
+      background: #7c5633;
+      border-radius: 3px;
+      border: 1px solid #4a321d;
+    }
+
+    /* Footer Kartu: Legenda C, Kutipan, & Tanda Tangan */
+    .card-footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 14px;
+      padding-left: 88px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .legend-c-block {
+      max-width: 780px;
+      font-size: clamp(1rem, 1.45vw, 1.22rem);
+      line-height: 1.38;
+      color: var(--ink-dark);
+    }
+
+    .legend-c-block p {
+      margin-bottom: 10px;
+    }
+
+    .quote-line {
+      font-weight: 600;
+      padding-left: 28px;
+    }
+
+    .signature-block {
+      text-align: right;
+      transform: rotate(-16deg);
+      transform-origin: bottom right;
+      padding: 0 12px 6px 0;
+      color: var(--ink-faded);
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .signature-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.1rem;
+      line-height: 0.95;
+      display: block;
+    }
+
+    .signature-year {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.55rem;
+      display: block;
+      margin-top: -2px;
+    }
+
+    /* =========================================================
+       PANEL PREDIKSI TAHUN INTERAKTIF (TEMA KLASIK SENADA)
+       ========================================================= */
+    .predictor-panel {
+      padding: 26px 32px;
+    }
+
+    .predictor-header {
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid rgba(74, 50, 29, 0.35);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .predictor-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .predictor-subtitle {
+      font-size: 1.02rem;
+      font-style: italic;
+      color: var(--ink-faded);
+    }
+
+    .predictor-form {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .year-input-box {
+      display: flex;
+      align-items: center;
+      background: #f9eed9;
+      border: 2px solid #5c3f24;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.12);
+    }
+
+    .year-input-box label {
+      padding: 8px 12px;
+      background: rgba(92, 63, 36, 0.14);
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-right: 1px solid rgba(92, 63, 36, 0.35);
+    }
+
+    .year-input-box input {
+      border: none;
+      background: transparent;
+      padding: 8px 14px;
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      width: 130px;
+      outline: none;
+    }
+
+    .predict-submit-btn {
+      background: var(--ink-sepia);
+      color: #f7e7c8;
+      border: 2px solid var(--ink-dark);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 9px 20px;
+      border-radius: 3px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.15s ease;
+    }
+
+    .predict-submit-btn:hover {
+      background: #2c1e12;
+    }
+
+    .quick-years {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.95rem;
+    }
+
+    /* Hasil Prediksi */
+    .prediction-result {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 249, 236, 0.55);
+      border: 1.5px solid #6b4929;
+      border-radius: 4px;
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 20px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 0.92rem;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: 2px;
+      color: #fff8eb;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .badge-panic { background-color: var(--accent-panic); }
+    .badge-sell  { background-color: var(--accent-sell); }
+    .badge-buy   { background-color: var(--accent-buy); }
+    .badge-mid   { background-color: var(--accent-neutral); }
+
+    .result-headline {
+      font-family: 'Cinzel', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      margin-bottom: 8px;
+    }
+
+    .result-desc {
+      font-size: 1.12rem;
+      line-height: 1.48;
+      color: var(--ink-dark);
+      margin-bottom: 12px;
+    }
+
+    .result-quote {
+      font-style: italic;
+      font-size: 1.02rem;
+      color: var(--ink-sepia);
+      border-left: 3px solid var(--line-gold-brown);
+      padding-left: 12px;
+    }
+
+    .cycle-neighbors {
+      background: rgba(222, 192, 146, 0.35);
+      border: 1px solid rgba(92, 63, 36, 0.35);
+      border-radius: 3px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .neighbor-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed rgba(92, 63, 36, 0.3);
+      padding-bottom: 6px;
+      font-size: 1.04rem;
+    }
+
+    .neighbor-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .neighbor-label {
+      font-weight: 700;
+      color: var(--ink-sepia);
+    }
+
+    .neighbor-years {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      color: var(--ink-dark);
+    }
+
+    .clickable-year {
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .clickable-year:hover {
+      opacity: 0.65;
+    }
+
+    @media (max-width: 820px) {
+      .parchment-card {
+        padding: 22px 14px;
+      }
+      .hands-column {
+        flex: 0 0 62px;
+      }
+      .card-footer {
+        padding-left: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .signature-block {
+        align-self: flex-end;
+      }
+      .prediction-result {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KARTU UTAMA SAMUEL BENNER 1875 -->
+  <main class="parchment-card">
+    <header class="card-header">
+      <h1 class="card-title">Periods When to Make Money</h1>
+    </header>
+
+    <!-- Kontrol Rentang Perpanjangan Tahun -->
+    <div class="chart-controls">
+      <div class="control-group">
+        <span class="control-label">Rentang Grafik:</span>
+        <button class="vintage-btn" data-range="1924-2059" onclick="setChartRange(1924, 2059, this)">Asli (1924–2059)</button>
+        <button class="vintage-btn active" data-range="1924-2113" onclick="setChartRange(1924, 2113, this)">Perpanjangan I (1924–2113)</button>
+        <button class="vintage-btn" data-range="1870-2167" onclick="setChartRange(1870, 2167, this)">Perpanjangan II (1870–2167)</button>
+        <button class="vintage-btn" data-range="1924-2221" onclick="setChartRange(1924, 2221, this)">Abad ke-23 (1924–2221)</button>
+      </div>
+      <div class="control-group">
+        <span style="font-size: 0.92rem; font-style: italic; color: var(--ink-sepia);">
+          *Geser grafik ke kanan/kiri atau klik tahun untuk prediksi
+        </span>
+      </div>
+    </div>
+
+    <!-- Grafik Klasik dengan Tangan Penunjuk A, B, C -->
+    <div class="chart-wrapper">
+      <!-- SVG Tangan Penunjuk Klasik di Sisi Kiri -->
+      <div class="hands-column">
+        <svg viewBox="0 0 90 360" width="100%" height="360" aria-hidden="true">
+          <!-- Tangan A (y = 66) -->
+          <g transform="translate(4, 46)">
+            <path d="M12,10 C18,6 34,6 44,9 L68,9 C73,9 75,13 71,15 L52,16 C56,18 56,22 51,23 C54,25 53,29 48,30 C50,32 48,35 43,35 L20,35 C12,35 8,28 8,22 C8,16 9,12 12,10 Z"
+                  fill="none" stroke="#2c1e12" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M10,11 Q4,22 10,34" fill="none" stroke="#2c1e12" stroke-width="1.4"/>
+            <path d="M44,16 L53,16 M43,23 L51,23 M41,29 L48,29" stroke="#2c1e12" stroke-width="1.2"/>
+            <text x="31" y="27" font-family="Cormorant Garamond, serif" font-style="italic" font-weight="700" font-size="18" fill="#2c1e12">A</text>
+          </g>
+
+          <!-- Tangan B (y = 196) -->
+          <g transform="translate(4, 176)">
+            <path d="M12,10 C18,6 34,6 44,9 L68,9 C73,9 75,13 71,15 L52,16 C56,18 56,22 51,23 C54,25 53,29 48,30 C50,32 48,35 43,35 L20,35 C12,35 8,28 8,22 C8,16 9,12 12,10 Z"
+                  fill="none" stroke="#2c1e12" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M10,11 Q4,22 10,34" fill="none" stroke="#2c1e12" stroke-width="1.4"/>
+            <path d="M44,16 L53,16 M43,23 L51,23 M41,29 L48,29" stroke="#2c1e12" stroke-width="1.2"/>
+            <text x="31" y="27" font-family="Cormorant Garamond, serif" font-style="italic" font-weight="700" font-size="18" fill="#2c1e12">B</text>
+          </g>
+
+          <!-- Tangan C (y = 326) -->
+          <g transform="translate(4, 306)">
+            <path d="M12,10 C18,6 34,6 44,9 L68,9 C73,9 75,13 71,15 L52,16 C56,18 56,22 51,23 C54,25 53,29 48,30 C50,32 48,35 43,35 L20,35 C12,35 8,28 8,22 C8,16 9,12 12,10 Z"
+                  fill="none" stroke="#2c1e12" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M10,11 Q4,22 10,34" fill="none" stroke="#2c1e12" stroke-width="1.4"/>
+            <path d="M44,16 L53,16 M43,23 L51,23 M41,29 L48,29" stroke="#2c1e12" stroke-width="1.2"/>
+            <text x="31" y="27" font-family="Cormorant Garamond, serif" font-style="italic" font-weight="700" font-size="18" fill="#2c1e12">C</text>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Kanvas SVG Grafik Benner yang Dapat Diperpanjang -->
+      <div class="chart-scroll-area" id="chartScrollArea">
+        <svg id="bennerSvg" height="360" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+    </div>
+
+    <!-- Keterangan Bawah (C) & Tanda Tangan Samuel Benner 1875 -->
+    <footer class="card-footer">
+      <div class="legend-c-block">
+        <p>
+          <strong>“C.”</strong> &nbsp; Years of Hard Times, Low Prices, and a good time to buy Stocks, “Corner Lots,” Goods, etc., and hold till the “Boom” reaches the years of good times; then unload.
+        </p>
+        <p class="quote-line">
+          “Sure thing.” Save this card and watch it closely
+        </p>
+      </div>
+
+      <div class="signature-block">
+        <span class="signature-name">Samuel Benner</span>
+        <span class="signature-year">1875</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- KALKULATOR PREDIKSI UNTUK SEMUA TAHUN -->
+  <section class="parchment-card predictor-panel">
+    <div class="predictor-header">
+      <h2 class="predictor-title">Kalkulator Prediksi Siklus Benner (Semua Tahun)</h2>
+      <span class="predictor-subtitle">Berdasarkan pola matematis 54-tahun Samuel Benner (1875)</span>
+    </div>
+
+    <div class="predictor-form">
+      <div class="year-input-box">
+        <label for="targetYearInput">Masukkan Tahun:</label>
+        <input type="number" id="targetYearInput" value="2026" min="1" max="9999" />
+      </div>
+      <button class="predict-submit-btn" onclick="runPrediction()">Prediksi Tahun</button>
+
+      <div class="quick-years">
+        <span style="font-weight:700; color:var(--ink-sepia);">Uji Cepat:</span>
+        <button class="vintage-btn" onclick="selectYear(2026)">2026</button>
+        <button class="vintage-btn" onclick="selectYear(2032)">2032</button>
+        <button class="vintage-btn" onclick="selectYear(2034)">2034</button>
+        <button class="vintage-btn" onclick="selectYear(2035)">2035</button>
+        <button class="vintage-btn" onclick="selectYear(2053)">2053</button>
+        <button class="vintage-btn" onclick="selectYear(2073)">2073</button>
+        <button class="vintage-btn" onclick="selectYear(2100)">2100</button>
+      </div>
+    </div>
+
+    <div class="prediction-result" id="predictionResult">
+      <!-- Diisi otomatis oleh JavaScript -->
+    </div>
+  </section>
+
+  <script>
+    /**
+     * MATEMATIKA SIKLUS SAMUEL BENNER (1875)
+     * Basis Siklus Penuh = 54 Tahun (berpangkal pada titik C = 1924)
+     * - Baris A (Panic Years): offset [3, 21, 41] -> interval +18, +20, +16
+     * - Baris B (Good Times / High Prices / Sell): offset [2, 11, 21, 29, 38, 48] -> interval +9, +10, +8, +9, +10, +8
+     * - Baris C (Hard Times / Low Prices / Buy): offset [0, 7, 18, 27, 34, 45] -> interval +7, +11, +9, +7, +11, +9
+     */
+
+    const BASE_EPOCH = 1924;
+    const SUPER_CYCLE = 54;
+
+    const OFFSET_A = [3, 21, 41];
+    const OFFSET_B = [2, 11, 21, 29, 38, 48];
+    const OFFSET_C = [0, 7, 18, 27, 34, 45];
+
+    let currentStartYear = 1924;
+    let currentEndYear = 2113;
+    let highlightedYear = 2026;
+
+    function mod54(year) {
+      return (((year - BASE_EPOCH) % SUPER_CYCLE) + SUPER_CYCLE) % SUPER_CYCLE;
+    }
+
+    function classifyYear(year) {
+      const m = mod54(year);
+      const isA = OFFSET_A.includes(m);
+      const isB = OFFSET_B.includes(m);
+      const isC = OFFSET_C.includes(m);
+
+      if (isA && isB) {
+        return {
+          code: 'AB',
+          badgeClass: 'badge-panic',
+          badgeText: 'BARIS A & B — PUNCAK GANDA (GOOD TIMES & PANIC)',
+          headline: `Tahun ${year}: Puncak Harga Tinggi & Titik Rawan Kepanikan`,
+          desc: `Dalam peta Benner, tahun ${year} berada tepat di pertemuan puncak Baris B (Good Times / High Prices) sekaligus Baris A (Panic Year). Valuasi aset berada di titik puncak sebelum koreksi besar dimulai.`,
+          quote: '“A.” Years in which panics have occurred and will occur again — sekaligus “B.” Time to sell Stocks and values of all kinds.'
+        };
+      }
+
+      if (isA) {
+        return {
+          code: 'A',
+          badgeClass: 'badge-panic',
+          badgeText: 'BARIS A — TAHUN KEPANIKAN PASAR (PANIC YEAR)',
+          headline: `Tahun ${year}: Waspada Kepanikan Ekonomi & Pasar`,
+          desc: `Tahun ${year} tercatat langsung pada garis teratas (Baris A) dalam siklus Samuel Benner. Secara historis dan matematis, fase ini menandai gejolak kepanikan finansial serta titik balik turun menuju fase Hard Times.`,
+          quote: '“A.” Years in which panics have occurred and will occur again.'
+        };
+      }
+
+      if (isB) {
+        return {
+          code: 'B',
+          badgeClass: 'badge-sell',
+          badgeText: 'BARIS B — GOOD TIMES & HIGH PRICES (WAKTUNYA JUAL)',
+          headline: `Tahun ${year}: Masa Kejayaan & Harga Tinggi (Saatnya Realisasi Profit)`,
+          desc: `Tahun ${year} berada tepat di garis tengah (Baris B). Menurut aturan Benner, ini adalah puncak kemakmuran pasar ("Boom") di mana harga saham dan komoditas berada di level tinggi—momen ideal untuk menjual ("unload").`,
+          quote: '“B.” Years of Good Times, High Prices and the time to sell Stocks and values of all kinds.'
+        };
+      }
+
+      if (isC) {
+        return {
+          code: 'C',
+          badgeClass: 'badge-buy',
+          badgeText: 'BARIS C — HARD TIMES & LOW PRICES (WAKTUNYA BELI)',
+          headline: `Tahun ${year}: Masa Sulit & Harga Diskon (Saatnya Akumulasi)`,
+          desc: `Tahun ${year} berada di garis dasar (Baris C). Benner menandai tahun ini sebagai fase harga rendah yang tepat untuk membeli saham, properti, dan barang berharga, lalu menyimpannya hingga puncak Baris B berikutnya.`,
+          quote: '“C.” Years of Hard Times, Low Prices, and a good time to buy Stocks, “Corner Lots,” Goods, etc., and hold till the “Boom”.'
+        };
+      }
+
+      // Fase transisi di antara titik A, B, dan C
+      const nextB = findNextYear(year, OFFSET_B);
+      const nextC = findNextYear(year, OFFSET_C);
+      const prevB = findPrevYear(year, OFFSET_B);
+      const prevC = findPrevYear(year, OFFSET_C);
+
+      const isRisingToBoom = (nextB - year) < (nextC - year);
+
+      if (isRisingToBoom) {
+        return {
+          code: 'TRANSITION_UP',
+          badgeClass: 'badge-mid',
+          badgeText: 'FASE TRANSISI NAIK — MENUJU PUNCAK (HOLD / EKSPANSI)',
+          headline: `Tahun ${year}: Fase Kenaikan Menuju Puncak Good Times (${nextB})`,
+          desc: `Tahun ${year} berada di lereng kenaikan setelah dasar akumulasi (${prevC}) dan sedang bergerak menuju puncak Baris B berikutnya pada tahun ${nextB} (tersisa ${nextB - year} tahun lagi).`,
+          quote: 'Strategi Benner: Pertahankan aset ("hold") yang dibeli saat harga rendah hingga gelombang "Boom" mencapai garis B.'
+        };
+      } else {
+        return {
+          code: 'TRANSITION_DOWN',
+          badgeClass: 'badge-mid',
+          badgeText: 'FASE TRANSISI TURUN — MENUJU DASAR (KONSERVATIF)',
+          headline: `Tahun ${year}: Fase Pendinginan Menuju Titik Beli (${nextC})`,
+          desc: `Tahun ${year} berada di lereng penurunan pasca-puncak (${prevB}) dan bergerak menuju titik harga rendah Baris C berikutnya pada tahun ${nextC} (tersisa ${nextC - year} tahun lagi).`,
+          quote: 'Strategi Benner: Siapkan likuiditas dan bersabar menunggu harga menyentuh garis dasar C.'
+        };
+      }
+    }
+
+    function findNextYear(year, offsets, inclusive = false) {
+      let y = inclusive ? year : year + 1;
+      while (true) {
+        if (offsets.includes(mod54(y))) return y;
+        y++;
+      }
+    }
+
+    function findPrevYear(year, offsets, inclusive = false) {
+      let y = inclusive ? year : year - 1;
+      while (true) {
+        if (offsets.includes(mod54(y))) return y;
+        y--;
+      }
+    }
+
+    /**
+     * RENDER GRAFIK SVG KLASIK BENNER
+     * Mengikuti tata letak geometris kartu 1875:
+     * - Setiap segmen C-ke-C memiliki lebar kolom yang seragam agar segitiga simetris seperti cetakan asli.
+     * - Garis tebal ganda menghubungkan C -> A -> C pada setiap puncak Panic.
+     * - Garis tipis menghubungkan C -> B -> C pada setiap puncak Good Times.
+     */
+    function renderBennerChart(startYear, endYear) {
+      const svg = document.getElementById('bennerSvg');
+      svg.innerHTML = '';
+
+      // Kumpulkan seluruh titik C dalam rentang
+      let cPoints = [];
+      let yCursor = findPrevYear(startYear, OFFSET_C, true);
+      while (yCursor <= endYear + 11) {
+        cPoints.push(yCursor);
+        yCursor = findNextYear(yCursor, OFFSET_C, false);
+      }
+
+      const segWidth = 76; // Lebar tiap segmen C-ke-C (proporsional dengan gambar asli)
+      const leftPad = 14;
+      const rightPad = 24;
+      const totalSegments = cPoints.length - 1;
+      const svgWidth = leftPad + totalSegments * segWidth + rightPad;
+
+      svg.setAttribute('width', svgWidth);
+      svg.setAttribute('viewBox', `0 0 ${svgWidth} 360`);
+
+      const yTop = 66;    // Garis Baris A
+      const yMid = 196;   // Garis Baris B
+      const yBot = 326;   // Garis Baris C
+
+      const NS = 'http://www.w3.org/2000/svg';
+      const el = (tag, attrs) => {
+        const node = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+        return node;
+      };
+
+      // 1. Garis Horizontal Utama (Atas, Tengah, Bawah) & Garis Vertikal Kiri-Kanan
+      const xStart = leftPad;
+      const xEnd = leftPad + totalSegments * segWidth;
+
+      svg.appendChild(el('line', { x1: xStart, y1: yTop, x2: xEnd, y2: yTop, stroke: '#2c1e12', 'stroke-width': 2.2 }));
+      svg.appendChild(el('line', { x1: xStart, y1: yMid, x2: xEnd, y2: yMid, stroke: '#2c1e12', 'stroke-width': 2.0 }));
+      svg.appendChild(el('line', { x1: xStart, y1: yBot, x2: xEnd, y2: yBot, stroke: '#2c1e12', 'stroke-width': 2.2 }));
+      svg.appendChild(el('line', { x1: xStart, y1: yTop, x2: xStart, y2: yBot, stroke: '#2c1e12', 'stroke-width': 2.2 }));
+      svg.appendChild(el('line', { x1: xEnd, y1: yTop, x2: xEnd, y2: yBot, stroke: '#2c1e12', 'stroke-width': 2.2 }));
+
+      // Simpan koordinat X untuk setiap tahun agar marker pencarian akurat
+      const yearXMap = {};
+
+      // Kumpulkan titik B dan A untuk penempatan label interval atas & tengah
+      const bPeaks = [];
+      const aPeaks = [];
+
+      // 2. Gambar Segitiga Siklus (C -> B -> C dan C -> A -> C)
+      for (let i = 0; i < totalSegments; i++) {
+        const cLeft = cPoints[i];
+        const cRight = cPoints[i + 1];
+        const x1 = xStart + i * segWidth;
+        const x2 = xStart + (i + 1) * segWidth;
+        const xMid = (x1 + x2) / 2;
+
+        const cDiff = cRight - cLeft; // 7, 11, atau 9
+        const bYear = findNextYear(cLeft, OFFSET_B, false);
+        const riseYears = bYear - cLeft;   // 2, 4, atau 3
+        const fallYears = cRight - bYear;  // 5, 7, atau 6
+
+        // Cek apakah puncak ini juga merupakan Tahun Panic (Baris A)
+        const possibleA1 = bYear;
+        const possibleA2 = bYear + 1;
+        const possibleA3 = bYear + 3;
+        let aYear = null;
+        if (OFFSET_A.includes(mod54(possibleA1))) aYear = possibleA1;
+        else if (OFFSET_A.includes(mod54(possibleA2))) aYear = possibleA2;
+        else if (OFFSET_A.includes(mod54(possibleA3))) aYear = possibleA3;
+
+        // Jika puncak mencapai Baris A, gambar garis tebal ganda coklat-sepia seperti di gambar
+        if (aYear !== null) {
+          // Garis luar tebal warna emas-coklat
+          svg.appendChild(el('polyline', {
+            points: `${x1},${yBot} ${xMid},${yTop} ${x2},${yBot}`,
+            fill: 'none',
+            stroke: '#9b682c',
+            'stroke-width': 4.4,
+            'stroke-linejoin': 'bevel',
+            opacity: '0.88'
+          }));
+          // Garis dalam tipis untuk efek double-line lithograph
+          svg.appendChild(el('polyline', {
+            points: `${x1},${yBot} ${xMid},${yTop} ${x2},${yBot}`,
+            fill: 'none',
+            stroke: '#e8d2ad',
+            'stroke-width': 1.1,
+            'stroke-linejoin': 'bevel'
+          }));
+
+          aPeaks.push({ year: aYear, x: xMid });
+          yearXMap[aYear] = xMid;
+        }
+
+        // Gambar segitiga Baris B (selalu ada di setiap puncak)
+        svg.appendChild(el('polyline', {
+          points: `${x1},${yBot} ${xMid},${yMid} ${x2},${yBot}`,
+          fill: 'none',
+          stroke: '#5e3d1e',
+          'stroke-width': 1.3
+        }));
+
+        bPeaks.push({ year: bYear, x: xMid });
+        if (!yearXMap[bYear]) yearXMap[bYear] = xMid;
+        yearXMap[cLeft] = x1;
+        yearXMap[cRight] = x2;
+
+        // Pemetaan koordinat X untuk tahun-tahun transisi di antara C, B, dan C
+        for (let y = cLeft + 1; y < bYear; y++) {
+          const ratio = (y - cLeft) / (bYear - cLeft);
+          yearXMap[y] = x1 + ratio * (xMid - x1);
+        }
+        for (let y = bYear + 1; y < cRight; y++) {
+          const ratio = (y - bYear) / (cRight - bYear);
+          if (!yearXMap[y]) yearXMap[y] = xMid + ratio * (x2 - xMid);
+        }
+
+        // Angka kecil di dalam kaki segitiga (2-5, 4-7, 3-6)
+        const txtRise = el('text', {
+          x: x1 + segWidth * 0.30,
+          y: yBot - 38,
+          'text-anchor': 'middle',
+          'font-family': 'Cormorant Garamond, serif',
+          'font-style': 'italic',
+          'font-size': '13',
+          fill: '#2c1e12'
+        });
+        txtRise.textContent = riseYears;
+        svg.appendChild(txtRise);
+
+        const txtFall = el('text', {
+          x: x1 + segWidth * 0.70,
+          y: yBot - 38,
+          'text-anchor': 'middle',
+          'font-family': 'Cormorant Garamond, serif',
+          'font-style': 'italic',
+          'font-size': '13',
+          fill: '#2c1e12'
+        });
+        txtFall.textContent = fallYears;
+        svg.appendChild(txtFall);
+
+        // Angka interval di atas garis bawah C (7, 11, 9)
+        const txtCDiff = el('text', {
+          x: xMid,
+          y: yBot - 7,
+          'text-anchor': 'middle',
+          'font-family': 'Cormorant Garamond, serif',
+          'font-style': 'italic',
+          'font-weight': '600',
+          'font-size': '13',
+          fill: '#2c1e12'
+        });
+        txtCDiff.textContent = cDiff;
+        svg.appendChild(txtCDiff);
+      }
+
+      // 3. Label Tahun Baris A (di atas garis atas) & Interval A (18, 20, 16)
+      for (let i = 0; i < aPeaks.length; i++) {
+        const p = aPeaks[i];
+        const tA = el('text', {
+          x: p.x,
+          y: yTop - 10,
+          'text-anchor': 'middle',
+          'font-family': 'Cormorant Garamond, serif',
+          'font-style': 'italic',
+          'font-weight': '700',
+          'font-size': '19',
+          fill: '#2c1e12',
+          class: 'clickable-year'
+        });
+        tA.textContent = p.year;
+        tA.onclick = () => selectYear(p.year);
+        svg.appendChild(tA);
+
+        if (i < aPeaks.length - 1) {
+          const nextP = aPeaks[i + 1];
+          const diffA = nextP.year - p.year; // 18, 20, atau 16
+          const tDiffA = el('text', {
+            x: (p.x + nextP.x) / 2,
+            y: yTop + 22,
+            'text-anchor': 'middle',
+            'font-family': 'Cormorant Garamond, serif',
+            'font-style': 'italic',
+            'font-weight': '600',
+            'font-size': '14',
+            fill: '#2c1e12'
+          });
+          tDiffA.textContent = diffA;
+          svg.appendChild(tDiffA);
+        }
+      }
+
+      // 4. Label Tahun Baris B (di atas garis tengah) & Interval B (8, 9, 10)
+      for (let i = 0; i < bPeaks.length; i++) {
+        const p = bPeaks[i];
+        const tB = el('text', {
+          x: p.x,
+          y: yMid - 6,
+          'text-anchor': 'middle',
+          'font-family': 'Cormorant Garamond, serif',
+          'font-style': 'italic',
+          'font-weight': '700',
+          'font-size': '14.5',
+          fill: '#2c1e12',
+          class: 'clickable-year'
+        });
+        tB.textContent = p.year;
+        tB.onclick = () => selectYear(p.year);
+        svg.appendChild(tB);
+
+        if (i < bPeaks.length - 1) {
+          const nextP = bPeaks[i + 1];
+          const diffB = nextP.year - p.year; // 8, 9, atau 10
+          const tDiffB = el('text', {
+            x: (p.x + nextP.x) / 2,
+            y: yMid + 17,
+            'text-anchor': 'middle',
+            'font-family': 'Cormorant Garamond, serif',
+            'font-style': 'italic',
+            'font-weight': '600',
+            'font-size': '13.5',
+            fill: '#2c1e12'
+          });
+          tDiffB.textContent = diffB;
+          svg.appendChild(tDiffB);
+        }
+      }
+
+      // 5. Label Tahun Baris C (di bawah garis bawah)
+      for (let i = 0; i < cPoints.length; i++) {
+        const cy = cPoints[i];
+        const cx = xStart + i * segWidth;
+        const tC = el('text', {
+          x: cx,
+          y: yBot + 18,
+          'text-anchor': 'middle',
+          'font-family': 'Cormorant Garamond, serif',
+          'font-style': 'italic',
+          'font-weight': '700',
+          'font-size': '14.5',
+          fill: '#2c1e12',
+          class: 'clickable-year'
+        });
+        tC.textContent = cy;
+        tC.onclick = () => selectYear(cy);
+        svg.appendChild(tC);
+      }
+
+      // 6. Teks Legenda A dan B di dalam kanvas (persis posisi gambar asli)
+      const legendA = el('text', {
+        x: xStart + 14,
+        y: yTop - 36,
+        'font-family': 'Cormorant Garamond, serif',
+        'font-size': '16',
+        fill: '#2c1e12'
+      });
+      legendA.innerHTML = `<tspan font-weight="700">“A.”</tspan> Years in which panics have occurred and will occur again.`;
+      svg.appendChild(legendA);
+
+      const legendB = el('text', {
+        x: xStart + 14,
+        y: yMid - 27,
+        'font-family': 'Cormorant Garamond, serif',
+        'font-size': '16',
+        fill: '#2c1e12'
+      });
+      legendB.innerHTML = `<tspan font-weight="700">“B.”</tspan> Years of Good Times, High Prices and the time to sell Stocks and values of all kinds.`;
+      svg.appendChild(legendB);
+
+      // 7. Garis Penanda Tahun yang Sedang Dipilih di Kalkulator
+      if (yearXMap[highlightedYear] !== undefined) {
+        const hx = yearXMap[highlightedYear];
+        svg.appendChild(el('line', {
+          x1: hx,
+          y1: 22,
+          x2: hx,
+          y2: 352,
+          stroke: '#8b261d',
+          'stroke-width': 2,
+          'stroke-dasharray': '5,3'
+        }));
+
+        const badgeRect = el('rect', {
+          x: hx - 24,
+          y: 4,
+          width: 48,
+          height: 18,
+          rx: 2,
+          fill: '#8b261d'
+        });
+        svg.appendChild(badgeRect);
+
+        const badgeTxt = el('text', {
+          x: hx,
+          y: 17,
+          'text-anchor': 'middle',
+          'font-family': 'Cinzel, serif',
+          'font-weight': '700',
+          'font-size': '11.5',
+          fill: '#fff7e8'
+        });
+        badgeTxt.textContent = highlightedYear;
+        svg.appendChild(badgeTxt);
+
+        // Scroll otomatis agar tahun pilihan terlihat di tengah
+        const scrollArea = document.getElementById('chartScrollArea');
+        const targetScroll = hx - scrollArea.clientWidth / 2;
+        scrollArea.scrollLeft = Math.max(0, targetScroll);
+      }
+    }
+
+    function setChartRange(start, end, btnElement) {
+      currentStartYear = start;
+      currentEndYear = end;
+      if (btnElement) {
+        document.querySelectorAll('.chart-controls .vintage-btn').forEach(b => b.classList.remove('active'));
+        btnElement.classList.add('active');
+      }
+      renderBennerChart(currentStartYear, currentEndYear);
+    }
+
+    function selectYear(year) {
+      document.getElementById('targetYearInput').value = year;
+      runPrediction();
+    }
+
+    function runPrediction() {
+      const input = document.getElementById('targetYearInput');
+      const year = parseInt(input.value, 10);
+      if (isNaN(year)) return;
+
+      highlightedYear = year;
+      const info = classifyYear(year);
+
+      const prevA = findPrevYear(year, OFFSET_A, false);
+      const nextA = findNextYear(year, OFFSET_A, false);
+      const prevB = findPrevYear(year, OFFSET_B, false);
+      const nextB = findNextYear(year, OFFSET_B, false);
+      const prevC = findPrevYear(year, OFFSET_C, false);
+      const nextC = findNextYear(year, OFFSET_C, false);
+
+      const resultBox = document.getElementById('predictionResult');
+      resultBox.innerHTML = `
+        <div>
+          <span class="result-badge ${info.badgeClass}">${info.badgeText}</span>
+          <h3 class="result-headline">${info.headline}</h3>
+          <p class="result-desc">${info.desc}</p>
+          <p class="result-quote">${info.quote}</p>
+        </div>
+        <div class="cycle-neighbors">
+          <div style="font-family:'Cinzel',serif; font-weight:700; font-size:0.98rem; color:var(--ink-sepia); margin-bottom:2px;">
+            Peta Siklus Terdekat dari Tahun ${year}
+          </div>
+          <div class="neighbor-row">
+            <span class="neighbor-label">Baris A (Panic Year):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${prevA})">${prevA}</span> &larr; &bull; &rarr; <span class="clickable-year" onclick="selectYear(${nextA})">${nextA}</span>
+            </span>
+          </div>
+          <div class="neighbor-row">
+            <span class="neighbor-label">Baris B (Good Times / Jual):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${prevB})">${prevB}</span> &larr; &bull; &rarr; <span class="clickable-year" onclick="selectYear(${nextB})">${nextB}</span>
+            </span>
+          </div>
+          <div class="neighbor-row">
+            <span class="neighbor-label">Baris C (Hard Times / Beli):</span>
+            <span class="neighbor-years">
+              <span class="clickable-year" onclick="selectYear(${prevC})">${prevC}</span> &larr; &bull; &rarr; <span class="clickable-year" onclick="selectYear(${nextC})">${nextC}</span>
+            </span>
+          </div>
+          <div style="font-size:0.9rem; font-style:italic; color:var(--ink-faded); margin-top:4px;">
+            *Klik angka tahun di atas untuk langsung mengecek prediksinya.
+          </div>
+        </div>
+      `;
+
+      // Jika tahun yang dicari berada di luar rentang grafik aktif, sesuaikan rentang grafik secara otomatis
+      if (year < currentStartYear || year > currentEndYear) {
+        const autoStart = Math.floor((year - 27) / 54) * 54 + 1924;
+        const autoEnd = autoStart + 162;
+        document.querySelectorAll('.chart-controls .vintage-btn').forEach(b => b.classList.remove('active'));
+        currentStartYear = autoStart;
+        currentEndYear = autoEnd;
+      }
+
+      renderBennerChart(currentStartYear, currentEndYear);
+    }
+
+    // Dukungan tekan tombol Enter pada input tahun
+    document.getElementById('targetYearInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') runPrediction();
+    });
+
+    // Dukungan drag-to-scroll pada kanvas grafik
+    const scrollArea = document.getElementById('chartScrollArea');
+    let isDown = false, startX, scrollLeft;
+    scrollArea.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - scrollArea.offsetLeft;
+      scrollLeft = scrollArea.scrollLeft;
+    });
+    scrollArea.addEventListener('mouseleave', () => { isDown = false; });
+    scrollArea.addEventListener('mouseup', () => { isDown = false; });
+    scrollArea.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - scrollArea.offsetLeft;
+      const walk = (x - startX) * 1.4;
+      scrollArea.scrollLeft = scrollLeft - walk;
+    });
+
+    // Inisialisasi awal saat halaman dimuat
+    runPrediction();
+  </script>
+</body>
+</html>
