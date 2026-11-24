@@ -1,0 +1,2438 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE PSYCHOLOGY OF MONEY — Behavioral Finance &amp; Wealth Architecture | ORIXTRON</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Cinzel, Playfair Display, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. DESIGN TOKENS & READING PAPER THEMES (GADING, SEPIA, MALAM)
+       ========================================================================== */
+    :root {
+      --desk-bg: radial-gradient(circle at 50% 25%, #1c2438 0%, #0a0f1c 75%, #05070e 100%);
+      --paper-left: linear-gradient(90deg, #f3ece0 0%, #faf6ee 12%, #fcf9f2 94%, #ebe2d3 100%);
+      --paper-right: linear-gradient(270deg, #f3ece0 0%, #faf6ee 12%, #fcf9f2 94%, #e8decb 100%);
+      --paper-card: rgba(255, 252, 245, 0.88);
+      --paper-card-hover: #ffffff;
+      --ink-primary: #1a1816;
+      --ink-secondary: #4a453e;
+      --ink-muted: #787166;
+      --border-subtle: rgba(166, 138, 86, 0.28);
+      --border-strong: rgba(166, 138, 86, 0.55);
+      --accent-gold: #b48628;
+      --accent-gold-soft: rgba(180, 134, 40, 0.12);
+      --accent-navy: #14243b;
+      --spine-shadow: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(20,15,10,0.06) 45%, rgba(20,15,10,0.22) 50%, rgba(20,15,10,0.06) 55%, rgba(0,0,0,0) 100%);
+      --page-edge-color: #dfd5c3;
+    }
+
+    body.theme-sepia {
+      --desk-bg: radial-gradient(circle at 50% 25%, #2b2118 0%, #17110c 75%, #0d0906 100%);
+      --paper-left: linear-gradient(90deg, #e2d2b5 0%, #efe3cc 12%, #f3e8d3 94%, #d8c5a3 100%);
+      --paper-right: linear-gradient(270deg, #e2d2b5 0%, #efe3cc 12%, #f3e8d3 94%, #d4c09c 100%);
+      --paper-card: rgba(246, 236, 217, 0.88);
+      --paper-card-hover: #fbf3e4;
+      --ink-primary: #291d12;
+      --ink-secondary: #54412e;
+      --ink-muted: #7d664f;
+      --border-subtle: rgba(138, 98, 48, 0.3);
+      --border-strong: rgba(138, 98, 48, 0.58);
+      --accent-gold: #96631c;
+      --accent-gold-soft: rgba(150, 99, 28, 0.14);
+      --accent-navy: #3b2614;
+      --spine-shadow: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(35,20,5,0.08) 45%, rgba(35,20,5,0.28) 50%, rgba(35,20,5,0.08) 55%, rgba(0,0,0,0) 100%);
+      --page-edge-color: #cbb692;
+    }
+
+    body.theme-night {
+      --desk-bg: radial-gradient(circle at 50% 25%, #131c31 0%, #070b14 75%, #04060b 100%);
+      --paper-left: linear-gradient(90deg, #0e1525 0%, #131c30 12%, #162036 94%, #0b111e 100%);
+      --paper-right: linear-gradient(270deg, #0e1525 0%, #131c30 12%, #162036 94%, #0a0f1c 100%);
+      --paper-card: rgba(24, 35, 58, 0.88);
+      --paper-card-hover: #1e2c49;
+      --ink-primary: #f1f5f9;
+      --ink-secondary: #cbd5e1;
+      --ink-muted: #8494ad;
+      --border-subtle: rgba(212, 175, 55, 0.22);
+      --border-strong: rgba(212, 175, 55, 0.48);
+      --accent-gold: #e5b94c;
+      --accent-gold-soft: rgba(229, 185, 76, 0.14);
+      --accent-navy: #38bdf8;
+      --spine-shadow: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0) 100%);
+      --page-edge-color: #1e293b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--desk-bg);
+      color: var(--ink-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.45s ease;
+    }
+
+    .font-display { font-family: 'Cinzel', serif; }
+    .font-serif-editorial { font-family: 'Playfair Display', serif; }
+    .font-mono-code { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+
+    /* ==========================================================================
+       2. GOLD FOIL EMBOSSED TYPOGRAPHY & LEATHER HARDCOVER
+       ========================================================================== */
+    .gold-foil-text {
+      background: linear-gradient(135deg, #b8892a 0%, #f5df96 28%, #d4af37 52%, #fff3c4 75%, #9c711c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65));
+    }
+
+    .gold-foil-border {
+      border: 1px solid rgba(212, 175, 55, 0.55);
+      box-shadow:
+        inset 0 0 18px rgba(212, 175, 55, 0.12),
+        0 0 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .publisher-imprint {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(6, 10, 18, 0.92) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.42);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 243, 196, 0.22),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.85),
+        0 4px 14px rgba(0, 0, 0, 0.55);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .publisher-imprint::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 75%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 243, 196, 0.22), transparent);
+      transition: left 0.75s ease;
+      pointer-events: none;
+    }
+
+    .publisher-imprint:hover {
+      border-color: rgba(245, 223, 150, 0.8);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 243, 196, 0.35),
+        0 0 18px rgba(212, 175, 55, 0.28);
+    }
+
+    .publisher-imprint:hover::after { left: 150%; }
+
+    .leather-cover {
+      background-color: #0b1120;
+      background-image:
+        radial-gradient(rgba(212, 175, 55, 0.06) 1px, transparent 0),
+        radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0),
+        linear-gradient(145deg, #161e35 0%, #0b101e 55%, #060912 100%);
+      background-size: 16px 16px, 24px 24px, 100% 100%;
+      background-position: 0 0, 8px 8px, 0 0;
+    }
+
+    /* ==========================================================================
+       3. 3D BOOK COVER STAGE & PAGE FLIP ANIMATIONS
+       ========================================================================== */
+    .book-perspective { perspective: 2400px; }
+
+    .cover-wrapper {
+      transform-style: preserve-3d;
+      transition: transform 0.95s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.75s ease;
+      transform-origin: left center;
+    }
+
+    .cover-wrapper.is-opening {
+      transform: rotateY(-165deg) scale(0.96);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .cover-spine-ridge {
+      background: linear-gradient(90deg,
+        #05080f 0%,
+        #1e2947 18%,
+        #090e1a 38%,
+        #1b2642 56%,
+        #070b14 82%,
+        rgba(212, 175, 55, 0.35) 98%,
+        #05080f 100%
+      );
+    }
+
+    .gilded-edges-right {
+      background: repeating-linear-gradient(
+        90deg,
+        #d4af37 0px,
+        #f7e49c 1px,
+        #8f6b18 2px,
+        #e5c158 3px
+      );
+    }
+
+    .book-hardcover-casing {
+      background: linear-gradient(145deg, #182338 0%, #0b111e 100%);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      box-shadow:
+        0 28px 65px -12px rgba(0, 0, 0, 0.82),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    }
+
+    .book-page-left {
+      background: var(--paper-left);
+      color: var(--ink-primary);
+      box-shadow:
+        -6px 0 0 var(--page-edge-color),
+        -11px 2px 0 rgba(0, 0, 0, 0.14),
+        -12px 0 0 var(--page-edge-color);
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    .book-page-right {
+      background: var(--paper-right);
+      color: var(--ink-primary);
+      box-shadow:
+        6px 0 0 var(--page-edge-color),
+        11px 2px 0 rgba(0, 0, 0, 0.14),
+        12px 0 0 var(--page-edge-color);
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    .paper-texture::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.25;
+      background-image: radial-gradient(rgba(140, 120, 90, 0.15) 0.75px, transparent 0.75px);
+      background-size: 14px 14px;
+      border-radius: inherit;
+    }
+
+    .book-spine-center {
+      background: var(--spine-shadow);
+      pointer-events: none;
+    }
+
+    .page-flip-leaf {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      z-index: 35;
+      pointer-events: none;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      border-radius: 0.75rem;
+      display: none;
+    }
+
+    .page-flip-leaf.flip-next {
+      display: block;
+      right: 0;
+      transform-origin: left center;
+      background: var(--paper-right);
+      border-left: 1px solid var(--border-strong);
+      box-shadow: -15px 0 35px rgba(0, 0, 0, 0.28);
+      animation: flipForward 0.52s cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
+    }
+
+    .page-flip-leaf.flip-prev {
+      display: block;
+      left: 0;
+      transform-origin: right center;
+      background: var(--paper-left);
+      border-right: 1px solid var(--border-strong);
+      box-shadow: 15px 0 35px rgba(0, 0, 0, 0.28);
+      animation: flipBackward 0.52s cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
+    }
+
+    @keyframes flipForward {
+      0% { transform: rotateY(0deg); filter: brightness(1); }
+      45% { filter: brightness(0.92); }
+      100% { transform: rotateY(-178deg); filter: brightness(0.82); opacity: 0.12; }
+    }
+
+    @keyframes flipBackward {
+      0% { transform: rotateY(0deg); filter: brightness(1); }
+      45% { filter: brightness(0.92); }
+      100% { transform: rotateY(178deg); filter: brightness(0.82); opacity: 0.12; }
+    }
+
+    .bookmark-ribbon {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.25s ease;
+    }
+    .bookmark-ribbon:hover { transform: translateY(4px); }
+
+    .page-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+    .page-scroll::-webkit-scrollbar-track { background: transparent; }
+    .page-scroll::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 9999px; }
+
+    .content-reveal { animation: contentFadeIn 0.3s ease-out; }
+    @keyframes contentFadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1023px) {
+      .book-page-left, .book-page-right { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35); }
+      .page-flip-leaf { width: 100%; }
+    }
+  </style>
+</head>
+<body class="theme-ivory antialiased selection:bg-amber-500/30">
+
+  <!-- ========================================================================
+       STAGE 1: 3D INTERACTIVE HARDCOVER BOOK COVER
+       ======================================================================== -->
+  <section id="cover-stage" class="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-10 book-perspective relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
+      <div class="w-[540px] h-[540px] rounded-full bg-amber-500/10 blur-[130px]"></div>
+    </div>
+
+    <!-- 3D Hardcover Book Artifact -->
+    <div id="book-cover-card" class="cover-wrapper relative w-full max-w-[690px] rounded-r-2xl rounded-l-md leather-cover gold-foil-border shadow-[0_35px_90px_rgba(0,0,0,0.88)] overflow-hidden flex">
+      <!-- Realistic Book Spine Ridge -->
+      <div class="w-6 sm:w-9 shrink-0 cover-spine-ridge border-r border-amber-500/30 relative flex flex-col justify-between py-8 items-center">
+        <span class="w-4 h-[2px] bg-amber-400/50"></span>
+        <span class="w-4 h-[2px] bg-amber-400/50"></span>
+        <span class="font-mono-code text-[9px] tracking-[0.25em] text-amber-300/60 -rotate-90 whitespace-nowrap">BEHAVIORAL • NEURO • WEALTH</span>
+        <span class="w-4 h-[2px] bg-amber-400/50"></span>
+        <span class="w-4 h-[2px] bg-amber-400/50"></span>
+      </div>
+
+      <!-- Front Cover Board -->
+      <div class="flex-1 p-5 sm:p-9 md:p-11 relative flex flex-col justify-between min-h-[670px] sm:min-h-[750px]">
+        <div class="pointer-events-none absolute inset-3 sm:inset-5 border border-amber-400/35 rounded-lg"></div>
+        <div class="pointer-events-none absolute inset-4 sm:inset-6 border border-amber-400/15 rounded-md"></div>
+
+        <!-- Corner Gold Filigree Ornaments -->
+        <svg class="pointer-events-none absolute top-4 left-4 sm:top-6 sm:left-6 w-8 h-8 text-amber-400/70" viewBox="0 0 32 32" fill="none">
+          <path d="M2 24V2H24M2 10H10V2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+        </svg>
+        <svg class="pointer-events-none absolute top-4 right-4 sm:top-6 sm:right-6 w-8 h-8 text-amber-400/70 rotate-90" viewBox="0 0 32 32" fill="none">
+          <path d="M2 24V2H24M2 10H10V2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+        </svg>
+        <svg class="pointer-events-none absolute bottom-4 left-4 sm:bottom-6 sm:left-6 w-8 h-8 text-amber-400/70 -rotate-90" viewBox="0 0 32 32" fill="none">
+          <path d="M2 24V2H24M2 10H10V2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+        </svg>
+        <svg class="pointer-events-none absolute bottom-4 right-4 sm:bottom-6 sm:right-6 w-8 h-8 text-amber-400/70 rotate-180" viewBox="0 0 32 32" fill="none">
+          <path d="M2 24V2H24M2 10H10V2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+        </svg>
+
+        <!-- Top Institutional Crest & Title -->
+        <div class="relative z-10 text-center pt-2">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-amber-400/40 bg-amber-500/10 mb-5">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+            <span class="font-mono-code text-[10px] sm:text-xs tracking-[0.16em] text-amber-200 uppercase">
+              BEHAVIORAL FINANCE • NEUROECONOMICS • GAME THEORY
+            </span>
+          </div>
+
+          <!-- Custom Gold Foil Behavioral & Cognitive Crest SVG -->
+          <div class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-4 flex items-center justify-center">
+            <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_4px_12px_rgba(212,175,55,0.35)]">
+              <defs>
+                <linearGradient id="crestGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#f7e49c"/>
+                  <stop offset="50%" stop-color="#d4af37"/>
+                  <stop offset="100%" stop-color="#8f6b18"/>
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="50" r="44" fill="none" stroke="url(#crestGold)" stroke-width="1.5" stroke-dasharray="4 3"/>
+              <circle cx="50" cy="50" r="36" fill="none" stroke="url(#crestGold)" stroke-width="2"/>
+              <polygon points="50,16 80,50 50,84 20,50" fill="none" stroke="url(#crestGold)" stroke-width="1.4"/>
+              <circle cx="50" cy="50" r="18" fill="rgba(11,17,32,0.9)" stroke="url(#crestGold)" stroke-width="1.8"/>
+              <text x="50" y="54" text-anchor="middle" fill="url(#crestGold)" font-family="Cinzel, serif" font-weight="800" font-size="13">Ψ • ₿</text>
+            </svg>
+          </div>
+
+          <p class="font-mono-code text-xs tracking-[0.28em] text-amber-400/90 uppercase mb-2">
+            ENSIKLOPEDIA PSIKOLOGI FINANSIAL
+          </p>
+          <h1 class="font-display text-3xl sm:text-5xl font-extrabold tracking-wider gold-foil-text leading-tight">
+            THE PSYCHOLOGY OF MONEY
+          </h1>
+          <p class="font-mono-code text-xs sm:text-sm text-amber-200/80 tracking-wide mt-2">
+            The Invisible Systems Behind Wealth, Decisions &amp; Human Behavior
+          </p>
+          <div class="w-32 h-[1.5px] mx-auto my-4 bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
+          <p class="font-serif-editorial italic text-sm sm:text-base text-amber-100/90 max-w-lg mx-auto leading-relaxed">
+            “A comprehensive study of financial behavior, human cognition, hidden incentives, wealth accumulation and the psychology of economic power.”
+          </p>
+        </div>
+
+        <!-- Middle 4-Metric Gold Embossed Grid -->
+        <div class="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 my-6">
+          <div class="rounded-xl border border-amber-400/30 bg-slate-950/60 p-3 text-center backdrop-blur-sm">
+            <div class="font-display text-xl sm:text-2xl font-bold text-amber-300 tabular-nums">16</div>
+            <div class="text-[11px] text-slate-300 font-medium mt-0.5">Bagian Utama</div>
+          </div>
+          <div class="rounded-xl border border-amber-400/30 bg-slate-950/60 p-3 text-center backdrop-blur-sm">
+            <div class="font-display text-xl sm:text-2xl font-bold text-amber-300 tabular-nums">203</div>
+            <div class="text-[11px] text-slate-300 font-medium mt-0.5">Bab Penelitian</div>
+          </div>
+          <div class="rounded-xl border border-amber-400/30 bg-slate-950/60 p-3 text-center backdrop-blur-sm">
+            <div class="font-display text-lg sm:text-xl font-bold text-amber-300 pt-0.5">Behavioral</div>
+            <div class="text-[11px] text-slate-300 font-medium mt-0.5">Psikologi Perilaku</div>
+          </div>
+          <div class="rounded-xl border border-amber-400/30 bg-slate-950/60 p-3 text-center backdrop-blur-sm">
+            <div class="font-display text-lg sm:text-xl font-bold text-amber-300 pt-0.5">Strategic</div>
+            <div class="text-[11px] text-slate-300 font-medium mt-0.5">Sistem Keputusan</div>
+          </div>
+        </div>
+
+        <!-- Bottom Action Bar & Publisher Attribution -->
+        <div class="relative z-10 text-center pb-2">
+          <p class="font-mono-code text-[10px] tracking-[0.16em] text-slate-400 uppercase mb-4">
+            3 Lapisan Filosofi • 4 Sistem Praktis • 10 Fenomena Tersembunyi • 6 Referensi Intelektual
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button id="btn-open-book" type="button"
+              class="group w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-slate-950 font-bold text-sm sm:text-base tracking-wide shadow-[0_10px_30px_rgba(212,175,55,0.4)] hover:shadow-[0_14px_38px_rgba(212,175,55,0.65)] transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer">
+              <span>Buka Ensiklopedia</span>
+              <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+            </button>
+
+            <button id="btn-resume-book" type="button"
+              class="hidden w-full sm:w-auto px-5 py-3.5 rounded-xl border border-amber-400/50 bg-slate-900/80 text-amber-200 hover:bg-amber-500/15 font-medium text-sm transition-all cursor-pointer">
+              Lanjutkan Terakhir Dibaca
+            </button>
+          </div>
+
+          <!-- Gold-Foil Publisher Stamp -->
+          <div class="mt-6 pt-4 border-t border-amber-400/20 flex flex-col items-center justify-center">
+            <div class="publisher-imprint inline-flex items-center gap-2.5 px-5 py-2 rounded-full">
+              <span class="w-1.5 h-1.5 bg-amber-400/80"></span>
+              <span class="font-display text-xs sm:text-sm font-bold tracking-[0.22em] gold-foil-text lowercase">
+                created by orixtron tech.
+              </span>
+              <span class="w-1.5 h-1.5 bg-amber-400/80"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gilded Gold Page Fore-Edge -->
+      <div class="w-2.5 sm:w-3.5 shrink-0 gilded-edges-right opacity-90"></div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       STAGE 2: OPEN HARDCOVER BOOK SPREAD (TWO-PAGE EDITORIAL WORKBENCH)
+       ======================================================================== -->
+  <main id="book-workspace" class="hidden min-h-screen flex flex-col justify-between py-3 px-2 sm:px-5 md:px-8 max-w-[1640px] mx-auto">
+
+    <!-- TOP EDITORIAL CONTROL BAR -->
+    <header class="w-full rounded-2xl bg-slate-900/90 backdrop-blur-md border border-amber-500/25 px-3 sm:px-5 py-2.5 mb-3 flex flex-wrap items-center justify-between gap-2.5 shadow-xl">
+      <!-- Left: TOC Drawer & 3 Atlas Shortcuts -->
+      <div class="flex items-center gap-2">
+        <button id="btn-open-toc" type="button"
+          class="px-3 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/40 text-amber-200 text-xs sm:text-sm font-semibold flex items-center gap-2 transition cursor-pointer">
+          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h10"/>
+          </svg>
+          <span>Daftar Isi (203 Bab)</span>
+        </button>
+
+        <button id="btn-goto-atlas1" type="button"
+          class="hidden xl:inline-flex px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition cursor-pointer">
+          3 Level &amp; 16 Bagian
+        </button>
+
+        <button id="btn-goto-atlas2" type="button"
+          class="hidden xl:inline-flex px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition cursor-pointer">
+          4 Sistem Praktis
+        </button>
+
+        <button id="btn-goto-atlas3" type="button"
+          class="hidden xl:inline-flex px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition cursor-pointer">
+          10 Fenomena &amp; Referensi
+        </button>
+      </div>
+
+      <!-- Center: Instant Search Input -->
+      <div class="relative flex-1 max-w-md min-w-[180px]">
+        <div class="relative flex items-center">
+          <svg class="w-4 h-4 text-amber-400/80 absolute left-3 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z"/>
+          </svg>
+          <input id="global-search-input" type="text" autocomplete="off"
+            placeholder="Cari 203 bab atau konsep (Loss Aversion, Dopamine, Nash, FOMO)..."
+            class="w-full pl-9 pr-8 py-1.5 sm:py-2 rounded-xl bg-slate-950/85 border border-slate-700 focus:border-amber-400 focus:outline-none text-xs sm:text-sm text-slate-100 placeholder-slate-400 transition" />
+          <button id="btn-clear-search" type="button" class="hidden absolute right-2.5 text-slate-400 hover:text-white text-xs cursor-pointer">✕</button>
+        </div>
+        <div id="search-results-dropdown"
+          class="hidden absolute left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl bg-slate-900 border border-amber-500/40 shadow-2xl z-50 divide-y divide-slate-800">
+        </div>
+      </div>
+
+      <!-- Right: Progress Counter, Theme Switcher & Close Cover -->
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950/70 border border-slate-800">
+          <div class="w-16 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+            <div id="progress-bar-fill" class="h-full bg-gradient-to-r from-amber-500 to-yellow-300 transition-all duration-500" style="width: 0%"></div>
+          </div>
+          <span id="progress-text" class="font-mono-code text-[11px] text-amber-300 font-semibold">0/203 Bab</span>
+        </div>
+
+        <div class="flex items-center rounded-xl bg-slate-950/80 p-1 border border-slate-800" title="Tema Kertas Bacaan">
+          <button type="button" data-theme-btn="ivory"
+            class="theme-btn px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer bg-amber-500 text-slate-950">
+            Gading
+          </button>
+          <button type="button" data-theme-btn="sepia"
+            class="theme-btn px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer text-slate-300 hover:text-white">
+            Sepia
+          </button>
+          <button type="button" data-theme-btn="night"
+            class="theme-btn px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer text-slate-300 hover:text-white">
+            Malam
+          </button>
+        </div>
+
+        <button id="btn-close-book" type="button" title="Tutup Sampul Buku"
+          class="p-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-amber-300 transition cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ======================================================================
+         HARDCOVER OPEN BOOK CASING & TWO-PAGE SPREAD
+         ====================================================================== -->
+    <div id="book-spread-container" class="book-perspective relative flex-1 flex items-stretch my-1">
+      <div class="book-hardcover-casing w-full rounded-2xl p-1.5 sm:p-3 md:p-4 relative flex flex-col lg:flex-row gap-3 lg:gap-0 shadow-2xl">
+
+        <!-- Hanging Silk Bookmark Ribbon -->
+        <button id="btn-toggle-bookmark" type="button" title="Pasang / Lepas Pita Pembatas Halaman"
+          class="bookmark-ribbon absolute -top-1 right-8 sm:right-14 z-30 w-7 h-12 bg-red-700 hover:bg-red-600 shadow-lg flex items-start justify-center pt-1.5 text-amber-200 cursor-pointer">
+          <svg id="bookmark-star-icon" class="w-3.5 h-3.5 opacity-60" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+          </svg>
+        </button>
+
+        <!-- 3D Animated Turning Leaf Overlay -->
+        <div id="page-flip-leaf" class="page-flip-leaf"></div>
+
+        <!-- Central Spine Crease Shadow -->
+        <div class="hidden lg:block book-spine-center absolute top-3 bottom-3 left-1/2 -translate-x-1/2 w-12 z-20"></div>
+
+        <!-- LEFT PAGE -->
+        <article id="left-page"
+          class="book-page-left paper-texture relative w-full lg:w-1/2 rounded-xl lg:rounded-r-none lg:rounded-l-xl p-5 sm:p-7 md:p-8 flex flex-col justify-between lg:min-h-[690px] lg:max-h-[78vh] overflow-y-auto page-scroll">
+          <div id="left-page-content" class="relative z-10 flex-1 flex flex-col"></div>
+
+          <div class="relative z-10 pt-4 mt-5 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px] font-mono-code text-[var(--ink-muted)]">
+            <span id="left-folio-label">THE PSYCHOLOGY OF MONEY</span>
+            <span id="left-page-number">FOLIO L-01</span>
+          </div>
+        </article>
+
+        <!-- RIGHT PAGE -->
+        <article id="right-page"
+          class="book-page-right paper-texture relative w-full lg:w-1/2 rounded-xl lg:rounded-l-none lg:rounded-r-xl p-5 sm:p-7 md:p-8 flex flex-col justify-between lg:min-h-[690px] lg:max-h-[78vh] overflow-y-auto page-scroll">
+          <div id="right-page-content" class="relative z-10 flex-1 flex flex-col"></div>
+
+          <div class="relative z-10 pt-4 mt-5 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px] font-mono-code text-[var(--ink-muted)]">
+            <span id="right-folio-label">BEHAVIORAL &amp; DECISION LAB</span>
+            <span id="right-page-number">FOLIO R-01</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- BOTTOM PAGE TURN NAVIGATION BAR -->
+    <footer class="w-full rounded-2xl bg-slate-900/90 backdrop-blur-md border border-amber-500/25 px-3 sm:px-6 py-2.5 mt-3 flex items-center justify-between gap-3 shadow-xl">
+      <button id="btn-prev-page" type="button"
+        class="px-3.5 sm:px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:pointer-events-none text-slate-100 text-xs sm:text-sm font-semibold flex items-center gap-2 border border-slate-700 transition cursor-pointer">
+        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+        <span>Halaman Sebelumnya</span>
+      </button>
+
+      <div class="flex flex-col sm:flex-row items-center gap-1 sm:gap-3 text-center">
+        <span id="footer-page-indicator" class="font-mono-code text-xs sm:text-sm font-semibold text-amber-300">
+          ATLAS I — 3 TINGKATAN FILOSOFI &amp; 16 BAGIAN UTAMA
+        </span>
+        <span class="hidden md:inline text-[11px] text-slate-400">
+          (Gunakan tombol ← / → atau geser layar)
+        </span>
+      </div>
+
+      <button id="btn-next-page" type="button"
+        class="px-3.5 sm:px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 disabled:opacity-40 disabled:pointer-events-none text-slate-950 text-xs sm:text-sm font-bold flex items-center gap-2 shadow-md transition cursor-pointer">
+        <span>Halaman Berikutnya</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </footer>
+  </main>
+
+  <!-- ========================================================================
+       TABLE OF CONTENTS & 203-CHAPTER SYLLABUS DRAWER
+       ======================================================================== -->
+  <div id="toc-drawer-backdrop" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex">
+    <aside class="w-full max-w-lg bg-slate-950 border-r border-amber-500/35 h-full flex flex-col shadow-2xl">
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <p class="font-mono-code text-[10px] tracking-[0.25em] text-amber-400 uppercase">ORIXTRON // MASTER INDEX</p>
+          <h2 class="font-display text-xl font-bold text-white">Daftar Isi (16 Bagian • 203 Bab)</h2>
+        </div>
+        <button id="btn-close-toc" type="button" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 cursor-pointer">✕</button>
+      </div>
+
+      <!-- Quick Atlas Links -->
+      <div class="p-3.5 bg-slate-900/75 border-b border-slate-800 grid grid-cols-3 gap-2">
+        <button type="button" data-jump-page="atlas-1"
+          class="toc-jump-btn p-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-left transition cursor-pointer">
+          <div class="font-mono-code text-[9px] text-amber-300">ATLAS I</div>
+          <div class="text-[11px] font-semibold text-white">3 Level &amp; 16 Part</div>
+        </button>
+        <button type="button" data-jump-page="atlas-2"
+          class="toc-jump-btn p-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-left transition cursor-pointer">
+          <div class="font-mono-code text-[9px] text-amber-300">ATLAS II</div>
+          <div class="text-[11px] font-semibold text-white">4 Sistem Praktis</div>
+        </button>
+        <button type="button" data-jump-page="atlas-3"
+          class="toc-jump-btn p-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-left transition cursor-pointer">
+          <div class="font-mono-code text-[9px] text-amber-300">ATLAS III</div>
+          <div class="text-[11px] font-semibold text-white">10 Fenomena</div>
+        </button>
+      </div>
+
+      <!-- Filter Level & Search inside Drawer -->
+      <div class="px-4 py-3 bg-slate-900/40 border-b border-slate-800 space-y-2">
+        <input id="toc-filter-input" type="text" placeholder="Filter nomor bab atau judul materi (1–203)..."
+          class="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 focus:border-amber-400 focus:outline-none text-xs text-slate-100 placeholder-slate-400" />
+        <div class="grid grid-cols-4 gap-1.5" id="toc-level-filters">
+          <button type="button" data-toc-lvl="ALL" class="toc-lvl-btn py-1 rounded-lg bg-amber-500 text-slate-950 font-mono-code text-[11px] font-bold cursor-pointer">Semua</button>
+          <button type="button" data-toc-lvl="1" class="toc-lvl-btn py-1 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 font-mono-code text-[11px] cursor-pointer">Level 1</button>
+          <button type="button" data-toc-lvl="2" class="toc-lvl-btn py-1 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 font-mono-code text-[11px] cursor-pointer">Level 2</button>
+          <button type="button" data-toc-lvl="3" class="toc-lvl-btn py-1 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 font-mono-code text-[11px] cursor-pointer">Level 3</button>
+        </div>
+      </div>
+
+      <!-- Bookmark shortcut if saved -->
+      <div id="drawer-bookmark-banner" class="hidden px-4 py-2.5 bg-red-950/60 border-b border-red-500/30 flex items-center justify-between">
+        <span id="drawer-bookmark-label" class="text-xs text-red-200 font-medium">Pita Pembatas: Bab 001</span>
+        <button id="btn-jump-bookmark" type="button" class="px-2.5 py-1 rounded-lg bg-red-600 text-white text-xs font-semibold cursor-pointer">Buka</button>
+      </div>
+
+      <!-- Scrollable List of 16 Parts & 203 Chapters -->
+      <div id="toc-list-container" class="flex-1 overflow-y-auto p-4 space-y-4 page-scroll"></div>
+    </aside>
+    <div id="toc-backdrop-clickarea" class="flex-1"></div>
+  </div>
+
+  <!-- ========================================================================
+       CONCEPT DEEP-DIVE MODAL (POPUP CARD WHEN CLICKING ANY DIMENSION)
+       ======================================================================== -->
+  <div id="topic-modal-backdrop" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="w-full max-w-xl rounded-2xl bg-slate-900 border border-amber-400/45 shadow-2xl overflow-hidden content-reveal">
+      <div class="px-6 py-4 bg-gradient-to-r from-slate-950 to-slate-900 border-b border-amber-500/25 flex items-start justify-between gap-4">
+        <div>
+          <span id="topic-modal-badge" class="font-mono-code text-[11px] text-amber-400 uppercase tracking-wider">BAB 001 // ANALISIS PSIKOLOGI</span>
+          <h3 id="topic-modal-title" class="font-serif-editorial text-xl sm:text-2xl font-bold text-white mt-0.5">Konsep</h3>
+        </div>
+        <button id="btn-close-topic-modal" type="button" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer">✕</button>
+      </div>
+      <div class="p-6 space-y-4 text-sm text-slate-200 leading-relaxed">
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800">
+          <div class="font-mono-code text-[11px] text-amber-400 uppercase mb-1">01 // Mekanisme Kognitif &amp; Neuroekonomi</div>
+          <p id="topic-modal-def" class="text-slate-200"></p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800">
+          <div class="font-mono-code text-[11px] text-sky-400 uppercase mb-1">02 // Manifestasi Tersembunyi dalam Keuangan &amp; Pasar</div>
+          <p id="topic-modal-mech" class="text-slate-300"></p>
+        </div>
+        <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-400/30">
+          <div class="font-mono-code text-[11px] text-amber-300 uppercase mb-1">03 // Protokol Pertahanan &amp; Kalibrasi Keputusan</div>
+          <p id="topic-modal-ind" class="text-amber-100/90"></p>
+        </div>
+      </div>
+      <div class="px-6 py-3.5 bg-slate-950/80 border-t border-slate-800 flex justify-end">
+        <button id="btn-done-topic-modal" type="button"
+          class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm cursor-pointer">
+          Tutup Kartu Analisis
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       APPLICATION DATA & INTERACTIVE BOOK ENGINE (203 CHAPTERS)
+       ======================================================================== -->
+  <script>
+    (function () {
+      "use strict";
+
+      /* ----------------------------------------------------------------------
+         1. COMPLETE CURRICULUM DATA: 16 PARTS & ALL 203 CHAPTERS
+         ---------------------------------------------------------------------- */
+      const PARTS_DATA = [
+        {
+          id: "I",
+          title: "The Fundamental Psychology of Money",
+          level: 1,
+          vizType: "utility",
+          goal: "Memahami hubungan mendasar antara manusia dan uang—bagaimana uang membentuk identitas, rasa aman, dan pola pikir kelangkaan maupun kelimpahan.",
+          chapters: [
+            { num: 1, title: "What Is Money?" },
+            { num: 2, title: "The Psychological Meaning of Money" },
+            { num: 3, title: "Money as Power, Freedom & Security" },
+            { num: 4, title: "Money and Human Identity" },
+            { num: 5, title: "The Emotional Value of Money" },
+            { num: 6, title: "The Scarcity Mindset" },
+            { num: 7, title: "The Abundance Mindset" },
+            { num: 8, title: "Financial Conditioning" },
+            { num: 9, title: "Childhood Financial Programming" },
+            { num: 10, title: "Social Influence on Financial Behavior" }
+          ]
+        },
+        {
+          id: "II",
+          title: "Cognitive Psychology & Financial Decisions",
+          level: 2,
+          vizType: "prospect",
+          goal: "Membedah bagaimana otak manusia mengambil keputusan finansial melalui jalan pintas mental (heuristik) dan distorsi persepsi sistematis.",
+          chapters: [
+            { num: 11, title: "Cognitive Bias" },
+            { num: 12, title: "Confirmation Bias" },
+            { num: 13, title: "Anchoring Effect" },
+            { num: 14, title: "Availability Heuristic" },
+            { num: 15, title: "Recency Bias" },
+            { num: 16, title: "Loss Aversion" },
+            { num: 17, title: "Overconfidence Bias" },
+            { num: 18, title: "Hindsight Bias" },
+            { num: 19, title: "Sunk Cost Fallacy" },
+            { num: 20, title: "Framing Effect" },
+            { num: 21, title: "Mental Accounting" },
+            { num: 22, title: "Status Quo Bias" },
+            { num: 23, title: "Choice Overload" },
+            { num: 24, title: "Decision Fatigue" },
+            { num: 25, title: "Cognitive Dissonance" }
+          ]
+        },
+        {
+          id: "III",
+          title: "Behavioral Economics",
+          level: 2,
+          vizType: "prospect",
+          goal: "Menjelaskan mengapa manusia sering mengambil keputusan ekonomi yang tidak rasional meskipun mengetahui konsekuensi matematisnya.",
+          chapters: [
+            { num: 26, title: "Prospect Theory" },
+            { num: 27, title: "Expected Utility Theory" },
+            { num: 28, title: "Hyperbolic Discounting" },
+            { num: 29, title: "Present Bias" },
+            { num: 30, title: "Time Preference" },
+            { num: 31, title: "Endowment Effect" },
+            { num: 32, title: "Default Effect" },
+            { num: 33, title: "Nudge Theory" },
+            { num: 34, title: "Incentive Theory" },
+            { num: 35, title: "Behavioral Asymmetry" },
+            { num: 36, title: "Rational Irrationality" },
+            { num: 37, title: "Bounded Rationality" }
+          ]
+        },
+        {
+          id: "IV",
+          title: "The Hidden Psychology of Wealth",
+          level: 1,
+          vizType: "wealth",
+          goal: "Mengungkap fenomena tersembunyi dalam perjalanan membangun kekayaan—mengapa pendapatan besar belum tentu menghasilkan kekayaan sejati.",
+          extraNotes: [
+            "Konsep Penting: Seseorang bisa mempunyai pendapatan besar tetapi tetap merasa miskin karena standar kehidupannya terus meningkat (Lifestyle Inflation & Hedonic Adaptation).",
+            "Sebaliknya, seseorang dengan pendapatan sederhana dapat membangun kekayaan jangka panjang karena mampu mempertahankan selisih antara pendapatan dan pengeluaran."
+          ],
+          chapters: [
+            { num: 38, title: "The Wealth Illusion" },
+            { num: 39, title: "Lifestyle Inflation" },
+            { num: 40, title: "Hedonic Adaptation" },
+            { num: 41, title: "Relative Wealth vs Absolute Wealth" },
+            { num: 42, title: "The Psychology of Financial Freedom" },
+            { num: 43, title: "Wealth Identity" },
+            { num: 44, title: "The Paradox of More Money" },
+            { num: 45, title: "Wealth Preservation Psychology" },
+            { num: 46, title: "The Fear of Losing Wealth" },
+            { num: 47, title: "The Psychology of Opportunity Cost" },
+            { num: 48, title: "The Invisible Cost of Comfort" },
+            { num: 49, title: "The Wealth Gap in Decision Making" },
+            { num: 50, title: "Psychological Barriers to Wealth Accumulation" }
+          ]
+        },
+        {
+          id: "V",
+          title: "Neuropsychology of Money",
+          level: 2,
+          vizType: "neuro",
+          goal: "Memetakan hubungan biologis antara sistem saraf, sirkuit dopamin, amigdala, korteks prefrontal, dan keputusan finansial di bawah tekanan.",
+          chapters: [
+            { num: 51, title: "Dopamine & Reward System" },
+            { num: 52, title: "The Brain's Reward Prediction" },
+            { num: 53, title: "Risk and the Amygdala" },
+            { num: 54, title: "Prefrontal Cortex & Decision Making" },
+            { num: 55, title: "Stress and Financial Decisions" },
+            { num: 56, title: "Fear Response" },
+            { num: 57, title: "Greed and Reward Seeking" },
+            { num: 58, title: "Anticipation vs Satisfaction" },
+            { num: 59, title: "Gambling Reinforcement" },
+            { num: 60, title: "Variable Reward Mechanism" },
+            { num: 61, title: "Emotional Regulation" },
+            { num: 62, title: "Neuroplasticity & Financial Habits" }
+          ]
+        },
+        {
+          id: "VI",
+          title: "The Psychology of Investing",
+          level: 2,
+          vizType: "prospect",
+          goal: "Menganalisis jebakan psikologis spesifik yang dihadapi investor dan trader aktif di pasar modal—bahkan oleh pelaku berpengalaman sekalipun.",
+          chapters: [
+            { num: 63, title: "Investor Psychology" },
+            { num: 64, title: "Trader Psychology" },
+            { num: 65, title: "Fear of Missing Out" },
+            { num: 66, title: "Panic Selling" },
+            { num: 67, title: "Buying Euphoria" },
+            { num: 68, title: "Holding Bias" },
+            { num: 69, title: "Disposition Effect" },
+            { num: 70, title: "Revenge Trading" },
+            { num: 71, title: "Overtrading" },
+            { num: 72, title: "Portfolio Attachment" },
+            { num: 73, title: "Loss Recovery Psychology" },
+            { num: 74, title: "Conviction vs Stubbornness" },
+            { num: 75, title: "Risk Perception" },
+            { num: 76, title: "Market Sentiment" },
+            { num: 77, title: "Herd Behavior" },
+            { num: 78, title: "Contrarian Thinking" },
+            { num: 79, title: "The Psychology of Waiting" },
+            { num: 80, title: "Patience as a Financial Advantage" }
+          ]
+        },
+        {
+          id: "VII",
+          title: "Market Manipulation & Collective Psychology",
+          level: 3,
+          vizType: "crowd",
+          goal: "Menganalisis bagaimana persepsi dan perilaku massa dapat memengaruhi harga pasar melalui antrean bid besar, rumor, berita, dan refleksivitas.",
+          extraNotes: [
+            "Bagian ini krusial untuk memahami bagaimana antrean bid besar (artificial demand), rumor, berita media, influencer, dan momentum harga membentuk persepsi kolektif di bursa."
+          ],
+          chapters: [
+            { num: 81, title: "Mass Psychology" },
+            { num: 82, title: "Herd Mentality" },
+            { num: 83, title: "Information Cascades" },
+            { num: 84, title: "Social Proof" },
+            { num: 85, title: "Authority Bias" },
+            { num: 86, title: "Narrative Economics" },
+            { num: 87, title: "Rumor Psychology" },
+            { num: 88, title: "Fear Propagation" },
+            { num: 89, title: "Greed Propagation" },
+            { num: 90, title: "Pump and Dump Psychology" },
+            { num: 91, title: "Market Manipulation Psychology" },
+            { num: 92, title: "Liquidity Traps" },
+            { num: 93, title: "Artificial Demand Perception" },
+            { num: 94, title: "Crowd Synchronization" },
+            { num: 95, title: "Reflexivity Theory" }
+          ]
+        },
+        {
+          id: "VIII",
+          title: "The Psychology of Risk",
+          level: 2,
+          vizType: "prospect",
+          goal: "Memahami kesenjangan antara risiko objektif dan risiko yang dirasakan manusia saat berhadapan dengan ketidakpastian dan tail risk.",
+          chapters: [
+            { num: 96, title: "Risk Perception vs Actual Risk" },
+            { num: 97, title: "Ambiguity Aversion" },
+            { num: 98, title: "Uncertainty Tolerance" },
+            { num: 99, title: "Risk Compensation" },
+            { num: 100, title: "Probability Neglect" },
+            { num: 101, title: "Tail Risk Psychology" },
+            { num: 102, title: "Survival Bias" },
+            { num: 103, title: "Normalcy Bias" },
+            { num: 104, title: "Risk of Ruin" },
+            { num: 105, title: "The Psychology of Capital Protection" },
+            { num: 106, title: "Asymmetric Risk" },
+            { num: 107, title: "The Illusion of Control" }
+          ]
+        },
+        {
+          id: "IX",
+          title: "Game Theory & Financial Behavior",
+          level: 3,
+          vizType: "crowd",
+          goal: "Menganalisis interaksi strategis antarpelaku dalam ekonomi dan pasar modal menggunakan kerangka Game Theory, sinyal, dan asimetri informasi.",
+          chapters: [
+            { num: 108, title: "Introduction to Game Theory" },
+            { num: 109, title: "Prisoner's Dilemma" },
+            { num: 110, title: "Zero-Sum vs Positive-Sum Games" },
+            { num: 111, title: "Nash Equilibrium" },
+            { num: 112, title: "Signaling Theory" },
+            { num: 113, title: "Information Asymmetry" },
+            { num: 114, title: "Principal-Agent Problem" },
+            { num: 115, title: "Strategic Cooperation" },
+            { num: 116, title: "Competitive Behavior" },
+            { num: 117, title: "Incentive Manipulation" },
+            { num: 118, title: "Strategic Decision Making" }
+          ]
+        },
+        {
+          id: "X",
+          title: "Social Psychology & Money",
+          level: 3,
+          vizType: "wealth",
+          goal: "Mengungkap mengapa manusia menggunakan uang sebagai instrumen validasi sosial, hierarki status, dan sinyal kekayaan di mata orang lain.",
+          chapters: [
+            { num: 119, title: "Status Consumption" },
+            { num: 120, title: "Social Comparison" },
+            { num: 121, title: "Keeping Up with the Joneses" },
+            { num: 122, title: "Luxury Psychology" },
+            { num: 123, title: "Conspicuous Consumption" },
+            { num: 124, title: "Social Signaling" },
+            { num: 125, title: "Wealth Display" },
+            { num: 126, title: "Financial Envy" },
+            { num: 127, title: "Social Hierarchy" },
+            { num: 128, title: "The Psychology of Financial Independence" }
+          ]
+        },
+        {
+          id: "XI",
+          title: "The Psychology of Power & Capital",
+          level: 3,
+          vizType: "wealth",
+          goal: "Memahami hubungan struktural antara modal, kepemilikan aset vs tenaga kerja, leverage ekonomi, dan cara berpikir institusional.",
+          chapters: [
+            { num: 129, title: "Capital as Economic Power" },
+            { num: 130, title: "Ownership vs Labor" },
+            { num: 131, title: "Capital Allocation" },
+            { num: 132, title: "Economic Leverage" },
+            { num: 133, title: "Negotiation Psychology" },
+            { num: 134, title: "Financial Independence vs Dependency" },
+            { num: 135, title: "Network Effects" },
+            { num: 136, title: "Compounding Power" },
+            { num: 137, title: "Institutional Thinking" },
+            { num: 138, title: "Wealth Concentration" },
+            { num: 139, title: "Economic Incentives" },
+            { num: 140, title: "The Psychology of Ownership" }
+          ]
+        },
+        {
+          id: "XII",
+          title: "Money Systems & Wealth Architecture",
+          level: 1,
+          vizType: "wealth",
+          goal: "Mengubah teori psikologi perilaku menjadi arsitektur keuangan personal yang otomatis, terukur, dan tahan terhadap fluktuasi emosi.",
+          chapters: [
+            { num: 141, title: "Personal Financial Architecture" },
+            { num: 142, title: "Income Allocation System" },
+            { num: 143, title: "Capital Preservation System" },
+            { num: 144, title: "Emergency Fund Architecture" },
+            { num: 145, title: "Asset Accumulation System" },
+            { num: 146, title: "Compounding System" },
+            { num: 147, title: "Cash Flow Management" },
+            { num: 148, title: "Capital Deployment" },
+            { num: 149, title: "Asset vs Liability Psychology" },
+            { num: 150, title: "Multiple Income Streams" },
+            { num: 151, title: "Financial Automation" },
+            { num: 152, title: "Wealth Protection" },
+            { num: 153, title: "Long-Term Wealth Strategy" }
+          ]
+        },
+        {
+          id: "XIII",
+          title: "Advanced Psychological Systems",
+          level: 2,
+          vizType: "neuro",
+          goal: "Menguasai model mental tingkat lanjut—mulai dari Second-Order Thinking, Inversion, Bayesian Updating, hingga Metakognisi finansial.",
+          chapters: [
+            { num: 154, title: "Second-Order Thinking" },
+            { num: 155, title: "First-Principles Thinking" },
+            { num: 156, title: "Inversion Thinking" },
+            { num: 157, title: "Systems Thinking" },
+            { num: 158, title: "Probabilistic Thinking" },
+            { num: 159, title: "Bayesian Updating" },
+            { num: 160, title: "Metacognition" },
+            { num: 161, title: "Psychological Self-Deception" },
+            { num: 162, title: "Motivated Reasoning" },
+            { num: 163, title: "Cognitive Blind Spots" },
+            { num: 164, title: "Incentive Blindness" },
+            { num: 165, title: "The Psychology of Opportunity" },
+            { num: 166, title: "Delayed Gratification" },
+            { num: 167, title: "The Paradox of Control" },
+            { num: 168, title: "The Psychology of Inaction" }
+          ]
+        },
+        {
+          id: "XIV",
+          title: "The Invisible Mechanisms of Money",
+          level: 3,
+          vizType: "neuro",
+          goal: "Menyingkap fenomena psikologis halus yang bekerja di bawah kesadaran manusia—mulai dari Pain of Paying hingga The Psychology of Enough.",
+          chapters: [
+            { num: 169, title: "Money as a Behavioral Operating System" },
+            { num: 170, title: "The Hedonic Treadmill" },
+            { num: 171, title: "The Pain of Paying" },
+            { num: 172, title: "Payment Decoupling" },
+            { num: 173, title: "Psychological Ownership" },
+            { num: 174, title: "The Cashless Spending Effect" },
+            { num: 175, title: "Mental Liquidity" },
+            { num: 176, title: "The Endowment Trap" },
+            { num: 177, title: "The Psychology of Financial Regret" },
+            { num: 178, title: "Temporal Self-Conflict" },
+            { num: 179, title: "The Invisible Cost of Decisions" },
+            { num: 180, title: "The Illusion of Financial Progress" },
+            { num: 181, title: "Wealth Without Satisfaction" },
+            { num: 182, title: "The Psychology of Enough" }
+          ]
+        },
+        {
+          id: "XV",
+          title: "Psychological Warfare in Financial Environments",
+          level: 3,
+          vizType: "crowd",
+          goal: "Mengenali bagaimana desain lingkungan digital, rekayasa FOMO, dan strategi persuasi memengaruhi keputusan finansial agar kita memiliki pertahanan kognitif.",
+          chapters: [
+            { num: 183, title: "Persuasion Psychology" },
+            { num: 184, title: "Scarcity Marketing" },
+            { num: 185, title: "Artificial Urgency" },
+            { num: 186, title: "Authority Manipulation" },
+            { num: 187, title: "Anchoring in Negotiation" },
+            { num: 188, title: "Pricing Psychology" },
+            { num: 189, title: "Subscription Traps" },
+            { num: 190, title: "Financial FOMO Engineering" },
+            { num: 191, title: "Algorithmic Persuasion" },
+            { num: 192, title: "Behavioral Exploitation" },
+            { num: 193, title: "Defensive Psychological Awareness" }
+          ]
+        },
+        {
+          id: "XVI",
+          title: "The Master Financial Mind",
+          level: 1,
+          vizType: "wealth",
+          goal: "Membentuk sistem berpikir finansial tingkat lanjut yang menyatukan kesadaran diri, kemandirian emosional, kesabaran strategis, dan filosofi kekayaan.",
+          chapters: [
+            { num: 194, title: "Financial Self-Awareness" },
+            { num: 195, title: "Emotional Independence" },
+            { num: 196, title: "Rational Capital Allocation" },
+            { num: 197, title: "Psychological Resilience" },
+            { num: 198, title: "Long-Term Thinking" },
+            { num: 199, title: "Strategic Patience" },
+            { num: 200, title: "Financial Discipline" },
+            { num: 201, title: "The Psychology of Wealth Preservation" },
+            { num: 202, title: "The Master Decision Framework" },
+            { num: 203, title: "Building a Financial Philosophy" }
+          ]
+        }
+      ];
+
+      /* Build flat list of all 203 chapters */
+      const ALL_CHAPTERS = [];
+      PARTS_DATA.forEach(part => {
+        part.chapters.forEach(ch => {
+          ALL_CHAPTERS.push({
+            num: ch.num,
+            title: ch.title,
+            partId: part.id,
+            partTitle: part.title,
+            partGoal: part.goal,
+            extraNotes: part.extraNotes || [],
+            level: part.level,
+            vizType: part.vizType,
+            dimensions: [
+              `Mekanisme Kognitif & Perilaku: ${ch.title}`,
+              `Dampak Bawah Sadar terhadap Keputusan & Persepsi Risiko`,
+              `Protokol Audit Diri & Sistem Pertahanan Finansial`
+            ]
+          });
+        });
+      });
+
+      const INVISIBLE_PHENOMENA = [
+        {
+          id: 1,
+          name: "Opportunity Blindness",
+          summary: "Manusia sering tidak menyadari peluang besar yang dikorbankan oleh keputusan konsumsi atau alokasi kecil yang berulang.",
+          mechanism: "Otak hanya menghitung biaya eksplisit yang keluar saat ini, sementara biaya peluang majemuk (compounding opportunity cost) tidak memicu rasa sakit psikologis.",
+          defense: "Konversi setiap pengeluaran non-esensial menjadi nilai masa depan (Future Value 10–20 tahun) sebelum mengeksekusi transaksi."
+        },
+        {
+          id: 2,
+          name: "Wealth Adaptation",
+          summary: "Kenaikan kekayaan atau pendapatan secara otomatis menggeser titik referensi (reference point) dan standar kepuasan hidup.",
+          mechanism: "Hedonic Treadmill membuat pencapaian finansial baru cepat terasa biasa saja, mendorong eskalasi gaya hidup tanpa peningkatan kebahagiaan permanen.",
+          defense: "Kunci rasio tabungan dan investasi dari setiap kenaikan pendapatan (Save-More-Tomorrow automation) sebelum standar hidup ikut naik."
+        },
+        {
+          id: 3,
+          name: "Financial Identity Lock",
+          summary: "Seseorang mempertahankan kebiasaan finansial yang merugikan karena kebiasaan tersebut sudah menyatu dengan identitas dirinya.",
+          mechanism: "Mengubah strategi atau mengakui kesalahan investasi terasa seperti mengancam ego dan citra diri di hadapan lingkungan sosial.",
+          defense: "Pisahkan identitas pribadi dari tesis investasi: perlakukan setiap posisi finansial sebagai hipotesis ilmiah yang siap diperbarui oleh data baru."
+        },
+        {
+          id: 4,
+          name: "Sunk Cost Attachment",
+          summary: "Semakin besar waktu, modal, atau emosi yang telah dikorbankan, semakin sulit seseorang melepaskan keputusan yang salah.",
+          mechanism: "Loss aversion membuat realisasi kerugian terasa dua kali lebih menyakitkan dibandingkan kepuasan memperoleh keuntungan dengan nilai yang sama.",
+          defense: "Gunakan pertanyaan inversi: 'Jika saya memegang uang tunai hari ini tanpa posisi sebelumnya, apakah saya tetap akan membeli aset ini pada harga sekarang?'"
+        },
+        {
+          id: 5,
+          name: "Liquidity Illusion",
+          summary: "Merasa kaya karena memiliki nilai portofolio atau aset tidak likuid yang besar, meskipun tidak memiliki cadangan uang tunai yang memadai.",
+          mechanism: "Valuasi kertas (mark-to-market) menciptakan rasa aman semu hingga guncangan pasar memaksa penjualan aset di harga terendah.",
+          defense: "Pisahkan secara tegas antara Net Worth di atas kertas dengan Liquid Runway (dana darurat & kas bebas risiko minimal 6–12 bulan)."
+        },
+        {
+          id: 6,
+          name: "Social Wealth Distortion",
+          summary: "Mengukur kekayaan berdasarkan penampilan dan konsumsi barang mewah orang lain yang terlihat di permukaan.",
+          mechanism: "Kekayaan sejati adalah aset yang tidak dibelanjakan, sedangkan kemewahan yang dipamerkan sering kali justru mengurangi modal produktif.",
+          defense: "Evaluasi kemajuan finansial secara internal berdasarkan tingkat kemandirian waktu (freedom runway), bukan perbandingan status eksternal."
+        },
+        {
+          id: 7,
+          name: "Temporal Discounting",
+          summary: "Mengorbankan manfaat finansial yang jauh lebih besar di masa depan demi kepuasan instan saat ini (Hyperbolic Discounting).",
+          mechanism: "Sistem limbik merespons imbalan segera dengan lonjakan dopamin, sementara diri kita di masa depan diperlakukan secara kognitif seperti 'orang asing'.",
+          defense: "Terapkan aturan jeda wajib 48–72 jam untuk keputusan konsumsi besar dan otomatisasi investasi di awal siklus penerimaan kas."
+        },
+        {
+          id: 8,
+          name: "Incentive Blindness",
+          summary: "Tidak menyadari struktur insentif tersembunyi yang mendorong rekomendasi seseorang, analis, media, atau institusi keuangan.",
+          mechanism: "Manusia cenderung mempercayai narasi yang meyakinkan tanpa memeriksa siapa yang diuntungkan jika audiens bertindak mengikuti narasi tersebut.",
+          defense: "Terapkan prinsip Charlie Munger: 'Show me the incentive and I will show you the outcome' pada setiap informasi pasar yang masuk."
+        },
+        {
+          id: 9,
+          name: "Narrative Fallacy",
+          summary: "Membuat cerita sebab-akibat yang terasa masuk akal secara retrospektif untuk menjelaskan hasil yang sebenarnya dipengaruhi probabilitas acak.",
+          mechanism: "Otak manusia menolak ketidakpastian acak dan memaksakan pola koheren pada fluktuasi harga jangka pendek.",
+          defense: "Catat alasan keputusan sebelum hasil diketahui (decision journal) agar evaluasi pasca-keputusan tidak tercemar narasi retrospektif."
+        },
+        {
+          id: 10,
+          name: "Outcome Bias",
+          summary: "Menganggap suatu keputusan finansial berkualitas bagus hanya karena hasil akhirnya kebetulan menguntungkan.",
+          mechanism: "Keberuntungan jangka pendek pada keputusan berisiko tinggi (seperti over-leverage tanpa manajemen risiko) memperkuat perilaku berbahaya.",
+          defense: "Nilai kualitas keputusan berdasarkan proses, probabilitas awal, dan pengendalian risiko—bukan semata-mata hasil satu kali transaksi."
+        }
+      ];
+
+      const INTELLECTUAL_REFERENCES = [
+        {
+          title: "The Psychology of Money",
+          author: "Morgan Housel",
+          focus: "Hubungan perilaku manusia, kesabaran, kerendahan hati, dan waktu terhadap akumulasi serta pelestarian kekayaan."
+        },
+        {
+          title: "Thinking, Fast and Slow",
+          author: "Daniel Kahneman",
+          focus: "Arsitektur kognitif Sistem 1 (cepat, intuitif, emosional) dan Sistem 2 (lambat, analitis), heuristik, serta Prospect Theory."
+        },
+        {
+          title: "Misbehaving: The Making of Behavioral Economics",
+          author: "Richard Thaler",
+          focus: "Perkembangan ekonomi perilaku, Mental Accounting, Endowment Effect, dan penyimpangan sistematis dari model 'Econ' rasional."
+        },
+        {
+          title: "Predictably Irrational",
+          author: "Dan Ariely",
+          focus: "Pola keputusan manusia yang tidak rasional secara konsisten akibat relativitas harga, jangkar awal, dan pengaruh emosi."
+        },
+        {
+          title: "The Undoing Project",
+          author: "Michael Lewis",
+          focus: "Kolaborasi riset Daniel Kahneman dan Amos Tversky yang membongkar mitos rasionalitas penuh dalam pengambilan keputusan manusia."
+        },
+        {
+          title: "Nudge",
+          author: "Richard Thaler & Cass Sunstein",
+          focus: "Choice Architecture—bagaimana desain lingkungan dan opsi default memengaruhi keputusan finansial tanpa membatasi kebebasan memilih."
+        }
+      ];
+
+      const DECISION_STEPS = [
+        { id: "s1", code: "01", name: "Identify", desc: "Apa keputusan finansial spesifik yang sedang dihadapi saat ini?" },
+        { id: "s2", code: "02", name: "Emotion Detection", desc: "Apakah dorongan utama berasal dari rasa takut, serakah, FOMO, atau tekanan sosial?" },
+        { id: "s3", code: "03", name: "Bias Detection", desc: "Apakah terdapat Confirmation Bias, Anchoring, Sunk Cost, atau Recency Bias?" },
+        { id: "s4", code: "04", name: "Probability Assessment", desc: "Berapa probabilitas objektif dan rasio asymmetric risk/reward-nya?" },
+        { id: "s5", code: "05", name: "Opportunity Cost", desc: "Peluang lain apa yang dikorbankan jika modal atau waktu dialokasikan ke sini?" },
+        { id: "s6", code: "06", name: "Second-Order Consequences", desc: "Apa dampak lanjutan tahap kedua dan ketiga dalam 6–36 bulan ke depan?" },
+        { id: "s7", code: "07", name: "Execution", desc: "Jalankan keputusan dengan ukuran posisi terukur atau batalkan secara disiplin." },
+        { id: "s8", code: "08", name: "Post-Decision Review", desc: "Evaluasi kualitas proses berdasarkan jurnal awal tanpa terjebak Hindsight Bias." }
+      ];
+
+      const AUDIT_QUESTIONS = [
+        "Apakah saya sedang mencari pembenaran untuk keputusan yang sebenarnya sudah saya inginkan (Confirmation Bias)?",
+        "Apakah saya terlalu percaya diri karena keberhasilan masa lalu yang mungkin dipengaruhi keberuntungan (Overconfidence)?",
+        "Apakah keputusan ini didorong ketakutan kehilangan momentum atau rasa sakit akibat rugi (Loss Aversion / FOMO)?",
+        "Apakah saya mempertahankan posisi yang salah hanya karena sudah terlanjur berkorban (Sunk Cost Fallacy)?",
+        "Apakah saya mengikuti kerumunan, rumor, atau figur otoritas tanpa riset independen (Herd Mentality)?",
+        "Apakah saya mengukur seluruh hasil secara objektif atau hanya mengingat keberhasilan tertentu (Outcome / Recall Bias)?"
+      ];
+
+      /* ----------------------------------------------------------------------
+         2. APPLICATION STATE & STORAGE
+         ---------------------------------------------------------------------- */
+      const STORAGE_KEY = "orixtron_psychology_of_money_v1";
+
+      const defaultState = {
+        isOpen: false,
+        currentPage: "atlas-1", // 'atlas-1' | 'atlas-2' | 'atlas-3' | 1..203
+        activeTab: "theory",    // 'theory' | 'case' | 'data' | 'research'
+        completedChapters: [],
+        bookmarkedPage: null,
+        researchChecks: {},
+        researchNotes: {},
+        decisionChecks: {},
+        auditChecks: {},
+        theme: "ivory",
+        tocLvlFilter: "ALL",
+        tocQuery: "",
+        activePhenomenon: 1,
+        vizSeed: 1
+      };
+
+      let appState = loadState();
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return { ...defaultState };
+          return { ...defaultState, ...JSON.parse(raw) };
+        } catch (e) {
+          return { ...defaultState };
+        }
+      }
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        } catch (e) {}
+      }
+
+      const PAGE_SEQUENCE = ["atlas-1", "atlas-2", "atlas-3", ...ALL_CHAPTERS.map(c => c.num)];
+
+      /* ----------------------------------------------------------------------
+         3. THEME & BOOK COVER CONTROLS
+         ---------------------------------------------------------------------- */
+      const coverStage = document.getElementById("cover-stage");
+      const bookCoverCard = document.getElementById("book-cover-card");
+      const bookWorkspace = document.getElementById("book-workspace");
+      const leftPageContent = document.getElementById("left-page-content");
+      const rightPageContent = document.getElementById("right-page-content");
+      const pageFlipLeaf = document.getElementById("page-flip-leaf");
+
+      function applyTheme(themeName) {
+        appState.theme = themeName;
+        document.body.classList.remove("theme-ivory", "theme-sepia", "theme-night");
+        document.body.classList.add(`theme-${themeName}`);
+
+        document.querySelectorAll(".theme-btn").forEach(btn => {
+          const isMatch = btn.getAttribute("data-theme-btn") === themeName;
+          btn.className = isMatch
+            ? "theme-btn px-2 py-1 rounded-lg text-[11px] font-bold transition cursor-pointer bg-amber-500 text-slate-950"
+            : "theme-btn px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer text-slate-300 hover:text-white";
+        });
+        saveState();
+        if (typeof appState.currentPage === "number" && appState.activeTab === "data") {
+          const ch = ALL_CHAPTERS.find(c => c.num === appState.currentPage);
+          if (ch) setTimeout(() => renderChapterVisualization(ch), 30);
+        }
+      }
+
+      function openBook(targetPage) {
+        if (targetPage) appState.currentPage = targetPage;
+        appState.isOpen = true;
+        saveState();
+
+        bookCoverCard.classList.add("is-opening");
+        setTimeout(() => {
+          coverStage.classList.add("hidden");
+          bookWorkspace.classList.remove("hidden");
+          renderCurrentPage();
+          updateProgressUI();
+        }, 580);
+      }
+
+      function closeBookToCover() {
+        appState.isOpen = false;
+        saveState();
+        bookWorkspace.classList.add("hidden");
+        coverStage.classList.remove("hidden");
+        bookCoverCard.classList.remove("is-opening");
+        updateResumeButton();
+      }
+
+      function updateResumeButton() {
+        const resumeBtn = document.getElementById("btn-resume-book");
+        if (appState.bookmarkedPage || appState.completedChapters.length > 0 || appState.currentPage !== "atlas-1") {
+          resumeBtn.classList.remove("hidden");
+          const label = typeof appState.currentPage === "number"
+            ? `Lanjutkan Bab ${String(appState.currentPage).padStart(3, "0")}`
+            : `Lanjutkan ${String(appState.currentPage).toUpperCase()}`;
+          resumeBtn.textContent = label;
+        }
+      }
+
+      /* ----------------------------------------------------------------------
+         4. 3D PAGE TURN ANIMATION & NAVIGATION
+         ---------------------------------------------------------------------- */
+      let isFlipping = false;
+
+      function navigateToPage(targetPage, direction = "next") {
+        if (isFlipping || targetPage === appState.currentPage) return;
+        isFlipping = true;
+
+        pageFlipLeaf.classList.remove("flip-next", "flip-prev");
+        void pageFlipLeaf.offsetWidth;
+        pageFlipLeaf.classList.add(direction === "prev" ? "flip-prev" : "flip-next");
+
+        setTimeout(() => {
+          appState.currentPage = targetPage;
+          saveState();
+          renderCurrentPage();
+          document.getElementById("left-page").scrollTop = 0;
+          document.getElementById("right-page").scrollTop = 0;
+        }, 210);
+
+        setTimeout(() => {
+          pageFlipLeaf.classList.remove("flip-next", "flip-prev");
+          isFlipping = false;
+        }, 540);
+      }
+
+      function stepPage(delta) {
+        const idx = PAGE_SEQUENCE.indexOf(appState.currentPage);
+        const nextIdx = idx + delta;
+        if (nextIdx >= 0 && nextIdx < PAGE_SEQUENCE.length) {
+          navigateToPage(PAGE_SEQUENCE[nextIdx], delta > 0 ? "next" : "prev");
+        }
+      }
+
+      /* ----------------------------------------------------------------------
+         5. RENDERERS: ATLAS I, ATLAS II, ATLAS III & CHAPTERS 1–203
+         ---------------------------------------------------------------------- */
+      function renderCurrentPage() {
+        updateNavigationChrome();
+        const page = appState.currentPage;
+
+        if (page === "atlas-1") renderAtlasOne();
+        else if (page === "atlas-2") renderAtlasTwo();
+        else if (page === "atlas-3") renderAtlasThree();
+        else {
+          const ch = ALL_CHAPTERS.find(c => c.num === Number(page)) || ALL_CHAPTERS[0];
+          renderChapterSpread(ch);
+        }
+      }
+
+      function updateNavigationChrome() {
+        const idx = PAGE_SEQUENCE.indexOf(appState.currentPage);
+        document.getElementById("btn-prev-page").disabled = idx <= 0;
+        document.getElementById("btn-next-page").disabled = idx >= PAGE_SEQUENCE.length - 1;
+
+        const footerIndicator = document.getElementById("footer-page-indicator");
+        const leftFolio = document.getElementById("left-folio-label");
+        const leftNum = document.getElementById("left-page-number");
+        const rightFolio = document.getElementById("right-folio-label");
+        const rightNum = document.getElementById("right-page-number");
+
+        if (appState.currentPage === "atlas-1") {
+          footerIndicator.textContent = "ATLAS I — 3 TINGKATAN FILOSOFI & 16 BAGIAN UTAMA (203 BAB)";
+          leftFolio.textContent = "THE PSYCHOLOGY OF MONEY";
+          leftNum.textContent = "ATLAS I-A";
+          rightFolio.textContent = "SILABUS INDUK (PART I – PART XVI)";
+          rightNum.textContent = "ATLAS I-B";
+        } else if (appState.currentPage === "atlas-2") {
+          footerIndicator.textContent = "ATLAS II — 4 SISTEM PRAKTIS PENGAMBILAN KEPUTUSAN & AUDIT BIAS";
+          leftFolio.textContent = "DECISION INTELLIGENCE & EMOTIONAL CONTROL";
+          leftNum.textContent = "ATLAS II-A";
+          rightFolio.textContent = "WEALTH ARCHITECTURE & BIAS AUDIT";
+          rightNum.textContent = "ATLAS II-B";
+        } else if (appState.currentPage === "atlas-3") {
+          footerIndicator.textContent = "ATLAS III — 10 FENOMENA TERSEMBUNYI & 6 REFERENSI INTELEKTUAL";
+          leftFolio.textContent = "THE INVISIBLE FINANCIAL PSYCHOLOGY";
+          leftNum.textContent = "ATLAS III-A";
+          rightFolio.textContent = "REFERENSI INTELEKTUAL UTAMA";
+          rightNum.textContent = "ATLAS III-B";
+        } else {
+          const ch = ALL_CHAPTERS.find(c => c.num === appState.currentPage);
+          footerIndicator.textContent = `BAB ${String(ch.num).padStart(3, "0")} / 203 — ${ch.title.toUpperCase()}`;
+          leftFolio.textContent = `LEVEL ${ch.level} // PART ${ch.partId}: ${ch.partTitle.toUpperCase()}`;
+          leftNum.textContent = `HAL. ${ch.num * 2 - 1}`;
+          rightFolio.textContent = `LABORATORIUM BEHAVIORAL & KEPUTUSAN`;
+          rightNum.textContent = `HAL. ${ch.num * 2}`;
+        }
+
+        const isBookmarked = appState.bookmarkedPage === appState.currentPage;
+        const ribbon = document.getElementById("btn-toggle-bookmark");
+        const star = document.getElementById("bookmark-star-icon");
+        if (isBookmarked) {
+          ribbon.classList.remove("bg-red-700");
+          ribbon.classList.add("bg-amber-500", "text-slate-950");
+          star.classList.remove("opacity-60");
+          star.classList.add("opacity-100");
+        } else {
+          ribbon.classList.add("bg-red-700");
+          ribbon.classList.remove("bg-amber-500", "text-slate-950");
+          star.classList.add("opacity-60");
+          star.classList.remove("opacity-100");
+        }
+      }
+
+      /* --- ATLAS I: 3 TINGKATAN FILOSOFI, KUTIPAN PENUTUP & 16 BAGIAN --- */
+      function renderAtlasOne() {
+        leftPageContent.innerHTML = `
+          <div class="content-reveal space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent-gold-soft)] border border-[var(--border-strong)]">
+              <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] tracking-widest">FILOSOFI UTAMA // ENSIKLOPEDIA PSIKOLOGI FINANSIAL</span>
+            </div>
+
+            <div>
+              <h2 class="font-display text-2xl sm:text-3xl font-extrabold tracking-wide text-[var(--ink-primary)]">
+                THE PSYCHOLOGY OF MONEY
+              </h2>
+              <p class="font-mono-code text-xs text-[var(--accent-gold)] font-semibold mt-1">
+                16 BAGIAN UTAMA • 203 BAB PENELITIAN • BEHAVIORAL &amp; STRATEGIC
+              </p>
+              <p class="text-xs sm:text-sm text-[var(--ink-secondary)] mt-2.5 leading-relaxed">
+                Karya ini menggabungkan <strong>Behavioral Finance, Cognitive Psychology, Neuroeconomics, Game Theory, Market Psychology,</strong> dan <strong>Wealth Architecture</strong>—tidak hanya membahas cara manusia menggunakan uang, tetapi bagaimana uang mengubah cara manusia berpikir, menilai risiko, dan bertindak di bawah kesadaran.
+              </p>
+            </div>
+
+            <!-- 3 Tingkatan Filosofi Utama -->
+            <div class="space-y-2">
+              <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase tracking-wider">
+                3 Lapisan Arsitektur Pemahaman Buku
+              </div>
+              <div class="p-3 rounded-xl bg-[var(--paper-card)] border border-[var(--border-subtle)]">
+                <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)]">LEVEL 1 — UNDERSTANDING MONEY</div>
+                <p class="text-xs text-[var(--ink-primary)] mt-0.5">Memahami bagaimana uang bekerja, makna psikologisnya, dan bagaimana manusia menggunakannya dalam arsitektur kekayaan.</p>
+              </div>
+              <div class="p-3 rounded-xl bg-[var(--paper-card)] border border-[var(--border-subtle)]">
+                <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)]">LEVEL 2 — UNDERSTANDING HUMAN BEHAVIOR</div>
+                <p class="text-xs text-[var(--ink-primary)] mt-0.5">Memahami mengapa manusia membuat keputusan finansial yang tidak rasional melalui bias kognitif, sirkuit neuropsikologi, dan persepsi risiko.</p>
+              </div>
+              <div class="p-3 rounded-xl bg-[var(--paper-card)] border border-[var(--border-subtle)]">
+                <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)]">LEVEL 3 — UNDERSTANDING THE SYSTEM</div>
+                <p class="text-xs text-[var(--ink-primary)] mt-0.5">Memahami bagaimana insentif tersembunyi, Game Theory, institusi, status sosial, dan psikologi kolektif membentuk sistem keuangan.</p>
+              </div>
+            </div>
+
+            <!-- Filosofi Penutup Buku -->
+            <blockquote class="font-serif-editorial italic text-xs sm:text-sm text-[var(--ink-primary)] p-3.5 rounded-xl bg-[var(--accent-gold-soft)] border-l-4 border-[var(--accent-gold)] leading-relaxed">
+              “Most people learn how to earn money. Few learn how money influences their minds. Even fewer understand the systems that influence how people make financial decisions.”
+            </blockquote>
+          </div>
+        `;
+
+        rightPageContent.innerHTML = `
+          <div class="content-reveal space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <span class="font-mono-code text-[10px] text-[var(--accent-gold)] font-bold uppercase tracking-wider">PETA KURIKULUM LENGKAP</span>
+                <h2 class="font-serif-editorial text-xl font-bold text-[var(--ink-primary)]">
+                  16 Bagian Utama (Bab 1 – 203)
+                </h2>
+              </div>
+              <button type="button" onclick="window.__labJump('atlas-2')"
+                class="px-3 py-1.5 rounded-xl bg-[var(--accent-gold-soft)] border border-[var(--border-strong)] text-xs font-semibold text-[var(--accent-gold)] hover:opacity-80 cursor-pointer shrink-0">
+                4 Sistem Praktis →
+              </button>
+            </div>
+
+            <div class="space-y-1.5">
+              ${PARTS_DATA.map(part => {
+                const firstCh = part.chapters[0].num;
+                const lastCh = part.chapters[part.chapters.length - 1].num;
+                return `
+                  <button type="button" onclick="window.__labJump(${firstCh})"
+                    class="w-full text-left p-2.5 rounded-xl bg-[var(--paper-card)] hover:bg-[var(--paper-card-hover)] border border-[var(--border-subtle)] hover:border-[var(--accent-gold)] transition group cursor-pointer">
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="font-mono-code text-[11px] font-bold text-[var(--accent-gold)] truncate">
+                        PART ${part.id} — ${part.title}
+                      </span>
+                      <span class="px-2 py-0.5 rounded bg-[var(--accent-gold-soft)] font-mono-code text-[10px] font-bold text-[var(--ink-primary)] group-hover:bg-amber-500 group-hover:text-slate-950 transition shrink-0">
+                        BAB ${firstCh}–${lastCh}
+                      </span>
+                    </div>
+                    <p class="text-[11px] text-[var(--ink-secondary)] mt-0.5 line-clamp-1">${part.goal}</p>
+                  </button>
+                `;
+              }).join("")}
+            </div>
+          </div>
+        `;
+      }
+
+      /* --- ATLAS II: 4 SISTEM PRAKTIS INTERAKTIF --- */
+      function renderAtlasTwo() {
+        const checkedSteps = DECISION_STEPS.filter(s => appState.decisionChecks[s.id]).length;
+        const checkedAudits = AUDIT_QUESTIONS.filter((_, i) => appState.auditChecks[i]).length;
+
+        leftPageContent.innerHTML = `
+          <div class="content-reveal space-y-3">
+            <div>
+              <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase tracking-wider">SISTEM OPERASIONAL // PROTOKOL KEPUTUSAN</span>
+              <h2 class="font-serif-editorial text-xl font-bold text-[var(--ink-primary)]">
+                1. Financial Decision Intelligence &amp; 2. Emotional Control
+              </h2>
+            </div>
+
+            <!-- 1. Financial Decision Intelligence System -->
+            <div class="p-3 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">1. Financial Decision Intelligence System</span>
+                <span class="font-mono-code text-[10px] font-bold text-[var(--ink-primary)]">${checkedSteps}/8 Lolos</span>
+              </div>
+              <div class="space-y-1">
+                ${DECISION_STEPS.map(step => {
+                  const isDone = !!appState.decisionChecks[step.id];
+                  return `
+                    <label class="flex items-start gap-2 p-1.5 rounded-lg border border-[var(--border-subtle)] hover:border-[var(--accent-gold)] cursor-pointer text-[11px]">
+                      <input type="checkbox" ${isDone ? "checked" : ""} onchange="window.__toggleDecisionStep('${step.id}')" class="mt-0.5 accent-amber-500" />
+                      <div>
+                        <strong class="font-mono-code text-[var(--accent-gold)]">${step.code}. ${step.name}:</strong>
+                        <span class="text-[var(--ink-secondary)]">${step.desc}</span>
+                      </div>
+                    </label>
+                  `;
+                }).join("")}
+              </div>
+            </div>
+
+            <!-- 2. Emotional Capital Control -->
+            <div class="p-3 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-2">
+              <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">
+                2. Emotional Capital Control (Monitor Emosi &amp; Cooling-Off)
+              </div>
+              <div class="grid grid-cols-3 gap-2 text-[11px]">
+                <div>
+                  <label class="font-mono-code text-[9px] text-[var(--ink-muted)] block">FEAR LEVEL (1–10)</label>
+                  <input id="emo-fear" type="number" min="1" max="10" value="4" oninput="window.__recalcSystems()"
+                    class="w-full px-2 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+                <div>
+                  <label class="font-mono-code text-[9px] text-[var(--ink-muted)] block">GREED / FOMO (1–10)</label>
+                  <input id="emo-greed" type="number" min="1" max="10" value="5" oninput="window.__recalcSystems()"
+                    class="w-full px-2 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+                <div>
+                  <label class="font-mono-code text-[9px] text-[var(--ink-muted)] block">REVENGE IMPULSE (1–10)</label>
+                  <input id="emo-revenge" type="number" min="1" max="10" value="2" oninput="window.__recalcSystems()"
+                    class="w-full px-2 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+              </div>
+              <div id="out-emo-protocol" class="p-2 rounded-lg bg-[var(--accent-gold-soft)] font-mono-code text-[11px] text-[var(--ink-primary)]"></div>
+            </div>
+          </div>
+        `;
+
+        rightPageContent.innerHTML = `
+          <div class="content-reveal space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase tracking-wider">ARSITEKTUR KEKAYAAN &amp; AUDIT DIRI</span>
+                <h2 class="font-serif-editorial text-xl font-bold text-[var(--ink-primary)]">
+                  3. Wealth Accumulation &amp; 4. Cognitive Bias Audit
+                </h2>
+              </div>
+              <button type="button" onclick="window.__labJump('atlas-3')"
+                class="px-3 py-1.5 rounded-xl bg-[var(--accent-gold-soft)] border border-[var(--border-strong)] text-xs font-semibold text-[var(--accent-gold)] hover:opacity-80 cursor-pointer shrink-0">
+                10 Fenomena →
+              </button>
+            </div>
+
+            <!-- 3. Wealth Accumulation Intelligence -->
+            <div class="p-3 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-2">
+              <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">
+                3. Wealth Accumulation Intelligence (Gap &amp; Lifestyle Inflation)
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <div>
+                  <label class="font-mono-code text-[9px] text-[var(--ink-muted)] block">INCOME / BLN (JT)</label>
+                  <input id="w-inc" type="number" value="25" oninput="window.__recalcSystems()"
+                    class="w-full px-2 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+                <div>
+                  <label class="font-mono-code text-[9px] text-[var(--ink-muted)] block">EXPENSE / BLN (JT)</label>
+                  <input id="w-exp" type="number" value="14" oninput="window.__recalcSystems()"
+                    class="w-full px-2 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+                <div>
+                  <label class="font-mono-code text-[9px] text-[var(--ink-muted)] block">RETURN / THN (%)</label>
+                  <input id="w-ret" type="number" value="12" oninput="window.__recalcSystems()"
+                    class="w-full px-2 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+              </div>
+              <div id="out-wealth-gap" class="p-2 rounded-lg bg-[var(--accent-gold-soft)] font-mono-code text-[11px] text-[var(--ink-primary)] space-y-0.5"></div>
+            </div>
+
+            <!-- 4. Cognitive Bias Audit -->
+            <div class="p-3 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">4. Cognitive Bias Audit (Centang Jika Terdeteksi)</span>
+                <span class="font-mono-code text-[10px] font-bold text-rose-600 dark:text-rose-400">${checkedAudits}/6 Terdeteksi</span>
+              </div>
+              <div class="space-y-1">
+                ${AUDIT_QUESTIONS.map((q, idx) => {
+                  const isFlagged = !!appState.auditChecks[idx];
+                  return `
+                    <label class="flex items-start gap-2 p-1.5 rounded-lg border border-[var(--border-subtle)] hover:border-rose-400 cursor-pointer text-[11px]">
+                      <input type="checkbox" ${isFlagged ? "checked" : ""} onchange="window.__toggleAuditCheck(${idx})" class="mt-0.5 accent-rose-500" />
+                      <span class="text-[var(--ink-primary)]">${q}</span>
+                    </label>
+                  `;
+                }).join("")}
+              </div>
+              <div class="pt-1 font-mono-code text-[10px] text-[var(--ink-secondary)]">
+                ${checkedAudits === 0
+                  ? "Status Audit: Pikiran jernih — lanjutkan ke eksekusi berbasis probabilitas."
+                  : `Peringatan Audit: ${checkedAudits} distorsi kognitif aktif. Wajib aktifkan Cooling-Off Protocol sebelum transaksi!`}
+              </div>
+            </div>
+          </div>
+        `;
+
+        setTimeout(() => window.__recalcSystems(), 15);
+      }
+
+      /* --- ATLAS III: 10 FENOMENA TERSEMBUNYI & 6 REFERENSI INTELEKTUAL --- */
+      function renderAtlasThree() {
+        const activePhen = INVISIBLE_PHENOMENA.find(p => p.id === appState.activePhenomenon) || INVISIBLE_PHENOMENA[0];
+
+        leftPageContent.innerHTML = `
+          <div class="content-reveal space-y-3.5">
+            <div>
+              <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase tracking-wider">PENELITIAN KHUSUS // FENOMENA BAWAH SADAR</span>
+              <h2 class="font-serif-editorial text-xl font-bold text-[var(--ink-primary)]">
+                The Invisible Financial Psychology (10 Fenomena)
+              </h2>
+            </div>
+
+            <!-- 10 Phenomenon Selector Pills -->
+            <div class="flex flex-wrap gap-1.5">
+              ${INVISIBLE_PHENOMENA.map(p => {
+                const isAct = p.id === activePhen.id;
+                return `
+                  <button type="button" onclick="window.__selectPhenomenon(${p.id})"
+                    class="px-2.5 py-1 rounded-lg font-mono-code text-[10px] font-semibold transition cursor-pointer ${
+                      isAct
+                        ? "bg-amber-500 text-slate-950 shadow-sm"
+                        : "bg-[var(--paper-card)] border border-[var(--border-subtle)] text-[var(--ink-secondary)] hover:border-[var(--accent-gold)]"
+                    }">
+                    ${String(p.id).padStart(2, "0")}. ${p.name}
+                  </button>
+                `;
+              }).join("")}
+            </div>
+
+            <!-- Active Phenomenon Deep Card -->
+            <div class="p-4 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-strong)] space-y-2.5">
+              <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">
+                FENOMENA ${String(activePhen.id).padStart(2, "0")} // LABEL KONSEPTUAL PEMBELAJARAN
+              </div>
+              <h3 class="font-serif-editorial text-lg font-bold text-[var(--ink-primary)]">
+                ${activePhen.name}
+              </h3>
+              <p class="text-xs text-[var(--ink-primary)] leading-relaxed">
+                <strong>Hal yang Perlu Disadari:</strong> ${activePhen.summary}
+              </p>
+              <div class="p-2.5 rounded-xl bg-[var(--accent-gold-soft)] border border-[var(--border-subtle)] text-xs text-[var(--ink-secondary)]">
+                <strong class="text-[var(--ink-primary)] block mb-0.5">Mekanisme Psikologis &amp; Ekonomi Perilaku:</strong>
+                ${activePhen.mechanism}
+              </div>
+              <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-[var(--ink-primary)]">
+                <strong class="text-emerald-700 dark:text-emerald-300 block mb-0.5">Arsitektur Pertahanan:</strong>
+                ${activePhen.defense}
+              </div>
+            </div>
+
+            <p class="text-[11px] text-[var(--ink-muted)] italic leading-relaxed">
+              Catatan Metodologis: Fenomena di atas memiliki landasan penelitian psikologi dan ekonomi perilaku, sementara penamaannya disusun sebagai label konseptual untuk kebutuhan pembelajaran sistematis.
+            </p>
+          </div>
+        `;
+
+        rightPageContent.innerHTML = `
+          <div class="content-reveal space-y-3.5">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase tracking-wider">FONDASI ILMIAH</span>
+                <h2 class="font-serif-editorial text-xl font-bold text-[var(--ink-primary)]">
+                  6 Referensi Intelektual Utama
+                </h2>
+              </div>
+              <button type="button" onclick="window.__labJump(1)"
+                class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 text-xs font-bold hover:bg-amber-400 cursor-pointer shrink-0">
+                Mulai Bab 1 →
+              </button>
+            </div>
+
+            <div class="space-y-2">
+              ${INTELLECTUAL_REFERENCES.map((ref, i) => `
+                <div class="p-3 rounded-xl bg-[var(--paper-card)] border border-[var(--border-subtle)]">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="font-serif-editorial text-sm font-bold text-[var(--ink-primary)]">0${i + 1}. ${ref.title}</span>
+                    <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] shrink-0">${ref.author}</span>
+                  </div>
+                  <p class="text-xs text-[var(--ink-secondary)] mt-1 leading-relaxed">${ref.focus}</p>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }
+
+      /* --- CHAPTER SPREAD (ALL 203 CHAPTERS) --- */
+      function renderChapterSpread(chapter) {
+        const isCompleted = appState.completedChapters.includes(chapter.num);
+        const babCode = `BAB ${String(chapter.num).padStart(3, "0")}`;
+
+        leftPageContent.innerHTML = `
+          <div class="content-reveal space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="px-2.5 py-1 rounded-lg bg-[var(--accent-gold-soft)] border border-[var(--border-strong)] font-mono-code text-[10px] sm:text-[11px] font-bold text-[var(--accent-gold)]">
+                PART ${chapter.partId} — ${chapter.partTitle.toUpperCase()}
+              </span>
+              <span class="font-mono-code text-[10px] uppercase tracking-wider text-[var(--ink-muted)]">
+                LEVEL ${chapter.level}
+              </span>
+            </div>
+
+            <div class="pb-3.5 border-b border-[var(--border-subtle)]">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="font-mono-code text-xs sm:text-sm font-bold text-[var(--accent-gold)] tracking-widest">
+                    ${babCode} // SILABUS PENELITIAN
+                  </div>
+                  <h1 class="font-serif-editorial text-2xl sm:text-3xl font-bold text-[var(--ink-primary)] mt-1 leading-tight">
+                    ${chapter.title}
+                  </h1>
+                </div>
+
+                <button type="button" onclick="window.__toggleChapterComplete(${chapter.num})"
+                  class="shrink-0 px-3 py-2 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
+                    isCompleted
+                      ? "bg-emerald-600/20 border-emerald-500 text-emerald-700 dark:text-emerald-300"
+                      : "bg-[var(--paper-card)] border-[var(--border-strong)] text-[var(--ink-secondary)] hover:border-[var(--accent-gold)]"
+                  }">
+                  <span>${isCompleted ? "✓ Selesai" : "○ Tandai Selesai"}</span>
+                </button>
+              </div>
+              <p class="text-xs text-[var(--ink-secondary)] mt-2 leading-relaxed">
+                <strong>Fokus Bagian ${chapter.partId}:</strong> ${chapter.partGoal}
+              </p>
+            </div>
+
+            <!-- Core Phenomenon Box -->
+            <div class="p-3.5 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-1.5">
+              <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">
+                Tesis Inti Bab ${chapter.num}
+              </div>
+              <p class="text-xs sm:text-sm font-medium text-[var(--ink-primary)] leading-relaxed">
+                Membedah bagaimana <strong>${chapter.title}</strong> bekerja secara halus memengaruhi persepsi nilai, penilaian risiko, dan alokasi modal—sering kali tanpa disadari bahkan oleh pelaku pasar berpengalaman sekalipun.
+              </p>
+            </div>
+
+            <!-- Interactive Sub-Dimension Concept Cards -->
+            <div class="space-y-2">
+              <div class="font-mono-code text-[10px] font-bold text-[var(--ink-muted)] uppercase">
+                3 Dimensi Bedah Psikologi &amp; Sistem (Klik untuk Analisis Mendalam)
+              </div>
+              <div class="grid grid-cols-1 gap-2">
+                ${chapter.dimensions.map((dim, idx) => `
+                  <button type="button" onclick="window.__openTopicModal(${chapter.num}, ${idx})"
+                    class="group text-left p-2.5 rounded-xl bg-[var(--paper-card)] hover:bg-[var(--paper-card-hover)] border border-[var(--border-subtle)] hover:border-[var(--accent-gold)] transition flex items-center justify-between gap-2 cursor-pointer">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                      <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] shrink-0">0${idx + 1}</span>
+                      <span class="text-xs font-semibold text-[var(--ink-primary)] truncate group-hover:text-[var(--accent-gold)] transition">${dim}</span>
+                    </div>
+                    <span class="text-xs text-[var(--ink-muted)] shrink-0">↗</span>
+                  </button>
+                `).join("")}
+              </div>
+            </div>
+
+            ${chapter.extraNotes.length > 0 ? `
+              <div class="p-3 rounded-xl bg-[var(--accent-gold-soft)] border border-[var(--border-subtle)] space-y-1">
+                <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">Catatan Penelitian Part ${chapter.partId}</div>
+                <ul class="text-[11px] text-[var(--ink-secondary)] space-y-1 list-disc pl-4">
+                  ${chapter.extraNotes.map(n => `<li>${n}</li>`).join("")}
+                </ul>
+              </div>
+            ` : ""}
+          </div>
+        `;
+
+        const tabs = [
+          { id: "theory", label: "01 // Mekanisme" },
+          { id: "case", label: "02 // Jebakan Pasar" },
+          { id: "data", label: "03 // Model Visual" },
+          { id: "research", label: "04 // Audit Diri" }
+        ];
+
+        rightPageContent.innerHTML = `
+          <div class="content-reveal space-y-4">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 rounded-xl bg-[var(--paper-card)] border border-[var(--border-subtle)]">
+              ${tabs.map(t => {
+                const active = appState.activeTab === t.id;
+                return `
+                  <button type="button" onclick="window.__switchResearchTab('${t.id}')"
+                    class="py-2 px-2 rounded-lg font-mono-code text-[11px] font-semibold transition cursor-pointer ${
+                      active
+                        ? "bg-amber-500 text-slate-950 shadow-sm"
+                        : "text-[var(--ink-secondary)] hover:text-[var(--ink-primary)]"
+                    }">
+                    ${t.label}
+                  </button>
+                `;
+              }).join("")}
+            </div>
+
+            <div id="workbench-tab-body" class="space-y-4">
+              ${renderChapterWorkbenchTab(chapter)}
+            </div>
+          </div>
+        `;
+
+        if (appState.activeTab === "data") {
+          setTimeout(() => renderChapterVisualization(chapter), 25);
+        }
+      }
+
+      function renderChapterWorkbenchTab(chapter) {
+        if (appState.activeTab === "theory") {
+          return `
+            <div class="p-4 sm:p-5 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-3">
+              <div class="font-mono-code text-xs font-bold text-[var(--accent-gold)] uppercase tracking-wider">
+                Arsitektur Kognitif &amp; Ekonomi Perilaku
+              </div>
+              <p class="text-xs sm:text-sm text-[var(--ink-primary)] leading-relaxed">
+                Dalam <strong>${chapter.partTitle}</strong>, fenomena <strong>${chapter.title}</strong> menjelaskan bagaimana sistem pemrosesan cepat otak (Sistem 1) dan insentif eksternal mendistorsi perhitungan probabilitas objektif. Manusia cenderung merespons perubahan relatif dari titik referensi dibandingkan nilai absolut kekayaan.
+              </p>
+              <blockquote class="p-3 rounded-xl bg-[var(--accent-gold-soft)] border-l-4 border-[var(--accent-gold)] text-xs text-[var(--ink-primary)] leading-relaxed">
+                <strong>Hukum Kesadaran Finansial:</strong> Mengerti teori tentang <em>${chapter.title}</em> tidak secara otomatis membuat seseorang kebal terhadapnya; diperlukan sistem aturan tertulis dan jeda eksekusi.
+              </blockquote>
+            </div>
+          `;
+        }
+
+        if (appState.activeTab === "case") {
+          return `
+            <div class="p-4 sm:p-5 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-3">
+              <div class="font-mono-code text-xs font-bold text-[var(--accent-gold)] uppercase tracking-wider">
+                Manifestasi dalam Investasi, Trading &amp; Kekayaan
+              </div>
+              <div class="space-y-2 text-xs">
+                <div class="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30">
+                  <strong class="text-rose-700 dark:text-rose-300 block mb-0.5">✕ Pola Kerentanan (Unconscious Trap):</strong>
+                  <span class="text-[var(--ink-secondary)]">Pelaku pasar mengambil keputusan impulsif akibat ${chapter.title}—mengabaikan base-rate probabilitas, mengejar validasi sosial, atau mempertahankan aset merugi demi menghindari rasa sakit psikologis.</span>
+                </div>
+                <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+                  <strong class="text-emerald-700 dark:text-emerald-300 block mb-0.5">✓ Protokol Master Financial Mind:</strong>
+                  <span class="text-[var(--ink-secondary)]">Menerapkan pre-commitment rules, position sizing berbasis risiko, serta audit keputusan tertulis sebelum modal dialokasikan.</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        if (appState.activeTab === "data") {
+          return `
+            <div class="p-4 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">LABORATORIUM BEHAVIORAL BAB ${chapter.num}</span>
+                  <h3 class="font-bold text-xs sm:text-sm text-[var(--ink-primary)]">Kurva Model: ${chapter.title}</h3>
+                </div>
+                <button type="button" onclick="window.__regenerateViz()"
+                  class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono-code text-[11px] font-bold transition cursor-pointer">
+                  ↻ Simulasi Ulang
+                </button>
+              </div>
+              <div class="w-full h-56 sm:h-64 rounded-xl border border-[var(--border-subtle)] bg-slate-950/5 dark:bg-slate-950/40 relative overflow-hidden">
+                <canvas id="lab-data-canvas" class="w-full h-full block"></canvas>
+              </div>
+              <div id="viz-caption-metrics" class="grid grid-cols-3 gap-2 text-center font-mono-code text-[11px]"></div>
+            </div>
+          `;
+        }
+
+        const noteVal = appState.researchNotes[chapter.num] || "";
+        const tasks = [
+          `Identifikasi satu kejadian nyata di masa lalu saat keputusan finansial saya dipengaruhi oleh ${chapter.title}.`,
+          `Tentukan aturan pencegahan otomatis (if-then rule) untuk menetralkan pengaruh ${chapter.title}.`,
+          `Uji ulang keputusan terakhir menggunakan 8 langkah Financial Decision Intelligence System.`
+        ];
+
+        return `
+          <div class="space-y-3">
+            <div class="p-4 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-2">
+              <div class="font-mono-code text-xs font-bold text-[var(--accent-gold)] uppercase">
+                Protokol Audit Diri Bab ${chapter.num}
+              </div>
+              ${tasks.map((t, i) => {
+                const key = `${chapter.num}-${i}`;
+                const checked = !!appState.researchChecks[key];
+                return `
+                  <label class="flex items-start gap-2.5 p-2 rounded-xl border border-[var(--border-subtle)] hover:border-[var(--accent-gold)] cursor-pointer text-xs">
+                    <input type="checkbox" ${checked ? "checked" : ""} onchange="window.__toggleResearchCheck('${key}')" class="mt-0.5 accent-amber-500" />
+                    <span class="text-[var(--ink-primary)] ${checked ? "line-through opacity-60" : ""}">${t}</span>
+                  </label>
+                `;
+              }).join("")}
+            </div>
+
+            <div class="p-4 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-2">
+              <div class="flex justify-between font-mono-code text-[10px]">
+                <span class="font-bold text-[var(--accent-gold)] uppercase">Jurnal Refleksi &amp; Keputusan</span>
+                <span class="text-emerald-600 dark:text-emerald-400">✓ Tersimpan</span>
+              </div>
+              <textarea rows="3" oninput="window.__saveResearchNote(${chapter.num}, this.value)"
+                placeholder="Catat refleksi perilaku atau aturan pribadi untuk Bab ${chapter.num} (${chapter.title})..."
+                class="w-full p-2.5 rounded-xl bg-transparent border border-[var(--border-strong)] focus:border-[var(--accent-gold)] focus:outline-none text-xs text-[var(--ink-primary)]">${noteVal}</textarea>
+            </div>
+          </div>
+        `;
+      }
+
+      /* ----------------------------------------------------------------------
+         6. CANVAS VISUALIZATION ENGINE FOR CHAPTERS 1–203
+         ---------------------------------------------------------------------- */
+      function seededRandom(seed) {
+        let s = seed % 2147483647;
+        if (s <= 0) s += 2147483646;
+        return function () {
+          s = (s * 16807) % 2147483647;
+          return (s - 1) / 2147483646;
+        };
+      }
+
+      function renderChapterVisualization(chapter) {
+        const canvas = document.getElementById("lab-data-canvas");
+        const metricsEl = document.getElementById("viz-caption-metrics");
+        if (!canvas || !metricsEl) return;
+
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = Math.max(300, rect.width * dpr);
+        canvas.height = Math.max(200, rect.height * dpr);
+
+        const ctx = canvas.getContext("2d");
+        ctx.scale(dpr, dpr);
+        const W = rect.width;
+        const H = rect.height;
+
+        const isNight = appState.theme === "night";
+        const gridColor = isNight ? "rgba(148,163,184,0.14)" : "rgba(120,113,102,0.16)";
+        const textColor = isNight ? "#cbd5e1" : "#4a453e";
+        const goldColor = isNight ? "#e5b94c" : "#b48628";
+
+        ctx.clearRect(0, 0, W, H);
+        ctx.strokeStyle = gridColor;
+        ctx.lineWidth = 1;
+        for (let x = 36; x < W; x += 56) {
+          ctx.beginPath(); ctx.moveTo(x, 12); ctx.lineTo(x, H - 22); ctx.stroke();
+        }
+        for (let y = 24; y < H - 20; y += 38) {
+          ctx.beginPath(); ctx.moveTo(16, y); ctx.lineTo(W - 16, y); ctx.stroke();
+        }
+
+        const rand = seededRandom(chapter.num * 67 + appState.vizSeed * 31);
+
+        if (chapter.vizType === "prospect") {
+          // Kahneman & Tversky S-Shaped Value Function
+          const cx = W / 2;
+          const cy = H / 2 + 4;
+          ctx.strokeStyle = textColor;
+          ctx.lineWidth = 1.2;
+          ctx.beginPath(); ctx.moveTo(28, cy); ctx.lineTo(W - 28, cy); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(cx, 22); ctx.lineTo(cx, H - 22); ctx.stroke();
+
+          const lambda = (2.0 + rand() * 0.5).toFixed(2);
+          ctx.strokeStyle = goldColor;
+          ctx.lineWidth = 2.6;
+          ctx.beginPath();
+          for (let dx = -120; dx <= 120; dx += 3) {
+            const normX = dx / 120;
+            const valY = normX >= 0
+              ? Math.pow(normX, 0.72) * 58
+              : -Number(lambda) * 0.48 * Math.pow(-normX, 0.78) * 58;
+            const px = cx + (dx / 120) * (W * 0.4);
+            const py = cy - valY;
+            if (dx === -120) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+
+          ctx.fillStyle = textColor;
+          ctx.font = "600 10px 'JetBrains Mono'";
+          ctx.fillText("PROSPECT THEORY VALUE FUNCTION (LOSSES VS GAINS)", 24, 15);
+
+          metricsEl.innerHTML = `
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">LOSS AVERSION (λ)</span><strong class="text-rose-600 dark:text-rose-400">${lambda}x</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">RISK SENSITIVITY</span><strong class="text-[var(--accent-gold)]">Asimetris</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">REFERENCE SHIFT</span><strong class="text-[var(--ink-primary)]">Aktif</strong></div>
+          `;
+        } else if (chapter.vizType === "wealth") {
+          // Compounding Wealth Gap vs Lifestyle Inflation
+          const years = 18;
+          const stepX = (W - 64) / years;
+          ctx.beginPath();
+          ctx.strokeStyle = "#10b981";
+          ctx.lineWidth = 2.5;
+          for (let t = 0; t <= years; t++) {
+            const x = 32 + t * stepX;
+            const y = H - 28 - (Math.pow(1.13, t) - 1) / (Math.pow(1.13, years) - 1) * (H - 58);
+            if (t === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.strokeStyle = "#f43f5e";
+          ctx.lineWidth = 2;
+          ctx.setLineDash([5, 4]);
+          for (let t = 0; t <= years; t++) {
+            const x = 32 + t * stepX;
+            const y = H - 28 - (t / years) * (H - 58) * 0.42;
+            if (t === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          ctx.fillStyle = textColor;
+          ctx.font = "600 10px 'JetBrains Mono'";
+          ctx.fillText("COMPOUNDING GAP (HIJAU) VS LIFESTYLE INFLATION (MERAH)", 24, 15);
+
+          const gapPct = Math.round(32 + rand() * 24);
+          metricsEl.innerHTML = `
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">SAVING GAP</span><strong class="text-emerald-600 dark:text-emerald-400">${gapPct}%</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">COMPOUNDING</span><strong class="text-[var(--accent-gold)]">Eksponensial</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">HEDONIC DRAG</span><strong class="text-[var(--ink-primary)]">Terkendali</strong></div>
+          `;
+        } else {
+          // Dopamine / Crowd Cascade Wave vs Rational Baseline
+          const pts = 24;
+          const stepX = (W - 60) / pts;
+          ctx.beginPath();
+          ctx.strokeStyle = goldColor;
+          ctx.lineWidth = 2.4;
+          for (let i = 0; i <= pts; i++) {
+            const x = 30 + i * stepX;
+            const wave = Math.sin(i * 0.55 + appState.vizSeed) * 38 * (0.6 + rand() * 0.5);
+            const y = H / 2 - wave;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+
+          ctx.strokeStyle = "#38bdf8";
+          ctx.lineWidth = 1.6;
+          ctx.setLineDash([4, 4]);
+          ctx.beginPath(); ctx.moveTo(30, H / 2); ctx.lineTo(W - 30, H / 2); ctx.stroke();
+          ctx.setLineDash([]);
+
+          ctx.fillStyle = textColor;
+          ctx.font = "600 10px 'JetBrains Mono'";
+          ctx.fillText("EMOTIONAL / CROWD AMPLITUDE VS RATIONAL EQUILIBRIUM", 24, 15);
+
+          const impulseIdx = (1.4 + rand() * 1.3).toFixed(2);
+          metricsEl.innerHTML = `
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">AROUSAL INDEX</span><strong class="text-[var(--accent-gold)]">${impulseIdx}σ</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">SYSTEM 2 CONTROL</span><strong class="text-emerald-600 dark:text-emerald-400">Aktif</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">COOLING PROTOCOL</span><strong class="text-[var(--ink-primary)]">48 Jam</strong></div>
+          `;
+        }
+      }
+
+      /* ----------------------------------------------------------------------
+         7. ATLAS II & ATLAS III INTERACTIVE HANDLERS
+         ---------------------------------------------------------------------- */
+      window.__toggleDecisionStep = function (stepId) {
+        appState.decisionChecks[stepId] = !appState.decisionChecks[stepId];
+        saveState();
+        renderAtlasTwo();
+      };
+
+      window.__toggleAuditCheck = function (idx) {
+        appState.auditChecks[idx] = !appState.auditChecks[idx];
+        saveState();
+        renderAtlasTwo();
+      };
+
+      window.__recalcSystems = function () {
+        const fear = Number(document.getElementById("emo-fear")?.value || 0);
+        const greed = Number(document.getElementById("emo-greed")?.value || 0);
+        const revenge = Number(document.getElementById("emo-revenge")?.value || 0);
+        const emoAvg = ((fear + greed + revenge) / 3).toFixed(1);
+        const outEmo = document.getElementById("out-emo-protocol");
+        if (outEmo) {
+          outEmo.innerHTML = emoAvg >= 6
+            ? `Indeks Emosi: <strong>${emoAvg}/10 (TINGGI)</strong> → Wajib Cooling-Off Protocol 24–48 jam!`
+            : `Indeks Emosi: <strong>${emoAvg}/10 (TERKENDALI)</strong> → Keputusan dapat dievaluasi secara objektif.`;
+        }
+
+        const inc = Math.max(1, Number(document.getElementById("w-inc")?.value || 25));
+        const exp = Number(document.getElementById("w-exp")?.value || 14);
+        const ret = Number(document.getElementById("w-ret")?.value || 12) / 100;
+        const gap = Math.max(0, inc - exp);
+        const savRate = ((gap / inc) * 100).toFixed(1);
+        const annualGap = gap * 12;
+        const fv10 = ret > 0 ? annualGap * ((Math.pow(1 + ret, 10) - 1) / ret) : annualGap * 10;
+
+        const outWealth = document.getElementById("out-wealth-gap");
+        if (outWealth) {
+          outWealth.innerHTML = `
+            <div>Surplus Bulanan: <strong>Rp${gap.toFixed(1)} Juta</strong> (Saving Rate: <strong>${savRate}%</strong>)</div>
+            <div>Proyeksi Akumulasi 10 Tahun: <strong>Rp${(fv10 / 1000).toFixed(2)} Miliar</strong></div>
+          `;
+        }
+      };
+
+      window.__selectPhenomenon = function (id) {
+        appState.activePhenomenon = id;
+        renderAtlasThree();
+      };
+
+      /* ----------------------------------------------------------------------
+         8. TABLE OF CONTENTS DRAWER & INSTANT SEARCH (203 CHAPTERS)
+         ---------------------------------------------------------------------- */
+      function renderTOCDrawer() {
+        const container = document.getElementById("toc-list-container");
+        const q = appState.tocQuery.trim().toLowerCase();
+
+        container.innerHTML = PARTS_DATA.map(part => {
+          if (appState.tocLvlFilter !== "ALL" && String(part.level) !== appState.tocLvlFilter) return "";
+          const filtered = part.chapters.filter(ch => {
+            if (!q) return true;
+            return (
+              String(ch.num).includes(q) ||
+              (`bab ${ch.num}`).includes(q) ||
+              ch.title.toLowerCase().includes(q) ||
+              part.title.toLowerCase().includes(q)
+            );
+          });
+          if (filtered.length === 0) return "";
+
+          return `
+            <div class="space-y-1.5">
+              <div class="px-2">
+                <div class="font-mono-code text-[10px] text-amber-400 font-bold tracking-wider">PART ${part.id} • LEVEL ${part.level}</div>
+                <div class="text-xs font-bold text-slate-200">${part.title}</div>
+              </div>
+              <div class="space-y-1">
+                ${filtered.map(ch => {
+                  const active = appState.currentPage === ch.num;
+                  const done = appState.completedChapters.includes(ch.num);
+                  return `
+                    <button type="button" onclick="window.__labJump(${ch.num}); window.__closeTOC();"
+                      class="w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between gap-2 transition cursor-pointer ${
+                        active
+                          ? "bg-amber-500 text-slate-950 font-bold"
+                          : "bg-slate-900/85 hover:bg-slate-800 text-slate-300"
+                      }">
+                      <span class="truncate">
+                        <span class="font-mono-code mr-1.5 ${active ? "text-slate-950" : "text-amber-400"}">
+                          ${String(ch.num).padStart(3, "0")}
+                        </span>
+                        ${ch.title}
+                      </span>
+                      <span class="shrink-0 text-[11px]">${done ? "✓" : ""}</span>
+                    </button>
+                  `;
+                }).join("")}
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        const bmBanner = document.getElementById("drawer-bookmark-banner");
+        if (appState.bookmarkedPage) {
+          bmBanner.classList.remove("hidden");
+          const label = typeof appState.bookmarkedPage === "number"
+            ? `Pita Pembatas: Bab ${String(appState.bookmarkedPage).padStart(3, "0")}`
+            : `Pita Pembatas: ${String(appState.bookmarkedPage).toUpperCase()}`;
+          document.getElementById("drawer-bookmark-label").textContent = label;
+        } else {
+          bmBanner.classList.add("hidden");
+        }
+      }
+
+      function handleInstantSearch(query) {
+        const dropdown = document.getElementById("search-results-dropdown");
+        const clearBtn = document.getElementById("btn-clear-search");
+        const q = query.trim().toLowerCase();
+
+        if (!q) {
+          dropdown.classList.add("hidden");
+          clearBtn.classList.add("hidden");
+          return;
+        }
+        clearBtn.classList.remove("hidden");
+
+        const matches = [];
+        ALL_CHAPTERS.forEach(ch => {
+          const babStr = `bab ${ch.num}`;
+          if (ch.title.toLowerCase().includes(q) || ch.partTitle.toLowerCase().includes(q) || babStr.includes(q)) {
+            matches.push({
+              page: ch.num,
+              label: `BAB ${String(ch.num).padStart(3, "0")} — ${ch.title}`,
+              sub: `Part ${ch.partId}: ${ch.partTitle} (Level ${ch.level})`
+            });
+          }
+        });
+
+        INVISIBLE_PHENOMENA.forEach(p => {
+          if (p.name.toLowerCase().includes(q) || p.summary.toLowerCase().includes(q)) {
+            matches.push({
+              page: "atlas-3",
+              label: `FENOMENA — ${p.name}`,
+              sub: p.summary
+            });
+          }
+        });
+
+        if (matches.length === 0) {
+          dropdown.innerHTML = `<div class="p-3.5 text-xs text-slate-400">Tidak ditemukan bab atau konsep untuk "${query}".</div>`;
+        } else {
+          dropdown.innerHTML = matches.slice(0, 15).map(m => `
+            <button type="button" onclick="window.__selectSearchResult(${typeof m.page === "number" ? m.page : `'${m.page}'`})"
+              class="w-full text-left px-3.5 py-2.5 hover:bg-slate-800 transition flex flex-col cursor-pointer">
+              <span class="text-xs font-semibold text-amber-300">${m.label}</span>
+              <span class="font-mono-code text-[10px] text-slate-400 truncate">${m.sub}</span>
+            </button>
+          `).join("");
+        }
+        dropdown.classList.remove("hidden");
+      }
+
+      function updateProgressUI() {
+        const count = appState.completedChapters.length;
+        const pct = Math.round((count / 203) * 100);
+        document.getElementById("progress-bar-fill").style.width = `${pct}%`;
+        document.getElementById("progress-text").textContent = `${count}/203 Bab`;
+      }
+
+      /* ----------------------------------------------------------------------
+         9. GLOBAL INTERACTION HANDLERS & EVENT LISTENERS
+         ---------------------------------------------------------------------- */
+      window.__labJump = function (page) {
+        const curIdx = PAGE_SEQUENCE.indexOf(appState.currentPage);
+        const nxtIdx = PAGE_SEQUENCE.indexOf(page);
+        navigateToPage(page, nxtIdx >= curIdx ? "next" : "prev");
+      };
+
+      window.__toggleChapterComplete = function (chNum) {
+        const idx = appState.completedChapters.indexOf(chNum);
+        if (idx >= 0) appState.completedChapters.splice(idx, 1);
+        else appState.completedChapters.push(chNum);
+        saveState();
+        updateProgressUI();
+        const ch = ALL_CHAPTERS.find(c => c.num === chNum);
+        if (ch) renderChapterSpread(ch);
+      };
+
+      window.__switchResearchTab = function (tabId) {
+        appState.activeTab = tabId;
+        saveState();
+        const ch = ALL_CHAPTERS.find(c => c.num === appState.currentPage);
+        if (ch) renderChapterSpread(ch);
+      };
+
+      window.__regenerateViz = function () {
+        appState.vizSeed += 1;
+        const ch = ALL_CHAPTERS.find(c => c.num === appState.currentPage);
+        if (ch) renderChapterVisualization(ch);
+      };
+
+      window.__toggleResearchCheck = function (key) {
+        appState.researchChecks[key] = !appState.researchChecks[key];
+        saveState();
+        const ch = ALL_CHAPTERS.find(c => c.num === appState.currentPage);
+        if (ch) renderChapterSpread(ch);
+      };
+
+      window.__saveResearchNote = function (chNum, val) {
+        appState.researchNotes[chNum] = val;
+        saveState();
+      };
+
+      window.__openTopicModal = function (chNum, dimIdx) {
+        const ch = ALL_CHAPTERS.find(c => c.num === chNum);
+        if (!ch) return;
+        const dim = ch.dimensions[dimIdx] || ch.title;
+
+        document.getElementById("topic-modal-badge").textContent = `BAB ${String(ch.num).padStart(3, "0")} // PART ${ch.partId}: ${ch.partTitle.toUpperCase()}`;
+        document.getElementById("topic-modal-title").textContent = dim;
+        document.getElementById("topic-modal-def").textContent = `Dalam kajian "${ch.title}" (Bab ${ch.num}), dimensi ini membedah bagaimana jalur heuristik otak dan respons emosional membentuk persepsi terhadap uang dan risiko tanpa melewati evaluasi analitis sadar.`;
+        document.getElementById("topic-modal-mech").textContent = `Dalam pasar modal dan pengelolaan kekayaan, "${ch.title}" sering memicu ketidaksesuaian antara niat jangka panjang dan tindakan impulsif jangka pendek akibat tekanan sosial, narasi pasar, maupun ilusi kontrol.`;
+        document.getElementById("topic-modal-ind").textContent = `Gunakan protokol 8-Langkah Financial Decision Intelligence System serta Cognitive Bias Audit (Atlas II) untuk menguji ulang setiap keputusan sebelum modal dieksekusi.`;
+
+        const modal = document.getElementById("topic-modal-backdrop");
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      };
+
+      window.__closeTOC = function () {
+        document.getElementById("toc-drawer-backdrop").classList.add("hidden");
+      };
+
+      window.__selectSearchResult = function (target) {
+        document.getElementById("search-results-dropdown").classList.add("hidden");
+        window.__labJump(target);
+      };
+
+      document.getElementById("btn-open-book").addEventListener("click", () => openBook("atlas-1"));
+      document.getElementById("btn-resume-book").addEventListener("click", () => openBook(appState.currentPage));
+      document.getElementById("btn-close-book").addEventListener("click", closeBookToCover);
+
+      document.getElementById("btn-prev-page").addEventListener("click", () => stepPage(-1));
+      document.getElementById("btn-next-page").addEventListener("click", () => stepPage(1));
+
+      document.getElementById("btn-goto-atlas1").addEventListener("click", () => window.__labJump("atlas-1"));
+      document.getElementById("btn-goto-atlas2").addEventListener("click", () => window.__labJump("atlas-2"));
+      document.getElementById("btn-goto-atlas3").addEventListener("click", () => window.__labJump("atlas-3"));
+
+      document.getElementById("btn-toggle-bookmark").addEventListener("click", () => {
+        appState.bookmarkedPage = appState.bookmarkedPage === appState.currentPage ? null : appState.currentPage;
+        saveState();
+        updateNavigationChrome();
+      });
+
+      document.getElementById("btn-open-toc").addEventListener("click", () => {
+        renderTOCDrawer();
+        document.getElementById("toc-drawer-backdrop").classList.remove("hidden");
+      });
+      document.getElementById("btn-close-toc").addEventListener("click", window.__closeTOC);
+      document.getElementById("toc-backdrop-clickarea").addEventListener("click", window.__closeTOC);
+
+      document.getElementById("toc-filter-input").addEventListener("input", e => {
+        appState.tocQuery = e.target.value;
+        renderTOCDrawer();
+      });
+
+      document.querySelectorAll(".toc-lvl-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".toc-lvl-btn").forEach(b => {
+            b.className = "toc-lvl-btn py-1 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 font-mono-code text-[11px] cursor-pointer";
+          });
+          btn.className = "toc-lvl-btn py-1 rounded-lg bg-amber-500 text-slate-950 font-mono-code text-[11px] font-bold cursor-pointer";
+          appState.tocLvlFilter = btn.getAttribute("data-toc-lvl");
+          renderTOCDrawer();
+        });
+      });
+
+      document.querySelectorAll(".toc-jump-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          window.__labJump(btn.getAttribute("data-jump-page"));
+          window.__closeTOC();
+        });
+      });
+
+      document.getElementById("btn-jump-bookmark").addEventListener("click", () => {
+        if (appState.bookmarkedPage) {
+          window.__labJump(appState.bookmarkedPage);
+          window.__closeTOC();
+        }
+      });
+
+      const searchInput = document.getElementById("global-search-input");
+      searchInput.addEventListener("input", e => handleInstantSearch(e.target.value));
+      document.getElementById("btn-clear-search").addEventListener("click", () => {
+        searchInput.value = "";
+        handleInstantSearch("");
+      });
+
+      function closeTopicModal() {
+        const modal = document.getElementById("topic-modal-backdrop");
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      }
+      document.getElementById("btn-close-topic-modal").addEventListener("click", closeTopicModal);
+      document.getElementById("btn-done-topic-modal").addEventListener("click", closeTopicModal);
+      document.getElementById("topic-modal-backdrop").addEventListener("click", e => {
+        if (e.target.id === "topic-modal-backdrop") closeTopicModal();
+      });
+
+      document.querySelectorAll(".theme-btn").forEach(btn => {
+        btn.addEventListener("click", () => applyTheme(btn.getAttribute("data-theme-btn")));
+      });
+
+      document.addEventListener("keydown", e => {
+        if (!appState.isOpen) return;
+        const tag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
+        if (tag === "input" || tag === "textarea") return;
+
+        if (e.key === "ArrowRight") stepPage(1);
+        else if (e.key === "ArrowLeft") stepPage(-1);
+        else if (e.key === "Escape") {
+          closeTopicModal();
+          window.__closeTOC();
+        }
+      });
+
+      let touchStartX = 0, touchStartY = 0;
+      const spreadContainer = document.getElementById("book-spread-container");
+      spreadContainer.addEventListener("touchstart", e => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+      }, { passive: true });
+      spreadContainer.addEventListener("touchend", e => {
+        const dx = e.changedTouches[0].screenX - touchStartX;
+        const dy = e.changedTouches[0].screenY - touchStartY;
+        if (Math.abs(dx) > 65 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+          stepPage(dx < 0 ? 1 : -1);
+        }
+      }, { passive: true });
+
+      window.addEventListener("resize", () => {
+        if (appState.isOpen && typeof appState.currentPage === "number" && appState.activeTab === "data") {
+          const ch = ALL_CHAPTERS.find(c => c.num === appState.currentPage);
+          if (ch) renderChapterVisualization(ch);
+        }
+      });
+
+      window.onload = function () {
+        applyTheme(appState.theme || "ivory");
+        updateResumeButton();
+        updateProgressUI();
+      };
+    })();
+  </script>
+</body>
+</html>

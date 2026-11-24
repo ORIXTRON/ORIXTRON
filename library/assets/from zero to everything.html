@@ -1,0 +1,2411 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FROM ZERO TO EVERYTHING — The Journey From Homelessness to Absolute Financial Freedom | ORIXTRON</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Cinzel, Playfair Display, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. DESIGN TOKENS & READING PAPER THEMES (GADING, SEPIA, MALAM)
+       ========================================================================== */
+    :root {
+      --desk-bg: radial-gradient(circle at 50% 25%, #1e2538 0%, #0a0e18 75%, #05070d 100%);
+      --paper-left: linear-gradient(90deg, #f3ece0 0%, #faf6ee 12%, #fcf9f2 94%, #ebe2d3 100%);
+      --paper-right: linear-gradient(270deg, #f3ece0 0%, #faf6ee 12%, #fcf9f2 94%, #e8decb 100%);
+      --paper-card: rgba(255, 252, 245, 0.9);
+      --paper-card-hover: #ffffff;
+      --ink-primary: #1a1816;
+      --ink-secondary: #4a453e;
+      --ink-muted: #787166;
+      --border-subtle: rgba(166, 138, 86, 0.28);
+      --border-strong: rgba(166, 138, 86, 0.55);
+      --accent-gold: #b48628;
+      --accent-gold-soft: rgba(180, 134, 40, 0.12);
+      --accent-navy: #14243b;
+      --spine-shadow: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(20,15,10,0.06) 45%, rgba(20,15,10,0.22) 50%, rgba(20,15,10,0.06) 55%, rgba(0,0,0,0) 100%);
+      --page-edge-color: #dfd5c3;
+    }
+
+    body.theme-sepia {
+      --desk-bg: radial-gradient(circle at 50% 25%, #2b2118 0%, #17110c 75%, #0d0906 100%);
+      --paper-left: linear-gradient(90deg, #e2d2b5 0%, #efe3cc 12%, #f3e8d3 94%, #d8c5a3 100%);
+      --paper-right: linear-gradient(270deg, #e2d2b5 0%, #efe3cc 12%, #f3e8d3 94%, #d4c09c 100%);
+      --paper-card: rgba(246, 236, 217, 0.9);
+      --paper-card-hover: #fbf3e4;
+      --ink-primary: #291d12;
+      --ink-secondary: #54412e;
+      --ink-muted: #7d664f;
+      --border-subtle: rgba(138, 98, 48, 0.3);
+      --border-strong: rgba(138, 98, 48, 0.58);
+      --accent-gold: #96631c;
+      --accent-gold-soft: rgba(150, 99, 28, 0.14);
+      --accent-navy: #3b2614;
+      --spine-shadow: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(35,20,5,0.08) 45%, rgba(35,20,5,0.28) 50%, rgba(35,20,5,0.08) 55%, rgba(0,0,0,0) 100%);
+      --page-edge-color: #cbb692;
+    }
+
+    body.theme-night {
+      --desk-bg: radial-gradient(circle at 50% 25%, #131c31 0%, #070b14 75%, #04060b 100%);
+      --paper-left: linear-gradient(90deg, #0e1525 0%, #131c30 12%, #162036 94%, #0b111e 100%);
+      --paper-right: linear-gradient(270deg, #0e1525 0%, #131c30 12%, #162036 94%, #0a0f1c 100%);
+      --paper-card: rgba(24, 35, 58, 0.9);
+      --paper-card-hover: #1e2c49;
+      --ink-primary: #f1f5f9;
+      --ink-secondary: #cbd5e1;
+      --ink-muted: #8494ad;
+      --border-subtle: rgba(212, 175, 55, 0.22);
+      --border-strong: rgba(212, 175, 55, 0.48);
+      --accent-gold: #e5b94c;
+      --accent-gold-soft: rgba(229, 185, 76, 0.14);
+      --accent-navy: #38bdf8;
+      --spine-shadow: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0) 100%);
+      --page-edge-color: #1e293b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--desk-bg);
+      color: var(--ink-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.45s ease;
+    }
+
+    .font-display { font-family: 'Cinzel', serif; }
+    .font-serif-editorial { font-family: 'Playfair Display', serif; }
+    .font-mono-code { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+
+    /* ==========================================================================
+       2. GOLD FOIL EMBOSSED TYPOGRAPHY & LEATHER HARDCOVER
+       ========================================================================== */
+    .gold-foil-text {
+      background: linear-gradient(135deg, #b8892a 0%, #f5df96 28%, #d4af37 52%, #fff3c4 75%, #9c711c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65));
+    }
+
+    .gold-foil-border {
+      border: 1px solid rgba(212, 175, 55, 0.55);
+      box-shadow:
+        inset 0 0 18px rgba(212, 175, 55, 0.12),
+        0 0 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .publisher-imprint {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(6, 10, 18, 0.92) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.42);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 243, 196, 0.22),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.85),
+        0 4px 14px rgba(0, 0, 0, 0.55);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .publisher-imprint::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 75%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 243, 196, 0.22), transparent);
+      transition: left 0.75s ease;
+      pointer-events: none;
+    }
+
+    .publisher-imprint:hover {
+      border-color: rgba(245, 223, 150, 0.8);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 243, 196, 0.35),
+        0 0 18px rgba(212, 175, 55, 0.28);
+    }
+
+    .publisher-imprint:hover::after { left: 150%; }
+
+    .leather-cover {
+      background-color: #0b1120;
+      background-image:
+        radial-gradient(rgba(212, 175, 55, 0.06) 1px, transparent 0),
+        radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0),
+        linear-gradient(145deg, #171d2f 0%, #0b0f1b 55%, #060810 100%);
+      background-size: 16px 16px, 24px 24px, 100% 100%;
+      background-position: 0 0, 8px 8px, 0 0;
+    }
+
+    /* ==========================================================================
+       3. 3D BOOK COVER STAGE & PAGE FLIP ANIMATIONS
+       ========================================================================== */
+    .book-perspective { perspective: 2400px; }
+
+    .cover-wrapper {
+      transform-style: preserve-3d;
+      transition: transform 0.95s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.75s ease;
+      transform-origin: left center;
+    }
+
+    .cover-wrapper.is-opening {
+      transform: rotateY(-165deg) scale(0.96);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .cover-spine-ridge {
+      background: linear-gradient(90deg,
+        #05080f 0%,
+        #1e2947 18%,
+        #090e1a 38%,
+        #1b2642 56%,
+        #070b14 82%,
+        rgba(212, 175, 55, 0.35) 98%,
+        #05080f 100%
+      );
+    }
+
+    .gilded-edges-right {
+      background: repeating-linear-gradient(
+        90deg,
+        #d4af37 0px,
+        #f7e49c 1px,
+        #8f6b18 2px,
+        #e5c158 3px
+      );
+    }
+
+    .book-hardcover-casing {
+      background: linear-gradient(145deg, #182338 0%, #0b111e 100%);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      box-shadow:
+        0 28px 65px -12px rgba(0, 0, 0, 0.82),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    }
+
+    .book-page-left {
+      background: var(--paper-left);
+      color: var(--ink-primary);
+      box-shadow:
+        -6px 0 0 var(--page-edge-color),
+        -11px 2px 0 rgba(0, 0, 0, 0.14),
+        -12px 0 0 var(--page-edge-color);
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    .book-page-right {
+      background: var(--paper-right);
+      color: var(--ink-primary);
+      box-shadow:
+        6px 0 0 var(--page-edge-color),
+        11px 2px 0 rgba(0, 0, 0, 0.14),
+        12px 0 0 var(--page-edge-color);
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    .paper-texture::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.25;
+      background-image: radial-gradient(rgba(140, 120, 90, 0.15) 0.75px, transparent 0.75px);
+      background-size: 14px 14px;
+      border-radius: inherit;
+    }
+
+    .book-spine-center {
+      background: var(--spine-shadow);
+      pointer-events: none;
+    }
+
+    .page-flip-leaf {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      z-index: 35;
+      pointer-events: none;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      border-radius: 0.75rem;
+      display: none;
+    }
+
+    .page-flip-leaf.flip-next {
+      display: block;
+      right: 0;
+      transform-origin: left center;
+      background: var(--paper-right);
+      border-left: 1px solid var(--border-strong);
+      box-shadow: -15px 0 35px rgba(0, 0, 0, 0.28);
+      animation: flipForward 0.52s cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
+    }
+
+    .page-flip-leaf.flip-prev {
+      display: block;
+      left: 0;
+      transform-origin: right center;
+      background: var(--paper-left);
+      border-right: 1px solid var(--border-strong);
+      box-shadow: 15px 0 35px rgba(0, 0, 0, 0.28);
+      animation: flipBackward 0.52s cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
+    }
+
+    @keyframes flipForward {
+      0% { transform: rotateY(0deg); filter: brightness(1); }
+      45% { filter: brightness(0.92); }
+      100% { transform: rotateY(-178deg); filter: brightness(0.82); opacity: 0.12; }
+    }
+
+    @keyframes flipBackward {
+      0% { transform: rotateY(0deg); filter: brightness(1); }
+      45% { filter: brightness(0.92); }
+      100% { transform: rotateY(178deg); filter: brightness(0.82); opacity: 0.12; }
+    }
+
+    .bookmark-ribbon {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.25s ease;
+    }
+    .bookmark-ribbon:hover { transform: translateY(4px); }
+
+    .page-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+    .page-scroll::-webkit-scrollbar-track { background: transparent; }
+    .page-scroll::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 9999px; }
+
+    .content-reveal { animation: contentFadeIn 0.3s ease-out; }
+    @keyframes contentFadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1023px) {
+      .book-page-left, .book-page-right { box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35); }
+      .page-flip-leaf { width: 100%; }
+    }
+  </style>
+</head>
+<body class="theme-ivory antialiased selection:bg-amber-500/30">
+
+  <!-- ========================================================================
+       STAGE 1: 3D INTERACTIVE HARDCOVER BOOK COVER
+       ======================================================================== -->
+  <section id="cover-stage" class="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-10 book-perspective relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
+      <div class="w-[540px] h-[540px] rounded-full bg-amber-500/10 blur-[130px]"></div>
+    </div>
+
+    <!-- 3D Hardcover Book Artifact -->
+    <div id="book-cover-card" class="cover-wrapper relative w-full max-w-[690px] rounded-r-2xl rounded-l-md leather-cover gold-foil-border shadow-[0_35px_90px_rgba(0,0,0,0.88)] overflow-hidden flex">
+      <!-- Realistic Book Spine Ridge -->
+      <div class="w-6 sm:w-9 shrink-0 cover-spine-ridge border-r border-amber-500/30 relative flex flex-col justify-between py-8 items-center">
+        <span class="w-4 h-[2px] bg-amber-400/50"></span>
+        <span class="w-4 h-[2px] bg-amber-400/50"></span>
+        <span class="font-mono-code text-[9px] tracking-[0.25em] text-amber-300/60 -rotate-90 whitespace-nowrap">0 → 100 • SURVIVAL TO FREEDOM</span>
+        <span class="w-4 h-[2px] bg-amber-400/50"></span>
+        <span class="w-4 h-[2px] bg-amber-400/50"></span>
+      </div>
+
+      <!-- Front Cover Board -->
+      <div class="flex-1 p-5 sm:p-9 md:p-11 relative flex flex-col justify-between min-h-[670px] sm:min-h-[750px]">
+        <div class="pointer-events-none absolute inset-3 sm:inset-5 border border-amber-400/35 rounded-lg"></div>
+        <div class="pointer-events-none absolute inset-4 sm:inset-6 border border-amber-400/15 rounded-md"></div>
+
+        <!-- Corner Gold Filigree Ornaments -->
+        <svg class="pointer-events-none absolute top-4 left-4 sm:top-6 sm:left-6 w-8 h-8 text-amber-400/70" viewBox="0 0 32 32" fill="none">
+          <path d="M2 24V2H24M2 10H10V2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+        </svg>
+        <svg class="pointer-events-none absolute top-4 right-4 sm:top-6 sm:right-6 w-8 h-8 text-amber-400/70 rotate-90" viewBox="0 0 32 32" fill="none">
+          <path d="M2 24V2H24M2 10H10V2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+        </svg>
+        <svg class="pointer-events-none absolute bottom-4 left-4 sm:bottom-6 sm:left-6 w-8 h-8 text-amber-400/70 -rotate-90" viewBox="0 0 32 32" fill="none">
+          <path d="M2 24V2H24M2 10H10V2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+        </svg>
+        <svg class="pointer-events-none absolute bottom-4 right-4 sm:bottom-6 sm:right-6 w-8 h-8 text-amber-400/70 rotate-180" viewBox="0 0 32 32" fill="none">
+          <path d="M2 24V2H24M2 10H10V2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+        </svg>
+
+        <!-- Top Crest & Title -->
+        <div class="relative z-10 text-center pt-2">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-amber-400/40 bg-amber-500/10 mb-5">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+            <span class="font-mono-code text-[10px] sm:text-xs tracking-[0.16em] text-amber-200 uppercase">
+              SURVIVAL • CAPACITY • POWER • MEANING
+            </span>
+          </div>
+
+          <!-- Custom Gold Foil Transformation Crest SVG -->
+          <div class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-4 flex items-center justify-center">
+            <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_4px_12px_rgba(212,175,55,0.35)]">
+              <defs>
+                <linearGradient id="crestGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#f7e49c"/>
+                  <stop offset="50%" stop-color="#d4af37"/>
+                  <stop offset="100%" stop-color="#8f6b18"/>
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="50" r="44" fill="none" stroke="url(#crestGold)" stroke-width="1.5" stroke-dasharray="4 3"/>
+              <circle cx="50" cy="50" r="36" fill="none" stroke="url(#crestGold)" stroke-width="2"/>
+              <polygon points="50,14 82,68 18,68" fill="none" stroke="url(#crestGold)" stroke-width="1.4"/>
+              <circle cx="50" cy="50" r="18" fill="rgba(11,17,32,0.92)" stroke="url(#crestGold)" stroke-width="1.8"/>
+              <text x="50" y="54" text-anchor="middle" fill="url(#crestGold)" font-family="Cinzel, serif" font-weight="800" font-size="11">0 → 100</text>
+            </svg>
+          </div>
+
+          <p class="font-mono-code text-xs tracking-[0.28em] text-amber-400/90 uppercase mb-2">
+            MONOGRAF TRANSFORMASI MANUSIA
+          </p>
+          <h1 class="font-display text-3xl sm:text-5xl font-extrabold tracking-wider gold-foil-text leading-tight">
+            FROM ZERO TO EVERYTHING
+          </h1>
+          <p class="font-mono-code text-xs sm:text-sm text-amber-200/80 tracking-wide mt-2">
+            The Journey From Homelessness to Absolute Financial Freedom
+          </p>
+          <div class="w-32 h-[1.5px] mx-auto my-4 bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
+          <p class="font-serif-editorial italic text-sm sm:text-base text-amber-100/90 max-w-lg mx-auto leading-relaxed">
+            “A study of survival, ambition, discipline, wealth creation, power, identity, freedom and the meaning of success.”
+          </p>
+        </div>
+
+        <!-- Middle 4-Metric Gold Embossed Grid -->
+        <div class="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 my-6">
+          <div class="rounded-xl border border-amber-400/30 bg-slate-950/60 p-3 text-center backdrop-blur-sm">
+            <div class="font-display text-xl sm:text-2xl font-bold text-amber-300 tabular-nums">0–100</div>
+            <div class="text-[11px] text-slate-300 font-medium mt-0.5">Tahapan Transformasi</div>
+          </div>
+          <div class="rounded-xl border border-amber-400/30 bg-slate-950/60 p-3 text-center backdrop-blur-sm">
+            <div class="font-display text-xl sm:text-2xl font-bold text-amber-300 tabular-nums">13 • 127</div>
+            <div class="text-[11px] text-slate-300 font-medium mt-0.5">Bagian &amp; Bab Realitas</div>
+          </div>
+          <div class="rounded-xl border border-amber-400/30 bg-slate-950/60 p-3 text-center backdrop-blur-sm">
+            <div class="font-display text-lg sm:text-xl font-bold text-amber-300 pt-0.5">Survival</div>
+            <div class="text-[11px] text-slate-300 font-medium mt-0.5">Bertahan Hidup</div>
+          </div>
+          <div class="rounded-xl border border-amber-400/30 bg-slate-950/60 p-3 text-center backdrop-blur-sm">
+            <div class="font-display text-lg sm:text-xl font-bold text-amber-300 pt-0.5">Freedom</div>
+            <div class="text-[11px] text-slate-300 font-medium mt-0.5">Memilih Kehidupan</div>
+          </div>
+        </div>
+
+        <!-- Bottom Action Bar & Publisher Attribution -->
+        <div class="relative z-10 text-center pb-2">
+          <p class="font-mono-code text-[10px] tracking-[0.16em] text-slate-400 uppercase mb-4">
+            13 Bagian Utama • 127 Bab Realitas &amp; Solusi • 7 Transformasi Psikologis • Human Progression Index
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button id="btn-open-book" type="button"
+              class="group w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-slate-950 font-bold text-sm sm:text-base tracking-wide shadow-[0_10px_30px_rgba(212,175,55,0.4)] hover:shadow-[0_14px_38px_rgba(212,175,55,0.65)] transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer">
+              <span>Buka Buku Perjalanan</span>
+              <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+            </button>
+
+            <button id="btn-resume-book" type="button"
+              class="hidden w-full sm:w-auto px-5 py-3.5 rounded-xl border border-amber-400/50 bg-slate-900/80 text-amber-200 hover:bg-amber-500/15 font-medium text-sm transition-all cursor-pointer">
+              Lanjutkan Terakhir Dibaca
+            </button>
+          </div>
+
+          <!-- Gold-Foil Publisher Stamp -->
+          <div class="mt-6 pt-4 border-t border-amber-400/20 flex flex-col items-center justify-center">
+            <div class="publisher-imprint inline-flex items-center gap-2.5 px-5 py-2 rounded-full">
+              <span class="w-1.5 h-1.5 bg-amber-400/80"></span>
+              <span class="font-display text-xs sm:text-sm font-bold tracking-[0.22em] gold-foil-text lowercase">
+                created by orixtron tech.
+              </span>
+              <span class="w-1.5 h-1.5 bg-amber-400/80"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gilded Gold Page Fore-Edge -->
+      <div class="w-2.5 sm:w-3.5 shrink-0 gilded-edges-right opacity-90"></div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       STAGE 2: OPEN HARDCOVER BOOK SPREAD (TWO-PAGE EDITORIAL WORKBENCH)
+       ======================================================================== -->
+  <main id="book-workspace" class="hidden min-h-screen flex flex-col justify-between py-3 px-2 sm:px-5 md:px-8 max-w-[1640px] mx-auto">
+
+    <!-- TOP EDITORIAL CONTROL BAR -->
+    <header class="w-full rounded-2xl bg-slate-900/90 backdrop-blur-md border border-amber-500/25 px-3 sm:px-5 py-2.5 mb-3 flex flex-wrap items-center justify-between gap-2.5 shadow-xl">
+      <!-- Left: TOC Drawer & 3 Atlas Shortcuts -->
+      <div class="flex items-center gap-2">
+        <button id="btn-open-toc" type="button"
+          class="px-3 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/40 text-amber-200 text-xs sm:text-sm font-semibold flex items-center gap-2 transition cursor-pointer">
+          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h10"/>
+          </svg>
+          <span>Daftar Isi (127 Bab)</span>
+        </button>
+
+        <button id="btn-goto-atlas1" type="button"
+          class="hidden xl:inline-flex px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition cursor-pointer">
+          Peta 0–100 &amp; 13 Part
+        </button>
+
+        <button id="btn-goto-atlas2" type="button"
+          class="hidden xl:inline-flex px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition cursor-pointer">
+          Human Progression Index
+        </button>
+
+        <button id="btn-goto-atlas3" type="button"
+          class="hidden xl:inline-flex px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition cursor-pointer">
+          7 Transformasi &amp; Krisis
+        </button>
+      </div>
+
+      <!-- Center: Instant Search Input -->
+      <div class="relative flex-1 max-w-md min-w-[180px]">
+        <div class="relative flex items-center">
+          <svg class="w-4 h-4 text-amber-400/80 absolute left-3 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z"/>
+          </svg>
+          <input id="global-search-input" type="text" autocomplete="off"
+            placeholder="Cari 127 bab, tantangan, atau fase (Homelessness, First Million, Saying No)..."
+            class="w-full pl-9 pr-8 py-1.5 sm:py-2 rounded-xl bg-slate-950/85 border border-slate-700 focus:border-amber-400 focus:outline-none text-xs sm:text-sm text-slate-100 placeholder-slate-400 transition" />
+          <button id="btn-clear-search" type="button" class="hidden absolute right-2.5 text-slate-400 hover:text-white text-xs cursor-pointer">✕</button>
+        </div>
+        <div id="search-results-dropdown"
+          class="hidden absolute left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl bg-slate-900 border border-amber-500/40 shadow-2xl z-50 divide-y divide-slate-800">
+        </div>
+      </div>
+
+      <!-- Right: Progress Counter, Theme Switcher & Close Cover -->
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950/70 border border-slate-800">
+          <div class="w-16 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+            <div id="progress-bar-fill" class="h-full bg-gradient-to-r from-amber-500 to-yellow-300 transition-all duration-500" style="width: 0%"></div>
+          </div>
+          <span id="progress-text" class="font-mono-code text-[11px] text-amber-300 font-semibold">0/127 Bab</span>
+        </div>
+
+        <div class="flex items-center rounded-xl bg-slate-950/80 p-1 border border-slate-800" title="Tema Kertas Bacaan">
+          <button type="button" data-theme-btn="ivory"
+            class="theme-btn px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer bg-amber-500 text-slate-950">
+            Gading
+          </button>
+          <button type="button" data-theme-btn="sepia"
+            class="theme-btn px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer text-slate-300 hover:text-white">
+            Sepia
+          </button>
+          <button type="button" data-theme-btn="night"
+            class="theme-btn px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer text-slate-300 hover:text-white">
+            Malam
+          </button>
+        </div>
+
+        <button id="btn-close-book" type="button" title="Tutup Sampul Buku"
+          class="p-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-amber-300 transition cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ======================================================================
+         HARDCOVER OPEN BOOK CASING & TWO-PAGE SPREAD
+         ====================================================================== -->
+    <div id="book-spread-container" class="book-perspective relative flex-1 flex items-stretch my-1">
+      <div class="book-hardcover-casing w-full rounded-2xl p-1.5 sm:p-3 md:p-4 relative flex flex-col lg:flex-row gap-3 lg:gap-0 shadow-2xl">
+
+        <!-- Hanging Silk Bookmark Ribbon -->
+        <button id="btn-toggle-bookmark" type="button" title="Pasang / Lepas Pita Pembatas Halaman"
+          class="bookmark-ribbon absolute -top-1 right-8 sm:right-14 z-30 w-7 h-12 bg-red-700 hover:bg-red-600 shadow-lg flex items-start justify-center pt-1.5 text-amber-200 cursor-pointer">
+          <svg id="bookmark-star-icon" class="w-3.5 h-3.5 opacity-60" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+          </svg>
+        </button>
+
+        <!-- 3D Animated Turning Leaf Overlay -->
+        <div id="page-flip-leaf" class="page-flip-leaf"></div>
+
+        <!-- Central Spine Crease Shadow -->
+        <div class="hidden lg:block book-spine-center absolute top-3 bottom-3 left-1/2 -translate-x-1/2 w-12 z-20"></div>
+
+        <!-- LEFT PAGE -->
+        <article id="left-page"
+          class="book-page-left paper-texture relative w-full lg:w-1/2 rounded-xl lg:rounded-r-none lg:rounded-l-xl p-5 sm:p-7 md:p-8 flex flex-col justify-between lg:min-h-[690px] lg:max-h-[78vh] overflow-y-auto page-scroll">
+          <div id="left-page-content" class="relative z-10 flex-1 flex flex-col"></div>
+
+          <div class="relative z-10 pt-4 mt-5 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px] font-mono-code text-[var(--ink-muted)]">
+            <span id="left-folio-label">FROM ZERO TO EVERYTHING</span>
+            <span id="left-page-number">FOLIO L-01</span>
+          </div>
+        </article>
+
+        <!-- RIGHT PAGE -->
+        <article id="right-page"
+          class="book-page-right paper-texture relative w-full lg:w-1/2 rounded-xl lg:rounded-l-none lg:rounded-r-xl p-5 sm:p-7 md:p-8 flex flex-col justify-between lg:min-h-[690px] lg:max-h-[78vh] overflow-y-auto page-scroll">
+          <div id="right-page-content" class="relative z-10 flex-1 flex flex-col"></div>
+
+          <div class="relative z-10 pt-4 mt-5 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px] font-mono-code text-[var(--ink-muted)]">
+            <span id="right-folio-label">REALITAS, TANTANGAN &amp; PROTOKOL</span>
+            <span id="right-page-number">FOLIO R-01</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- BOTTOM PAGE TURN NAVIGATION BAR -->
+    <footer class="w-full rounded-2xl bg-slate-900/90 backdrop-blur-md border border-amber-500/25 px-3 sm:px-6 py-2.5 mt-3 flex items-center justify-between gap-3 shadow-xl">
+      <button id="btn-prev-page" type="button"
+        class="px-3.5 sm:px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:pointer-events-none text-slate-100 text-xs sm:text-sm font-semibold flex items-center gap-2 border border-slate-700 transition cursor-pointer">
+        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+        <span>Halaman Sebelumnya</span>
+      </button>
+
+      <div class="flex flex-col sm:flex-row items-center gap-1 sm:gap-3 text-center">
+        <span id="footer-page-indicator" class="font-mono-code text-xs sm:text-sm font-semibold text-amber-300">
+          ATLAS I — PETA TRANSFORMASI 0–100 &amp; 13 BAGIAN UTAMA
+        </span>
+        <span class="hidden md:inline text-[11px] text-slate-400">
+          (Gunakan tombol ← / → atau geser layar)
+        </span>
+      </div>
+
+      <button id="btn-next-page" type="button"
+        class="px-3.5 sm:px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 disabled:opacity-40 disabled:pointer-events-none text-slate-950 text-xs sm:text-sm font-bold flex items-center gap-2 shadow-md transition cursor-pointer">
+        <span>Halaman Berikutnya</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </footer>
+  </main>
+
+  <!-- ========================================================================
+       TABLE OF CONTENTS & 127-CHAPTER SYLLABUS DRAWER
+       ======================================================================== -->
+  <div id="toc-drawer-backdrop" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex">
+    <aside class="w-full max-w-lg bg-slate-950 border-r border-amber-500/35 h-full flex flex-col shadow-2xl">
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <p class="font-mono-code text-[10px] tracking-[0.25em] text-amber-400 uppercase">ORIXTRON // MASTER INDEX 0–100</p>
+          <h2 class="font-display text-xl font-bold text-white">Daftar Isi (13 Bagian • 127 Bab)</h2>
+        </div>
+        <button id="btn-close-toc" type="button" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 cursor-pointer">✕</button>
+      </div>
+
+      <!-- Quick Atlas Links -->
+      <div class="p-3.5 bg-slate-900/75 border-b border-slate-800 grid grid-cols-3 gap-2">
+        <button type="button" data-jump-page="atlas-1"
+          class="toc-jump-btn p-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-left transition cursor-pointer">
+          <div class="font-mono-code text-[9px] text-amber-300">ATLAS I</div>
+          <div class="text-[11px] font-semibold text-white">Peta 13 Bagian</div>
+        </button>
+        <button type="button" data-jump-page="atlas-2"
+          class="toc-jump-btn p-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-left transition cursor-pointer">
+          <div class="font-mono-code text-[9px] text-amber-300">ATLAS II</div>
+          <div class="text-[11px] font-semibold text-white">Index 0–100</div>
+        </button>
+        <button type="button" data-jump-page="atlas-3"
+          class="toc-jump-btn p-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-left transition cursor-pointer">
+          <div class="font-mono-code text-[9px] text-amber-300">ATLAS III</div>
+          <div class="text-[11px] font-semibold text-white">7 Transformasi</div>
+        </button>
+      </div>
+
+      <!-- Filter Arc & Search inside Drawer -->
+      <div class="px-4 py-3 bg-slate-900/40 border-b border-slate-800 space-y-2">
+        <input id="toc-filter-input" type="text" placeholder="Filter nomor bab atau judul perjalanan (1–127)..."
+          class="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 focus:border-amber-400 focus:outline-none text-xs text-slate-100 placeholder-slate-400" />
+        <div class="grid grid-cols-4 gap-1.5" id="toc-arc-filters">
+          <button type="button" data-toc-arc="ALL" class="toc-arc-btn py-1 rounded-lg bg-amber-500 text-slate-950 font-mono-code text-[11px] font-bold cursor-pointer">Semua</button>
+          <button type="button" data-toc-arc="0-25" class="toc-arc-btn py-1 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 font-mono-code text-[11px] cursor-pointer">0–25</button>
+          <button type="button" data-toc-arc="26-75" class="toc-arc-btn py-1 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 font-mono-code text-[11px] cursor-pointer">26–75</button>
+          <button type="button" data-toc-arc="76-100" class="toc-arc-btn py-1 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 font-mono-code text-[11px] cursor-pointer">76–100</button>
+        </div>
+      </div>
+
+      <!-- Bookmark shortcut if saved -->
+      <div id="drawer-bookmark-banner" class="hidden px-4 py-2.5 bg-red-950/60 border-b border-red-500/30 flex items-center justify-between">
+        <span id="drawer-bookmark-label" class="text-xs text-red-200 font-medium">Pita Pembatas: Bab 001</span>
+        <button id="btn-jump-bookmark" type="button" class="px-2.5 py-1 rounded-lg bg-red-600 text-white text-xs font-semibold cursor-pointer">Buka</button>
+      </div>
+
+      <!-- Scrollable List of 13 Parts & 127 Chapters -->
+      <div id="toc-list-container" class="flex-1 overflow-y-auto p-4 space-y-4 page-scroll"></div>
+    </aside>
+    <div id="toc-backdrop-clickarea" class="flex-1"></div>
+  </div>
+
+  <!-- ========================================================================
+       CHAPTER DEEP-DIVE MODAL (REALITY, CHALLENGES & SURVIVAL PROTOCOL)
+       ======================================================================== -->
+  <div id="topic-modal-backdrop" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="w-full max-w-2xl rounded-2xl bg-slate-900 border border-amber-400/45 shadow-2xl overflow-hidden content-reveal">
+      <div class="px-6 py-4 bg-gradient-to-r from-slate-950 to-slate-900 border-b border-amber-500/25 flex items-start justify-between gap-4">
+        <div>
+          <span id="topic-modal-badge" class="font-mono-code text-[11px] text-amber-400 uppercase tracking-wider">BAB 001 // BEDAH PERJALANAN</span>
+          <h3 id="topic-modal-title" class="font-serif-editorial text-xl sm:text-2xl font-bold text-white mt-0.5">Judul</h3>
+        </div>
+        <button id="btn-close-topic-modal" type="button" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer">✕</button>
+      </div>
+      <div class="p-6 space-y-4 text-sm text-slate-200 leading-relaxed max-h-[75vh] overflow-y-auto page-scroll">
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800">
+          <div class="font-mono-code text-[11px] text-amber-400 uppercase mb-1">01 // Realitas Lapangan (Apa yang Benar-Benar Terjadi)</div>
+          <p id="topic-modal-def" class="text-slate-200"></p>
+        </div>
+        <div class="p-4 rounded-xl bg-rose-950/30 border border-rose-500/30">
+          <div class="font-mono-code text-[11px] text-rose-400 uppercase mb-1">02 // Tantangan Berat &amp; Titik Kegagalan Utama</div>
+          <p id="topic-modal-mech" class="text-slate-300"></p>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/30">
+          <div class="font-mono-code text-[11px] text-emerald-400 uppercase mb-1">03 // Cara Melewati Tantangan &amp; Mengelola Hingga Final</div>
+          <p id="topic-modal-ind" class="text-emerald-100/90"></p>
+        </div>
+      </div>
+      <div class="px-6 py-3.5 bg-slate-950/80 border-t border-slate-800 flex justify-end">
+        <button id="btn-done-topic-modal" type="button"
+          class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm cursor-pointer">
+          Tutup Bedah Fase
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       APPLICATION DATA & INTERACTIVE BOOK ENGINE (13 PARTS • 127 CHAPTERS)
+       ======================================================================== -->
+  <script>
+    (function () {
+      "use strict";
+
+      /* ----------------------------------------------------------------------
+         1. COMPLETE CURRICULUM DATA: 13 PARTS & ALL 127 CHAPTERS
+         ---------------------------------------------------------------------- */
+      const PARTS_DATA = [
+        {
+          id: "I",
+          title: "THE ZERO STAGE",
+          subtitle: "Ketika manusia tidak memiliki apa-apa",
+          indexRange: "0–8",
+          arcGroup: "0-25",
+          vizType: "survival",
+          materials: [
+            "Kehidupan tanpa rumah dan kepemilikan.",
+            "Ketidakpastian makanan dan tempat tidur.",
+            "Kesulitan memperoleh pekerjaan formal.",
+            "Stigma sosial dan diskriminasi lingkungan.",
+            "Ketahanan mental dalam kondisi ekstrem.",
+            "Mencari bantuan dan membangun kembali titik pijak kehidupan."
+          ],
+          coreLesson: "Sebelum seseorang bisa membangun kekayaan, dia harus mendapatkan kesempatan dan kapasitas untuk bertahan hidup.",
+          realityNarrative: "Pada titik nol, masalah utama bukanlah kurangnya strategi investasi, melainkan hilangnya alamat tetap, dokumen identitas, akses kebersihan diri, dan kelelahan kognitif akibat kelaparan serta kewaspadaan konstan.",
+          challengesNarrative: "Lingkaran setan kemiskinan ekstrem: tidak punya tempat tinggal membuat sulit diterima bekerja; tidak punya pekerjaan membuat mustahil menyewa tempat tinggal; sementara rasa malu dan stigma sosial menghancurkan martabat diri.",
+          executionNarrative: "Fokus tunggal pada stabilisasi 72 jam ke depan: amankan tempat berteduh yang aman, akses air bersih/makanan, pulihkan identitas administratif dasar, dan temukan satu pekerjaan harian apa pun sebagai jangkar pertama.",
+          chapters: [
+            { num: 1, title: "Born Into Nothing" },
+            { num: 2, title: "The Bottom of Society" },
+            { num: 3, title: "The Psychology of Homelessness" },
+            { num: 4, title: "Hunger and Survival" },
+            { num: 5, title: "The Loss of Human Dignity" },
+            { num: 6, title: "Living Without Security" },
+            { num: 7, title: "The Will to Survive" },
+            { num: 8, title: "The First Reason to Continue" }
+          ]
+        },
+        {
+          id: "II",
+          title: "THE SURVIVAL STAGE",
+          subtitle: "Dari bertahan hidup menjadi mandiri",
+          indexRange: "9–16",
+          arcGroup: "0-25",
+          vizType: "survival",
+          materials: [
+            "Mencari dan mempertahankan pekerjaan pertama.",
+            "Mengelola penghasilan kecil dengan disiplin ketat.",
+            "Mengembangkan keterampilan praktis bernilai pasar.",
+            "Menghindari utang konsumtif dan pinjaman berbunga tinggi.",
+            "Membangun dana darurat mikro pertama.",
+            "Mengubah waktu dan tenaga menjadi modal awal."
+          ],
+          coreLesson: "Uang pertama bukan tentang jumlahnya, tetapi tentang pembuktian kemampuan menghasilkan uang secara mandiri dan mengendalikan arus keluar.",
+          realityNarrative: "Menukar waktu dengan upah kecil terasa melelahkan secara fisik dan mental. Godaan terbesar setelah menerima gaji pertama adalah membeli kenyamanan instan untuk membalas rasa kekurangan di masa lalu.",
+          challengesNarrative: "Jebakan hidup dari gaji ke gaji (paycheck-to-paycheck), kelelahan fisik akibat jam kerja panjang, dan utang konsumtif yang mengunci seseorang tetap di level bertahan hidup.",
+          executionNarrative: "Sisihkan minimal 10%–20% dari upah sekecil apa pun sebelum dibelanjakan, bangun dana darurat 1–3 bulan biaya hidup dasar, dan gunakan 1–2 jam setiap malam untuk mempelajari keterampilan berpenghasilan lebih tinggi.",
+          chapters: [
+            { num: 9, title: "The First Job" },
+            { num: 10, title: "Selling Time for Money" },
+            { num: 11, title: "The Value of Small Income" },
+            { num: 12, title: "Learning to Work" },
+            { num: 13, title: "Physical and Mental Endurance" },
+            { num: 14, title: "The First Savings" },
+            { num: 15, title: "Escaping Dependency" },
+            { num: 16, title: "Building Personal Discipline" },
+            { num: 17, title: "Learning Valuable Skills" },
+            { num: 18, title: "The First Financial Decision" }
+          ]
+        },
+        {
+          id: "III",
+          title: "THE FOUNDATION STAGE",
+          subtitle: "Membangun fondasi kehidupan",
+          indexRange: "17–25",
+          arcGroup: "0-25",
+          vizType: "survival",
+          materials: [
+            "Literasi keuangan dan pencatatan arus kas.",
+            "Menabung dan mengelola struktur pengeluaran.",
+            "Memahami perbedaan fundamental aset vs liabilitas.",
+            "Membangun reputasi profesional yang dapat dipercaya.",
+            "Menciptakan sistem keuangan pribadi otomatis.",
+            "Membangun jaringan profesional awal."
+          ],
+          coreLesson: "Jangan hanya bekerja untuk memperoleh uang, mulailah membangun sistem dan kapasitas yang mempunyai nilai jangka panjang.",
+          realityNarrative: "Banyak orang berhenti berkembang di fase ini karena merasa sudah 'aman' dibandingkan masa sulit sebelumnya. Kesalahan investasi pertama sering terjadi karena terburu-buru ingin kaya cepat tanpa literasi memadai.",
+          challengesNarrative: "Inflasi gaya hidup dini, membeli liabilitas yang disamarkan sebagai simbol kemajuan, serta biaya mahal dari kesalahan finansial pertama akibat ikut-ikutan tren.",
+          executionNarrative: "Bangun sistem 3 rekening terpisah (Operasional, Dana Darurat 6 bulan, Akumulasi Modal), kuasai akuntansi dasar arus kas pribadi, dan jaga integritas reputasi di setiap komitmen kerja.",
+          chapters: [
+            { num: 19, title: "Financial Literacy" },
+            { num: 20, title: "The Power of Saving" },
+            { num: 21, title: "Building a Financial System" },
+            { num: 22, title: "Understanding Assets" },
+            { num: 23, title: "Assets vs Liabilities" },
+            { num: 24, title: "The First Investment" },
+            { num: 25, title: "The Cost of Financial Mistakes" },
+            { num: 26, title: "Building a Reputation" },
+            { num: 27, title: "Developing Professional Skills" },
+            { num: 28, title: "The First Financial Milestone" }
+          ]
+        },
+        {
+          id: "IV",
+          title: "THE CAPITAL STAGE",
+          subtitle: "Uang mulai bekerja",
+          indexRange: "26–35",
+          arcGroup: "26-75",
+          vizType: "capital",
+          materials: [
+            "Investasi saham, obligasi, dan instrumen produktif.",
+            "Kepemilikan ekuitas bisnis.",
+            "Mekanisme compounding jangka panjang.",
+            "Diversifikasi dan alokasi aset.",
+            "Manajemen risiko dan pengendalian drawdown.",
+            "Mengubah tabungan menjadi mesin penghasil arus kas."
+          ],
+          coreLesson: "Penghasilan aktif membangun modal awal, sedangkan pengelolaan modal menentukan keberlanjutan kekayaan.",
+          realityNarrative: "Saat modal mulai tumbuh signifikan, volatilitas pasar menguji saraf lebih keras daripada kerja fisik. Penurunan portofolio 20% terasa jauh lebih menyakitkan ketika nominalnya setara gaji setahun.",
+          challengesNarrative: "Mencampuradukkan investasi dengan spekulasi emosional, over-concentration pada satu aset berisiko tinggi, dan menjual aset terbaik terlalu cepat karena tidak sabar menunggu efek compounding.",
+          executionNarrative: "Tetapkan aturan alokasi modal tertulis, batasi risiko per posisi, pisahkan portofolio inti jangka panjang dari dana taktis, dan biarkan waktu bekerja tanpa intervensi impulsif.",
+          chapters: [
+            { num: 29, title: "The First Significant Capital" },
+            { num: 30, title: "Understanding Compounding" },
+            { num: 31, title: "Investing vs Speculating" },
+            { num: 32, title: "Capital Allocation" },
+            { num: 33, title: "Risk Management" },
+            { num: 34, title: "The Psychology of Losing Money" },
+            { num: 35, title: "Building an Investment Portfolio" },
+            { num: 36, title: "The Power of Patience" },
+            { num: 37, title: "Multiple Income Sources" },
+            { num: 38, title: "The First Asset That Produces Income" }
+          ]
+        },
+        {
+          id: "V",
+          title: "THE OPPORTUNITY STAGE",
+          subtitle: "Melihat peluang yang tidak dilihat orang lain",
+          indexRange: "36–45",
+          arcGroup: "26-75",
+          vizType: "capital",
+          materials: [
+            "Deteksi inefisiensi pasar dan kebutuhan belum terpenuhi.",
+            "Asymmetric opportunities (risiko terbatas, potensi besar).",
+            "Keunggulan informasi dan riset mendalam.",
+            "Negosiasi strategis dan jaringan bernilai tinggi.",
+            "Perancangan model bisnis dan keunggulan kompetitif.",
+            "Transisi mental dari pekerja menjadi pemilik."
+          ],
+          coreLesson: "Peluang bukan hanya sesuatu yang kebetulan ditemukan, tetapi sesuatu yang dapat dibangun melalui kemampuan, informasi, dan posisi jaringan.",
+          realityNarrative: "Peluang besar hampir selalu terlihat tidak menarik, berisiko, atau belum terbukti di mata mayoritas orang. Menunggu konsensus publik berarti terlambat masuk.",
+          challengesNarrative: "Ketakutan meninggalkan zona nyaman penghasilan tetap, bias konfirmasi dalam menilai ide sendiri, dan kegagalan membedakan peluang asimetris sejati dari spekulasi buta.",
+          executionNarrative: "Uji peluang melalui eksperimen berbiaya rendah (small bets), bangun jaringan lintas industri, asah kemampuan negosiasi berbasis nilai, dan miliki modal intelektual yang sulit ditiru.",
+          chapters: [
+            { num: 39, title: "Opportunity Recognition" },
+            { num: 40, title: "Asymmetric Opportunities" },
+            { num: 41, title: "The Power of Information" },
+            { num: 42, title: "Strategic Networking" },
+            { num: 43, title: "Negotiation" },
+            { num: 44, title: "Business Models" },
+            { num: 45, title: "Market Inefficiencies" },
+            { num: 46, title: "Competitive Advantage" },
+            { num: 47, title: "Building Intellectual Capital" },
+            { num: 48, title: "From Worker to Owner" }
+          ]
+        },
+        {
+          id: "VI",
+          title: "THE ENTREPRENEUR STAGE",
+          subtitle: "Dari investor menjadi pengusaha",
+          indexRange: "46–55",
+          arcGroup: "26-75",
+          vizType: "capital",
+          materials: [
+            "Validasi pasar dan peluncuran bisnis pertama.",
+            "Manajemen arus kas operasional (cash is oxygen).",
+            "Rekrutmen karyawan pertama dan budaya kerja.",
+            "Seni delegasi dan dokumentasi SOP.",
+            "Mitigasi risiko operasional dan kegagalan bisnis.",
+            "Membangun sistem yang berjalan tanpa kehadiran pendiri."
+          ],
+          coreLesson: "Bisnis yang baik bukan hanya menghasilkan keuntungan, tetapi bisa berjalan dan bertumbuh tanpa pemilik harus mengerjakan semuanya sendiri.",
+          realityNarrative: "Fase paling brutal secara operasional: pendapatan tidak tetap, tanggung jawab menggaji orang lain, masalah pelanggan, dan kesepian mengambil keputusan kritis saat kas menipis.",
+          challengesNarrative: "Founder bottleneck (semua keputusan macet di pemilik), pertumbuhan pendapatan tanpa kontrol arus kas (profit di atas kertas tapi kas kosong), dan ketidakmampuan mendelegasikan tugas.",
+          executionNarrative: "Prioritaskan arus kas positif di atas ekspansi kosmetik, dokumentasikan proses berulang menjadi sistem standar, rekrut orang yang lebih ahli di bidang teknis, dan siapkan rencana kontingensi kegagalan.",
+          chapters: [
+            { num: 49, title: "The First Business" },
+            { num: 50, title: "Finding a Profitable Market" },
+            { num: 51, title: "Product and Service Development" },
+            { num: 52, title: "Cash Flow Management" },
+            { num: 53, title: "Hiring the First Employee" },
+            { num: 54, title: "Delegation" },
+            { num: 55, title: "Business Risk" },
+            { num: 56, title: "Scaling Operations" },
+            { num: 57, title: "Building Systems" },
+            { num: 58, title: "Surviving Business Failure" }
+          ]
+        },
+        {
+          id: "VII",
+          title: "THE WEALTH ACCUMULATION STAGE",
+          subtitle: "Kekayaan mulai terbentuk",
+          indexRange: "56–65",
+          arcGroup: "26-75",
+          vizType: "capital",
+          materials: [
+            "Mencapai tonggak modal besar pertama dan penskalaan.",
+            "Ekspansi portofolio lintas kelas aset (ekuitas bisnis & properti).",
+            "Realitas pendapatan pasif yang membutuhkan pengawasan aktif.",
+            "Pelestarian kekayaan (wealth preservation).",
+            "Arsitektur hukum, struktur entitas, dan efisiensi pajak.",
+            "Perbedaan mendasar antara 'Kaya' (Rich) dan 'Makmur' (Wealthy)."
+          ],
+          coreLesson: "Kekayaan tidak hanya dinilai dari berapa banyak uang yang dimiliki, tetapi juga dari kualitas aset, arus kas bersih, kewajiban, dan ketahanan finansial saat krisis.",
+          realityNarrative: "Mempertahankan kekayaan membutuhkan keterampilan psikologis yang berlawanan dengan cara mendapatkannya: berani mengambil risiko membangun kekayaan, tetapi butuh kerendahan hati dan kehati-hatian untuk menjaganya.",
+          challengesNarrative: "Overconfidence setelah sukses besar, investasi pada aset tidak likuid dengan leverage berlebihan, serta kurangnya perlindungan hukum dan struktur pajak.",
+          executionNarrative: "Pisahkan aset operasional berisiko dari aset penyimpan nilai, terapkan arsitektur hukum dan pajak yang sah dan kokoh, serta ukur kemandirian finansial dari arus kas pasif terhadap biaya hidup.",
+          chapters: [
+            { num: 59, title: "The First Million" },
+            { num: 60, title: "Scaling Capital" },
+            { num: 61, title: "Portfolio Expansion" },
+            { num: 62, title: "Real Estate Ownership" },
+            { num: 63, title: "Business Equity" },
+            { num: 64, title: "Passive Income Reality" },
+            { num: 65, title: "Wealth Preservation" },
+            { num: 66, title: "Tax and Legal Architecture" },
+            { num: 67, title: "Financial Independence" },
+            { num: 68, title: "The Difference Between Rich and Wealthy" }
+          ]
+        },
+        {
+          id: "VIII",
+          title: "THE INSTITUTIONAL STAGE",
+          subtitle: "Membangun organisasi dan institusi",
+          indexRange: "66–75",
+          arcGroup: "26-75",
+          vizType: "freedom",
+          materials: [
+            "Membangun struktur Holding Company dan alokasi modal induk.",
+            "Tata kelola perusahaan (Corporate Governance).",
+            "Pengelolaan modal institusional dan kemitraan strategis.",
+            "Merger, akuisisi, dan integrasi unit usaha.",
+            "Manajemen risiko korporasi dan reputasi institusional.",
+            "Kepemilikan jangka panjang lintas siklus ekonomi."
+          ],
+          coreLesson: "Ketika kekayaan berkembang, kemampuan mengelola sistem, tata kelola, dan alokasi modal antarunit menjadi jauh lebih penting daripada bekerja keras secara individual.",
+          realityNarrative: "Transisi dari pengusaha tunggal menjadi arsitek institusi mengubah peran harian: dari pemecah masalah teknis menjadi pengambil keputusan alokasi modal dan penjaga budaya organisasi.",
+          challengesNarrative: "Birokrasi internal yang melambatkan inovasi, konflik kepentingan prinsipal-agen, dan risiko akuisisi agresif yang merusak neraca induk.",
+          executionNarrative: "Bangun dewan pengawas dan standar tata kelola yang transparan, alokasikan modal berdasarkan return on invested capital (ROIC) tertinggi, dan jaga reputasi institusi sebagai aset tak berwujud utama.",
+          chapters: [
+            { num: 69, title: "Building a Holding Company" },
+            { num: 70, title: "Corporate Governance" },
+            { num: 71, title: "Institutional Capital" },
+            { num: 72, title: "Strategic Partnerships" },
+            { num: 73, title: "Mergers and Acquisitions" },
+            { num: 74, title: "Managing Large Organizations" },
+            { num: 75, title: "Corporate Risk Management" },
+            { num: 76, title: "Institutional Reputation" },
+            { num: 77, title: "Capital Markets" },
+            { num: 78, title: "Long-Term Ownership" }
+          ]
+        },
+        {
+          id: "IX",
+          title: "THE FINANCIAL POWER STAGE",
+          subtitle: "Memiliki kendali atas sumber daya",
+          indexRange: "76–83",
+          arcGroup: "76-100",
+          vizType: "freedom",
+          materials: [
+            "Pengaruh ekonomi dan penempatan modal berskala besar.",
+            "Bernegosiasi dari posisi kekuatan dan kemandirian.",
+            "Kepemilikan aset strategis dan jaringan institusional.",
+            "Tanggung jawab moral di balik kendali sumber daya.",
+            "Psikologi kekayaan besar dan risiko konsentrasi kekuasaan.",
+            "Menjaga independensi dari tekanan politik maupun pasar."
+          ],
+          coreLesson: "Mempunyai modal besar berarti mempunyai pengaruh lebih besar, tetapi juga membawa tanggung jawab dan risiko sistemik yang jauh lebih besar.",
+          realityNarrative: "Pada level ini, setiap keputusan memengaruhi kehidupan ratusan atau ribuan orang. Banyak orang di sekitar mulai berkata 'ya' bukan karena ide Anda benar, melainkan karena posisi modal Anda.",
+          challengesNarrative: "Echo chamber (dikelilingi orang yang hanya mencari keuntungan), kesombongan strategis akibat kekuasaan terkonsentrasi, dan hilangnya umpan balik jujur.",
+          executionNarrative: "Pelihara lingkaran penasihat independen yang berani mengkritik, hindari konsentrasi risiko yang dapat meruntuhkan seluruh ekosistem, dan jaga independensi pengambilan keputusan.",
+          chapters: [
+            { num: 79, title: "Economic Influence" },
+            { num: 80, title: "Capital Deployment at Scale" },
+            { num: 81, title: "Negotiating From Strength" },
+            { num: 82, title: "Ownership of Strategic Assets" },
+            { num: 83, title: "Institutional Relationships" },
+            { num: 84, title: "Economic Networks" },
+            { num: 85, title: "Power and Responsibility" },
+            { num: 86, title: "The Psychology of Wealth" },
+            { num: 87, title: "The Risks of Concentrated Power" },
+            { num: 88, title: "Maintaining Independence" }
+          ]
+        },
+        {
+          id: "X",
+          title: "THE EVERYTHING STAGE",
+          subtitle: "Ketika hampir semua kebutuhan dapat dipenuhi",
+          indexRange: "84–90",
+          arcGroup: "76-100",
+          vizType: "freedom",
+          materials: [
+            "Kemampuan membeli hampir segala sesuatu secara material.",
+            "Batas psikologis kemewahan dan adaptasi hedonis.",
+            "Hilangnya tekanan finansial sebagai bahan bakar perjuangan.",
+            "Memahami makna 'Cukup' (The Meaning of Enough).",
+            "Kebebasan waktu, kebebasan lokasi, dan kebebasan memilih.",
+            "Menghadapi ruang kosong psikologis setelah puncak tercapai."
+          ],
+          coreLesson: "Saat uang bukan lagi hambatan utama, pertanyaan tentang identitas dan tujuan hidup justru menjadi tantangan terbesar.",
+          realityNarrative: "Paradoks terbesar: perjuangan bertahun-tahun digerakkan oleh rasa lapar untuk membuktikan diri dan mencapai keamanan. Ketika semua target tercapai, mesin motivasi lama tiba-tiba berhenti.",
+          challengesNarrative: "Kehampaan pasca-kesuksesan (the empty space after success), eskalasi kemewahan yang tidak lagi memberi kepuasan, dan kecenderungan mengambil risiko tidak perlu hanya demi merasakan adrenalin lagi.",
+          executionNarrative: "Definisikan batas 'cukup' secara sadar, alihkan ukuran pencapaian dari akumulasi materi ke kualitas waktu dan ketenangan pikiran, dan rancang struktur aktivitas harian yang bermakna.",
+          chapters: [
+            { num: 89, title: "The Ability to Buy Almost Anything" },
+            { num: 90, title: "Luxury and Its Limits" },
+            { num: 91, title: "The Psychology of Having Everything" },
+            { num: 92, title: "The Disappearance of Financial Pressure" },
+            { num: 93, title: "When Money Stops Being the Motivation" },
+            { num: 94, title: "The Meaning of Enough" },
+            { num: 95, title: "Freedom of Time" },
+            { num: 96, title: "Freedom of Location" },
+            { num: 97, title: "Freedom of Choice" },
+            { num: 98, title: "The Empty Space After Success" }
+          ]
+        },
+        {
+          id: "XI",
+          title: "THE CHOICE STAGE",
+          subtitle: "Memilih kehidupan yang ingin dijalani",
+          indexRange: "91–95",
+          arcGroup: "76-100",
+          vizType: "freedom",
+          materials: [
+            "Kebebasan memilih pekerjaan karena keinginan, bukan keharusan.",
+            "Hak untuk pergi (The Right to Walk Away) dari situasi toksik.",
+            "Memilih tempat tinggal, rekan kerja, dan lingkaran sosial.",
+            "Nilai tinggi dari privasi dan ketenangan hidup.",
+            "Kekuatan berkata 'Tidak' (The Power of Saying No).",
+            "Perbedaan antara kebebasan sejati dan pelarian dari tanggung jawab."
+          ],
+          coreLesson: "Kesuksesan tertinggi bukan selalu membeli segalanya, melainkan mempunyai kebebasan penuh untuk menolak sesuatu yang tidak diinginkan.",
+          realityNarrative: "Di tahap ini, musuh utama bukanlah kekurangan peluang, melainkan terlalu banyaknya tawaran, undangan, dan komitmen yang mencuri waktu serta privasi.",
+          challengesNarrative: "Sulit menolak proyek menguntungkan yang mengorbankan ketenangan, kehilangan privasi di ruang publik, dan jebakan menjadikan 'kebebasan' sebagai pelarian tanpa arah.",
+          executionNarrative: "Gunakan hak veto pribadi secara tegas, jaga privasi sebagai kemewahan tertinggi, pilih hanya orang-orang yang berintegritas dalam lingkaran terdekat, dan desain ritme hidup secara sadar.",
+          chapters: [
+            { num: 99, title: "The Freedom to Choose" },
+            { num: 100, title: "Working Because You Want To" },
+            { num: 101, title: "The Right to Walk Away" },
+            { num: 102, title: "Choosing Where to Live" },
+            { num: 103, title: "Choosing Who to Work With" },
+            { num: 104, title: "Choosing Your Circle" },
+            { num: 105, title: "The Value of Privacy" },
+            { num: 106, title: "The Power of Saying No" },
+            { num: 107, title: "Designing Your Own Life" },
+            { num: 108, title: "The Difference Between Freedom and Escape" }
+          ]
+        },
+        {
+          id: "XII",
+          title: "THE LEGACY STAGE",
+          subtitle: "Membangun sesuatu yang bertahan lebih lama daripada dirinya",
+          indexRange: "96–98",
+          arcGroup: "76-100",
+          vizType: "freedom",
+          materials: [
+            "Arsitektur kekayaan lintas generasi dan perencanaan waris.",
+            "Pendidikan literasi dan karakter finansial keluarga.",
+            "Filantropi strategis yang menyelesaikan akar masalah.",
+            "Membangun institusi pendidikan, riset, dan peluang bagi orang lain.",
+            "Transfer nilai, kebijaksanaan, dan reputasi melampaui uang.",
+            "Apa yang tetap hidup setelah kepergian seseorang."
+          ],
+          coreLesson: "Uang yang diwariskan tanpa pendidikan karakter dan sistem tata kelola akan habis dalam dua generasi; nilai dan institusi yang dibangun dengan bijak akan bertahan melampaui usia pemiliknya.",
+          realityNarrative: "Mentransfer kekayaan material jauh lebih mudah daripada mentransfer rasa lapar, disiplin, dan kebijaksanaan yang melahirkan kekayaan tersebut.",
+          challengesNarrative: "Konflik keluarga akibat perencanaan suksesi yang kabur, pewaris yang kehilangan daya juang karena terlalu dimanja, dan filantropi yang sekadar mencari pujian.",
+          executionNarrative: "Susun tata kelola keluarga dan estate planning sejak dini, ajarkan nilai kerja dan tanggung jawab sebelum menyerahkan modal, dan bangun institusi yang menciptakan peluang bagi generasi berikutnya.",
+          chapters: [
+            { num: 109, title: "Generational Wealth" },
+            { num: 110, title: "Estate Planning" },
+            { num: 111, title: "Family Wealth Education" },
+            { num: 112, title: "Philanthropy" },
+            { num: 113, title: "Building Institutions" },
+            { num: 114, title: "Creating Opportunities for Others" },
+            { num: 115, title: "Wealth Transfer" },
+            { num: 116, title: "Reputation Beyond Money" },
+            { num: 117, title: "The Meaning of Legacy" },
+            { num: 118, title: "What Remains After You" }
+          ]
+        },
+        {
+          id: "XIII",
+          title: "THE FINAL QUESTION",
+          subtitle: "Pertanyaan akhir setelah segalanya tercapai",
+          indexRange: "99–100",
+          arcGroup: "76-100",
+          vizType: "freedom",
+          materials: [
+            "Harga sejati yang dibayar di balik kesuksesan besar.",
+            "Hubungan manusiawi yang tidak dapat dibeli dengan uang.",
+            "Biaya tersembunyi dari ambisi yang tidak terkendali.",
+            "Kesepian di puncak piramida dan ketakutan kehilangan segalanya.",
+            "Batas kemampuan uang dalam membeli kebahagiaan.",
+            "Kebebasan untuk tidak melakukan apa-apa dan kembali pada kesederhanaan."
+          ],
+          coreLesson: "Perjalanan dari 0 ke 100 tidak lengkap jika hanya menjelaskan cara menjadi kaya, tanpa menjawab bagaimana tetap menjadi manusia yang utuh setelah berhasil mencapainya.",
+          realityNarrative: "Di garis akhir, banyak orang menyadari bahwa waktu bersama orang tercinta, kesehatan tubuh, dan ketenangan batin adalah mata uang paling langka yang tidak bisa dibeli ulang oleh rekening sebesar apa pun.",
+          challengesNarrative: "Penyesalan atas hubungan yang dikorbankan demi ambisi, paranoia kehilangan aset yang sudah dibangun, dan ketidakmampuan menikmati hari biasa tanpa dorongan untuk terus mengejar lebih.",
+          executionNarrative: "Pulihkan hubungan yang bermakna, lepaskan obsesi pembuktian diri, syukuri kemewahan paling sederhana—bangun pagi dengan kesadaran bahwa Anda memiliki hak penuh untuk memilih apa yang benar-benar penting.",
+          chapters: [
+            { num: 119, title: "What Is the Price of Success?" },
+            { num: 120, title: "The Relationships Money Cannot Buy" },
+            { num: 121, title: "The Cost of Ambition" },
+            { num: 122, title: "Loneliness at the Top" },
+            { num: 123, title: "The Fear of Losing Everything" },
+            { num: 124, title: "Can Money Buy Happiness?" },
+            { num: 125, title: "The Freedom to Do Nothing" },
+            { num: 126, title: "Returning to Simplicity" },
+            { num: 127, title: "The Final Definition of Success" }
+          ]
+        }
+      ];
+
+      /* Build flat list of all 127 chapters */
+      const ALL_CHAPTERS = [];
+      PARTS_DATA.forEach((part, partIdx) => {
+        part.chapters.forEach((ch, chIdxInPart) => {
+          const progScore = Math.min(100, Math.round(((ch.num - 1) / 126) * 100));
+          ALL_CHAPTERS.push({
+            num: ch.num,
+            title: ch.title,
+            partId: part.id,
+            partNum: partIdx + 1,
+            partTitle: part.title,
+            partSubtitle: part.subtitle,
+            indexRange: part.indexRange,
+            arcGroup: part.arcGroup,
+            progScore: progScore,
+            vizType: part.vizType,
+            materials: part.materials,
+            coreLesson: part.coreLesson,
+            realityNarrative: part.realityNarrative,
+            challengesNarrative: part.challengesNarrative,
+            executionNarrative: part.executionNarrative,
+            focusTopic: part.materials[chIdxInPart % part.materials.length],
+            dimensions: [
+              `Realitas Lapangan: ${ch.title}`,
+              `Tantangan & Titik Kegagalan: ${ch.title}`,
+              `Protokol Melewati & Mengelola Fase ${progScore}/100`
+            ]
+          });
+        });
+      });
+
+      const SEVEN_TRANSFORMATIONS = [
+        {
+          id: 1,
+          stage: "1. Survival",
+          range: "Indeks 0 – 15",
+          shift: "Takut kehilangan kebutuhan dasar (makan, tempat berteduh, keamanan fisik).",
+          reality: "Pikiran bekerja dalam mode darurat jangka pendek; kapasitas perencanaan jangka panjang tertekan oleh stres bertahan hidup.",
+          mastery: "Amankan stabilitas harian, hentikan kebocoran energi, dan bangun satu rutinitas kerja yang konsisten."
+        },
+        {
+          id: 2,
+          stage: "2. Security",
+          range: "Indeks 16 – 30",
+          shift: "Mencari kestabilan pendapatan, dana darurat, dan terbebas dari ketergantungan.",
+          reality: "Muncul rasa lega pertama, tetapi rentan terjebak pada kenyamanan gaji tetap atau utang konsumtif awal.",
+          mastery: "Bangun dana darurat 6 bulan, pisahkan rekening tabungan otomatis, dan tingkatkan keterampilan bernilai tinggi."
+        },
+        {
+          id: 3,
+          stage: "3. Ambition",
+          range: "Indeks 31 – 50",
+          shift: "Ingin membuktikan kemampuan, memperbesar penghasilan, dan menangkap peluang.",
+          reality: "Energi sangat tinggi, tetapi sering diiringi ego, terburu-buru, dan kecenderungan mengambil risiko tanpa perlindungan.",
+          mastery: "Ubah ambisi menjadi sistem pembelajaran dan alokasi modal berbasis probabilitas, bukan sekadar pembuktian ego."
+        },
+        {
+          id: 4,
+          stage: "4. Accumulation",
+          range: "Indeks 51 – 70",
+          shift: "Terobsesi membangun aset produktif, ekuitas bisnis, dan mesin compounding.",
+          reality: "Kekayaan mulai terlihat nyata, namun muncul bahaya menjadikan seluruh identitas diri bergantung pada angka portofolio.",
+          mastery: "Bangun sistem organisasi yang bisa berjalan mandiri dan lindungi kekayaan melalui struktur hukum serta manajemen risiko."
+        },
+        {
+          id: 5,
+          stage: "5. Power",
+          range: "Indeks 71 – 83",
+          shift: "Mulai memahami pengaruh, kendali atas sumber daya, dan alokasi modal berskala besar.",
+          reality: "Keputusan berdampak luas, tetapi lingkungan sering memberi pujian palsu sehingga pemilik rentan kehilangan objektivitas.",
+          mastery: "Pertahankan penasihat yang jujur, hindari konsentrasi risiko ekstrem, dan gunakan pengaruh dengan tanggung jawab."
+        },
+        {
+          id: 6,
+          stage: "6. Freedom",
+          range: "Indeks 84 – 95",
+          shift: "Tidak lagi harus menerima semua kesempatan; memiliki hak untuk berkata tidak.",
+          reality: "Tekanan finansial menghilang, memicu ruang kosong psikologis ketika uang berhenti menjadi motivator utama.",
+          mastery: "Jaga privasi, tetapkan standar 'Cukup', dan gunakan kebebasan waktu untuk memilih lingkaran serta proyek bermakna."
+        },
+        {
+          id: 7,
+          stage: "7. Meaning",
+          range: "Indeks 96 – 100",
+          shift: "Mencari alasan filosofis untuk menggunakan kebebasan, warisan nilai, dan ketenangan.",
+          reality: "Kesadaran akhir bahwa hubungan manusiawi, kesehatan, dan kebebasan batin jauh melampaui nilai materi.",
+          mastery: "Bangun institusi yang memberi peluang bagi orang lain, wariskan karakter, dan kembali pada kesederhanaan yang utuh."
+        }
+      ];
+
+      const REALISTIC_CRISES = [
+        {
+          phase: "Fase 0–15 (Krisis Nadir & Tanpa Modal)",
+          crisis: "Tidak punya tempat tinggal tetap, ditolak melamar pekerjaan karena tidak punya alamat/relasi, dan kelelahan mental.",
+          solution: "Gunakan strategi tangga bertahap: pekerjaan harian informal → sewa tempat tinggal paling sederhana → pulihkan identitas & kebersihan diri → sisihkan 15% upah harian tanpa kompromi."
+        },
+        {
+          phase: "Fase 16–35 (Jebakan Upah & Kerugian Investasi Pertama)",
+          crisis: "Gaji habis untuk biaya hidup & cicilan; atau modal pertama yang dikumpulkan susah payah hilang karena spekulasi ikut-ikutan.",
+          solution: "Bekukan ekspansi gaya hidup selama 24 bulan, potong seluruh utang konsumtif, batasi risiko maksimal 1%–2% per keputusan investasi, dan fokus meningkatkan kapasitas keahlian utama."
+        },
+        {
+          phase: "Fase 36–65 (Krisis Arus Kas Bisnis & Kegagalan Ekspansi)",
+          crisis: "Bisnis bertumbuh tetapi kas kosong karena piutang macet, salah merekrut tim, atau ekspansi terlalu cepat sebelum sistem siap.",
+          solution: "Terapkan kontrol arus kas mingguan ketat, dokumentasikan SOP operasional inti, pisahkan keuangan pribadi dari perusahaan, dan pangkas lini tidak menguntungkan."
+        },
+        {
+          phase: "Fase 66–85 (Beban Institusi & Risiko Konsentrasi)",
+          crisis: "Organisasi membesar namun melambat; keputusan strategis terancam oleh informasi bias dari orang-orang yang mencari muka.",
+          solution: "Terapkan Corporate Governance, diversifikasi aset ke instrumen pelindung nilai likuid, dan bangun budaya evaluasi berbasis data objektif."
+        },
+        {
+          phase: "Fase 86–100 (Kehampaan Pasca-Sukses & Harga Ambisi)",
+          crisis: "Semua target materi tercapai tetapi muncul kesepian di puncak, kerenggangan keluarga, dan hilangnya arah hidup.",
+          solution: "Hentikan perlombaan status eksternal, alokasikan waktu utama untuk pemulihan hubungan, bangun institusi filantropi/edukasi, dan pelihara kesederhanaan harian."
+        }
+      ];
+
+      const THREE_BOOKS_LIBRARY = [
+        {
+          code: "BOOK 01",
+          title: "THE ANATOMY OF STOCK GAINERS",
+          role: "Bagaimana menemukan peluang di pasar dan mengalokasikan modal secara kuantitatif.",
+          question: "Bagaimana mendapatkan dan mengembangkan uang?"
+        },
+        {
+          code: "BOOK 02",
+          title: "THE PSYCHOLOGY OF MONEY",
+          role: "Bagaimana pikiran manusia, bias perilaku, neuroekonomi, dan sistem ekonomi memengaruhi uang.",
+          question: "Bagaimana memahami psikologi di balik uang?"
+        },
+        {
+          code: "BOOK 03",
+          title: "FROM ZERO TO EVERYTHING",
+          role: "Bagaimana seseorang membangun kehidupannya dari ketiadaan (0) sampai memiliki kebebasan memilih (100).",
+          question: "Untuk apa seseorang membangun kekayaan dan menjalani hidupnya?"
+        }
+      ];
+
+      /* ----------------------------------------------------------------------
+         2. APPLICATION STATE & STORAGE
+         ---------------------------------------------------------------------- */
+      const STORAGE_KEY = "orixtron_from_zero_to_everything_v1";
+
+      const defaultState = {
+        isOpen: false,
+        currentPage: "atlas-1", // 'atlas-1' | 'atlas-2' | 'atlas-3' | 1..127
+        activeTab: "theory",    // 'theory' | 'case' | 'data' | 'research'
+        completedChapters: [],
+        bookmarkedPage: null,
+        researchChecks: {},
+        researchNotes: {},
+        hpiFinancial: 45,
+        hpiKnowledge: 55,
+        hpiHealth: 60,
+        hpiIndependence: 40,
+        hpiSocial: 35,
+        theme: "ivory",
+        tocArcFilter: "ALL",
+        tocQuery: "",
+        activeTransformation: 1,
+        vizSeed: 1
+      };
+
+      let appState = loadState();
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return { ...defaultState };
+          return { ...defaultState, ...JSON.parse(raw) };
+        } catch (e) {
+          return { ...defaultState };
+        }
+      }
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        } catch (e) {}
+      }
+
+      const PAGE_SEQUENCE = ["atlas-1", "atlas-2", "atlas-3", ...ALL_CHAPTERS.map(c => c.num)];
+
+      /* ----------------------------------------------------------------------
+         3. THEME & BOOK COVER CONTROLS
+         ---------------------------------------------------------------------- */
+      const coverStage = document.getElementById("cover-stage");
+      const bookCoverCard = document.getElementById("book-cover-card");
+      const bookWorkspace = document.getElementById("book-workspace");
+      const leftPageContent = document.getElementById("left-page-content");
+      const rightPageContent = document.getElementById("right-page-content");
+      const pageFlipLeaf = document.getElementById("page-flip-leaf");
+
+      function applyTheme(themeName) {
+        appState.theme = themeName;
+        document.body.classList.remove("theme-ivory", "theme-sepia", "theme-night");
+        document.body.classList.add(`theme-${themeName}`);
+
+        document.querySelectorAll(".theme-btn").forEach(btn => {
+          const isMatch = btn.getAttribute("data-theme-btn") === themeName;
+          btn.className = isMatch
+            ? "theme-btn px-2 py-1 rounded-lg text-[11px] font-bold transition cursor-pointer bg-amber-500 text-slate-950"
+            : "theme-btn px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer text-slate-300 hover:text-white";
+        });
+        saveState();
+        if (typeof appState.currentPage === "number" && appState.activeTab === "data") {
+          const ch = ALL_CHAPTERS.find(c => c.num === appState.currentPage);
+          if (ch) setTimeout(() => renderChapterVisualization(ch), 30);
+        }
+      }
+
+      function openBook(targetPage) {
+        if (targetPage) appState.currentPage = targetPage;
+        appState.isOpen = true;
+        saveState();
+
+        bookCoverCard.classList.add("is-opening");
+        setTimeout(() => {
+          coverStage.classList.add("hidden");
+          bookWorkspace.classList.remove("hidden");
+          renderCurrentPage();
+          updateProgressUI();
+        }, 580);
+      }
+
+      function closeBookToCover() {
+        appState.isOpen = false;
+        saveState();
+        bookWorkspace.classList.add("hidden");
+        coverStage.classList.remove("hidden");
+        bookCoverCard.classList.remove("is-opening");
+        updateResumeButton();
+      }
+
+      function updateResumeButton() {
+        const resumeBtn = document.getElementById("btn-resume-book");
+        if (appState.bookmarkedPage || appState.completedChapters.length > 0 || appState.currentPage !== "atlas-1") {
+          resumeBtn.classList.remove("hidden");
+          const label = typeof appState.currentPage === "number"
+            ? `Lanjutkan Bab ${String(appState.currentPage).padStart(3, "0")}`
+            : `Lanjutkan ${String(appState.currentPage).toUpperCase()}`;
+          resumeBtn.textContent = label;
+        }
+      }
+
+      /* ----------------------------------------------------------------------
+         4. 3D PAGE TURN ANIMATION & NAVIGATION
+         ---------------------------------------------------------------------- */
+      let isFlipping = false;
+
+      function navigateToPage(targetPage, direction = "next") {
+        if (isFlipping || targetPage === appState.currentPage) return;
+        isFlipping = true;
+
+        pageFlipLeaf.classList.remove("flip-next", "flip-prev");
+        void pageFlipLeaf.offsetWidth;
+        pageFlipLeaf.classList.add(direction === "prev" ? "flip-prev" : "flip-next");
+
+        setTimeout(() => {
+          appState.currentPage = targetPage;
+          saveState();
+          renderCurrentPage();
+          document.getElementById("left-page").scrollTop = 0;
+          document.getElementById("right-page").scrollTop = 0;
+        }, 210);
+
+        setTimeout(() => {
+          pageFlipLeaf.classList.remove("flip-next", "flip-prev");
+          isFlipping = false;
+        }, 540);
+      }
+
+      function stepPage(delta) {
+        const idx = PAGE_SEQUENCE.indexOf(appState.currentPage);
+        const nextIdx = idx + delta;
+        if (nextIdx >= 0 && nextIdx < PAGE_SEQUENCE.length) {
+          navigateToPage(PAGE_SEQUENCE[nextIdx], delta > 0 ? "next" : "prev");
+        }
+      }
+
+      /* ----------------------------------------------------------------------
+         5. RENDERERS: ATLAS I, ATLAS II, ATLAS III & CHAPTERS 1–127
+         ---------------------------------------------------------------------- */
+      function renderCurrentPage() {
+        updateNavigationChrome();
+        const page = appState.currentPage;
+
+        if (page === "atlas-1") renderAtlasOne();
+        else if (page === "atlas-2") renderAtlasTwo();
+        else if (page === "atlas-3") renderAtlasThree();
+        else {
+          const ch = ALL_CHAPTERS.find(c => c.num === Number(page)) || ALL_CHAPTERS[0];
+          renderChapterSpread(ch);
+        }
+      }
+
+      function updateNavigationChrome() {
+        const idx = PAGE_SEQUENCE.indexOf(appState.currentPage);
+        document.getElementById("btn-prev-page").disabled = idx <= 0;
+        document.getElementById("btn-next-page").disabled = idx >= PAGE_SEQUENCE.length - 1;
+
+        const footerIndicator = document.getElementById("footer-page-indicator");
+        const leftFolio = document.getElementById("left-folio-label");
+        const leftNum = document.getElementById("left-page-number");
+        const rightFolio = document.getElementById("right-folio-label");
+        const rightNum = document.getElementById("right-page-number");
+
+        if (appState.currentPage === "atlas-1") {
+          footerIndicator.textContent = "ATLAS I — PETA TRANSFORMASI 0–100 & 13 BAGIAN UTAMA (127 BAB)";
+          leftFolio.textContent = "FROM ZERO TO EVERYTHING";
+          leftNum.textContent = "ATLAS I-A";
+          rightFolio.textContent = "13 FASE PERJALANAN (PART I – PART XIII)";
+          rightNum.textContent = "ATLAS I-B";
+        } else if (appState.currentPage === "atlas-2") {
+          footerIndicator.textContent = "ATLAS II — HUMAN PROGRESSION INDEX (0–100) & TRILOGI ORIXTRON";
+          leftFolio.textContent = "HUMAN PROGRESSION INDEX (5 DIMENSI)";
+          leftNum.textContent = "ATLAS II-A";
+          rightFolio.textContent = "HUBUNGAN 3 BUKU PERPUSTAKAAN INTELEKTUAL";
+          rightNum.textContent = "ATLAS II-B";
+        } else if (appState.currentPage === "atlas-3") {
+          footerIndicator.textContent = "ATLAS III — 7 TRANSFORMASI PSIKOLOGIS & PROTOKOL KRISIS REALISTIS";
+          leftFolio.textContent = "7 TRANSFORMASI PSIKOLOGIS & PARADOKS";
+          leftNum.textContent = "ATLAS III-A";
+          rightFolio.textContent = "PETA KRISIS & CARA MELEWATINYA";
+          rightNum.textContent = "ATLAS III-B";
+        } else {
+          const ch = ALL_CHAPTERS.find(c => c.num === appState.currentPage);
+          footerIndicator.textContent = `BAB ${String(ch.num).padStart(3, "0")} / 127 [INDEKS ${ch.progScore}/100] — ${ch.title.toUpperCase()}`;
+          leftFolio.textContent = `PART ${ch.partId}: ${ch.partTitle} (${ch.indexRange})`;
+          leftNum.textContent = `HAL. ${ch.num * 2 - 1}`;
+          rightFolio.textContent = `REALITAS, TANTANGAN & PROTOKOL EKSEKUSI`;
+          rightNum.textContent = `HAL. ${ch.num * 2}`;
+        }
+
+        const isBookmarked = appState.bookmarkedPage === appState.currentPage;
+        const ribbon = document.getElementById("btn-toggle-bookmark");
+        const star = document.getElementById("bookmark-star-icon");
+        if (isBookmarked) {
+          ribbon.classList.remove("bg-red-700");
+          ribbon.classList.add("bg-amber-500", "text-slate-950");
+          star.classList.remove("opacity-60");
+          star.classList.add("opacity-100");
+        } else {
+          ribbon.classList.add("bg-red-700");
+          ribbon.classList.remove("bg-amber-500", "text-slate-950");
+          star.classList.add("opacity-60");
+          star.classList.remove("opacity-100");
+        }
+      }
+
+      /* --- ATLAS I: FILOSOFI TRANSFORMASI 0–100 & 13 BAGIAN UTAMA --- */
+      function renderAtlasOne() {
+        leftPageContent.innerHTML = `
+          <div class="content-reveal space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent-gold-soft)] border border-[var(--border-strong)]">
+              <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] tracking-widest">TRANSFORMASI KAPASITAS MANUSIA // 0 → 100</span>
+            </div>
+
+            <div>
+              <h2 class="font-display text-2xl sm:text-3xl font-extrabold tracking-wide text-[var(--ink-primary)]">
+                FROM ZERO TO EVERYTHING
+              </h2>
+              <p class="font-mono-code text-xs text-[var(--accent-gold)] font-semibold mt-1">
+                13 BAGIAN UTAMA • 127 BAB REALISTIS • INDEKS KONSEPTUAL 0–100
+              </p>
+              <p class="text-xs sm:text-sm text-[var(--ink-secondary)] mt-2.5 leading-relaxed">
+                Perjalanan dari <strong>0 menuju 100</strong> bukan sekadar perjalanan menambah angka di rekening bank, melainkan <strong>perjalanan mengubah kapasitas manusia</strong>. Pada tahap awal, seseorang berjuang keras untuk bertahan hidup; pada tahap akhir, dia harus belajar memilih apa yang benar-benar layak diperjuangkan.
+              </p>
+            </div>
+
+            <!-- Paradoks Kebutuhan Manusia -->
+            <div class="p-3.5 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-1.5">
+              <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase tracking-wider">
+                Paradoks Evolusi Tujuan (0 → 100)
+              </div>
+              <ul class="text-xs text-[var(--ink-primary)] space-y-1 list-disc pl-4">
+                <li><strong>Saat tidak punya uang:</strong> manusia berjuang membeli <em>kebutuhan dasar</em>.</li>
+                <li><strong>Saat mempunyai sedikit uang:</strong> manusia ingin membeli <em>kenyamanan</em>.</li>
+                <li><strong>Saat mempunyai banyak uang:</strong> manusia ingin membeli <em>waktu</em>.</li>
+                <li><strong>Saat mempunyai kekayaan besar:</strong> manusia menghargai <em>privasi &amp; kebebasan</em>.</li>
+                <li><strong>Saat sudah memiliki kebebasan:</strong> manusia menentukan <em>apa yang layak dilakukan</em>.</li>
+              </ul>
+            </div>
+
+            <!-- Penutup Filosofis Buku -->
+            <blockquote class="font-serif-editorial italic text-xs sm:text-sm text-[var(--ink-primary)] p-3.5 rounded-xl bg-[var(--accent-gold-soft)] border-l-4 border-[var(--accent-gold)] leading-relaxed">
+              “He once had nowhere to sleep. He dreamed of having a home. Then he wanted a car, a business, investments, companies, and the freedom to buy anything. Years later, he had everything he once dreamed of. But the greatest luxury he discovered was not a mansion, a supercar, or a private jet. It was waking up in the morning and knowing that he did not have to do anything he did not want to do. He started with nothing. He built everything. And finally, he chose what mattered.”
+            </blockquote>
+          </div>
+        `;
+
+        rightPageContent.innerHTML = `
+          <div class="content-reveal space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <span class="font-mono-code text-[10px] text-[var(--accent-gold)] font-bold uppercase tracking-wider">STRUKTUR PERJALANAN REALISTIS</span>
+                <h2 class="font-serif-editorial text-xl font-bold text-[var(--ink-primary)]">
+                  13 Bagian Utama (Bab 1 – 127)
+                </h2>
+              </div>
+              <button type="button" onclick="window.__labJump('atlas-2')"
+                class="px-3 py-1.5 rounded-xl bg-[var(--accent-gold-soft)] border border-[var(--border-strong)] text-xs font-semibold text-[var(--accent-gold)] hover:opacity-80 cursor-pointer shrink-0">
+                Index 0–100 →
+              </button>
+            </div>
+
+            <div class="space-y-1.5">
+              ${PARTS_DATA.map(part => {
+                const firstCh = part.chapters[0].num;
+                const lastCh = part.chapters[part.chapters.length - 1].num;
+                return `
+                  <button type="button" onclick="window.__labJump(${firstCh})"
+                    class="w-full text-left p-2.5 rounded-xl bg-[var(--paper-card)] hover:bg-[var(--paper-card-hover)] border border-[var(--border-subtle)] hover:border-[var(--accent-gold)] transition group cursor-pointer">
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="font-mono-code text-[11px] font-bold text-[var(--accent-gold)] truncate">
+                        PART ${part.id} — ${part.title} <span class="text-[var(--ink-muted)]">[${part.indexRange}]</span>
+                      </span>
+                      <span class="px-2 py-0.5 rounded bg-[var(--accent-gold-soft)] font-mono-code text-[10px] font-bold text-[var(--ink-primary)] group-hover:bg-amber-500 group-hover:text-slate-950 transition shrink-0">
+                        BAB ${firstCh}–${lastCh}
+                      </span>
+                    </div>
+                    <p class="text-[11px] text-[var(--ink-secondary)] mt-0.5 line-clamp-1">${part.subtitle} — ${part.coreLesson}</p>
+                  </button>
+                `;
+              }).join("")}
+            </div>
+          </div>
+        `;
+      }
+
+      /* --- ATLAS II: HUMAN PROGRESSION INDEX (0–100) & 3-BOOK LIBRARY --- */
+      function renderAtlasTwo() {
+        leftPageContent.innerHTML = `
+          <div class="content-reveal space-y-3.5">
+            <div>
+              <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase tracking-wider">SISTEM EVALUASI 5 DIMENSI // 0–100</span>
+              <h2 class="font-serif-editorial text-xl font-bold text-[var(--ink-primary)]">
+                Human Progression Index (HPI)
+              </h2>
+              <p class="text-xs text-[var(--ink-secondary)] mt-0.5">
+                Ukur posisi perkembangan Anda secara objektif berdasarkan indikator nyata (bukan sekadar perasaan sukses).
+              </p>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-2.5">
+              <div>
+                <div class="flex justify-between font-mono-code text-[11px]">
+                  <span>1. Financial Capacity (25%) — Aset &amp; Arus Kas</span>
+                  <strong id="lbl-hpi-fin" class="text-[var(--accent-gold)]">${appState.hpiFinancial}/100</strong>
+                </div>
+                <input id="sl-hpi-fin" type="range" min="0" max="100" value="${appState.hpiFinancial}" oninput="window.__recalcHPI()" class="w-full accent-amber-500 cursor-pointer" />
+              </div>
+
+              <div>
+                <div class="flex justify-between font-mono-code text-[11px]">
+                  <span>2. Knowledge &amp; Skills (20%) — Keahlian &amp; Berpikir</span>
+                  <strong id="lbl-hpi-kno" class="text-[var(--accent-gold)]">${appState.hpiKnowledge}/100</strong>
+                </div>
+                <input id="sl-hpi-kno" type="range" min="0" max="100" value="${appState.hpiKnowledge}" oninput="window.__recalcHPI()" class="w-full accent-amber-500 cursor-pointer" />
+              </div>
+
+              <div>
+                <div class="flex justify-between font-mono-code text-[11px]">
+                  <span>3. Health &amp; Resilience (20%) — Fisik &amp; Mental</span>
+                  <strong id="lbl-hpi-hea" class="text-[var(--accent-gold)]">${appState.hpiHealth}/100</strong>
+                </div>
+                <input id="sl-hpi-hea" type="range" min="0" max="100" value="${appState.hpiHealth}" oninput="window.__recalcHPI()" class="w-full accent-amber-500 cursor-pointer" />
+              </div>
+
+              <div>
+                <div class="flex justify-between font-mono-code text-[11px]">
+                  <span>4. Independence (20%) — Kebebasan Memilih</span>
+                  <strong id="lbl-hpi-ind" class="text-[var(--accent-gold)]">${appState.hpiIndependence}/100</strong>
+                </div>
+                <input id="sl-hpi-ind" type="range" min="0" max="100" value="${appState.hpiIndependence}" oninput="window.__recalcHPI()" class="w-full accent-amber-500 cursor-pointer" />
+              </div>
+
+              <div>
+                <div class="flex justify-between font-mono-code text-[11px]">
+                  <span>5. Social &amp; Institutional Capital (15%) — Reputasi</span>
+                  <strong id="lbl-hpi-soc" class="text-[var(--accent-gold)]">${appState.hpiSocial}/100</strong>
+                </div>
+                <input id="sl-hpi-soc" type="range" min="0" max="100" value="${appState.hpiSocial}" oninput="window.__recalcHPI()" class="w-full accent-amber-500 cursor-pointer" />
+              </div>
+
+              <div id="hpi-result-box" class="p-3 rounded-xl bg-[var(--accent-gold-soft)] border border-[var(--border-strong)] space-y-1"></div>
+            </div>
+
+            <p class="text-[11px] text-[var(--ink-muted)] italic">
+              Catatan: Angka 0–100 adalah indeks perkembangan konseptual, bukan ukuran ilmiah atau jaminan bahwa setiap orang melewati urutan yang identik.
+            </p>
+          </div>
+        `;
+
+        rightPageContent.innerHTML = `
+          <div class="content-reveal space-y-3.5">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase tracking-wider">ARSITEKTUR PERPUSTAKAAN ORIXTRON</span>
+                <h2 class="font-serif-editorial text-xl font-bold text-[var(--ink-primary)]">
+                  Hubungan Ketiga Buku Intelektual
+                </h2>
+              </div>
+              <button type="button" onclick="window.__labJump('atlas-3')"
+                class="px-3 py-1.5 rounded-xl bg-[var(--accent-gold-soft)] border border-[var(--border-strong)] text-xs font-semibold text-[var(--accent-gold)] hover:opacity-80 cursor-pointer shrink-0">
+                7 Transformasi →
+              </button>
+            </div>
+
+            <div class="space-y-2.5">
+              ${THREE_BOOKS_LIBRARY.map(b => `
+                <div class="p-3.5 rounded-xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-1">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)]">${b.code}</span>
+                    <span class="font-mono-code text-[10px] text-[var(--ink-muted)]">ORIXTRON MONOGRAPH</span>
+                  </div>
+                  <div class="font-serif-editorial text-base font-bold text-[var(--ink-primary)]">${b.title}</div>
+                  <p class="text-xs text-[var(--ink-secondary)]">${b.role}</p>
+                  <div class="pt-1 font-mono-code text-[11px] text-[var(--accent-gold)] font-semibold">
+                    Pertanyaan Besar: “${b.question}”
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-[var(--accent-gold-soft)] border border-[var(--border-subtle)] text-xs text-[var(--ink-primary)] leading-relaxed">
+              <strong>Mengapa Buku Ini Dibuat Paling Manusiawi:</strong> Perjalanan dari 0 ke 100 tidak akan lengkap jika hanya menggambarkan supercar dan mansion tanpa membahas kegagalan bisnis, kesepian di puncak, pengorbanan hubungan, perubahan identitas, dan keberanian untuk berhenti mengejar hal yang tidak lagi bermakna.
+            </div>
+          </div>
+        `;
+
+        setTimeout(() => window.__recalcHPI(), 15);
+      }
+
+      /* --- ATLAS III: 7 TRANSFORMASI PSIKOLOGIS & PROTOKOL KRISIS REALISTIS --- */
+      function renderAtlasThree() {
+        const activeT = SEVEN_TRANSFORMATIONS.find(t => t.id === appState.activeTransformation) || SEVEN_TRANSFORMATIONS[0];
+
+        leftPageContent.innerHTML = `
+          <div class="content-reveal space-y-3.5">
+            <div>
+              <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase tracking-wider">BAGIAN TERSEMBUNYI // EVOLUSI IDENTITAS</span>
+              <h2 class="font-serif-editorial text-xl font-bold text-[var(--ink-primary)]">
+                7 Transformasi Psikologis (0 → 100)
+              </h2>
+            </div>
+
+            <div class="flex flex-wrap gap-1.5">
+              ${SEVEN_TRANSFORMATIONS.map(t => {
+                const isAct = t.id === activeT.id;
+                return `
+                  <button type="button" onclick="window.__selectTransformation(${t.id})"
+                    class="px-2.5 py-1 rounded-lg font-mono-code text-[10px] font-semibold transition cursor-pointer ${
+                      isAct
+                        ? "bg-amber-500 text-slate-950 shadow-sm"
+                        : "bg-[var(--paper-card)] border border-[var(--border-subtle)] text-[var(--ink-secondary)] hover:border-[var(--accent-gold)]"
+                    }">
+                    ${t.stage}
+                  </button>
+                `;
+              }).join("")}
+            </div>
+
+            <div class="p-4 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-strong)] space-y-2.5">
+              <div class="flex items-center justify-between font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">
+                <span>TAHAP ${activeT.stage.toUpperCase()}</span>
+                <span>${activeT.range}</span>
+              </div>
+              <h3 class="font-serif-editorial text-lg font-bold text-[var(--ink-primary)]">
+                ${activeT.shift}
+              </h3>
+              <div class="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-xs text-[var(--ink-primary)]">
+                <strong class="text-rose-700 dark:text-rose-300 block mb-0.5">Realitas &amp; Friksi Psikologis:</strong>
+                ${activeT.reality}
+              </div>
+              <div class="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-[var(--ink-primary)]">
+                <strong class="text-emerald-700 dark:text-emerald-300 block mb-0.5">Cara Mengelola &amp; Naik ke Tahap Berikutnya:</strong>
+                ${activeT.mastery}
+              </div>
+            </div>
+          </div>
+        `;
+
+        rightPageContent.innerHTML = `
+          <div class="content-reveal space-y-3.5">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase tracking-wider">PANDUAN BERTAHAN &amp; MENGELOLA</span>
+                <h2 class="font-serif-editorial text-xl font-bold text-[var(--ink-primary)]">
+                  5 Krisis Realistis &amp; Protokol Melewatinya
+                </h2>
+              </div>
+              <button type="button" onclick="window.__labJump(1)"
+                class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 text-xs font-bold hover:bg-amber-400 cursor-pointer shrink-0">
+                Mulai Bab 1 →
+              </button>
+            </div>
+
+            <div class="space-y-2">
+              ${REALISTIC_CRISES.map(item => `
+                <div class="p-3 rounded-xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-1 text-xs">
+                  <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)]">${item.phase}</div>
+                  <div class="text-[var(--ink-primary)]"><strong>Tantangan Nyata:</strong> ${item.crisis}</div>
+                  <div class="text-[var(--ink-secondary)]"><strong class="text-emerald-700 dark:text-emerald-300">Solusi &amp; Pengelolaan:</strong> ${item.solution}</div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }
+
+      /* --- CHAPTER SPREAD (ALL 127 CHAPTERS) --- */
+      function renderChapterSpread(chapter) {
+        const isCompleted = appState.completedChapters.includes(chapter.num);
+        const babCode = `BAB ${String(chapter.num).padStart(3, "0")}`;
+
+        leftPageContent.innerHTML = `
+          <div class="content-reveal space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="px-2.5 py-1 rounded-lg bg-[var(--accent-gold-soft)] border border-[var(--border-strong)] font-mono-code text-[10px] sm:text-[11px] font-bold text-[var(--accent-gold)]">
+                PART ${chapter.partId} — ${chapter.partTitle}
+              </span>
+              <span class="font-mono-code text-[10px] uppercase tracking-wider text-[var(--ink-muted)]">
+                INDEKS ${chapter.progScore}/100 (FASE ${chapter.indexRange})
+              </span>
+            </div>
+
+            <div class="pb-3.5 border-b border-[var(--border-subtle)]">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="font-mono-code text-xs sm:text-sm font-bold text-[var(--accent-gold)] tracking-widest">
+                    ${babCode} // ${chapter.partSubtitle.toUpperCase()}
+                  </div>
+                  <h1 class="font-serif-editorial text-2xl sm:text-3xl font-bold text-[var(--ink-primary)] mt-1 leading-tight">
+                    ${chapter.title}
+                  </h1>
+                </div>
+
+                <button type="button" onclick="window.__toggleChapterComplete(${chapter.num})"
+                  class="shrink-0 px-3 py-2 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
+                    isCompleted
+                      ? "bg-emerald-600/20 border-emerald-500 text-emerald-700 dark:text-emerald-300"
+                      : "bg-[var(--paper-card)] border-[var(--border-strong)] text-[var(--ink-secondary)] hover:border-[var(--accent-gold)]"
+                  }">
+                  <span>${isCompleted ? "✓ Dikuasai" : "○ Tandai Selesai"}</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Core Lesson Box -->
+            <div class="p-3.5 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-1.5">
+              <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">
+                Pelajaran Utama Fase ${chapter.partId} &amp; Fokus Bab ${chapter.num}
+              </div>
+              <p class="text-xs sm:text-sm font-medium text-[var(--ink-primary)] leading-relaxed">
+                “${chapter.coreLesson}”
+              </p>
+              <p class="text-xs text-[var(--ink-secondary)]">
+                <strong>Fokus Praktis Bab Ini:</strong> ${chapter.focusTopic}
+              </p>
+            </div>
+
+            <!-- 3 Clickable Deep-Dive Cards -->
+            <div class="space-y-2">
+              <div class="font-mono-code text-[10px] font-bold text-[var(--ink-muted)] uppercase">
+                Bedah Realitas, Tantangan &amp; Solusi (Klik untuk Rincian Lengkap)
+              </div>
+              <div class="grid grid-cols-1 gap-2">
+                ${chapter.dimensions.map((dim, idx) => `
+                  <button type="button" onclick="window.__openTopicModal(${chapter.num}, ${idx})"
+                    class="group text-left p-2.5 rounded-xl bg-[var(--paper-card)] hover:bg-[var(--paper-card-hover)] border border-[var(--border-subtle)] hover:border-[var(--accent-gold)] transition flex items-center justify-between gap-2 cursor-pointer">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                      <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] shrink-0">0${idx + 1}</span>
+                      <span class="text-xs font-semibold text-[var(--ink-primary)] truncate group-hover:text-[var(--accent-gold)] transition">${dim}</span>
+                    </div>
+                    <span class="text-xs text-[var(--ink-muted)] shrink-0">↗</span>
+                  </button>
+                `).join("")}
+              </div>
+            </div>
+
+            <!-- Key Materials in this Stage -->
+            <div class="p-3 rounded-xl bg-[var(--accent-gold-soft)] border border-[var(--border-subtle)] space-y-1">
+              <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">Pilar Materi Part ${chapter.partId}</div>
+              <ul class="text-[11px] text-[var(--ink-secondary)] grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-0.5 list-disc pl-4">
+                ${chapter.materials.map(m => `<li>${m}</li>`).join("")}
+              </ul>
+            </div>
+          </div>
+        `;
+
+        const tabs = [
+          { id: "theory", label: "01 // Realitas" },
+          { id: "case", label: "02 // Tantangan & Solusi" },
+          { id: "data", label: "03 // Kurva 0–100" },
+          { id: "research", label: "04 // Jurnal Fase" }
+        ];
+
+        rightPageContent.innerHTML = `
+          <div class="content-reveal space-y-4">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 rounded-xl bg-[var(--paper-card)] border border-[var(--border-subtle)]">
+              ${tabs.map(t => {
+                const active = appState.activeTab === t.id;
+                return `
+                  <button type="button" onclick="window.__switchResearchTab('${t.id}')"
+                    class="py-2 px-2 rounded-lg font-mono-code text-[11px] font-semibold transition cursor-pointer ${
+                      active
+                        ? "bg-amber-500 text-slate-950 shadow-sm"
+                        : "text-[var(--ink-secondary)] hover:text-[var(--ink-primary)]"
+                    }">
+                    ${t.label}
+                  </button>
+                `;
+              }).join("")}
+            </div>
+
+            <div id="workbench-tab-body" class="space-y-4">
+              ${renderChapterWorkbenchTab(chapter)}
+            </div>
+          </div>
+        `;
+
+        if (appState.activeTab === "data") {
+          setTimeout(() => renderChapterVisualization(chapter), 25);
+        }
+      }
+
+      function renderChapterWorkbenchTab(chapter) {
+        if (appState.activeTab === "theory") {
+          return `
+            <div class="p-4 sm:p-5 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-3">
+              <div class="font-mono-code text-xs font-bold text-[var(--accent-gold)] uppercase tracking-wider">
+                Realitas Lapangan — ${chapter.title} (Indeks ${chapter.progScore}/100)
+              </div>
+              <p class="text-xs sm:text-sm text-[var(--ink-primary)] leading-relaxed">
+                ${chapter.realityNarrative}
+              </p>
+              <blockquote class="p-3 rounded-xl bg-[var(--accent-gold-soft)] border-l-4 border-[var(--accent-gold)] text-xs text-[var(--ink-primary)] leading-relaxed">
+                <strong>Dinamika Bab ${chapter.num} (${chapter.title}):</strong> Di titik ini, fokus utama adalah menuntaskan <em>${chapter.focusTopic.toLowerCase()}</em> sebelum melompat ke level berikutnya agar fondasi tidak runtuh saat tekanan meningkat.
+              </blockquote>
+            </div>
+          `;
+        }
+
+        if (appState.activeTab === "case") {
+          return `
+            <div class="p-4 sm:p-5 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-3">
+              <div class="font-mono-code text-xs font-bold text-[var(--accent-gold)] uppercase tracking-wider">
+                Tantangan Nyata &amp; Cara Mengelola Hingga Final
+              </div>
+              <div class="space-y-2.5 text-xs leading-relaxed">
+                <div class="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30">
+                  <strong class="text-rose-700 dark:text-rose-300 block mb-0.5">✕ Tantangan &amp; Titik Runtuh (${chapter.title}):</strong>
+                  <span class="text-[var(--ink-primary)]">${chapter.challengesNarrative}</span>
+                </div>
+                <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+                  <strong class="text-emerald-700 dark:text-emerald-300 block mb-0.5">✓ Cara Melewati &amp; Mengelola:</strong>
+                  <span class="text-[var(--ink-primary)]">${chapter.executionNarrative}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        if (appState.activeTab === "data") {
+          return `
+            <div class="p-4 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">TRAJEKTORI TRANSFORMASI 0–100</span>
+                  <h3 class="font-bold text-xs sm:text-sm text-[var(--ink-primary)]">Posisi Bab ${chapter.num}: ${chapter.title}</h3>
+                </div>
+                <button type="button" onclick="window.__regenerateViz()"
+                  class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono-code text-[11px] font-bold transition cursor-pointer">
+                  ↻ Simulasi Ketahanan
+                </button>
+              </div>
+              <div class="w-full h-56 sm:h-64 rounded-xl border border-[var(--border-subtle)] bg-slate-950/5 dark:bg-slate-950/40 relative overflow-hidden">
+                <canvas id="lab-data-canvas" class="w-full h-full block"></canvas>
+              </div>
+              <div id="viz-caption-metrics" class="grid grid-cols-3 gap-2 text-center font-mono-code text-[11px]"></div>
+            </div>
+          `;
+        }
+
+        const noteVal = appState.researchNotes[chapter.num] || "";
+        const tasks = [
+          `Evaluasi jujur: Apakah tantangan "${chapter.title}" masih menjadi hambatan aktif dalam hidup saya saat ini?`,
+          `Terapkan protokol konkret: ${chapter.focusTopic}`,
+          `Pastikan kapasitas mental, arus kas, dan tata kelola siap sebelum melangkah ke fase indeks ${Math.min(100, chapter.progScore + 5)}/100.`
+        ];
+
+        return `
+          <div class="space-y-3">
+            <div class="p-4 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-2">
+              <div class="font-mono-code text-xs font-bold text-[var(--accent-gold)] uppercase">
+                Checklist Ketuntasan Fase Bab ${chapter.num}
+              </div>
+              ${tasks.map((t, i) => {
+                const key = `${chapter.num}-${i}`;
+                const checked = !!appState.researchChecks[key];
+                return `
+                  <label class="flex items-start gap-2.5 p-2 rounded-xl border border-[var(--border-subtle)] hover:border-[var(--accent-gold)] cursor-pointer text-xs">
+                    <input type="checkbox" ${checked ? "checked" : ""} onchange="window.__toggleResearchCheck('${key}')" class="mt-0.5 accent-amber-500" />
+                    <span class="text-[var(--ink-primary)] ${checked ? "line-through opacity-60" : ""}">${t}</span>
+                  </label>
+                `;
+              }).join("")}
+            </div>
+
+            <div class="p-4 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-2">
+              <div class="flex justify-between font-mono-code text-[10px]">
+                <span class="font-bold text-[var(--accent-gold)] uppercase">Catatan Perjalanan &amp; Keputusan</span>
+                <span class="text-emerald-600 dark:text-emerald-400">✓ Tersimpan</span>
+              </div>
+              <textarea rows="3" oninput="window.__saveResearchNote(${chapter.num}, this.value)"
+                placeholder="Tuliskan refleksi, strategi bertahan, atau rencana pengelolaan untuk Bab ${chapter.num} (${chapter.title})..."
+                class="w-full p-2.5 rounded-xl bg-transparent border border-[var(--border-strong)] focus:border-[var(--accent-gold)] focus:outline-none text-xs text-[var(--ink-primary)]">${noteVal}</textarea>
+            </div>
+          </div>
+        `;
+      }
+
+      /* ----------------------------------------------------------------------
+         6. CANVAS VISUALIZATION ENGINE FOR 0–100 PROGRESSION
+         ---------------------------------------------------------------------- */
+      function seededRandom(seed) {
+        let s = seed % 2147483647;
+        if (s <= 0) s += 2147483646;
+        return function () {
+          s = (s * 16807) % 2147483647;
+          return (s - 1) / 2147483646;
+        };
+      }
+
+      function renderChapterVisualization(chapter) {
+        const canvas = document.getElementById("lab-data-canvas");
+        const metricsEl = document.getElementById("viz-caption-metrics");
+        if (!canvas || !metricsEl) return;
+
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = Math.max(300, rect.width * dpr);
+        canvas.height = Math.max(200, rect.height * dpr);
+
+        const ctx = canvas.getContext("2d");
+        ctx.scale(dpr, dpr);
+        const W = rect.width;
+        const H = rect.height;
+
+        const isNight = appState.theme === "night";
+        const gridColor = isNight ? "rgba(148,163,184,0.14)" : "rgba(120,113,102,0.16)";
+        const textColor = isNight ? "#cbd5e1" : "#4a453e";
+        const goldColor = isNight ? "#e5b94c" : "#b48628";
+
+        ctx.clearRect(0, 0, W, H);
+        ctx.strokeStyle = gridColor;
+        ctx.lineWidth = 1;
+        for (let x = 36; x < W; x += 56) {
+          ctx.beginPath(); ctx.moveTo(x, 12); ctx.lineTo(x, H - 22); ctx.stroke();
+        }
+        for (let y = 24; y < H - 20; y += 38) {
+          ctx.beginPath(); ctx.moveTo(16, y); ctx.lineTo(W - 16, y); ctx.stroke();
+        }
+
+        const rand = seededRandom(chapter.num * 53 + appState.vizSeed * 29);
+        const steps = 25;
+        const stepX = (W - 64) / steps;
+
+        // Curve 1: Capacity & Freedom S-Curve (0 -> 100)
+        ctx.beginPath();
+        ctx.strokeStyle = goldColor;
+        ctx.lineWidth = 2.6;
+        for (let i = 0; i <= steps; i++) {
+          const x = 32 + i * stepX;
+          const t = (i / steps) * 10 - 5;
+          const sig = 1 / (1 + Math.exp(-t));
+          const jitter = (rand() - 0.5) * 6;
+          const y = H - 28 - sig * (H - 58) + jitter;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Curve 2: Financial Pressure (drops from high to low)
+        ctx.beginPath();
+        ctx.strokeStyle = "#f43f5e";
+        ctx.lineWidth = 1.8;
+        ctx.setLineDash([4, 4]);
+        for (let i = 0; i <= steps; i++) {
+          const x = 32 + i * stepX;
+          const ratio = 1 - i / steps;
+          const y = H - 28 - Math.pow(ratio, 1.35) * (H - 64);
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Marker for current chapter position
+        const markerRatio = (chapter.num - 1) / 126;
+        const mx = 32 + markerRatio * (W - 64);
+        const mt = markerRatio * 10 - 5;
+        const my = H - 28 - (1 / (1 + Math.exp(-mt))) * (H - 58);
+
+        ctx.fillStyle = "#10b981";
+        ctx.beginPath();
+        ctx.arc(mx, my, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = textColor;
+        ctx.font = "600 10px 'JetBrains Mono'";
+        ctx.fillText("KAPASITAS & KEBEBASAN (EMAS) VS TEKANAN FINANSIAL (MERAH)", 24, 15);
+
+        const resilienceScore = Math.min(99, Math.round(25 + markerRatio * 70 + rand() * 5));
+        metricsEl.innerHTML = `
+          <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">INDEKS FASE</span><strong class="text-[var(--accent-gold)]">${chapter.progScore} / 100</strong></div>
+          <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">KETAHANAN SISTEM</span><strong class="text-emerald-600 dark:text-emerald-400">${resilienceScore}%</strong></div>
+          <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">PART AKTIF</span><strong class="text-[var(--ink-primary)]">PART ${chapter.partId}</strong></div>
+        `;
+      }
+
+      /* ----------------------------------------------------------------------
+         7. HUMAN PROGRESSION INDEX (0–100) & TRANSFORMATION HANDLERS
+         ---------------------------------------------------------------------- */
+      window.__recalcHPI = function () {
+        const fin = Number(document.getElementById("sl-hpi-fin")?.value || 0);
+        const kno = Number(document.getElementById("sl-hpi-kno")?.value || 0);
+        const hea = Number(document.getElementById("sl-hpi-hea")?.value || 0);
+        const ind = Number(document.getElementById("sl-hpi-ind")?.value || 0);
+        const soc = Number(document.getElementById("sl-hpi-soc")?.value || 0);
+
+        appState.hpiFinancial = fin;
+        appState.hpiKnowledge = kno;
+        appState.hpiHealth = hea;
+        appState.hpiIndependence = ind;
+        appState.hpiSocial = soc;
+        saveState();
+
+        if (document.getElementById("lbl-hpi-fin")) {
+          document.getElementById("lbl-hpi-fin").textContent = `${fin}/100`;
+          document.getElementById("lbl-hpi-kno").textContent = `${kno}/100`;
+          document.getElementById("lbl-hpi-hea").textContent = `${hea}/100`;
+          document.getElementById("lbl-hpi-ind").textContent = `${ind}/100`;
+          document.getElementById("lbl-hpi-soc").textContent = `${soc}/100`;
+        }
+
+        const total = (fin * 0.25 + kno * 0.20 + hea * 0.20 + ind * 0.20 + soc * 0.15).toFixed(1);
+        let stageLabel = "THE ZERO / SURVIVAL STAGE (Part I–II)";
+        let advice = "Prioritas mutlak: stabilkan arus kas dasar, bangun dana darurat, dan hentikan kebocoran biaya.";
+        if (total >= 85) {
+          stageLabel = "THE CHOICE / LEGACY / FINAL QUESTION (Part XI–XIII)";
+          advice = "Fokus pada kebebasan memilih, perlindungan privasi, hubungan manusiawi, dan warisan nilai.";
+        } else if (total >= 66) {
+          stageLabel = "THE INSTITUTIONAL / POWER / EVERYTHING STAGE (Part VIII–X)";
+          advice = "Perkuat tata kelola, hindari konsentrasi risiko, dan definisikan batas 'Cukup'.";
+        } else if (total >= 36) {
+          stageLabel = "THE OPPORTUNITY / ENTREPRENEUR / WEALTH STAGE (Part V–VII)";
+          advice = "Bangun sistem operasional yang mandiri, jaga arus kas positif, dan lindungi aset produktif.";
+        } else if (total >= 17) {
+          stageLabel = "THE FOUNDATION / CAPITAL STAGE (Part III–IV)";
+          advice = "Perkuat literasi aset, disiplin menabung, dan biarkan compounding bekerja tanpa spekulasi emosional.";
+        }
+
+        const box = document.getElementById("hpi-result-box");
+        if (box) {
+          box.innerHTML = `
+            <div class="flex items-center justify-between font-mono-code text-xs">
+              <span class="font-bold text-[var(--ink-primary)]">SKOR HUMAN PROGRESSION INDEX:</span>
+              <strong class="text-base text-[var(--accent-gold)]">${total} / 100</strong>
+            </div>
+            <div class="font-mono-code text-[10px] font-bold text-emerald-700 dark:text-emerald-300">${stageLabel}</div>
+            <p class="text-[11px] text-[var(--ink-secondary)]">${advice}</p>
+          `;
+        }
+      };
+
+      window.__selectTransformation = function (id) {
+        appState.activeTransformation = id;
+        renderAtlasThree();
+      };
+
+      /* ----------------------------------------------------------------------
+         8. TABLE OF CONTENTS DRAWER & INSTANT SEARCH (127 CHAPTERS)
+         ---------------------------------------------------------------------- */
+      function renderTOCDrawer() {
+        const container = document.getElementById("toc-list-container");
+        const q = appState.tocQuery.trim().toLowerCase();
+
+        container.innerHTML = PARTS_DATA.map(part => {
+          if (appState.tocArcFilter !== "ALL" && part.arcGroup !== appState.tocArcFilter) return "";
+          const filtered = part.chapters.filter(ch => {
+            if (!q) return true;
+            return (
+              String(ch.num).includes(q) ||
+              (`bab ${ch.num}`).includes(q) ||
+              ch.title.toLowerCase().includes(q) ||
+              part.title.toLowerCase().includes(q)
+            );
+          });
+          if (filtered.length === 0) return "";
+
+          return `
+            <div class="space-y-1.5">
+              <div class="px-2">
+                <div class="font-mono-code text-[10px] text-amber-400 font-bold tracking-wider">PART ${part.id} • INDEKS ${part.indexRange}</div>
+                <div class="text-xs font-bold text-slate-200">${part.title} — ${part.subtitle}</div>
+              </div>
+              <div class="space-y-1">
+                ${filtered.map(ch => {
+                  const active = appState.currentPage === ch.num;
+                  const done = appState.completedChapters.includes(ch.num);
+                  return `
+                    <button type="button" onclick="window.__labJump(${ch.num}); window.__closeTOC();"
+                      class="w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between gap-2 transition cursor-pointer ${
+                        active
+                          ? "bg-amber-500 text-slate-950 font-bold"
+                          : "bg-slate-900/85 hover:bg-slate-800 text-slate-300"
+                      }">
+                      <span class="truncate">
+                        <span class="font-mono-code mr-1.5 ${active ? "text-slate-950" : "text-amber-400"}">
+                          ${String(ch.num).padStart(3, "0")}
+                        </span>
+                        ${ch.title}
+                      </span>
+                      <span class="shrink-0 text-[11px]">${done ? "✓" : ""}</span>
+                    </button>
+                  `;
+                }).join("")}
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        const bmBanner = document.getElementById("drawer-bookmark-banner");
+        if (appState.bookmarkedPage) {
+          bmBanner.classList.remove("hidden");
+          const label = typeof appState.bookmarkedPage === "number"
+            ? `Pita Pembatas: Bab ${String(appState.bookmarkedPage).padStart(3, "0")}`
+            : `Pita Pembatas: ${String(appState.bookmarkedPage).toUpperCase()}`;
+          document.getElementById("drawer-bookmark-label").textContent = label;
+        } else {
+          bmBanner.classList.add("hidden");
+        }
+      }
+
+      function handleInstantSearch(query) {
+        const dropdown = document.getElementById("search-results-dropdown");
+        const clearBtn = document.getElementById("btn-clear-search");
+        const q = query.trim().toLowerCase();
+
+        if (!q) {
+          dropdown.classList.add("hidden");
+          clearBtn.classList.add("hidden");
+          return;
+        }
+        clearBtn.classList.remove("hidden");
+
+        const matches = [];
+        ALL_CHAPTERS.forEach(ch => {
+          const babStr = `bab ${ch.num}`;
+          if (
+            ch.title.toLowerCase().includes(q) ||
+            ch.partTitle.toLowerCase().includes(q) ||
+            ch.partSubtitle.toLowerCase().includes(q) ||
+            babStr.includes(q)
+          ) {
+            matches.push({
+              page: ch.num,
+              label: `BAB ${String(ch.num).padStart(3, "0")} — ${ch.title}`,
+              sub: `Part ${ch.partId}: ${ch.partTitle} (Indeks ${ch.progScore}/100)`
+            });
+          }
+        });
+
+        SEVEN_TRANSFORMATIONS.forEach(t => {
+          if (t.stage.toLowerCase().includes(q) || t.shift.toLowerCase().includes(q)) {
+            matches.push({
+              page: "atlas-3",
+              label: `TRANSFORMASI — ${t.stage} (${t.range})`,
+              sub: t.shift
+            });
+          }
+        });
+
+        if (matches.length === 0) {
+          dropdown.innerHTML = `<div class="p-3.5 text-xs text-slate-400">Tidak ditemukan bab atau fase untuk "${query}".</div>`;
+        } else {
+          dropdown.innerHTML = matches.slice(0, 15).map(m => `
+            <button type="button" onclick="window.__selectSearchResult(${typeof m.page === "number" ? m.page : `'${m.page}'`})"
+              class="w-full text-left px-3.5 py-2.5 hover:bg-slate-800 transition flex flex-col cursor-pointer">
+              <span class="text-xs font-semibold text-amber-300">${m.label}</span>
+              <span class="font-mono-code text-[10px] text-slate-400 truncate">${m.sub}</span>
+            </button>
+          `).join("");
+        }
+        dropdown.classList.remove("hidden");
+      }
+
+      function updateProgressUI() {
+        const count = appState.completedChapters.length;
+        const pct = Math.round((count / 127) * 100);
+        document.getElementById("progress-bar-fill").style.width = `${pct}%`;
+        document.getElementById("progress-text").textContent = `${count}/127 Bab`;
+      }
+
+      /* ----------------------------------------------------------------------
+         9. GLOBAL INTERACTION HANDLERS & EVENT LISTENERS
+         ---------------------------------------------------------------------- */
+      window.__labJump = function (page) {
+        const curIdx = PAGE_SEQUENCE.indexOf(appState.currentPage);
+        const nxtIdx = PAGE_SEQUENCE.indexOf(page);
+        navigateToPage(page, nxtIdx >= curIdx ? "next" : "prev");
+      };
+
+      window.__toggleChapterComplete = function (chNum) {
+        const idx = appState.completedChapters.indexOf(chNum);
+        if (idx >= 0) appState.completedChapters.splice(idx, 1);
+        else appState.completedChapters.push(chNum);
+        saveState();
+        updateProgressUI();
+        const ch = ALL_CHAPTERS.find(c => c.num === chNum);
+        if (ch) renderChapterSpread(ch);
+      };
+
+      window.__switchResearchTab = function (tabId) {
+        appState.activeTab = tabId;
+        saveState();
+        const ch = ALL_CHAPTERS.find(c => c.num === appState.currentPage);
+        if (ch) renderChapterSpread(ch);
+      };
+
+      window.__regenerateViz = function () {
+        appState.vizSeed += 1;
+        const ch = ALL_CHAPTERS.find(c => c.num === appState.currentPage);
+        if (ch) renderChapterVisualization(ch);
+      };
+
+      window.__toggleResearchCheck = function (key) {
+        appState.researchChecks[key] = !appState.researchChecks[key];
+        saveState();
+        const ch = ALL_CHAPTERS.find(c => c.num === appState.currentPage);
+        if (ch) renderChapterSpread(ch);
+      };
+
+      window.__saveResearchNote = function (chNum, val) {
+        appState.researchNotes[chNum] = val;
+        saveState();
+      };
+
+      window.__openTopicModal = function (chNum, dimIdx) {
+        const ch = ALL_CHAPTERS.find(c => c.num === chNum);
+        if (!ch) return;
+        const dim = ch.dimensions[dimIdx] || ch.title;
+
+        document.getElementById("topic-modal-badge").textContent = `BAB ${String(ch.num).padStart(3, "0")} // PART ${ch.partId}: ${ch.partTitle} [INDEKS ${ch.progScore}/100]`;
+        document.getElementById("topic-modal-title").textContent = dim;
+        document.getElementById("topic-modal-def").textContent = `${ch.realityNarrative} Secara khusus pada "${ch.title}", fokus lapangan tertuju pada ${ch.focusTopic.toLowerCase()}.`;
+        document.getElementById("topic-modal-mech").textContent = ch.challengesNarrative;
+        document.getElementById("topic-modal-ind").textContent = ch.executionNarrative;
+
+        const modal = document.getElementById("topic-modal-backdrop");
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      };
+
+      window.__closeTOC = function () {
+        document.getElementById("toc-drawer-backdrop").classList.add("hidden");
+      };
+
+      window.__selectSearchResult = function (target) {
+        document.getElementById("search-results-dropdown").classList.add("hidden");
+        window.__labJump(target);
+      };
+
+      document.getElementById("btn-open-book").addEventListener("click", () => openBook("atlas-1"));
+      document.getElementById("btn-resume-book").addEventListener("click", () => openBook(appState.currentPage));
+      document.getElementById("btn-close-book").addEventListener("click", closeBookToCover);
+
+      document.getElementById("btn-prev-page").addEventListener("click", () => stepPage(-1));
+      document.getElementById("btn-next-page").addEventListener("click", () => stepPage(1));
+
+      document.getElementById("btn-goto-atlas1").addEventListener("click", () => window.__labJump("atlas-1"));
+      document.getElementById("btn-goto-atlas2").addEventListener("click", () => window.__labJump("atlas-2"));
+      document.getElementById("btn-goto-atlas3").addEventListener("click", () => window.__labJump("atlas-3"));
+
+      document.getElementById("btn-toggle-bookmark").addEventListener("click", () => {
+        appState.bookmarkedPage = appState.bookmarkedPage === appState.currentPage ? null : appState.currentPage;
+        saveState();
+        updateNavigationChrome();
+      });
+
+      document.getElementById("btn-open-toc").addEventListener("click", () => {
+        renderTOCDrawer();
+        document.getElementById("toc-drawer-backdrop").classList.remove("hidden");
+      });
+      document.getElementById("btn-close-toc").addEventListener("click", window.__closeTOC);
+      document.getElementById("toc-backdrop-clickarea").addEventListener("click", window.__closeTOC);
+
+      document.getElementById("toc-filter-input").addEventListener("input", e => {
+        appState.tocQuery = e.target.value;
+        renderTOCDrawer();
+      });
+
+      document.querySelectorAll(".toc-arc-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".toc-arc-btn").forEach(b => {
+            b.className = "toc-arc-btn py-1 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 font-mono-code text-[11px] cursor-pointer";
+          });
+          btn.className = "toc-arc-btn py-1 rounded-lg bg-amber-500 text-slate-950 font-mono-code text-[11px] font-bold cursor-pointer";
+          appState.tocArcFilter = btn.getAttribute("data-toc-arc");
+          renderTOCDrawer();
+        });
+      });
+
+      document.querySelectorAll(".toc-jump-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          window.__labJump(btn.getAttribute("data-jump-page"));
+          window.__closeTOC();
+        });
+      });
+
+      document.getElementById("btn-jump-bookmark").addEventListener("click", () => {
+        if (appState.bookmarkedPage) {
+          window.__labJump(appState.bookmarkedPage);
+          window.__closeTOC();
+        }
+      });
+
+      const searchInput = document.getElementById("global-search-input");
+      searchInput.addEventListener("input", e => handleInstantSearch(e.target.value));
+      document.getElementById("btn-clear-search").addEventListener("click", () => {
+        searchInput.value = "";
+        handleInstantSearch("");
+      });
+
+      function closeTopicModal() {
+        const modal = document.getElementById("topic-modal-backdrop");
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      }
+      document.getElementById("btn-close-topic-modal").addEventListener("click", closeTopicModal);
+      document.getElementById("btn-done-topic-modal").addEventListener("click", closeTopicModal);
+      document.getElementById("topic-modal-backdrop").addEventListener("click", e => {
+        if (e.target.id === "topic-modal-backdrop") closeTopicModal();
+      });
+
+      document.querySelectorAll(".theme-btn").forEach(btn => {
+        btn.addEventListener("click", () => applyTheme(btn.getAttribute("data-theme-btn")));
+      });
+
+      document.addEventListener("keydown", e => {
+        if (!appState.isOpen) return;
+        const tag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
+        if (tag === "input" || tag === "textarea") return;
+
+        if (e.key === "ArrowRight") stepPage(1);
+        else if (e.key === "ArrowLeft") stepPage(-1);
+        else if (e.key === "Escape") {
+          closeTopicModal();
+          window.__closeTOC();
+        }
+      });
+
+      let touchStartX = 0, touchStartY = 0;
+      const spreadContainer = document.getElementById("book-spread-container");
+      spreadContainer.addEventListener("touchstart", e => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+      }, { passive: true });
+      spreadContainer.addEventListener("touchend", e => {
+        const dx = e.changedTouches[0].screenX - touchStartX;
+        const dy = e.changedTouches[0].screenY - touchStartY;
+        if (Math.abs(dx) > 65 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+          stepPage(dx < 0 ? 1 : -1);
+        }
+      }, { passive: true });
+
+      window.addEventListener("resize", () => {
+        if (appState.isOpen && typeof appState.currentPage === "number" && appState.activeTab === "data") {
+          const ch = ALL_CHAPTERS.find(c => c.num === appState.currentPage);
+          if (ch) renderChapterVisualization(ch);
+        }
+      });
+
+      window.onload = function () {
+        applyTheme(appState.theme || "ivory");
+        updateResumeButton();
+        updateProgressUI();
+      };
+    })();
+  </script>
+</body>
+</html>
