@@ -1,0 +1,3096 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KITAB INVESTASI SAHAM &amp; ARSITEKTUR KORPORASI | Zero-to-Hero Master Curriculum</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Cinzel (Luxury Gold Foil Serif), Playfair Display (Editorial Serif), Plus Jakarta Sans (Clean UI), JetBrains Mono (Data & Codes) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. DESIGN TOKENS & THEME SYSTEM (IVORY PAPER, SEPIA ARCHIVE, NIGHT INTEL)
+       ========================================================================== */
+    :root {
+      --desk-bg: radial-gradient(circle at 50% 25%, #1d283a 0%, #0b101b 75%, #060911 100%);
+      --paper-left: linear-gradient(90deg, #f3ece0 0%, #faf6ee 12%, #fcf9f2 94%, #ebe2d3 100%);
+      --paper-right: linear-gradient(270deg, #f3ece0 0%, #faf6ee 12%, #fcf9f2 94%, #e8decb 100%);
+      --paper-card: rgba(255, 252, 245, 0.88);
+      --paper-card-hover: #ffffff;
+      --ink-primary: #1a1816;
+      --ink-secondary: #4a453e;
+      --ink-muted: #787166;
+      --border-subtle: rgba(166, 138, 86, 0.28);
+      --border-strong: rgba(166, 138, 86, 0.58);
+      --accent-gold: #b48628;
+      --accent-gold-soft: rgba(180, 134, 40, 0.12);
+      --accent-navy: #14243b;
+      --spine-shadow: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(20,15,10,0.06) 45%, rgba(20,15,10,0.22) 50%, rgba(20,15,10,0.06) 55%, rgba(0,0,0,0) 100%);
+      --page-edge-color: #dfd5c3;
+      --chart-grid: rgba(120, 113, 102, 0.16);
+      --chart-text: #4a453e;
+    }
+
+    body.theme-sepia {
+      --desk-bg: radial-gradient(circle at 50% 25%, #2b2118 0%, #17110c 75%, #0d0906 100%);
+      --paper-left: linear-gradient(90deg, #e2d2b5 0%, #efe3cc 12%, #f3e8d3 94%, #d8c5a3 100%);
+      --paper-right: linear-gradient(270deg, #e2d2b5 0%, #efe3cc 12%, #f3e8d3 94%, #d4c09c 100%);
+      --paper-card: rgba(246, 236, 217, 0.88);
+      --paper-card-hover: #fbf3e4;
+      --ink-primary: #291d12;
+      --ink-secondary: #54412e;
+      --ink-muted: #7d664f;
+      --border-subtle: rgba(138, 98, 48, 0.3);
+      --border-strong: rgba(138, 98, 48, 0.58);
+      --accent-gold: #96631c;
+      --accent-gold-soft: rgba(150, 99, 28, 0.14);
+      --accent-navy: #3b2614;
+      --spine-shadow: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(35,20,5,0.08) 45%, rgba(35,20,5,0.28) 50%, rgba(35,20,5,0.08) 55%, rgba(0,0,0,0) 100%);
+      --page-edge-color: #cbb692;
+      --chart-grid: rgba(125, 102, 79, 0.2);
+      --chart-text: #54412e;
+    }
+
+    body.theme-night {
+      --desk-bg: radial-gradient(circle at 50% 25%, #131c31 0%, #070b14 75%, #04060b 100%);
+      --paper-left: linear-gradient(90deg, #0e1525 0%, #131c30 12%, #162036 94%, #0b111e 100%);
+      --paper-right: linear-gradient(270deg, #0e1525 0%, #131c30 12%, #162036 94%, #0a0f1c 100%);
+      --paper-card: rgba(24, 35, 58, 0.88);
+      --paper-card-hover: #1e2c49;
+      --ink-primary: #f1f5f9;
+      --ink-secondary: #cbd5e1;
+      --ink-muted: #8494ad;
+      --border-subtle: rgba(212, 175, 55, 0.22);
+      --border-strong: rgba(212, 175, 55, 0.48);
+      --accent-gold: #e5b94c;
+      --accent-gold-soft: rgba(229, 185, 76, 0.14);
+      --accent-navy: #38bdf8;
+      --spine-shadow: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0) 100%);
+      --page-edge-color: #1e293b;
+      --chart-grid: rgba(148, 163, 184, 0.14);
+      --chart-text: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--desk-bg);
+      color: var(--ink-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.5s ease;
+    }
+
+    .font-display { font-family: 'Cinzel', serif; }
+    .font-serif-editorial { font-family: 'Playfair Display', serif; }
+    .font-mono-code { font-family: 'JetBrains Mono', monospace; }
+
+    /* ==========================================================================
+       2. GOLD FOIL EMBOSSED TYPOGRAPHY & LEATHER COVER TEXTURE
+       ========================================================================== */
+    .gold-foil-text {
+      background: linear-gradient(135deg, #b8892a 0%, #f5df96 28%, #d4af37 52%, #fff3c4 75%, #9c711c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65));
+    }
+
+    .gold-foil-border {
+      border: 1px solid rgba(212, 175, 55, 0.55);
+      box-shadow:
+        inset 0 0 18px rgba(212, 175, 55, 0.12),
+        0 0 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .publisher-imprint {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(6, 10, 18, 0.92) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.42);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 243, 196, 0.22),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.85),
+        0 4px 14px rgba(0, 0, 0, 0.55);
+      transition: border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .publisher-imprint::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 75%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 243, 196, 0.25), transparent);
+      transform: skewX(-22deg);
+      transition: left 0.75s ease;
+      pointer-events: none;
+    }
+
+    .publisher-imprint:hover {
+      border-color: rgba(245, 223, 150, 0.8);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 243, 196, 0.35),
+        0 0 18px rgba(212, 175, 55, 0.28);
+    }
+
+    .publisher-imprint:hover::after {
+      left: 150%;
+    }
+
+    .leather-cover {
+      background-color: #0b1220;
+      background-image:
+        radial-gradient(rgba(212, 175, 55, 0.06) 1px, transparent 0),
+        radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0),
+        linear-gradient(145deg, #131f36 0%, #0a101d 55%, #060a12 100%);
+      background-size: 16px 16px, 24px 24px, 100% 100%;
+      background-position: 0 0, 8px 8px, 0 0;
+    }
+
+    /* ==========================================================================
+       3. 3D BOOK COVER STAGE & FLIP ANIMATIONS
+       ========================================================================== */
+    .book-perspective {
+      perspective: 2400px;
+    }
+
+    .cover-wrapper {
+      transform-style: preserve-3d;
+      transition: transform 1.05s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.8s ease;
+      transform-origin: left center;
+    }
+
+    .cover-wrapper.is-opening {
+      transform: rotateY(-165deg) scale(0.96);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .cover-spine-ridge {
+      background: linear-gradient(90deg,
+        #05080f 0%,
+        #1a2844 18%,
+        #090e1a 38%,
+        #18253f 56%,
+        #070b14 82%,
+        rgba(212, 175, 55, 0.35) 98%,
+        #05080f 100%
+      );
+    }
+
+    .gilded-edges-right {
+      background: repeating-linear-gradient(
+        90deg,
+        #d4af37 0px,
+        #f7e49c 1px,
+        #8f6b18 2px,
+        #e5c158 3px
+      );
+    }
+
+    /* ==========================================================================
+       4. OPEN BOOK TWO-PAGE SPREAD & 3D PAGE TURN LEAF
+       ========================================================================== */
+    .book-hardcover-casing {
+      background: linear-gradient(145deg, #182338 0%, #0b111e 100%);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      box-shadow:
+        0 28px 65px -12px rgba(0, 0, 0, 0.82),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    }
+
+    .book-page-left {
+      background: var(--paper-left);
+      color: var(--ink-primary);
+      box-shadow:
+        -6px 0 0 var(--page-edge-color),
+        -11px 2px 0 rgba(0, 0, 0, 0.14),
+        -12px 0 0 var(--page-edge-color);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    .book-page-right {
+      background: var(--paper-right);
+      color: var(--ink-primary);
+      box-shadow:
+        6px 0 0 var(--page-edge-color),
+        11px 2px 0 rgba(0, 0, 0, 0.14),
+        12px 0 0 var(--page-edge-color);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    .paper-texture::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.25;
+      background-image: radial-gradient(rgba(140, 120, 90, 0.15) 0.75px, transparent 0.75px);
+      background-size: 14px 14px;
+      border-radius: inherit;
+    }
+
+    .book-spine-center {
+      background: var(--spine-shadow);
+      pointer-events: none;
+    }
+
+    /* 3D Animated Turning Page Leaf */
+    .page-flip-leaf {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      z-index: 35;
+      pointer-events: none;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      border-radius: 0.75rem;
+      display: none;
+    }
+
+    .page-flip-leaf.flip-next {
+      display: block;
+      right: 0;
+      transform-origin: left center;
+      background: var(--paper-right);
+      border-left: 1px solid var(--border-strong);
+      box-shadow: -15px 0 35px rgba(0, 0, 0, 0.28);
+      animation: flipForward 0.56s cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
+    }
+
+    .page-flip-leaf.flip-prev {
+      display: block;
+      left: 0;
+      transform-origin: right center;
+      background: var(--paper-left);
+      border-right: 1px solid var(--border-strong);
+      box-shadow: 15px 0 35px rgba(0, 0, 0, 0.28);
+      animation: flipBackward 0.56s cubic-bezier(0.45, 0.05, 0.25, 1) forwards;
+    }
+
+    @keyframes flipForward {
+      0% {
+        transform: rotateY(0deg);
+        filter: brightness(1);
+      }
+      45% {
+        filter: brightness(0.92);
+      }
+      100% {
+        transform: rotateY(-178deg);
+        filter: brightness(0.82);
+        opacity: 0.15;
+      }
+    }
+
+    @keyframes flipBackward {
+      0% {
+        transform: rotateY(0deg);
+        filter: brightness(1);
+      }
+      45% {
+        filter: brightness(0.92);
+      }
+      100% {
+        transform: rotateY(178deg);
+        filter: brightness(0.82);
+        opacity: 0.15;
+      }
+    }
+
+    /* Bookmark Ribbon */
+    .bookmark-ribbon {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
+    }
+    .bookmark-ribbon:hover {
+      transform: translateY(4px);
+    }
+
+    /* Custom Scrollbar inside pages */
+    .page-scroll::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .page-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .page-scroll::-webkit-scrollbar-thumb {
+      background: var(--border-strong);
+      border-radius: 9999px;
+    }
+
+    /* Subtle fade-up for content switches */
+    .content-reveal {
+      animation: contentFadeIn 0.35s ease-out;
+    }
+    @keyframes contentFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Floating ambient gold dust particles */
+    .ambient-particle {
+      position: absolute;
+      border-radius: 9999px;
+      background: radial-gradient(circle, rgba(245, 223, 150, 0.85) 0%, rgba(212, 175, 55, 0) 70%);
+      pointer-events: none;
+      animation: floatDust 9s ease-in-out infinite;
+    }
+
+    @keyframes floatDust {
+      0%, 100% { transform: translateY(0) scale(1); opacity: 0.25; }
+      50% { transform: translateY(-22px) scale(1.25); opacity: 0.7; }
+    }
+
+    @media (max-width: 1023px) {
+      .book-page-left, .book-page-right {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      }
+      .page-flip-leaf {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="theme-ivory antialiased selection:bg-amber-500/30">
+
+  <!-- ========================================================================
+       STAGE 1: 3D INTERACTIVE HARDCOVER BOOK COVER
+       ======================================================================== -->
+  <section id="cover-stage" class="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-10 book-perspective relative overflow-hidden">
+    <!-- Ambient Decorative Background Glow & Floating Particles -->
+    <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
+      <div class="w-[540px] h-[540px] rounded-full bg-amber-500/10 blur-[120px]"></div>
+      <div class="ambient-particle w-2 h-2 top-[18%] left-[22%]" style="animation-delay: 0s;"></div>
+      <div class="ambient-particle w-1.5 h-1.5 top-[72%] left-[18%]" style="animation-delay: 2.2s;"></div>
+      <div class="ambient-particle w-2.5 h-2.5 top-[26%] right-[20%]" style="animation-delay: 4.1s;"></div>
+      <div class="ambient-particle w-1.5 h-1.5 bottom-[20%] right-[25%]" style="animation-delay: 6s;"></div>
+    </div>
+
+    <!-- 3D Hardcover Book Artifact -->
+    <div id="book-cover-card" class="cover-wrapper relative w-full max-w-[680px] rounded-r-2xl rounded-l-md leather-cover gold-foil-border shadow-[0_35px_90px_rgba(0,0,0,0.88)] overflow-hidden flex">
+      <!-- Realistic Book Spine Ridge (Left Edge) -->
+      <div class="w-6 sm:w-9 shrink-0 cover-spine-ridge border-r border-amber-500/30 relative flex flex-col justify-between py-8 items-center">
+        <span class="w-4 h-[2px] bg-amber-400/50"></span>
+        <span class="w-4 h-[2px] bg-amber-400/50"></span>
+        <span class="font-mono-code text-[9px] tracking-[0.25em] text-amber-300/60 -rotate-90 whitespace-nowrap">EQUITY • CORP • VOL. I</span>
+        <span class="w-4 h-[2px] bg-amber-400/50"></span>
+        <span class="w-4 h-[2px] bg-amber-400/50"></span>
+      </div>
+
+      <!-- Main Front Cover Board -->
+      <div class="flex-1 p-5 sm:p-9 md:p-11 relative flex flex-col justify-between min-h-[650px] sm:min-h-[730px]">
+        <!-- Inner Gold Foil Filigree Frame -->
+        <div class="pointer-events-none absolute inset-3 sm:inset-5 border border-amber-400/35 rounded-lg"></div>
+        <div class="pointer-events-none absolute inset-4 sm:inset-6 border border-amber-400/15 rounded-md"></div>
+
+        <!-- Corner Gold Ornaments (SVG) -->
+        <svg class="pointer-events-none absolute top-4 left-4 sm:top-6 sm:left-6 w-8 h-8 text-amber-400/70" viewBox="0 0 32 32" fill="none">
+          <path d="M2 24V2H24M2 10H10V2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+        </svg>
+        <svg class="pointer-events-none absolute top-4 right-4 sm:top-6 sm:right-6 w-8 h-8 text-amber-400/70 rotate-90" viewBox="0 0 32 32" fill="none">
+          <path d="M2 24V2H24M2 10H10V2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+        </svg>
+        <svg class="pointer-events-none absolute bottom-4 left-4 sm:bottom-6 sm:left-6 w-8 h-8 text-amber-400/70 -rotate-90" viewBox="0 0 32 32" fill="none">
+          <path d="M2 24V2H24M2 10H10V2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+        </svg>
+        <svg class="pointer-events-none absolute bottom-4 right-4 sm:bottom-6 sm:right-6 w-8 h-8 text-amber-400/70 rotate-180" viewBox="0 0 32 32" fill="none">
+          <path d="M2 24V2H24M2 10H10V2" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+        </svg>
+
+        <!-- Top Institutional Crest & Badge -->
+        <div class="relative z-10 text-center pt-2">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-amber-400/40 bg-amber-500/10 mb-5">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+            <span class="font-mono-code text-[10px] sm:text-xs tracking-[0.18em] text-amber-200 uppercase">
+              ZERO-TO-HERO • SAHAM • LEGALITAS &amp; KORPORASI
+            </span>
+          </div>
+
+          <!-- Custom Gold Foil Astrolabe / Crest SVG -->
+          <div class="mx-auto w-20 h-20 sm:w-24 sm:h-24 mb-4 flex items-center justify-center">
+            <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_4px_12px_rgba(212,175,55,0.35)]">
+              <defs>
+                <linearGradient id="crestGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#f7e49c"/>
+                  <stop offset="50%" stop-color="#d4af37"/>
+                  <stop offset="100%" stop-color="#8f6b18"/>
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="50" r="44" fill="none" stroke="url(#crestGold)" stroke-width="1.5" stroke-dasharray="4 3"/>
+              <circle cx="50" cy="50" r="36" fill="none" stroke="url(#crestGold)" stroke-width="2"/>
+              <polygon points="50,14 81,32 81,68 50,86 19,68 19,32" fill="none" stroke="url(#crestGold)" stroke-width="1.5"/>
+              <path d="M50 22 L50 78 M25 50 L75 50" stroke="url(#crestGold)" stroke-width="1" opacity="0.6"/>
+              <circle cx="50" cy="50" r="15" fill="rgba(212,175,55,0.12)" stroke="url(#crestGold)" stroke-width="1.8"/>
+              <text x="50" y="54" text-anchor="middle" fill="url(#crestGold)" font-family="Cinzel, serif" font-weight="800" font-size="11">IDX•PT</text>
+            </svg>
+          </div>
+
+          <p class="font-mono-code text-xs tracking-[0.3em] text-amber-400/90 uppercase mb-2">
+            KITAB MASTER KURIKULUM LENGKAP
+          </p>
+          <h1 class="font-display text-2xl sm:text-4xl font-extrabold tracking-wider gold-foil-text leading-tight">
+            INVESTASI SAHAM &amp; ARSITEKTUR KORPORASI
+          </h1>
+          <div class="w-32 h-[1.5px] mx-auto my-4 bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
+          <p class="font-serif-editorial italic text-sm sm:text-base text-amber-100/90 max-w-md mx-auto leading-relaxed">
+            “Dari Nol Memahami Uang, Pendirian Badan Usaha (UD, CV, PT, Holding, Konglomerasi), hingga Mahir Memilih &amp; Membeli Saham.”
+          </p>
+        </div>
+
+        <!-- Middle 4-Metric Gold Embossed Grid -->
+        <div class="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 my-6">
+          <div class="rounded-xl border border-amber-400/30 bg-slate-950/60 p-3 text-center backdrop-blur-sm">
+            <div class="font-display text-xl sm:text-2xl font-bold text-amber-300">25</div>
+            <div class="text-[11px] text-slate-300 font-medium mt-0.5">Bab Komplit</div>
+          </div>
+          <div class="rounded-xl border border-amber-400/30 bg-slate-950/60 p-3 text-center backdrop-blur-sm">
+            <div class="font-display text-xl sm:text-2xl font-bold text-amber-300">5</div>
+            <div class="text-[11px] text-slate-300 font-medium mt-0.5">Departemen Ilmu</div>
+          </div>
+          <div class="rounded-xl border border-amber-400/30 bg-slate-950/60 p-3 text-center backdrop-blur-sm">
+            <div class="font-display text-lg sm:text-xl font-bold text-amber-300 pt-0.5">200+</div>
+            <div class="text-[11px] text-slate-300 font-medium mt-0.5">Konsep &amp; Rumus</div>
+          </div>
+          <div class="rounded-xl border border-amber-400/30 bg-slate-950/60 p-3 text-center backdrop-blur-sm">
+            <div class="font-display text-lg sm:text-xl font-bold text-amber-300 pt-0.5">Lab</div>
+            <div class="text-[11px] text-slate-300 font-medium mt-0.5">Kalkulator &amp; Grafik</div>
+          </div>
+        </div>
+
+        <!-- Bottom Action Bar -->
+        <div class="relative z-10 text-center pb-2">
+          <p class="font-mono-code text-[10px] tracking-[0.16em] text-slate-400 uppercase mb-4">
+            Panduan Pemula Total → Investor Mandiri • Badan Usaha • Valuasi &amp; Eksekusi
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button id="btn-open-book" type="button"
+              class="group w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-slate-950 font-bold text-sm sm:text-base tracking-wide shadow-[0_10px_30px_rgba(212,175,55,0.4)] hover:shadow-[0_14px_38px_rgba(212,175,55,0.65)] transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2.5 cursor-pointer">
+              <span>Buka Kitab Pembelajaran</span>
+              <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+            </button>
+
+            <button id="btn-resume-book" type="button"
+              class="hidden w-full sm:w-auto px-5 py-3.5 rounded-xl border border-amber-400/50 bg-slate-900/80 text-amber-200 hover:bg-amber-500/15 font-medium text-sm transition-all cursor-pointer">
+              Lanjutkan Terakhir Dibaca
+            </button>
+          </div>
+
+          <!-- Gold-Foil Embossed Publisher Attribution Stamp -->
+          <div class="mt-6 pt-4 border-t border-amber-400/20 flex flex-col items-center justify-center">
+            <div class="publisher-imprint inline-flex items-center gap-2.5 px-5 py-2 rounded-full">
+              <span class="w-1.5 h-1.5 rotate-45 bg-amber-400/80"></span>
+              <span class="font-display text-xs sm:text-sm font-bold tracking-[0.22em] gold-foil-text lowercase">
+                created by orixtron tech.
+              </span>
+              <span class="w-1.5 h-1.5 rotate-45 bg-amber-400/80"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gilded Gold Page Fore-Edge (Right Side of Hardcover) -->
+      <div class="w-2.5 sm:w-3.5 shrink-0 gilded-edges-right opacity-90"></div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       STAGE 2: OPEN HARDCOVER BOOK SPREAD (TWO-PAGE EDITORIAL WORKBENCH)
+       ======================================================================== -->
+  <main id="book-workspace" class="hidden min-h-screen flex flex-col justify-between py-3 px-2 sm:px-5 md:px-8 max-w-[1620px] mx-auto">
+
+    <!-- TOP EDITORIAL CONTROL BAR -->
+    <header class="w-full rounded-2xl bg-slate-900/85 backdrop-blur-md border border-amber-500/25 px-3 sm:px-5 py-2.5 mb-3 flex flex-wrap items-center justify-between gap-2.5 shadow-xl">
+      <!-- Left: TOC Drawer & Atlas Quick Links -->
+      <div class="flex items-center gap-2 sm:gap-2.5">
+        <button id="btn-open-toc" type="button"
+          class="px-3 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/40 text-amber-200 text-xs sm:text-sm font-semibold flex items-center gap-2 transition cursor-pointer">
+          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h10"/>
+          </svg>
+          <span>Daftar Isi (25 Bab)</span>
+        </button>
+
+        <button id="btn-goto-atlas1" type="button"
+          class="hidden md:inline-flex px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition cursor-pointer">
+          Peta Belajar
+        </button>
+
+        <button id="btn-goto-atlas2" type="button"
+          class="hidden md:inline-flex px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-xs font-medium border border-slate-700 transition cursor-pointer">
+          Kamus PT/CV/Holding
+        </button>
+      </div>
+
+      <!-- Center: Instant Search Input -->
+      <div class="relative flex-1 max-w-md min-w-[180px]">
+        <div class="relative flex items-center">
+          <svg class="w-4 h-4 text-amber-400/80 absolute left-3 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z"/>
+          </svg>
+          <input id="global-search-input" type="text" autocomplete="off"
+            placeholder="Cari ilmu: PT, CV, Holding, PER, PBV, Dividen, RDN..."
+            class="w-full pl-9 pr-8 py-1.5 sm:py-2 rounded-xl bg-slate-950/80 border border-slate-700 focus:border-amber-400 focus:outline-none text-xs sm:text-sm text-slate-100 placeholder-slate-400 transition" />
+          <button id="btn-clear-search" type="button" class="hidden absolute right-2.5 text-slate-400 hover:text-white text-xs cursor-pointer">✕</button>
+        </div>
+        <!-- Instant Search Results Dropdown -->
+        <div id="search-results-dropdown"
+          class="hidden absolute left-0 right-0 mt-2 max-h-80 overflow-y-auto rounded-xl bg-slate-900 border border-amber-500/40 shadow-2xl z-50 divide-y divide-slate-800">
+        </div>
+      </div>
+
+      <!-- Right: Progress Pill, Theme Switcher & Close Cover -->
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950/70 border border-slate-800">
+          <div class="w-16 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+            <div id="progress-bar-fill" class="h-full bg-gradient-to-r from-amber-500 to-yellow-300 transition-all duration-500" style="width: 0%"></div>
+          </div>
+          <span id="progress-text" class="font-mono-code text-[11px] text-amber-300 font-semibold">0/25 Bab</span>
+        </div>
+
+        <!-- Reading Theme Switcher -->
+        <div class="flex items-center rounded-xl bg-slate-950/80 p-1 border border-slate-800" title="Tema Kertas Bacaan">
+          <button type="button" data-theme-btn="ivory"
+            class="theme-btn px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer bg-amber-500 text-slate-950">
+            Gading
+          </button>
+          <button type="button" data-theme-btn="sepia"
+            class="theme-btn px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer text-slate-300 hover:text-white">
+            Sepia
+          </button>
+          <button type="button" data-theme-btn="night"
+            class="theme-btn px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer text-slate-300 hover:text-white">
+            Malam
+          </button>
+        </div>
+
+        <!-- Close Book to Cover -->
+        <button id="btn-close-book" type="button" title="Tutup Sampul Buku"
+          class="p-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-amber-300 transition cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ======================================================================
+         HARDCOVER OPEN BOOK CASING & TWO-PAGE SPREAD
+         ====================================================================== -->
+    <div id="book-spread-container" class="book-perspective relative flex-1 flex items-stretch my-1">
+      <div class="book-hardcover-casing w-full rounded-2xl p-1.5 sm:p-3 md:p-4 relative flex flex-col lg:flex-row gap-3 lg:gap-0 shadow-2xl">
+
+        <!-- Hanging Silk Bookmark Ribbon -->
+        <button id="btn-toggle-bookmark" type="button" title="Pasang / Lepas Pita Pembatas Halaman"
+          class="bookmark-ribbon absolute -top-1 right-8 sm:right-14 z-30 w-7 h-12 bg-red-700 hover:bg-red-600 shadow-lg flex items-start justify-center pt-1.5 text-amber-200 cursor-pointer">
+          <svg id="bookmark-star-icon" class="w-3.5 h-3.5 opacity-60" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+          </svg>
+        </button>
+
+        <!-- 3D Animated Turning Leaf Overlay -->
+        <div id="page-flip-leaf" class="page-flip-leaf"></div>
+
+        <!-- Central Spine Crease Shadow (Desktop Two-Page Spread) -->
+        <div class="hidden lg:block book-spine-center absolute top-3 bottom-3 left-1/2 -translate-x-1/2 w-12 z-20"></div>
+
+        <!-- ==================================================================
+             LEFT PAGE: SYLLABUS, CURRICULUM & INTERACTIVE CONCEPT CARDS
+             ================================================================== -->
+        <article id="left-page"
+          class="book-page-left paper-texture relative w-full lg:w-1/2 rounded-xl lg:rounded-r-none lg:rounded-l-xl p-5 sm:p-7 md:p-8 flex flex-col justify-between lg:min-h-[680px] lg:max-h-[78vh] overflow-y-auto page-scroll">
+          <div id="left-page-content" class="relative z-10 flex-1 flex flex-col">
+            <!-- Dynamically rendered Left Page content -->
+          </div>
+
+          <div class="relative z-10 pt-4 mt-5 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px] font-mono-code text-[var(--ink-muted)]">
+            <span id="left-folio-label">KITAB INVESTASI &amp; KORPORASI</span>
+            <span id="left-page-number">FOLIO L-01</span>
+          </div>
+        </article>
+
+        <!-- ==================================================================
+             RIGHT PAGE: INTERACTIVE WORKBENCH (TEORI / KASUS / LAB / PRAKTIK)
+             ================================================================== -->
+        <article id="right-page"
+          class="book-page-right paper-texture relative w-full lg:w-1/2 rounded-xl lg:rounded-l-none lg:rounded-r-xl p-5 sm:p-7 md:p-8 flex flex-col justify-between lg:min-h-[680px] lg:max-h-[78vh] overflow-y-auto page-scroll">
+          <div id="right-page-content" class="relative z-10 flex-1 flex flex-col">
+            <!-- Dynamically rendered Right Page content -->
+          </div>
+
+          <div class="relative z-10 pt-4 mt-5 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px] font-mono-code text-[var(--ink-muted)]">
+            <span id="right-folio-label">LABORATORIUM PRAKTIK</span>
+            <span id="right-page-number">FOLIO R-01</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- BOTTOM PAGE TURN NAVIGATION BAR -->
+    <footer class="w-full rounded-2xl bg-slate-900/85 backdrop-blur-md border border-amber-500/25 px-3 sm:px-6 py-2.5 mt-3 flex items-center justify-between gap-3 shadow-xl">
+      <button id="btn-prev-page" type="button"
+        class="px-3.5 sm:px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:pointer-events-none text-slate-100 text-xs sm:text-sm font-semibold flex items-center gap-2 border border-slate-700 transition cursor-pointer">
+        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+        <span>Halaman Sebelumnya</span>
+      </button>
+
+      <div class="flex flex-col sm:flex-row items-center gap-1 sm:gap-3 text-center">
+        <span id="footer-page-indicator" class="font-mono-code text-xs sm:text-sm font-semibold text-amber-300">
+          ATLAS I — PETA PERJALANAN BELAJAR
+        </span>
+        <span class="hidden md:inline text-[11px] text-slate-400">
+          (Gunakan tombol ← / → atau geser layar)
+        </span>
+      </div>
+
+      <button id="btn-next-page" type="button"
+        class="px-3.5 sm:px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 disabled:opacity-40 disabled:pointer-events-none text-slate-950 text-xs sm:text-sm font-bold flex items-center gap-2 shadow-md transition cursor-pointer">
+        <span>Halaman Berikutnya</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </footer>
+  </main>
+
+  <!-- ========================================================================
+       TABLE OF CONTENTS & DEPARTMENT DRAWER (SLIDE-OVER MODAL)
+       ======================================================================== -->
+  <div id="toc-drawer-backdrop" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex">
+    <aside class="w-full max-w-lg bg-slate-950 border-r border-amber-500/35 h-full flex flex-col shadow-2xl">
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <p class="font-mono-code text-[10px] tracking-[0.25em] text-amber-400 uppercase">MASTER INDEX // 25 BAB</p>
+          <h2 class="font-display text-xl font-bold text-white">Daftar Isi Kurikulum &amp; Atlas</h2>
+        </div>
+        <button id="btn-close-toc" type="button" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 cursor-pointer">✕</button>
+      </div>
+
+      <div class="p-4 bg-slate-900/70 border-b border-slate-800 grid grid-cols-2 gap-2">
+        <button type="button" data-jump-page="atlas-1"
+          class="toc-jump-btn p-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-left transition cursor-pointer">
+          <div class="font-mono-code text-[10px] text-amber-300">ATLAS I</div>
+          <div class="text-xs font-semibold text-white">Peta Belajar Zero-to-Hero</div>
+        </button>
+        <button type="button" data-jump-page="atlas-2"
+          class="toc-jump-btn p-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-left transition cursor-pointer">
+          <div class="font-mono-code text-[10px] text-amber-300">ATLAS II</div>
+          <div class="text-xs font-semibold text-white">Tabel Badan Usaha &amp; Checklist</div>
+        </button>
+      </div>
+
+      <div id="drawer-bookmark-banner" class="hidden px-4 py-2.5 bg-red-950/60 border-b border-red-500/30 flex items-center justify-between">
+        <span id="drawer-bookmark-label" class="text-xs text-red-200 font-medium">Pita Pembatas: Bab 01</span>
+        <button id="btn-jump-bookmark" type="button" class="px-2.5 py-1 rounded-lg bg-red-600 text-white text-xs font-semibold cursor-pointer">Buka</button>
+      </div>
+
+      <div id="toc-list-container" class="flex-1 overflow-y-auto p-4 space-y-5 page-scroll">
+        <!-- Populated dynamically by JS -->
+      </div>
+    </aside>
+    <div id="toc-backdrop-clickarea" class="flex-1"></div>
+  </div>
+
+  <!-- ========================================================================
+       TOPIC CONCEPT DETAIL MODAL (POPUP CARD WHEN CLICKING ANY TOPIC)
+       ======================================================================== -->
+  <div id="topic-modal-backdrop" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="w-full max-w-2xl rounded-2xl bg-slate-900 border border-amber-400/45 shadow-2xl overflow-hidden content-reveal">
+      <div class="px-6 py-4 bg-gradient-to-r from-slate-950 to-slate-900 border-b border-amber-500/25 flex items-start justify-between gap-4">
+        <div>
+          <span id="topic-modal-badge" class="font-mono-code text-[11px] text-amber-400 uppercase tracking-wider">BAB 01 // KONSEP INTI</span>
+          <h3 id="topic-modal-title" class="font-serif-editorial text-xl sm:text-2xl font-bold text-white mt-0.5">Definisi Saham</h3>
+        </div>
+        <button id="btn-close-topic-modal" type="button" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer">✕</button>
+      </div>
+      <div class="p-6 space-y-4 text-sm text-slate-200 leading-relaxed max-h-[72vh] overflow-y-auto page-scroll">
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800">
+          <div class="font-mono-code text-[11px] text-amber-400 uppercase mb-1">01 // Pengertian Sederhana &amp; Konsep Inti</div>
+          <p id="topic-modal-def" class="text-slate-200"></p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-950/70 border border-slate-800">
+          <div class="font-mono-code text-[11px] text-sky-400 uppercase mb-1">02 // Cara Kerja &amp; Mekanisme Praktis di Lapangan</div>
+          <p id="topic-modal-mech" class="text-slate-300"></p>
+        </div>
+        <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-400/30">
+          <div class="font-mono-code text-[11px] text-amber-300 uppercase mb-1">03 // Contoh Nyata &amp; Aturan Eksekusi Investor</div>
+          <p id="topic-modal-ind" class="text-amber-100/90"></p>
+        </div>
+      </div>
+      <div class="px-6 py-3.5 bg-slate-950/80 border-t border-slate-800 flex justify-end">
+        <button id="btn-done-topic-modal" type="button"
+          class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm cursor-pointer">
+          Paham, Tutup Kartu
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       APPLICATION DATA & INTERACTIVE BOOK ENGINE (JAVASCRIPT)
+       ======================================================================== -->
+  <script>
+    (function () {
+      "use strict";
+
+      /* ----------------------------------------------------------------------
+         1. COMPLETE 5 DEPARTMENTS & 25 CHAPTERS (ZERO-TO-HERO CURRICULUM)
+         ---------------------------------------------------------------------- */
+      const DEPARTMENTS = [
+        {
+          id: "DEPT-01",
+          code: "DEPARTEMEN 01",
+          name: "FONDASI UANG, BURSA SAHAM & CARA BELI",
+          level: "TAHAP 1 • PEMULA TOTAL",
+          chapters: [1, 2, 3, 4]
+        },
+        {
+          id: "DEPT-02",
+          code: "DEPARTEMEN 02",
+          name: "PENDIRIAN BADAN USAHA & ARSITEKTUR KORPORASI",
+          level: "TAHAP 2 • LEGALITAS & HOLDING",
+          chapters: [5, 6, 7, 8, 9]
+        },
+        {
+          id: "DEPT-03",
+          code: "DEPARTEMEN 03",
+          name: "ANALISIS FUNDAMENTAL, LAPORAN KEUANGAN & VALUASI",
+          level: "TAHAP 3 • MEMILIH SAHAM",
+          chapters: [10, 11, 12, 13, 14, 15]
+        },
+        {
+          id: "DEPT-04",
+          code: "DEPARTEMEN 04",
+          name: "TEKNIKAL, BANDARMOLOGI & EKSEKUSI BELI-JUAL",
+          level: "TAHAP 4 • TIMING & STRATEGI",
+          chapters: [16, 17, 18, 19, 20]
+        },
+        {
+          id: "DEPT-05",
+          code: "DEPARTEMEN 05",
+          name: "MANAJEMEN RISIKO, PSIKOLOGI, PAJAK & STUDI KASUS",
+          level: "TAHAP 5 • INVESTOR MANDIRI",
+          chapters: [21, 22, 23, 24, 25]
+        }
+      ];
+
+      const SKILL_STAGES = [
+        {
+          stage: "TAHAP 01 // MELEK UANG & MEKANISME BURSA",
+          range: "BAB 01–04",
+          startChapter: 1,
+          desc: "Dari nol paham inflasi, cara kerja saham, struktur BEI/OJK/KSEI, membaca Order Book (Bid-Offer), lot, ARA/ARB, hingga langkah buka RDN dan beli saham pertama."
+        },
+        {
+          stage: "TAHAP 02 // BADAN USAHA & STRUKTUR HOLDING",
+          range: "BAB 05–09",
+          startChapter: 5,
+          desc: "Menguasai bentuk usaha UD, Firma, CV, PT Perorangan, PT Biasa, PT Tbk, BUMN, Koperasi, hingga struktur Company, Business Group, Holding, Subsidiary, Conglomerate, & Aksi Korporasi."
+        },
+        {
+          stage: "TAHAP 03 // MEMBEDAH BISNIS & VALUASI SAHAM",
+          range: "BAB 10–15",
+          startChapter: 10,
+          desc: "Membaca laporan Laba Rugi, Neraca, Arus Kas, menghitung ROE, DER, Free Cash Flow, serta menentukan harga wajar saham memakai PER, PBV, PEG, dan Intrinsic Value."
+        },
+        {
+          stage: "TAHAP 04 // GRAFIK, BANDARMOLOGI & STRATEGI",
+          range: "BAB 16–20",
+          startChapter: 16,
+          desc: "Membaca Candlestick, Support-Resistance, Moving Average, RSI, Broker Summary, Foreign Flow, Value/Growth/Dividend Investing, serta teknik cicil beli & take profit."
+        },
+        {
+          stage: "TAHAP 05 // RISIKO, PSIKOLOGI, RED FLAG & PAJAK",
+          range: "BAB 21–25",
+          startChapter: 21,
+          desc: "Mengatur diversifikasi portofolio, mengendalikan FOMO & Panic Selling, mendeteksi laporan keuangan bermasalah, pajak dividen/saham, serta simulasi portofolio 10 tahun."
+        }
+      ];
+
+      const CORE_PILLARS = [
+        "Literasi Keuangan & Mekanisme Bursa",
+        "Legalitas Badan Usaha (UD, CV, PT)",
+        "Arsitektur Group, Holding & Konglomerasi",
+        "Analisis Laporan Keuangan & Valuasi",
+        "Teknikal, Volume & Aliran Dana Asing",
+        "Manajemen Risiko, Psikologi & Pajak"
+      ];
+
+      /* Complete Comparison Matrix of Legal Business Entities & Corporate Structures */
+      const ENTITY_CATALOG = [
+        {
+          name: "UD (Usaha Dagang)",
+          category: "Non-Badan Hukum",
+          capital: "Tidak ada batas minimal; modal menyatu dengan pemilik",
+          liability: "Tidak terbatas (harta pribadi pemilik ikut menanggung utang usaha)",
+          detail: "Bentuk usaha paling sederhana yang didirikan 1 orang. Cocok untuk toko/dagang skala mikro, namun tidak bisa menerbitkan saham atau menjual kepemilikan ke investor publik."
+        },
+        {
+          name: "Firma (Fa)",
+          category: "Non-Badan Hukum",
+          capital: "Gabungan pemasukan (inbreng) para sekutu pendiri",
+          liability: "Tanggung jawab renteng hingga harta pribadi seluruh sekutu",
+          detail: "Persekutuan dua orang atau lebih untuk menjalankan usaha di bawah satu nama bersama (umumnya konsultan hukum, akuntan, arsitek). Semua sekutu berhak bertindak atas nama Firma."
+        },
+        {
+          name: "CV (Persekutuan Komanditer)",
+          category: "Non-Badan Hukum",
+          capital: "Tidak ada syarat modal minimal; tercatat di SABU Kemenkumham",
+          liability: "Sekutu Aktif bertanggung jawab penuh; Sekutu Pasif sebatas modal",
+          detail: "Memisahkan pengurus aktif (Komplementer) dan pemodal pasif (Komanditer). Populer untuk kontraktor & UMKM, tetapi karena bukan badan hukum, CV tidak bisa IPO di bursa saham."
+        },
+        {
+          name: "PT Perorangan",
+          category: "Badan Hukum",
+          capital: "Bebas sesuai kemampuan pelaku usaha (kriteria UMK, maks Rp 5 Miliar)",
+          liability: "Terbatas sebatas modal yang disetor ke dalam PT",
+          detail: "Inovasi UU Cipta Kerja: cukup 1 pendiri sekaligus direktur/pemegang saham tanpa akta notaris, cukup pernyataan elektronik Kemenkumham. Pemisahan harta pribadi sudah berlaku."
+        },
+        {
+          name: "PT Biasa / Tertutup",
+          category: "Badan Hukum",
+          capital: "Modal dasar bebas; minimal 25% ditempatkan dan disetor penuh",
+          liability: "Terbatas (Limited Liability) sebatas nilai saham yang dimiliki",
+          detail: "Didirikan minimal 2 orang dengan Akta Notaris & SK Kemenkumham. Modalnya terbagi atas lembar saham, namun sahamnya hanya beredar terbatas di kalangan pendiri/investor privat."
+        },
+        {
+          name: "PT Tbk (Perusahaan Terbuka)",
+          category: "Badan Hukum",
+          capital: "Ekuitas berwujud bersih minimal Rp 5 M (Akselerasi) hingga >Rp 250 M (Utama)",
+          liability: "Terbatas bagi seluruh pemegang saham publik maupun pengendali",
+          detail: "PT yang telah melakukan IPO (Initial Public Offering) di Bursa Efek Indonesia sehingga sahamnya dapat dibeli masyarakat luas melalui aplikasi sekuritas."
+        },
+        {
+          name: "Business Group & Holding Company",
+          category: "Struktur Korporasi",
+          capital: "Konsolidasi ekuitas perusahaan induk & anak-anak usaha (Subsidiaries)",
+          liability: "Terisolasi per badan hukum anak usaha (ring-fencing risiko)",
+          detail: "Holding Company adalah PT induk yang memiliki saham pengendali (>50%) di berbagai anak perusahaan (Subsidiary) dalam satu Group untuk efisiensi pajak, pendanaan, dan strategi."
+        },
+        {
+          name: "Conglomerate & SPV",
+          category: "Struktur Korporasi",
+          capital: "Multi-miliar/triliun lintas sektor industri yang tidak saling berkaitan",
+          liability: "Terpisah tiap entitas; SPV dibentuk khusus untuk proyek/akuisisi tertentu",
+          detail: "Konglomerasi membawahi puluhan PT di berbagai sektor (bank, tambang, ritel, properti). SPV (Special Purpose Vehicle) adalah PT khusus untuk mengisolasi aset atau transaksi proyek."
+        }
+      ];
+
+      /* 10-Point Golden Checklist for Picking Winning Stocks */
+      const STOCK_PICKING_CHECKLIST = [
+        {
+          code: "01",
+          title: "Model Bisnis Mudah Dipahami",
+          metric: "Produk Jelas & Dibutuhkan",
+          desc: "Pahami bagaimana perusahaan menghasilkan uang dan siapa pelanggannya. Hindari bisnis yang tidak jelas sumber pendapatannya."
+        },
+        {
+          code: "02",
+          title: "Pendapatan & Laba Konsisten Tumbuh",
+          metric: "Revenue & Net Profit CAGR > 8%",
+          desc: "Periksa laporan keuangan 3–5 tahun terakhir: penjualan dan laba bersih utama harus bertumbuh stabil, bukan laba sekali waktu dari jual aset."
+        },
+        {
+          code: "03",
+          title: "Profitabilitas & Efisiensi Modal Tinggi",
+          metric: "ROE ≥ 12% – 15%",
+          desc: "Return on Equity (ROE) tinggi menandakan manajemen mampu memutar modal pemegang saham menjadi keuntungan secara efisien."
+        },
+        {
+          code: "04",
+          title: "Utang Terkendali & Likuiditas Aman",
+          metric: "DER < 1.0x (Non-Bank)",
+          desc: "Pastikan rasio utang terhadap ekuitas (DER) rendah dan kas perusahaan cukup untuk melunasi kewajiban jangka pendek (Current Ratio > 1.2x)."
+        },
+        {
+          code: "05",
+          title: "Arus Kas Operasi Positif (Cash Is King)",
+          metric: "CFO ≥ Laba Bersih",
+          desc: "Laba di atas kertas wajib dikonfirmasi oleh kas masuk nyata pada Laporan Arus Kas Operasi (Operating Cash Flow)."
+        },
+        {
+          code: "06",
+          title: "Valuasi Masih Wajar / Diskon",
+          metric: "PER & PBV di Bawah Rata-Rata",
+          desc: "Perusahaan hebat sekalipun bisa menjadi investasi buruk jika dibeli terlalu mahal. Bandingkan PER dan PBV saat ini dengan historis 5 tahunnya."
+        },
+        {
+          code: "07",
+          title: "Manajemen & Pengendali Kredibel",
+          metric: "Tata Kelola Baik & Rutin Dividen",
+          desc: "Cek rekam jejak pemilik (PSP), apakah rutin membagikan dividen kepada pemegang saham publik, serta bebas dari rekam jejak merugikan ritel."
+        },
+        {
+          code: "08",
+          title: "Likuiditas Transaksi Harian Memadai",
+          metric: "Nilai Transaksi > Rp 1 Miliar/Hari",
+          desc: "Pastikan saham aktif diperdagangkan di bursa agar mudah dibeli dan dijual kapan saja tanpa terjebak saham tidur."
+        }
+      ];
+
+      /* 25 Complete Chapters covering Zero-to-Hero Stock Investing & Corporate Structures */
+      const CHAPTERS = [
+        {
+          num: 1,
+          deptId: "DEPT-01",
+          stage: "PEMULA TOTAL • FONDASI",
+          title: "NOL KE PAHAM: UANG, INFLASI & INVESTASI",
+          vizType: "compounding",
+          vizTitle: "Simulator Bunga Berbunga (Compounding) Nabung Saham vs Tabungan Biasa",
+          topics: [
+            "Nilai Waktu Uang (Time Value of Money)",
+            "Dampak Inflasi Terhadap Daya Beli Tabungan",
+            "Perbedaan Menabung, Trading & Investasi",
+            "Keajaiban Bunga Berbunga (Compounding Effect)",
+            "Profil Risiko Investor (Konservatif, Moderat, Agresif)",
+            "Dana Darurat & Syarat Wajib Sebelum Mulai",
+            "Aset Produktif vs Aset Konsumtif",
+            "Perbandingan Instrumen: Deposito, SBN, Reksa Dana, Emas & Saham",
+            "Membongkar Mitos: Mengapa Saham Bukan Judi"
+          ],
+          theory: "Menyimpan seluruh uang dalam bentuk tunai atau tabungan berbunga 0,5%–1% per tahun membuat nilai riil kekayaan tergerus inflasi 3%–4% setiap tahun. Investasi saham memindahkan uang Anda dari sekadar alat tukar menjadi kepemilikan atas perusahaan produktif yang mampu menaikkan harga jual dan membagikan laba seiring pertumbuhan ekonomi.",
+          caseStudy: {
+            title: "Perbandingan Rp 1.000.000/Bulan Selama 15 Tahun: Tabungan vs Saham Blue Chip",
+            summary: "Jika seseorang menyisihkan Rp 1 juta/bulan (total modal Rp 180 juta) di tabungan biasa (net 1%/tahun), hasilnya sekitar Rp 194 juta. Jika diinvestasikan secara disiplin pada portofolio saham berfundamental kuat dengan imbal hasil majemuk 12%/tahun + reinvestasi dividen, nilainya berkembang melampaui Rp 499 juta.",
+            lesson: "Waktu dan konsistensi disiplin jauh lebih menentukan daripada modal awal yang besar."
+          },
+          practical: [
+            "Hitung pengeluaran bulanan Anda dan pastikan Dana Darurat minimal 3–6 bulan sudah terpisah.",
+            "Uji simulator Compounding di panel kanan dengan mengubah nominal setoran bulanan.",
+            "Tentukan persentase penghasilan bulanan (misal 10%–20%) khusus untuk dana investasi dingin.",
+            "Tuliskan tujuan keuangan spesifik Anda (misal dana pensiun, pendidikan, atau kebebasan finansial)."
+          ]
+        },
+        {
+          num: 2,
+          deptId: "DEPT-01",
+          stage: "PEMULA TOTAL • FONDASI",
+          title: "ANATOMI SAHAM & CARA KERJA BURSA EFEK",
+          vizType: "ecosystem",
+          vizTitle: "Arsitektur Ekosistem Pasar Modal Indonesia (OJK • BEI • KPEI • KSEI)",
+          topics: [
+            "Definisi Saham (Bukti Kepemilikan Sah Perusahaan)",
+            "Mengapa Perusahaan Melakukan IPO (Go Public)",
+            "Struktur Pasar Modal Indonesia (OJK, BEI, KPEI, KSEI)",
+            "Peran Perusahaan Sekuritas (Broker / Anggota Bursa)",
+            "Rekening Dana Nasabah (RDN) & Nomor SID",
+            "Pasar Perdana (e-IPO) vs Pasar Sekunder (Bursa Harian)",
+            "Papan Pencatatan BEI (Utama, Pengembangan, Akselerasi)",
+            "Mengenal Indeks Saham (IHSG, LQ45, IDX30, IDXHIDIV20, ISSI)",
+            "Dua Sumber Keuntungan Saham: Capital Gain & Dividen"
+          ],
+          theory: "Saham adalah surat berharga tanda penyertaan modal pada suatu Perseroan Terbatas Terbuka (PT Tbk). Ketika Anda membeli 1 lot saham Bank BCA (BBCA), secara hukum Anda menjadi salah satu pemilik sah perusahaan tersebut dan berhak atas bagian keuntungan (Dividen) serta kenaikan nilai perusahaan (Capital Gain).",
+          caseStudy: {
+            title: "Keamanan Dana Investor melalui Pemisahan RDN dan KSEI",
+            summary: "Uang tunai Anda disimpan di Rekening Dana Nasabah (RDN) atas nama Anda pribadi di bank kustodian/administrator, sedangkan saham Anda tersimpan secara elektronik di KSEI (Kustodian Sentral Efek Indonesia) di bawah nomor SID Anda—bukan di kantong perusahaan sekuritas.",
+            lesson: "Bahkan jika perusahaan sekuritas tempat Anda mendaftar mengalami masalah operasional, aset saham dan dana RDN Anda tetap aman dan dapat dipindahkan."
+          },
+          practical: [
+            "Pahami perbedaan fungsi BEI (tempat transaksi), KPEI (penjamin penyelesaian), dan KSEI (tempat penyimpanan saham).",
+            "Buka situs resmi idx.co.id untuk melihat daftar emiten penghuni indeks LQ45 dan IDXHIDIV20.",
+            "Bedakan keuntungan Capital Gain (selisih harga jual > harga beli) dan Dividen (bagi hasil laba tahunan).",
+            "Catat bahwa kode saham di Indonesia selalu terdiri dari 4 huruf kapital (contoh: BBCA, BBRI, TLKM, ASII)."
+          ]
+        },
+        {
+          num: 3,
+          deptId: "DEPT-01",
+          stage: "PEMULA TOTAL • MEKANISME",
+          title: "MEKANISME TRANSAKSI, ORDER BOOK & ARA/ARB",
+          vizType: "orderbook",
+          vizTitle: "Simulator Order Book BEI (Bid vs Offer, Lot & Fraksi Harga)",
+          topics: [
+            "Satuan Lot (1 Lot = 100 Lembar Saham)",
+            "Tabel Fraksi Harga (Tick Size) di Bursa Efek Indonesia",
+            "Jam Perdagangan Bursa (Sesi I, Sesi II, Pre-Opening & Pre-Closing)",
+            "Cara Membaca Order Book (Antrean Bid Beli vs Offer/Ask Jual)",
+            "Auto Rejection Atas (ARA) & Auto Rejection Bawah (ARB)",
+            "Jenis Order: Limit Order, Market Order & Auto Order",
+            "Mekanisme Penyelesaian Transaksi T+2",
+            "Rincian Biaya Transaksi (Fee Broker & Pajak Final 0,1%)",
+            "Suspensi Saham & Unusual Market Activity (UMA)"
+          ],
+          theory: "Di Bursa Efek Indonesia, pembelian minimal adalah 1 Lot (100 lembar saham). Jika harga saham Rp 1.500 per lembar, maka 1 Lot berharga Rp 150.000. Pertemuan harga terjadi di Order Book berdasarkan prioritas harga terbaik (Price Priority) lalu waktu tercepat (Time Priority).",
+          caseStudy: {
+            title: "Cara Kerja Fraksi Harga & Batas Auto Rejection Harian",
+            summary: "Saham berharga di bawah Rp 200 bergerak dengan kelipatan Rp 1 per tick; saham Rp 200–Rp 500 kelipatan Rp 2; saham Rp 500–Rp 2.000 kelipatan Rp 5; saham Rp 2.000–Rp 5.000 kelipatan Rp 10; dan di atas Rp 5.000 kelipatan Rp 25. Sistem bursa juga membatasi kenaikan/penurunan harian (ARA/ARB) agar pasar tidak panik ekstrem.",
+            lesson: "Memahami fraksi harga dan Order Book mencegah kesalahan input harga order yang tidak valid."
+          },
+          practical: [
+            "Latih membaca panel Order Book di sebelah kanan: perhatikan kolom Bid (antrean beli) dan Offer (antrean jual).",
+            "Hitung biaya membeli 5 lot saham seharga Rp 2.400/lembar (5 × 100 × Rp 2.400 = Rp 1.200.000 + fee ~0,15%).",
+            "Ingat jadwal bursa Senin–Kamis (Sesi I: 09.00–12.00 WIB, Sesi II: 13.30–15.49 WIB) dan Jumat (Sesi I: 09.00–11.30 WIB, Sesi II: 14.00–15.49 WIB).",
+            "Pahami bahwa dana hasil penjualan saham baru dapat ditarik ke rekening bank pribadi setelah T+2 (2 hari bursa)."
+          ]
+        },
+        {
+          num: 4,
+          deptId: "DEPT-01",
+          stage: "PEMULA TOTAL • PRAKTIK",
+          title: "PANDUAN PRAKTIS BUKA AKUN & BELI SAHAM PERTAMA",
+          vizType: "orderbook",
+          vizTitle: "Alur Eksekusi Order Beli & Jual pada Aplikasi Sekuritas",
+          topics: [
+            "Kriteria Memilih Sekuritas Resmi Terdaftar & Diawasi OJK",
+            "Persiapan Dokumen & Registrasi Online (e-KYC)",
+            "Aktivasi Rekening Dana Nasabah (RDN) & Cara Top-Up",
+            "Mengenal Menu Utama Aplikasi Sekuritas (Watchlist, Chart, Order, Portfolio)",
+            "Langkah demi Langkah Cara Membeli Saham (Hajar Kanan vs Antre Bid)",
+            "Memahami Average Price, Market Value & Unrealized Gain/Loss",
+            "Langkah Cara Menjual Saham & Penarikan Dana (Withdraw)",
+            "Keamanan Akun (PIN Trading, 2FA, Waspada Grup Telegram/WA Palsu)"
+          ],
+          theory: "Membeli saham kini 100% digital melalui aplikasi sekuritas resmi. Jika Anda ingin saham langsung terbeli seketika, pasang order beli di harga Offer teratas (sering disebut Hajar Kanan / HAKA). Jika ingin mendapat harga lebih murah, pasang antrean beli di harga Bid di bawahnya dan tunggu hingga harga turun menyentuh antrean Anda.",
+          caseStudy: {
+            title: "Simulasi Transaksi Pertama dengan Modal Rp 500.000",
+            summary: "Investor pemula menyetor Rp 500.000 ke nomor RDN pribadinya via transfer bank/BI-FAST. Setelah saldo muncul di Buying Power aplikasi sekuritas, ia memilih emiten berfundamental kuat seharga Rp 1.250/lembar, memasukkan jumlah 3 Lot (Rp 375.000), memasukkan PIN transaksi, dan status berubah dari 'Open' menjadi 'Match'.",
+            lesson: "Mulailah dengan nominal kecil terlebih dahulu untuk membiasakan diri dengan antarmuka aplikasi sebelum menambah modal."
+          },
+          practical: [
+            "Verifikasi legalitas sekuritas pilihan Anda melalui daftar Anggota Bursa resmi di situs idx.co.id.",
+            "Cek fitur aplikasi sekuritas: pastikan tersedia laporan keuangan ringkas, Auto Order (Stop Loss/Take Profit), dan biaya transaksi transparan.",
+            "Lakukan uji coba top-up RDN nominal kecil dan pantau posisi kas di menu Portfolio.",
+            "Aktifkan autentikasi dua faktor dan jangan pernah membagikan Password maupun PIN Trading kepada siapapun."
+          ]
+        },
+        {
+          num: 5,
+          deptId: "DEPT-02",
+          stage: "LEGALITAS • NON-BADAN HUKUM",
+          title: "PENDIRIAN USAHA NON-BADAN HUKUM: UD, FIRMA & CV",
+          vizType: "corporate",
+          vizTitle: "Peta Perbandingan Struktur Kepemilikan & Risiko UD, Firma, dan CV",
+          topics: [
+            "Usaha Dagang (UD) / Perusahaan Perseorangan",
+            "Persekutuan Perdata (Maatschap) untuk Profesi",
+            "Firma (Fa) & Prinsip Tanggung Jawab Renteng",
+            "Commanditaire Vennootschap (CV / Persekutuan Komanditer)",
+            "Peran Sekutu Aktif (Komplementer) vs Sekutu Pasif (Komanditer)",
+            "Prosedur Pendirian CV (Akta Notaris, Sistem Administrasi Badan Usaha, NIB)",
+            "Perbedaan Harta Pribadi vs Harta Usaha (Tidak Terpisah Hukum)",
+            "Mengapa UD, Firma & CV Tidak Bisa Melantai di Bursa (IPO)",
+            "Cara Meningkatkan Status Hukum CV Menjadi PT"
+          ],
+          theory: "Dalam hukum bisnis Indonesia, UD, Firma, dan CV termasuk badan usaha NON-BADAN HUKUM. Artinya, tidak ada pemisahan kekayaan yang mutlak antara harta perusahaan dan harta pribadi pemilik/pengurus. Jika usaha mengalami kebangkrutan atau gugatan utang, aset pribadi pendiri (seperti rumah atau tabungan pribadi) dapat ikut disita untuk melunasi kewajiban usaha.",
+          caseStudy: {
+            title: "Kapan Pengusaha Memilih CV vs Kapan Wajib Beralih ke PT?",
+            summary: "Dua sahabat mendirikan CV konstruksi: satu menjadi Sekutu Aktif yang mengurus operasional harian, satu lagi menjadi Sekutu Pasif yang menyetor modal saja. Saat skala proyek membesar dan membutuhkan pendanaan investor luar atau tender korporasi besar, mereka meningkatkan status CV menjadi PT agar risiko terpisah dan kepemilikan dapat dibagi dalam bentuk saham.",
+            lesson: "CV praktis dan hemat biaya untuk usaha menengah lokal, namun PT mutlak diperlukan untuk ekspansi modal dan perlindungan aset pribadi."
+          },
+          practical: [
+            "Bandingkan tanggung jawab hukum Sekutu Aktif dan Sekutu Pasif pada bentuk usaha CV.",
+            "Pahami alasan mendasar mengapa investor ritel di Bursa Efek hanya membeli saham PT Tbk, bukan CV atau UD.",
+            "Pelajari alur perizinan berusaha berbasis risiko melalui portal resmi OSS-RBA (oss.go.id).",
+            "Buka Atlas II (Kamus Badan Usaha) untuk melihat tabel perbandingan lengkap seluruh bentuk entitas."
+          ]
+        },
+        {
+          num: 6,
+          deptId: "DEPT-02",
+          stage: "LEGALITAS • BADAN HUKUM",
+          title: "PERSEROAN TERBATAS (PT): PENDIRIAN HINGGA PT TBK",
+          vizType: "corporate",
+          vizTitle: "Hirarki Modal PT: Modal Dasar → Modal Ditempatkan → Modal Disetor",
+          topics: [
+            "Konsep Badan Hukum & Perlindungan Tanggung Jawab Terbatas (Limited Liability)",
+            "PT Perorangan (UU Cipta Kerja) untuk Usaha Mikro & Kecil",
+            "PT Persekutuan Modal (PT Biasa / Tertutup)",
+            "PT Penanaman Modal Asing (PT PMA) & Ketentuan Investasi",
+            "PT Terbuka (PT Tbk / Public Listed Company)",
+            "Tahapan Lengkap Pendirian PT (Nama PT, Akta Notaris, SK Kemenkumham, NPWP, NIB)",
+            "Struktur Modal PT: Modal Dasar, Modal Ditempatkan & Modal Disetor",
+            "Klasifikasi Saham: Saham Biasa, Saham Preferen & Saham Seri A/B (SDHM)",
+            "Entitas Lainnya: Koperasi, Yayasan, BUMN (Persero/Perum) & BUMD"
+          ],
+          theory: "Perseroan Terbatas (PT) adalah badan hukum persekutuan modal yang kekayaannya terpisah secara hukum dari kekayaan pribadi pemegang saham. Status badan hukum PT sah sejak diterbitkannya Surat Keputusan (SK) Pengesahan oleh Menteri Hukum dan HAM. Kepemilikan dalam PT diwujudkan dalam bentuk lembar saham.",
+          caseStudy: {
+            title: "Perjalanan Sebuah PT Tertutup Menjadi PT Tbk Melalui Proses IPO",
+            summary: "Sebuah perusahaan ritel awalnya berdiri sebagai PT biasa dengan 3 pendiri. Untuk membangun 100 cabang baru tanpa berutang ke bank, perusahaan mengubah anggaran dasarnya menjadi PT Tbk, menunjuk penjamin emisi (Underwriter), menerbitkan prospektus, dan menawarkan 25% saham baru kepada masyarakat melalui mekanisme e-IPO.",
+            lesson: "Bursa saham adalah jembatan yang menghubungkan pengusaha yang butuh modal ekspansi dengan masyarakat yang ingin memiliki bisnis produktif."
+          },
+          practical: [
+            "Bedakan Modal Dasar (plafon maksimal modal di akta) dengan Modal Disetor (uang nyata yang sudah masuk ke rekening PT).",
+            "Pelajari perbedaan PT Perorangan (1 orang pendiri, khusus UMK) dengan PT Biasa (minimal 2 pendiri).",
+            "Kenali karakteristik BUMN Persero (seperti BBRI, BMRI, TLKM, ANTM) yang mayoritas sahamnya dimiliki Negara RI dan sisanya dimiliki publik.",
+            "Pahami fungsi saham seri khusus (Saham Dwiwarna / Multiple Voting Shares) pada perusahaan teknologi & BUMN."
+          ]
+        },
+        {
+          num: 7,
+          deptId: "DEPT-02",
+          stage: "TATA KELOLA KORPORASI",
+          title: "ORGAN PERUSAHAAN & GOOD CORPORATE GOVERNANCE (GCG)",
+          vizType: "corporate",
+          vizTitle: "Struktur Kekuasaan Internal PT: RUPS, Dewan Komisaris & Direksi",
+          topics: [
+            "Rapat Umum Pemegang Saham (RUPS Tahunan & RUPS Luar Biasa)",
+            "Direksi (Board of Directors) & Tanggung Jawab Pengurusan Harian",
+            "Dewan Komisaris (Board of Commissioners) & Fungsi Pengawasan",
+            "Komisaris Independen & Komite Audit sebagai Pelindung Publik",
+            "Sekretaris Perusahaan (Corporate Secretary) & Keterbukaan Informasi",
+            "Pemegang Saham Pengendali (PSP) vs Pemegang Saham Publik/Minoritas",
+            "Anggaran Dasar & Anggaran Rumah Tangga (AD/ART) Perusahaan",
+            "5 Prinsip GCG (TARIF: Transparency, Accountability, Responsibility, Independency, Fairness)"
+          ],
+          theory: "Setiap PT memiliki tiga organ utama dengan pembagian wewenang tegas: RUPS sebagai pemegang kekuasaan tertinggi (menetapkan dividen, mengangkat direksi/komisaris, menyetujui laporan tahunan), Direksi yang menjalankan operasional sehari-hari dan mewakili PT di dalam/luar pengadilan, serta Dewan Komisaris yang mengawasi kebijakan Direksi.",
+          caseStudy: {
+            title: "Bagaimana Investor Ritel Menggunakan Hak Suara & Menghadiri RUPS",
+            summary: "Setiap pemilik minimal 1 lot saham sebelum tanggal Recording Date berhak menghadiri RUPS secara fisik maupun elektronik (eASY.KSEI) untuk memberikan suara atas pembagian dividen, pergantian direksi, atau persetujuan aksi korporasi besar.",
+            lesson: "Memeriksa kualitas Dewan Komisaris Independen dan Komite Audit membantu investor menghindari perusahaan dengan tata kelola buruk."
+          },
+          practical: [
+            "Unduh satu Laporan Tahunan (Annual Report) emiten di situs IDX dan baca profil Direksi serta Dewan Komisarisnya.",
+            "Cek struktur kepemilikan saham emiten: identifikasi siapa Pemegang Saham Pengendali (PSP) dan berapa persen porsi publik (Free Float).",
+            "Pelajari cara menggunakan platform eASY.KSEI untuk memantau jadwal dan agenda RUPS emiten yang Anda miliki.",
+            "Evaluasi apakah emiten konsisten mematuhi prinsip Transparency dalam merilis laporan keuangan tepat waktu."
+          ]
+        },
+        {
+          num: 8,
+          deptId: "DEPT-02",
+          stage: "ARSITEKTUR KORPORASI",
+          title: "COMPANY, GROUP, HOLDING, SUBSIDIARY & KONGLOMERASI",
+          vizType: "corporate",
+          vizTitle: "Diagram Struktur Induk (Holding Company), Sub-Holding & Anak Usaha",
+          topics: [
+            "Operating Company (Perusahaan Operasional Mandiri)",
+            "Business Group (Grup Usaha Terafiliasi)",
+            "Holding Company (Perusahaan Induk) & Tujuan Strategisnya",
+            "Operating Holding vs Pure Investment Holding Company",
+            "Subsidiary (Anak Perusahaan >50%) & Entitas Asosiasi (20%–50%)",
+            "Sub-Holding & Restrukturisasi Klaster Industri",
+            "Conglomerate (Konglomerasi Multi-Sektor Lintas Industri)",
+            "Special Purpose Vehicle (SPV) & Perusahaan Cangkang (Shell Company)",
+            "Joint Venture (Usaha Patungan), MNC & Konsolidasi Laporan Keuangan"
+          ],
+          theory: "Ketika skala bisnis membesar, pengusaha membentuk Holding Company—sebuah PT induk yang tidak selalu memproduksi barang secara langsung, melainkan memegang saham pengendali di berbagai anak perusahaan (Subsidiary). Dalam laporan keuangan Holding, seluruh aset, pendapatan, dan utang anak usaha yang dikendalikan (>50% saham) digabungkan menjadi Laporan Keuangan Konsolidasian.",
+          caseStudy: {
+            title: "Contoh Nyata Struktur Holding & Konglomerasi di Bursa Efek Indonesia",
+            summary: "PT Astra International Tbk (ASII) berperan sebagai induk konglomerasi yang membawahi anak usaha operasional di sektor otomotif, jasa keuangan, alat berat/pertambangan (UNTR), agribisnis (AALI), dan infrastruktur. Demikian pula Holding BUMN seperti MIND ID yang mengonsolidasikan ANTM, PTBA, dan TINS.",
+            lesson: "Saat membeli saham perusahaan Holding, Anda secara tidak langsung ikut memiliki seluruh portofolio anak-anak perusahaannya."
+          },
+          practical: [
+            "Buka catatan atas laporan keuangan (CALK) emiten holding untuk melihat daftar seluruh entitas anak (Subsidiaries) dan persentase kepemilikannya.",
+            "Bedakan cara pencatatan akuntansi anak usaha (>50% dikonsolidasi penuh) vs entitas asosiasi (20%–50% dicatat dengan metode ekuitas).",
+            "Pahami fungsi SPV dalam mengisolasi risiko proyek infrastruktur atau akuisisi lintas negara.",
+            "Gunakan diagram interaktif di panel kanan untuk mensimulasikan aliran dividen dari anak usaha ke perusahaan induk."
+          ]
+        },
+        {
+          num: 9,
+          deptId: "DEPT-02",
+          stage: "AKSI KORPORASI",
+          title: "AKSI KORPORASI (CORPORATE ACTION) & DAMPAK HARGA",
+          vizType: "corporate",
+          vizTitle: "Timeline Dividen & Efek Dilusi Rights Issue (HMETD)",
+          topics: [
+            "Dividen Tunai & Dividen Saham",
+            "4 Tanggal Penting Dividen: Cum Date, Ex Date, Recording Date, Payment Date",
+            "Fenomena Dividend Trap (Harga Turun Lebih Dalam dari Dividen di Ex Date)",
+            "Stock Split (Pemecahan Saham) & Reverse Stock Split (Penggabungan Saham)",
+            "Rights Issue (HMETD) & Perhitungan Harga Teoritis serta Efek Dilusi",
+            "Private Placement (PMTHMETD / Penambahan Modal Tanpa HMETD)",
+            "Saham Bonus & Kapitalisasi Agio Saham",
+            "Buyback Saham (Pembelian Kembali Saham Beredar oleh Emiten)",
+            "Merger, Akuisisi, Spin-Off Anak Usaha & Mandatory Tender Offer"
+          ],
+          theory: "Aksi korporasi adalah keputusan strategis emiten yang memengaruhi jumlah saham beredar, struktur modal, atau hak pemegang saham. Sebagai contoh, Stock Split 1:5 membuat harga saham menjadi seperlima lebih terjangkau sementara jumlah lot Anda dikali lima—nilai total kekayaan tetap sama, namun likuiditas perdagangan biasanya meningkat.",
+          caseStudy: {
+            title: "Memahami Cum Date vs Ex Date agar Tidak Terjebak Dividend Trap",
+            summary: "Jika Anda membeli saham pada hari Cum Date dan menahannya hingga penutupan bursa, Anda berhak mendapat dividen penuh meskipun besoknya (Ex Date) saham tersebut dijual. Sebaliknya, membeli pada hari Ex Date tidak lagi mendapatkan hak dividen.",
+            lesson: "Selalu periksa tujuan penggunaan dana Rights Issue: ekspansi produktif berdampak positif, sedangkan sekadar menutup utang macet perlu diwaspadai."
+          },
+          practical: [
+            "Hafalkan urutan tanggal penting: Cum Date (hari terakhir beli untuk dapat hak) → Ex Date (hak sudah lepas) → Recording Date → Payment Date.",
+            "Hitung dampak Stock Split 1:4 jika Anda memiliki 10 lot saham di harga Rp 8.000 (menjadi 40 lot di harga Rp 2.000).",
+            "Pahami mengapa Buyback saham oleh emiten dengan kas berlebih sering menjadi sinyal manajemen menilai harga sahamnya sedang murah.",
+            "Cek kalender aksi korporasi harian di situs resmi BEI atau menu Corporate Action pada aplikasi sekuritas."
+          ]
+        },
+        {
+          num: 10,
+          deptId: "DEPT-03",
+          stage: "FUNDAMENTAL • MAKRO & SEKTOR",
+          title: "ANALISIS EKONOMI MAKRO & SEKTOR INDUSTRI (TOP-DOWN)",
+          vizType: "valuation",
+          vizTitle: "Peta Sensitivitas 11 Sektor BEI Terhadap Suku Bunga & Siklus Ekonomi",
+          topics: [
+            "Pendekatan Analisis Top-Down (Makro → Sektor → Perusahaan)",
+            "Pengaruh Suku Bunga Bank Sentral (BI Rate & The Fed) ke Saham",
+            "Sektor Siklikal (Perbankan, Properti, Otomotif, Komoditas) vs Defensif (Konsumer, Kesehatan)",
+            "Mengenal 11 Klasifikasi Sektor Industri BEI (IDX-IC)",
+            "Dampak Harga Komoditas Global (Batu Bara, CPO, Nikel, Minyak, Emas)",
+            "Nilai Tukar Rupiah (USD/IDR) & Dampaknya pada Emiten Ekspor vs Impor",
+            "Kebijakan Fiskal, APBN & Proyek Strategis Pemerintah",
+            "Analisis Keunggulan Kompetitif Berkelanjutan (Economic Moat)"
+          ],
+          theory: "Perusahaan tidak beroperasi di ruang hampa. Kenaikan suku bunga acuan umumnya menekan sektor properti dan teknologi karena biaya pinjaman naik, sementara perusahaan barang konsumsi pokok (makanan, minuman, obat-obatan) cenderung bertahan di segala cuaca ekonomi karena masyarakat tetap membutuhkannya.",
+          caseStudy: {
+            title: "Booming Komoditas Energi 2022 vs Pemulihan Sektor Perbankan & Konsumer",
+            summary: "Ketika harga batu bara dan CPO melonjak tajam pada 2022, laba emiten energi meningkat berkali lipat dan membagikan dividen jumbo. Ketika harga komoditas kembali normal, modal institusi berotasi ke sektor perbankan besar dan barang konsumsi.",
+            lesson: "Saham komoditas bersifat siklikal—beli saat rasio PER tampak tinggi di dasar siklus dan waspada saat laba berada di puncak siklus."
+          },
+          practical: [
+            "Identifikasi emiten mana di portofolio Anda yang diuntungkan saat Rupiah melemah (eksportir komoditas) vs yang dirugikan (importir bahan baku).",
+            "Kelompokkan 10 saham populer BEI ke dalam kategori Siklikal atau Defensif.",
+            "Analisis jenis Economic Moat sebuah perusahaan: apakah berasal dari merek kuat, jaringan distribusi luas, biaya produksi termurah, atau efek jaringan?",
+            "Pantau rilis suku bunga BI Rate setiap bulan sebagai kompas arah likuiditas pasar domestik."
+          ]
+        },
+        {
+          num: 11,
+          deptId: "DEPT-03",
+          stage: "FUNDAMENTAL • LAPORAN KEUANGAN",
+          title: "MEMBEDAH LAPORAN LABA RUGI (INCOME STATEMENT)",
+          vizType: "valuation",
+          vizTitle: "Anatomi Margin Keuntungan: Gross Margin → Operating Margin → Net Margin",
+          topics: [
+            "Cara Mengunduh Laporan Keuangan Resmi Emiten di IDX",
+            "Pendapatan Usaha (Revenue / Top-Line) & Pertumbuhan YoY vs QoQ",
+            "Beban Pokok Pendapatan (COGS) & Gross Profit Margin (GPM)",
+            "Beban Operasional (OPEX) & Operating Profit Margin (OPM)",
+            "EBITDA (Laba Sebelum Bunga, Pajak, Depresiasi & Amortisasi)",
+            "Beban Keuangan (Bunga Utang) & Pendapatan/Beban Lain-Lain",
+            "Laba Bersih Tahun Berjalan (Net Income / Bottom-Line) & NPM",
+            "Laba per Saham (Earnings Per Share / EPS)",
+            "Membedakan Laba Operasional Murni vs Laba Sekali Waktu (One-Off Gain)"
+          ],
+          theory: "Laporan Laba Rugi menunjukkan kinerja operasional perusahaan selama periode tertentu (kuartalan atau tahunan). Investor cerdas tidak hanya melihat kenaikan Laba Bersih (Bottom-Line), tetapi memastikan kenaikan tersebut didukung oleh pertumbuhan Pendapatan (Top-Line) dan margin operasional yang sehat—bukan hasil penjualan aset sekali waktu.",
+          caseStudy: {
+            title: "Jebakan Laba Bersih Melonjak 300% Akibat Keuntungan Penjualan Aset",
+            summary: "Sebuah emiten melaporkan lonjakan laba bersih tajam pada laporan tahunan, namun setelah ditelusuri di pos Pendapatan Lain-Lain, 80% laba berasal dari penjualan gedung kantor sekali waktu sementara penjualan produk utamanya justru turun 12%.",
+            lesson: "Selalu periksa Laba Usaha (Operating Profit) untuk menilai kekuatan bisnis inti perusahaan."
+          },
+          practical: [
+            "Hitung Gross Profit Margin (Laba Kotor ÷ Pendapatan) dan Net Profit Margin (Laba Bersih ÷ Pendapatan) dari satu emiten.",
+            "Bandingkan kinerja Kuartal 3 tahun ini dengan Kuartal 3 tahun lalu (Year-on-Year / YoY) untuk menghilangkan faktor musiman.",
+            "Hitung EPS (Laba Bersih yang Diatribusikan ke Pemilik Entitas Induk ÷ Jumlah Saham Beredar).",
+            "Periksa apakah beban bunga utang memakan porsi terlalu besar dari laba usaha perusahaan."
+          ]
+        },
+        {
+          num: 12,
+          deptId: "DEPT-03",
+          stage: "FUNDAMENTAL • LAPORAN KEUANGAN",
+          title: "MEMBEDAH NERACA KEUANGAN (BALANCE SHEET)",
+          vizType: "valuation",
+          vizTitle: "Struktur Kekayaan & Utang: Aset = Liabilitas + Ekuitas",
+          topics: [
+            "Persamaan Dasar Neraca: Aset = Liabilitas + Ekuitas",
+            "Aset Lancar (Kas & Setara Kas, Piutang Usaha, Persediaan)",
+            "Aset Tidak Lancar (Aset Tetap, Tanah, Pabrik, Goodwill)",
+            "Liabilitas Jangka Pendek (Utang Usaha, Utang Bank Jatuh Tempo < 1 Tahun)",
+            "Liabilitas Jangka Panjang (Obligasi & Pinjaman Jangka Panjang)",
+            "Ekuitas Pemegang Saham, Saldo Laba (Retained Earnings) & Nilai Buku",
+            "Rasio Likuiditas: Current Ratio & Quick Ratio",
+            "Rasio Utang: Debt-to-Equity Ratio (DER) & Net Gearing",
+            "Mengenali Perusahaan Net Cash (Kas Lebih Besar dari Seluruh Utang)"
+          ],
+          theory: "Jika Laporan Laba Rugi ibarat video kinerja selama setahun, maka Neraca Keuangan adalah foto kondisi kesehatan kekayaan perusahaan pada satu titik tanggal tertentu. Neraca menjawab pertanyaan krusial: berapa banyak uang tunai yang dimiliki perusahaan, seberapa besar utangnya, dan sanggupkah perusahaan bertahan jika ekonomi melambat?",
+          caseStudy: {
+            title: "Kekuatan Perusahaan Net Cash Saat Krisis Suku Bunga Tinggi",
+            summary: "Perusahaan dengan kas melimpah dan nol utang berbunga justru menikmati kenaikan pendapatan bunga deposito saat suku bunga naik, sekaligus leluasa mengakuisisi pesaing yang kesulitan membayar cicilan utang.",
+            lesson: "Untuk perusahaan non-perbankan, utamakan Debt-to-Equity Ratio (DER) di bawah 1,0x (utang lebih kecil dari modal sendiri)."
+          },
+          practical: [
+            "Buka bagian Neraca pada laporan keuangan emiten dan bandingkan jumlah Kas & Setara Kas dengan total Utang Bank + Obligasi.",
+            "Hitung Current Ratio (Aset Lancar ÷ Liabilitas Jangka Pendek): angka di atas 1,2x menunjukkan kemampuan bayar jangka pendek yang sehat.",
+            "Hitung Nilai Buku per Saham / Book Value per Share (Total Ekuitas Induk ÷ Jumlah Saham Beredar).",
+            "Catat pengecualian khusus: sektor perbankan wajar memiliki DER tinggi (5x–8x) karena dana simpanan nasabah dicatat sebagai liabilitas."
+          ]
+        },
+        {
+          num: 13,
+          deptId: "DEPT-03",
+          stage: "FUNDAMENTAL • LAPORAN KEUANGAN",
+          title: "MEMBEDAH LAPORAN ARUS KAS (CASH FLOW STATEMENT)",
+          vizType: "valuation",
+          vizTitle: "Siklus Uang Tunai: Arus Kas Operasi, Investasi (CAPEX) & Pendanaan",
+          topics: [
+            "Prinsip 'Cash Is King': Mengapa Kas Lebih Jujur daripada Laba Akuntansi",
+            "Arus Kas dari Aktivitas Operasi (Operating Cash Flow / CFO)",
+            "Arus Kas dari Aktivitas Investasi (CFI) & Belanja Modal (CAPEX)",
+            "Arus Kas dari Aktivitas Pendanaan (CFF: Utang, Dividen, Rights Issue)",
+            "Menghitung Free Cash Flow (FCF = CFO − CAPEX)",
+            "Rasio Konversi Kas (Operating Cash Flow ÷ Laba Bersih)",
+            "Mendeteksi Red Flag: Laba Tumbuh tetapi Arus Kas Operasi Minus Terus",
+            "Pola Arus Kas Perusahaan Dewasa (Cash Cow) vs Perusahaan Ekspansi"
+          ],
+          theory: "Dalam akuntansi akrual, perusahaan bisa mencatat penjualan sebagai laba meskipun pembayarannya belum diterima secara tunai (masih berupa piutang). Laporan Arus Kas melacak uang tunai riil yang keluar-masuk rekening bank perusahaan. Emiten berkualitas memiliki Arus Kas Operasi (CFO) positif yang konsisten lebih besar atau setara dengan Laba Bersihnya.",
+          caseStudy: {
+            title: "Pola Arus Kas Ideal Perusahaan Pemimpin Pasar (Cash Cow)",
+            summary: "Emiten pemimpin pasar menghasilkan Arus Kas Operasi positif besar (+), menggunakan sebagian kasnya untuk belanja modal pemeliharaan/ekspansi pada Arus Kas Investasi (-), dan menggunakan sisanya untuk membayar dividen rutin kepada pemegang saham pada Arus Kas Pendanaan (-).",
+            lesson: "Free Cash Flow (FCF) yang kuat adalah bahan bakar utama pembayaran dividen tunai berkelanjutan."
+          },
+          practical: [
+            "Bandingkan nilai Arus Kas Operasi (CFO) dengan Laba Bersih selama 3 tahun terakhir.",
+            "Hitung Free Cash Flow (FCF) dengan mengurangkan Perolehan Aset Tetap (CAPEX) dari Arus Kas Operasi.",
+            "Waspadai emiten yang terus mencetak laba tetapi arus kas operasinya negatif dan bertahan hidup dari utang baru.",
+            "Periksa pos Pembayaran Dividen pada bagian Arus Kas Pendanaan untuk memastikan dividen dibayar dari kas nyata."
+          ]
+        },
+        {
+          num: 14,
+          deptId: "DEPT-03",
+          stage: "FUNDAMENTAL • RASIO KUALITAS",
+          title: "RASIO PROFITABILITAS, EFISIENSI & KUALITAS BISNIS",
+          vizType: "valuation",
+          vizTitle: "Analisis DuPont 3-Faktor: Margin Laba × Perputaran Aset × Leverage",
+          topics: [
+            "Return on Equity (ROE) — Tolok Ukur Utama Kualitas Manajemen",
+            "Analisis DuPont: Membedah Apakah ROE Tinggi Berasal dari Laba atau Utang",
+            "Return on Assets (ROA) & Return on Invested Capital (ROIC)",
+            "Efisiensi Modal Kerja: Perputaran Piutang & Persediaan",
+            "Dividend Payout Ratio (DPR) & Dividend Yield",
+            "Menghitung Tingkat Pertumbuhan Majemuk Tahunan (CAGR 5 Tahun)",
+            "Skor Kesehatan Keuangan: Piotroski F-Score & Altman Z-Score"
+          ],
+          theory: "Return on Equity (ROE = Laba Bersih ÷ Total Ekuitas) mengukur berapa persen keuntungan yang dihasilkan perusahaan dari setiap rupiah modal pemegang saham. Melalui Analisis DuPont, investor dapat memastikan apakah ROE tinggi (misal 20%) dicapai karena margin laba dan efisiensi aset yang unggul, bukan sekadar karena tumpukan utang ekstrem.",
+          caseStudy: {
+            title: "Mengapa Saham dengan ROE Konsisten >15% Cenderung Mengalahkan Indeks",
+            summary: "Jika sebuah perusahaan memiliki ROE 18% dan menahan 50% labanya untuk ekspansi dengan tingkat pengembalian serupa, nilai ekuitas dan laba per sahamnya secara matematis bertumbuh sekitar 9% per tahun secara organik tanpa perlu menambah utang.",
+            lesson: "Kombinasi ROE tinggi + DER rendah adalah ciri khas perusahaan berkualitas super (compounder)."
+          },
+          practical: [
+            "Hitung ROE dan ROA dua perusahaan dalam sektor yang sama (misal dua bank atau dua perusahaan ritel) lalu bandingkan.",
+            "Hitung Dividend Yield (Dividen per Saham ÷ Harga Saham Saat Ini × 100%) dan bandingkan dengan bunga deposito.",
+            "Periksa Dividend Payout Ratio (Dividen per Saham ÷ EPS): DPR 30%–60% memberi keseimbangan antara dividen dan modal ekspansi.",
+            "Gunakan kriteria ROE ≥ 12% sebagai filter awal saat menyaring saham berkualitas."
+          ]
+        },
+        {
+          num: 15,
+          deptId: "DEPT-03",
+          stage: "FUNDAMENTAL • VALUASI SAHAM",
+          title: "VALUASI SAHAM: MENGHITUNG HARGA WAJAR (INTRINSIC VALUE)",
+          vizType: "valuation",
+          vizTitle: "Kalkulator Interaktif Valuasi Saham (PER, PBV, PEG & Harga Wajar)",
+          topics: [
+            "Perbedaan Harga Pasar vs Nilai Intrinsik (Price vs Value)",
+            "Prinsip Margin of Safety (Batas Keamanan Benjamin Graham)",
+            "Price-to-Earnings Ratio (PER) & Cara Menafsirkan Murah vs Mahal",
+            "Price-to-Book Value (PBV) & Hubungannya dengan Tingkat ROE",
+            "PEG Ratio (PER dibagi Pertumbuhan Laba) untuk Saham Growth",
+            "EV/EBITDA untuk Menilai Perusahaan Infrastruktur & Padat Modal",
+            "Metode Valuasi Sederhana: Graham Number & Relative Historical Band",
+            "Pengantar Discounted Cash Flow (DCF) & Dividend Discount Model (DDM)"
+          ],
+          theory: "Harga saham yang murah secara nominal (misal Rp 100 per lembar) belum tentu murah secara valuasi jika perusahaan terus merugi; sebaliknya saham berharga Rp 9.000 bisa jadi sangat murah jika laba per sahamnya terus bertumbuh pesat. Rasio PER (Harga ÷ EPS) mengukur berapa tahun modal balik dari laba saat ini, sedangkan PBV (Harga ÷ Nilai Buku) membandingkan harga pasar dengan kekayaan bersih perusahaan.",
+          caseStudy: {
+            title: "Membandingkan Dua Saham: Nominal Rp 200 (PER 45x) vs Nominal Rp 4.000 (PER 8x)",
+            summary: "Saham A berharga Rp 200 dengan EPS Rp 4,4 memiliki PER 45x (sangat mahal). Saham B berharga Rp 4.000 dengan EPS Rp 500 memiliki PER 8x dan rutin membagikan dividen 6% per tahun (jauh lebih murah secara fundamental).",
+            lesson: "Jangan pernah menilai mahal-murahnya saham dari harga nominal per lembarnya; selalu gunakan rasio valuasi terhadap laba, ekuitas, dan arus kas."
+          },
+          practical: [
+            "Gunakan Kalkulator Valuasi Interaktif di panel kanan untuk menghitung PER, PBV, dan Harga Wajar Graham.",
+            "Bandingkan PER dan PBV emiten incaran Anda dengan rata-rata historis 5 tahunnya sendiri (PER Band / PBV Band).",
+            "Terapkan Margin of Safety minimal 20%–30% di bawah estimasi harga wajar sebelum membeli.",
+            "Gunakan PEG Ratio < 1,0 sebagai panduan mencari saham bertumbuh dengan harga masuk akal."
+          ]
+        },
+        {
+          num: 16,
+          deptId: "DEPT-04",
+          stage: "TEKNIKAL & TIMING",
+          title: "MEMBACA GRAFIK CANDLESTICK, TREN & SUPPORT-RESISTANCE",
+          vizType: "candlestick",
+          vizTitle: "Simulasi Grafik Candlestick, Trendline & Zona Support-Resistance",
+          topics: [
+            "Anatomi Candlestick (Open, High, Low, Close, Real Body & Shadow)",
+            "Pola Candlestick Penting (Hammer, Engulfing, Morning Star, Shooting Star, Doji)",
+            "Teori Dow & Struktur Tren (Uptrend, Downtrend, Sideways)",
+            "Menentukan Swing High & Swing Low serta Garis Trendline",
+            "Konsep Support (Batas Bawah) & Resistance (Batas Atas)",
+            "Perubahan Peran: Support Become Resistance (SBR) & RBS",
+            "Multi-Timeframe Analysis (Weekly untuk Tren Besar, Daily untuk Eksekusi)",
+            "Pola Grafik Klasik (Double Bottom, Cup & Handle, Head & Shoulders)"
+          ],
+          theory: "Jika analisis fundamental menjawab pertanyaan 'SAHAM APA yang layak dibeli', maka analisis teknikal membantu menjawab 'KAPAN waktu dan harga terbaik untuk membelinya'. Grafik Candlestick memvisualisasikan psikologi pertarungan pembeli dan penjual: sumbu bawah panjang di area Support menandakan penolakan penurunan dan kembalinya minat beli.",
+          caseStudy: {
+            title: "Membeli Saham Fundamental Bagus di Area Support Weekly",
+            summary: "Daripada mengejar saham saat harga melonjak tinggi menjauh dari Support, investor menunggu harga terkoreksi wajar mendekati garis Support kuat pada grafik harian/mingguan dengan volume jual yang mengecil.",
+            lesson: "Membeli di dekat Support memperkecil risiko penurunan sekaligus memperbesar potensi imbal hasil."
+          },
+          practical: [
+            "Buka grafik harian satu saham indeks LQ45 dan tarik garis horizontal pada 2 titik pantulan terbawah (Support) serta 2 titik puncak (Resistance).",
+            "Amati perbedaan grafik timeframe Weekly (gambaran besar 1–3 tahun) vs Daily (pergerakan harian).",
+            "Identifikasi pola Bullish Engulfing atau Hammer yang muncul tepat di area Support.",
+            "Hindari membeli saham yang sedang dalam fase Downtrend kuat sebelum terbentuk struktur dasar (base) yang kokoh."
+          ]
+        },
+        {
+          num: 17,
+          deptId: "DEPT-04",
+          stage: "TEKNIKAL • INDIKATOR",
+          title: "INDIKATOR TEKNIKAL & KONFIRMASI VOLUME TRANSAKSI",
+          vizType: "candlestick",
+          vizTitle: "Visualisasi Moving Average (MA 20/50/200), RSI & Volume Breakout",
+          topics: [
+            "Moving Average (SMA & EMA 20, 50, 200) sebagai Penunjuk Tren Dinamis",
+            "Sinyal Golden Cross (MA 50 memotong ke atas MA 200) & Death Cross",
+            "Relative Strength Index (RSI): Zona Overbought (>70), Oversold (<30) & Divergence",
+            "MACD (Moving Average Convergence Divergence) & Pergeseran Momentum",
+            "Bollinger Bands & Deteksi Penyempitan Volatilitas (Squeeze)",
+            "Hukum Volume: Kenaikan Harga Sehat Harus Didukung Lonjakan Volume",
+            "Indikator VWAP (Volume-Weighted Average Price) untuk Harga Rata-Rata Harian",
+            "Menghindari Jebakan Analysis Paralysis (Maksimal 2–3 Indikator Utama)"
+          ],
+          theory: "Indikator teknikal merupakan turunan matematis dari harga dan volume. Moving Average 200 hari (MA 200) sering dijadikan garis pemisah institusional antara pasar bullish jangka panjang (harga di atas MA 200) dan pasar bearish (harga di bawah MA 200). Volume bertindak sebagai detektor kebohongan: penembusan Resistance tanpa volume tinggi rawan gagal (False Breakout).",
+          caseStudy: {
+            title: "Bullish Divergence RSI di Dasar Koreksi Saham Blue Chip",
+            summary: "Harga saham mencetak titik terendah baru yang sedikit lebih rendah, namun indikator RSI justru membentuk titik terendah yang lebih tinggi (Bullish Divergence), menandakan tekanan jual melemah sebelum pembalikan tren naik.",
+            lesson: "Gunakan indikator sebagai konfirmasi struktur harga dan volume, bukan sebagai satu-satunya alasan membeli."
+          },
+          practical: [
+            "Pasang garis MA 20, MA 50, dan MA 200 pada aplikasi charting Anda untuk melihat posisi tren jangka pendek, menengah, dan panjang.",
+            "Bandingkan volume transaksi saat harga naik vs saat harga terkoreksi turun.",
+            "Gunakan RSI < 35 pada saham berfundamental kokoh sebagai sinyal awal untuk mulai mengamati peluang cicil beli.",
+            "Batasi tampilan grafik Anda maksimal 2 indikator saja agar grafik harga tetap bersih dan mudah dibaca."
+          ]
+        },
+        {
+          num: 18,
+          deptId: "DEPT-04",
+          stage: "ALIRAN DANA & BANDARMOLOGI",
+          title: "BANDARMOLOGI, FOREIGN FLOW & ALIRAN DANA INSTITUSI",
+          vizType: "orderbook",
+          vizTitle: "Peta Siklus Wyckoff (Akumulasi → Mark-Up → Distribusi → Mark-Down)",
+          topics: [
+            "Struktur Pelaku Pasar BEI: Ritel Domestik, Institusi Lokal & Investor Asing",
+            "4 Fase Siklus Pasar Wyckoff (Akumulasi, Mark-Up, Distribusi, Mark-Down)",
+            "Cara Membaca Broker Summary (Top Buyer, Top Seller, Net Buy/Sell)",
+            "Pola Akumulasi Terkonsentrasi vs Distribusi ke Banyak Broker Ritel",
+            "Melacak Arus Dana Asing (Net Foreign Buy/Sell) pada Saham Big Caps",
+            "Transaksi Pasar Negosiasi (Crossing) & Pemantauan Kepemilikan >5% KSEI",
+            "Ciri-Ciri Saham Gorengan, Pom-Pom & Risiko Likuiditas (Saham Tidur)"
+          ],
+          theory: "Harga saham bergerak karena ketidakseimbangan antara permintaan dan penawaran. Institusi besar dan dana asing memiliki modal triliunan rupiah sehingga tidak bisa membeli sekaligus dalam satu hari—mereka melakukan Akumulasi bertahap dalam rentang harga sempit (sideways) sebelum mendorong harga naik (Mark-Up). Sebaliknya, Distribusi terjadi ketika barang dilepas perlahan di puncak euforia.",
+          caseStudy: {
+            title: "Korelasi Net Foreign Buy dengan Kenaikan Saham Perbankan Besar BEI",
+            summary: "Pada saham berkapitalisasi besar seperti BBCA, BBRI, BMRI, dan TLKM, investor asing mencakup porsi signifikan dari likuiditas harian. Arus masuk dana asing (Net Foreign Buy) berkelanjutan sering menjadi pendorong utama tren kenaikan jangka menengah.",
+            lesson: "Hindari saham berkapitalisasi sangat kecil yang harga sahamnya melonjak ratusan persen tanpa fundamental dan hanya ramai dipromosikan di media sosial."
+          },
+          practical: [
+            "Pantau indikator Net Foreign Buy/Sell harian dan mingguan pada saham-saham penghuni indeks LQ45.",
+            "Pelajari 4 fase siklus Wyckoff agar tidak membeli di puncak fase Distribusi.",
+            "Cek data keterbukaan informasi kepemilikan saham ≥5% dari KSEI untuk melihat apakah pengendali/institusi sedang menambah atau melepas saham.",
+            "Tetapkan aturan ketat: hindari saham yang rata-rata nilai transaksi hariannya di bawah Rp 500 juta–1 miliar."
+          ]
+        },
+        {
+          num: 19,
+          deptId: "DEPT-04",
+          stage: "STRATEGI & SCREENING",
+          title: "STRATEGI INVESTASI & METODE MEMILIH SAHAM TERSTRUKTUR",
+          vizType: "compounding",
+          vizTitle: "Perbandingan Kinerja Value, Growth, Dividend & Dollar-Cost Averaging",
+          topics: [
+            "Value Investing (Membeli Perusahaan Sehat di Bawah Nilai Intrinsiknya)",
+            "Growth Investing (Memilih Perusahaan dengan Pertumbuhan Laba Ekspansi)",
+            "Dividend Investing (Membangun Arus Kas Pasif dari Dividen Rutin)",
+            "GARP (Growth at a Reasonable Price) — Gabungan Value & Growth",
+            "Metode Dollar-Cost Averaging (DCA / Nabung Saham Rutin Tiap Bulan)",
+            "Metode Lump Sum vs Tactical Allocation Saat Pasar Terkoreksi",
+            "Cara Menggunakan Stock Screener untuk Menyaring 900+ Emiten BEI",
+            "Checklist 8 Kriteria Wajib Sebelum Memutuskan Membeli Saham"
+          ],
+          theory: "Setiap investor perlu memilih pendekatan yang selaras dengan tujuan dan waktu luangnya. Bagi pemula yang bekerja penuh waktu, kombinasi Dividend/Quality Investing dengan metode Dollar-Cost Averaging (DCA)—membeli saham pilihan secara rutin setiap tanggal gajian tanpa pusing menebak fluktuasi harian—merupakan strategi paling terbukti secara historis.",
+          caseStudy: {
+            title: "Menyaring 900+ Emiten Menjadi 10 Kandidat Terbaik Menggunakan Stock Screener",
+            summary: "Dengan memasukkan 5 filter kuantitatif (ROE > 12%, DER < 1x, PER < 15x, Pertumbuhan Laba Positif, dan Nilai Transaksi Harian > Rp 2 Miliar), daftar 900+ emiten menyusut otomatis menjadi sekitar 20–30 perusahaan sehat yang siap dianalisis lebih dalam.",
+            lesson: "Proses seleksi bertingkat (screening → membaca laporan keuangan → cek valuasi → eksekusi) menghilangkan keputusan emosional."
+          },
+          practical: [
+            "Buka fitur Stock Screener di aplikasi sekuritas atau platform data pasar dan masukkan filter ROE > 12%, DER < 1, PER < 15.",
+            "Pilih 1 strategi inti (misal Dividend Investing atau GARP) sebagai pilar utama portofolio Anda.",
+            "Tentukan jadwal rutin DCA bulanan (misal setiap tanggal 25 atau tanggal 1 setelah menerima penghasilan).",
+            "Gunakan daftar periksa pada Atlas II sebelum menekan tombol beli pada emiten baru."
+          ]
+        },
+        {
+          num: 20,
+          deptId: "DEPT-04",
+          stage: "EKSEKUSI & PORTOFOLIO",
+          title: "TEKNIK EKSEKUSI BELI-JUAL, AVERAGING & REBALANCING",
+          vizType: "risk",
+          vizTitle: "Simulasi Cicil Beli Bertahap (3 Tranche) & Rebalancing Portofolio",
+          topics: [
+            "Teknik Entry Bertahap (Membagi Modal Menjadi 3–4 Bagian Peluru)",
+            "Averaging Down yang Sehat (Berbasis Fundamental) vs Averaging Down Fatal",
+            "Averaging Up (Pyramiding) pada Saham Pemenang yang Terus Bertumbuh",
+            "4 Alasan Sah dan Objektif untuk Menjual Saham",
+            "Strategi Take Profit Parsial & Penggunaan Trailing Stop",
+            "Rebalancing Portofolio Berkala (Setiap 6 Bulan atau 1 Tahun)",
+            "Mengukur Kinerja Portofolio Terhadap Benchmark IHSG & LQ45"
+          ],
+          theory: "Tidak ada seorang pun yang bisa menebak titik terbawah pasar secara konsisten. Karena itu, investor profesional jarang menghabiskan seluruh uang tunainya dalam satu kali klik. Mereka membagi modal pembelian menjadi 3 tahap (misal 30% di harga saat ini, 30% jika turun -8% ke Support berikutnya, dan 40% jika konfirmasi pembalikan tren muncul).",
+          caseStudy: {
+            title: "Kapan Waktu yang Tepat untuk Menjual Saham Investasi?",
+            summary: "Jual saham Anda jika: (1) Alasan fundamental awal Anda membeli sudah tidak berlaku (kinerja bisnis rusak permanen), (2) Valuasi sudah melambung terlalu mahal jauh melampaui nilai wajarnya, (3) Anda menemukan peluang saham lain dengan kualitas lebih baik dan diskon lebih dalam, atau (4) Tujuan finansial Anda sudah tercapai.",
+            lesson: "Jangan menjual saham berkualitas hanya karena harganya sudah naik 10%–15% sementara bisnisnya masih terus bertumbuh."
+          },
+          practical: [
+            "Terapkan aturan pembagian 3 tahap pembelian (30% - 30% - 40%) untuk emiten baru yang masuk ke portofolio Anda.",
+            "Bedakan penurunan harga akibat kepanikan pasar umum (peluang Averaging Down) vs penurunan akibat kinerja emiten merosot (hindari Averaging Down).",
+            "Jadwalkan tanggal evaluasi dan Rebalancing portofolio setiap akhir semester (Juni dan Desember).",
+            "Catat imbal hasil bersih portofolio Anda setiap tahun dan bandingkan dengan kinerja IHSG."
+          ]
+        },
+        {
+          num: 21,
+          deptId: "DEPT-05",
+          stage: "MANAJEMEN RISIKO",
+          title: "MANAJEMEN RISIKO PORTOFOLIO & ALOKASI ASET",
+          vizType: "risk",
+          vizTitle: "Kalkulator Interaktif Position Sizing & Kurva Pemulihan Drawdown",
+          topics: [
+            "Aturan Utama Warren Buffett: Jangan Pernah Kehilangan Uang",
+            "Diversifikasi Optimal: Jumlah Saham Ideal (5–12 Emiten Lintas Sektor)",
+            "Position Sizing: Menentukan Bobot Maksimal per Saham (10%–20%)",
+            "Matematika Asimetri Kerugian (Rugi 50% Butuh Untung 100% untuk Impas)",
+            "Mengendalikan Risiko Korelasi (Memiliki 5 Saham Bank Berarti Tidak Terdiversifikasi)",
+            "Peran Kas Cadangan (Cash Buffer) sebagai Peluru Saat Market Crash",
+            "Bahaya Menggunakan Fasilitas Utang / Margin Trading bagi Pemula"
+          ],
+          theory: "Diversifikasi melindungi Anda dari ketidaktahuan dan kejadian tak terduga pada satu perusahaan, sementara konsentrasi terukur pada 6–10 emiten terbaik lintas sektor memungkinkan portofolio Anda tetap mengalahkan pasar. Pastikan Anda tidak menaruh seluruh modal pada satu sektor saja agar guncangan satu industri tidak melumpuhkan seluruh kekayaan Anda.",
+          caseStudy: {
+            title: "Dampak Matematika Drawdown Terhadap Kelangsungan Portofolio",
+            summary: "Jika portofolio turun -10%, Anda hanya butuh kenaikan +11,1% untuk kembali impas. Jika turun -25%, butuh +33,3%. Namun jika turun -50%, Anda butuh kenaikan +100%, dan jika turun -80%, Anda butuh kenaikan +400% sekadar untuk balik modal.",
+            lesson: "Membatasi risiko kerugian ekstrem sejak awal adalah kunci utama bertahan jangka panjang di pasar saham."
+          },
+          practical: [
+            "Gunakan Kalkulator Risiko & Position Sizing di panel kanan untuk menghitung batas maksimal alokasi per emiten.",
+            "Audit portofolio Anda: pastikan bobot satu sektor industri tidak melebihi 35%–40% dari total nilai portofolio.",
+            "Simpan minimal 10%–20% portofolio dalam bentuk kas/instrumen pasar uang untuk menangkap peluang diskon besar saat pasar terkoreksi.",
+            "Hindari fasilitas margin/utang sekuritas hingga Anda memiliki pengalaman minimal 3–5 tahun melewati siklus pasar penuh."
+          ]
+        },
+        {
+          num: 22,
+          deptId: "DEPT-05",
+          stage: "PSIKOLOGI INVESTOR",
+          title: "PSIKOLOGI INVESTOR & BIAS KOGNITIF DI PASAR SAHAM",
+          vizType: "risk",
+          vizTitle: "Peta Siklus Emosi Pasar (Optimisme → Euforia → Panik → Kapitulasi)",
+          topics: [
+            "Siklus Emosi Investor di Pasar Saham (Wall Street Cheat Sheet)",
+            "FOMO (Fear of Missing Out) & Herding Behavior (Ikut-Ikutan Kerumunan)",
+            "Loss Aversion & Disposition Effect (Menahan Saham Rugi, Menjual Saham Untung)",
+            "Confirmation Bias (Hanya Mencari Berita yang Mendukung Pendapat Sendiri)",
+            "Anchoring Bias (Terpaku pada Harga Beli Lama atau Harga Tertinggi Masa Lalu)",
+            "Sunk Cost Fallacy & Ego dalam Mengakui Kesalahan Analisis",
+            "Membangun Jurnal Investasi (Investment Thesis Log) untuk Disiplin Objektif"
+          ],
+          theory: "Musuh terbesar seorang investor sering kali bukan kondisi ekonomi, melainkan emosinya sendiri di depan layar merah-hijau. Disposition Effect membuat pemula buru-buru menjual saham bagus yang baru naik +8% karena takut untungnya hilang, namun nekat menahan saham buruk yang sudah rugi -45% sambil berharap suatu hari kembali ke harga beli.",
+          caseStudy: {
+            title: "Pelajaran dari Euforia Saham Teknologi & Farmasi 2020–2021",
+            summary: "Ribuan investor ritel baru masuk saat harga sudah naik ratusan persen karena FOMO dan cerita media sosial tanpa memeriksa valuasi PER >100x, lalu mengalami penurunan portofolio tajam saat euforia mereda.",
+            lesson: "Tulis alasan fundamental Anda sebelum membeli saham; jika alasan itu berubah, bertindaklah berdasarkan data, bukan harapan."
+          },
+          practical: [
+            "Sebelum membeli saham apa pun, tulis 3 kalimat alasan fundamental dan 2 risiko utamanya di buku catatan.",
+            "Kurangi frekuensi mengecek harga saham setiap menit jika tujuan Anda adalah investasi jangka panjang.",
+            "Latih diri mencari argumen kontra (mengapa saham ini bisa turun?) sebelum mengambil keputusan beli.",
+            "Terapkan jeda pendinginan (cooling-off) 24 jam setelah mengalami kerugian atau saat melihat saham melonjak tajam."
+          ]
+        },
+        {
+          num: 23,
+          deptId: "DEPT-05",
+          stage: "PERLINDUNGAN INVESTOR",
+          title: "MENDETEKSI RED FLAG, MANIPULASI LAPORAN & VALUE TRAP",
+          vizType: "corporate",
+          vizTitle: "Checklist Deteksi Red Flag Laporan Keuangan & Tata Kelola Emiten",
+          topics: [
+            "Ciri-Ciri Laporan Keuangan Bermasalah (Piutang & Persediaan Membengkak Tidak Wajar)",
+            "Transaksi Pihak Berelasi (Related-Party Transactions) yang Merugikan Publik",
+            "Riwayat Sering Ganti Auditor & Opini Audit Wajar Dengan Pengecualian (WDP)",
+            "Emiten Sering Rights Issue / Private Placement Tanpa Pertumbuhan Laba per Saham",
+            "Penggadaian Saham Pengendali (Repo Saham) & Risiko Forced Sell",
+            "Membedakan Perusahaan Turnaround Asli vs Value Trap (Murah yang Semu)",
+            "Perlindungan Investor melalui Dana Perlindungan Pemodal (Indonesia SIPF)"
+          ],
+          theory: "Tidak semua saham dengan PER rendah dan PBV 0,3x adalah peluang emas; sebagian adalah Value Trap—perusahaan yang bisnisnya sedang menyusut secara struktural atau dikelola demi kepentingan pengendali semata. Memeriksa catatan kaki transaksi pihak berelasi dan opini auditor independen melindungi modal Anda dari kerugian permanen.",
+          caseStudy: {
+            title: "Tanda-Tanda Peringatan Dini pada Emiten yang Gagal Bayar Obligasi",
+            summary: "Sebelum gagal bayar terjadi, laporan keuangan biasanya sudah menunjukkan arus kas operasi negatif berturut-turut, lonjakan utang jangka pendek berbunga tinggi, dan piutang kepada pihak berelasi yang tidak kunjung tertagih.",
+            lesson: "Jika ada sesuatu yang terasa terlalu janggal atau tidak transparan di laporan keuangan, masih ada ratusan emiten lain yang bersih dan jelas."
+          },
+          practical: [
+            "Selalu periksa halaman awal Laporan Keuangan Tahunan untuk memastikan Opini Auditor adalah 'Wajar Tanpa Pengecualian' (WTP).",
+            "Cek apakah pertumbuhan Piutang Usaha jauh lebih cepat daripada pertumbuhan Penjualan.",
+            "Waspadai emiten yang melakukan Reverse Stock Split berulang kali diikuti penerbitan saham baru terus-menerus.",
+            "Kenali peran Indonesia SIPF sebagai lembaga penyelenggara dana perlindungan pemodal di pasar modal Indonesia."
+          ]
+        },
+        {
+          num: 24,
+          deptId: "DEPT-05",
+          stage: "PAJAK & PERENCANAAN",
+          title: "PAJAK INVESTASI SAHAM, SPT TAHUNAN & WARISAN ASET",
+          vizType: "compounding",
+          vizTitle: "Simulasi Efisiensi Pajak Dividen Reinvestasi (UU HPP)",
+          topics: [
+            "Mekanisme Pemotongan Pajak Final Penjualan Saham (0,1% dari Nilai Bruto)",
+            "Aturan Pajak Dividen di Indonesia: Bebas Pajak PPh Jika Diinvestasikan Kembali (UU HPP)",
+            "Prosedur Pelaporan Realisasi Investasi Dividen di DJP Online / Coretax",
+            "Cara Melaporkan Kepemilikan Saham & RDN pada SPT Tahunan Orang Pribadi",
+            "Perencanaan Dana Pensiun & Kebebasan Finansial (FIRE) Berbasis Dividen",
+            "Prosedur Pewarisan Aset Saham & Dana RDN kepada Ahli Waris Sah",
+            "Kepatuhan Hukum Pasar Modal & Anti-Pencucian Uang (KYC/AML)"
+          ],
+          theory: "Investasi saham di Indonesia memiliki kepastian pajak yang sangat efisien: setiap penjualan saham di bursa langsung dipotong pajak penghasilan final 0,1% secara otomatis oleh sekuritas. Lebih menarik lagi, berdasarkan UU Harmonisasi Peraturan Perpajakan (UU HPP), dividen dalam negeri yang diterima wajib pajak orang pribadi bebas pajak (PPh 0%) asalkan diinvestasikan kembali di instrumen investasi dalam negeri minimal 3 tahun.",
+          caseStudy: {
+            title: "Dampak Bebas Pajak Dividen Terhadap Akumulasi Kekayaan 20 Tahun",
+            summary: "Dengan menginvestasikan kembali 100% dividen tunai ke saham atau SBN sesuai ketentuan perpajakan, investor menghemat potongan pajak dividen 10% setiap tahun sehingga efek bunga berbunga bekerja pada kecepatan maksimal.",
+            lesson: "Dokumentasikan bukti kepemilikan RDN, nomor SID, dan laporan tahunan sekuritas dengan rapi untuk pelaporan SPT serta perlindungan ahli waris."
+          },
+          practical: [
+            "Unduh Laporan Pajak Tahunan (Tax Report) dari aplikasi sekuritas Anda setiap bulan Januari–Maret untuk pengisian SPT.",
+            "Catat nilai perolehan (harga beli) total portofolio saham Anda per 31 Desember untuk dicantumkan pada daftar harta SPT Tahunan.",
+            "Simpan informasi nama sekuritas, nomor SID, dan bank RDN dalam dokumen penting keluarga agar mudah diakses ahli waris bila diperlukan.",
+            "Pahami ketentuan jangka waktu penyimpanan reinvestasi dividen (minimal 3 tahun pajak) untuk memanfaatkan fasilitas bebas pajak dividen."
+          ]
+        },
+        {
+          num: 25,
+          deptId: "DEPT-05",
+          stage: "SINTESIS & STUDI KASUS",
+          title: "INVESTOR LEGENDARIS & SIMULASI PORTOFOLIO 10 TAHUN",
+          vizType: "compounding",
+          vizTitle: "Simulasi Portofolio Komplit: Alokasi Inti, Satelit & Proyeksi 10 Tahun",
+          topics: [
+            "Filosofi Warren Buffett & Charlie Munger: Wonderful Company at a Fair Price",
+            "Strategi Peter Lynch: Invest in What You Know & 6 Kategori Saham",
+            "Pendekatan Benjamin Graham: Mr. Market & Margin of Safety",
+            "Pelajaran dari Saham Multibagger Indonesia (Perbankan, Konsumer & Komoditas)",
+            "Analisis Kegagalan Korporasi Terlilit Utang Valas & Ekspansi Berlebihan",
+            "Blueprint Lengkap Membangun Portofolio Pertama dari Nol hingga 10 Tahun"
+          ],
+          theory: "Seluruh ilmu dari Bab 01 hingga Bab 24 bermuara pada satu kerangka kerja sederhana yang konsisten: bangun fondasi keuangan pribadi yang kuat, pahami struktur badan usaha dan tata kelola perusahaan di balik kode saham, beli bisnis bermutu tinggi dengan harga wajar/diskon, diversifikasi secara bijak, reinvestasikan dividen, dan biarkan waktu melipatgandakan modal Anda.",
+          caseStudy: {
+            title: "Blueprint Portofolio Core-Satellite untuk Investor Mandiri",
+            summary: "Alokasikan 60%–70% modal pada saham inti (Core) berfundamental kokoh, berdividen rutin, dan berkapitalisasi besar (seperti sektor perbankan utama & konsumer pemimpin pasar), 20%–30% pada saham bertumbuh/siklikal terukur (Satellite), dan 10% cadangan kas likuid.",
+            lesson: "Keberhasilan investasi saham bukan soal menebak pergerakan harga besok pagi, melainkan memiliki bagian dari bisnis-bisnis terbaik selama bertahun-tahun."
+          },
+          practical: [
+            "Susun Rencana Induk Investasi Pribadi (Investment Policy Statement) Anda dalam 1 halaman ringkas.",
+            "Pilih 5–8 emiten kandidat dari berbagai sektor untuk dipantau di Watchlist utama Anda.",
+            "Lakukan evaluasi kuartalan setiap kali emiten merilis laporan keuangan terbaru.",
+            "Tandai seluruh 25 Bab selesai dan simpan kitab ini sebagai referensi jangka panjang perjalanan investasi Anda!"
+          ]
+        }
+      ];
+
+      /* ----------------------------------------------------------------------
+         2. APPLICATION STATE & LOCALSTORAGE PERSISTENCE
+         ---------------------------------------------------------------------- */
+      const STORAGE_KEY = "kitab_investasi_korporasi_v1";
+
+      const defaultState = {
+        isOpen: false,
+        currentPage: "atlas-1", // 'atlas-1' | 'atlas-2' | 1..25
+        activeTab: "theory",    // 'theory' | 'case' | 'data' | 'research'
+        completedChapters: [],
+        bookmarkedPage: null,
+        researchChecks: {},
+        researchNotes: {},
+        theme: "ivory",
+        entityFilter: "ALL",
+        /* Interactive Lab Calculator State */
+        calcMonthly: 1500000,
+        calcRate: 12,
+        calcYears: 10,
+        valPrice: 3200,
+        valEps: 320,
+        valBvps: 1850,
+        valGrowth: 14,
+        riskCapital: 20000000,
+        riskPct: 1.5,
+        riskSlPct: 8,
+        vizSeed: 1
+      };
+
+      let appState = loadState();
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return { ...defaultState };
+          return { ...defaultState, ...JSON.parse(raw) };
+        } catch (e) {
+          return { ...defaultState };
+        }
+      }
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        } catch (e) {
+          // Graceful fallback if storage is restricted
+        }
+      }
+
+      const PAGE_SEQUENCE = ["atlas-1", "atlas-2", ...CHAPTERS.map(c => c.num)];
+
+      /* ----------------------------------------------------------------------
+         3. DETAILED CONCEPT KNOWLEDGE LEXICON FOR EVERY CLICKABLE TOPIC
+         ---------------------------------------------------------------------- */
+      const SPECIFIC_TOPIC_LEXICON = {
+        "Definisi Saham (Bukti Kepemilikan Sah Perusahaan)": {
+          def: "Saham adalah bukti penyertaan modal atau kepemilikan seseorang/badan atas suatu Perseroan Terbatas Terbuka (PT Tbk). Memiliki saham berarti menjadi salah satu pemilik sah perusahaan tersebut sesuai porsi lembar saham yang dipegang.",
+          mech: "Perusahaan membagi modal kepemilikannya menjadi jutaan hingga miliaran lembar saham yang diperdagangkan di Bursa Efek Indonesia (BEI) dalam satuan Lot (1 Lot = 100 lembar).",
+          ind: "Jika Anda membeli 10 lot (1.000 lembar) saham bank atau perusahaan ritel, Anda berhak mendapatkan bagian laba berupa Dividen serta menikmati kenaikan harga saham (Capital Gain)."
+        },
+        "Usaha Dagang (UD) / Perusahaan Perseorangan": {
+          def: "Bentuk usaha paling sederhana yang didirikan dan dikelola oleh satu orang pengusaha tanpa status badan hukum yang terpisah.",
+          mech: "Pendiriannya cukup menggunakan Nomor Induk Berusaha (NIB) melalui sistem OSS tanpa perlu akta pemisahan modal saham. Namun secara hukum, harta usaha dan harta pribadi pemilik menyatu sepenuhnya.",
+          ind: "Cocok untuk toko kelontong, bengkel, atau perdagangan mikro awal. Tidak dapat menerbitkan saham untuk dijual ke investor luar maupun melantai di bursa."
+        },
+        "Commanditaire Vennootschap (CV / Persekutuan Komanditer)": {
+          def: "Badan usaha non-badan hukum yang didirikan oleh dua orang atau lebih, terbagi menjadi Sekutu Aktif (pengurus operasional) dan Sekutu Pasif (penyerta modal saja).",
+          mech: "Sekutu Aktif bertanggung jawab penuh hingga harta pribadinya atas utang CV, sedangkan Sekutu Pasif hanya bertanggung jawab sebatas modal yang disetorkannya dan tidak boleh ikut mengurus operasional.",
+          ind: "Sangat populer bagi UMKM dan kontraktor lokal, tetapi karena bukan badan hukum dan modalnya tidak terbagi atas saham, CV harus ditingkatkan statusnya menjadi PT jika ingin menarik investor saham atau melakukan IPO."
+        },
+        "PT Perorangan (UU Cipta Kerja) untuk Usaha Mikro & Kecil": {
+          def: "Perseroan Terbatas berbadan hukum yang dapat didirikan cukup oleh 1 (satu) orang Warga Negara Indonesia sekaligus merangkap sebagai Direktur dan Pemegang Saham.",
+          mech: "Pendiriannya tidak memerlukan akta notaris, melainkan cukup mengisi Pernyataan Pendirian secara elektronik di sistem AHU Kemenkumham dengan kriteria modal usaha mikro dan kecil (maksimal Rp 5 miliar).",
+          ind: "Memberikan perlindungan pemisahan harta pribadi (Limited Liability) bagi pengusaha perorangan dengan biaya pendirian yang sangat terjangkau."
+        },
+        "PT Persekutuan Modal (PT Biasa / Tertutup)": {
+          def: "Badan hukum persekutuan modal yang didirikan minimal oleh 2 orang atau lebih berdasarkan perjanjian melalui Akta Notaris dan disahkan oleh SK Kemenkumham.",
+          mech: "Modal PT terbagi dalam bentuk saham. Pada PT Tertutup, peredaran saham hanya terbatas pada para pendiri atau pihak tertentu yang disetujui dalam Anggaran Dasar, belum diperdagangkan bebas di bursa.",
+          ind: "Wajib memiliki struktur minimal 1 Direktur dan 1 Komisaris, serta modal ditempatkan dan disetor minimal 25% dari Modal Dasar."
+        },
+        "PT Terbuka (PT Tbk / Public Listed Company)": {
+          def: "Perseroan Terbatas yang telah melakukan penawaran umum saham kepada masyarakat luas (IPO) atau memenuhi syarat jumlah pemegang saham publik dan modal disetor sesuai UU Pasar Modal.",
+          mech: "Saham PT Tbk tercatat di Bursa Efek Indonesia (BEI) dengan kode 4 huruf dan wajib memublikasikan laporan keuangan berkala serta keterbukaan informasi material kepada publik.",
+          ind: "Seluruh saham yang Anda beli di aplikasi sekuritas adalah saham milik perusahaan berstatus PT Tbk."
+        },
+        "Holding Company (Perusahaan Induk) & Tujuan Strategisnya": {
+          def: "Perusahaan induk (berbentuk PT) yang didirikan untuk memiliki saham pengendali (>50%) pada satu atau beberapa anak perusahaan (Subsidiary) guna mengoordinasikan strategi, pendanaan, dan pengelolaan grup.",
+          mech: "Operating Holding tetap menjalankan bisnis operasional sambil membawahi anak usaha; sedangkan Pure Holding fokus sepenuhnya pada investasi, tata kelola, dan alokasi modal ke anak-anak usahanya.",
+          ind: "Struktur Holding melindungi aset induk dari risiko operasional masing-masing anak usaha (ring-fencing) serta mempermudah akses pendanaan skala besar."
+        },
+        "Conglomerate (Konglomerasi Multi-Sektor Lintas Industri)": {
+          def: "Grup korporasi raksasa yang membawahi banyak perusahaan di berbagai sektor industri yang berbeda dan tidak selalu berkaitan langsung (misalnya perbankan, otomotif, pertambangan, properti, dan ritel sekaligus).",
+          mech: "Dikelola melalui perusahaan induk utama dan beberapa sub-holding sektoral untuk menyeimbangkan arus kas antar siklus industri.",
+          ind: "Contoh konglomerasi di Indonesia antara lain Grup Astra, Grup Salim, Grup Djarum, Grup Sinar Mas, dan Grup Barito."
+        },
+        "Satuan Lot (1 Lot = 100 Lembar Saham)": {
+          def: "Satuan standar minimal pembelian dan penjualan saham di pasar reguler Bursa Efek Indonesia (BEI), di mana 1 Lot setara dengan 100 lembar saham.",
+          mech: "Jika harga saham tertulis Rp 850 per lembar di aplikasi, maka biaya beli minimal 1 Lot adalah 100 × Rp 850 = Rp 85.000 (belum termasuk biaya broker sekitar 0,15%).",
+          ind: "Aturan 1 Lot = 100 lembar membuat investasi saham di Indonesia sangat terjangkau bahkan dengan modal mulai dari Rp 100.000."
+        },
+        "Price-to-Earnings Ratio (PER) & Cara Menafsirkan Murah vs Mahal": {
+          def: "Rasio valuasi yang membandingkan harga saham saat ini dengan laba bersih per saham (EPS) tahunan perusahaan (Rumus: Harga Saham ÷ EPS).",
+          mech: "Jika harga saham Rp 2.000 dan EPS tahunan Rp 200, maka PER = 10x—artinya secara teoritis dibutuhkan 10 tahun laba saat ini untuk menutup harga beli saham tersebut.",
+          ind: "Bandingkan PER emiten dengan rata-rata historisnya sendiri dan kompetitor sejenis. Saham bagus dengan PER 7x–12x dan laba bertumbuh sering kali tergolong menarik."
+        },
+        "Price-to-Book Value (PBV) & Hubungannya dengan Tingkat ROE": {
+          def: "Rasio yang membandingkan harga pasar saham dengan nilai buku ekuitas bersih per lembar saham (Rumus: Harga Saham ÷ Book Value per Share).",
+          mech: "PBV 1,0x berarti harga saham di bursa sama persis dengan nilai kekayaan bersih perusahaan setelah dikurangi seluruh utang. PBV < 1,0x berarti harga pasar lebih murah dari nilai bukunya.",
+          ind: "PBV rendah hanya menarik jika disertai ROE positif dan kinerja sehat. Bank besar dengan ROE 18%–20% wajar dihargai pada PBV 2,0x–3,5x."
+        },
+        "4 Tanggal Penting Dividen: Cum Date, Ex Date, Recording Date, Payment Date": {
+          def: "Empat jadwal resmi yang wajib dipahami investor agar tidak salah waktu membeli atau menjual saham pembagi dividen.",
+          mech: "Cum Date adalah hari terakhir perdagangan bagi investor yang ingin berhak atas dividen. Ex Date (1 hari bursa setelah Cum Date) adalah hari saat hak dividen sudah lepas dari saham tersebut.",
+          ind: "Beli pada hari Cum Date dan tahan hingga bursa tutup = Anda mendapat dividen penuh. Membeli pada hari Ex Date = Anda tidak mendapat dividen."
+        }
+      };
+
+      function getTopicDetail(chapter, topic) {
+        if (SPECIFIC_TOPIC_LEXICON[topic]) {
+          return SPECIFIC_TOPIC_LEXICON[topic];
+        }
+        const dept = DEPARTMENTS.find(d => d.id === chapter.deptId);
+        return {
+          def: `Konsep "${topic}" adalah salah satu pilar penting dalam Bab ${String(chapter.num).padStart(2, "0")} (${chapter.title}) pada ${dept.name}, yang membantu investor memahami cara kerja bisnis, legalitas korporasi, atau pengambilan keputusan investasi secara rasional.`,
+          mech: `Dalam praktik di pasar modal Indonesia (BEI) dan pengelolaan badan usaha, "${topic}" berperan menentukan bagaimana nilai perusahaan diciptakan, diawasi, diukur secara kuantitatif, atau dieksekusi secara aman di lapangan.`,
+          ind: `Terapkan pemahaman "${topic}" dengan selalu memeriksa data resmi (laporan keuangan emiten, keterbukaan informasi IDX, atau akta/legalitas usaha) sebelum mengalokasikan modal investasi Anda.`
+        };
+      }
+
+      /* ----------------------------------------------------------------------
+         4. DOM ELEMENT REFERENCES & THEME ENGINE
+         ---------------------------------------------------------------------- */
+      const coverStage = document.getElementById("cover-stage");
+      const bookCoverCard = document.getElementById("book-cover-card");
+      const bookWorkspace = document.getElementById("book-workspace");
+      const leftPageContent = document.getElementById("left-page-content");
+      const rightPageContent = document.getElementById("right-page-content");
+      const pageFlipLeaf = document.getElementById("page-flip-leaf");
+
+      function applyTheme(themeName) {
+        appState.theme = themeName;
+        document.body.classList.remove("theme-ivory", "theme-sepia", "theme-night");
+        document.body.classList.add(`theme-${themeName}`);
+
+        document.querySelectorAll(".theme-btn").forEach(btn => {
+          const isMatch = btn.getAttribute("data-theme-btn") === themeName;
+          if (isMatch) {
+            btn.className = "theme-btn px-2 py-1 rounded-lg text-[11px] font-bold transition cursor-pointer bg-amber-500 text-slate-950";
+          } else {
+            btn.className = "theme-btn px-2 py-1 rounded-lg text-[11px] font-medium transition cursor-pointer text-slate-300 hover:text-white";
+          }
+        });
+        saveState();
+        if (typeof appState.currentPage === "number" && appState.activeTab === "data") {
+          const ch = CHAPTERS.find(c => c.num === appState.currentPage);
+          if (ch) setTimeout(() => renderChapterVisualization(ch), 30);
+        }
+      }
+
+      /* ----------------------------------------------------------------------
+         5. 3D BOOK COVER OPEN / CLOSE TRANSITIONS
+         ---------------------------------------------------------------------- */
+      function openBook(targetPage) {
+        if (targetPage) appState.currentPage = targetPage;
+        appState.isOpen = true;
+        saveState();
+
+        bookCoverCard.classList.add("is-opening");
+        setTimeout(() => {
+          coverStage.classList.add("hidden");
+          bookWorkspace.classList.remove("hidden");
+          renderCurrentPage();
+          updateProgressUI();
+        }, 620);
+      }
+
+      function closeBookToCover() {
+        appState.isOpen = false;
+        saveState();
+        bookWorkspace.classList.add("hidden");
+        coverStage.classList.remove("hidden");
+        bookCoverCard.classList.remove("is-opening");
+        updateResumeButton();
+      }
+
+      function updateResumeButton() {
+        const resumeBtn = document.getElementById("btn-resume-book");
+        if (appState.bookmarkedPage || appState.completedChapters.length > 0 || appState.currentPage !== "atlas-1") {
+          resumeBtn.classList.remove("hidden");
+          const label = typeof appState.currentPage === "number"
+            ? `Lanjutkan Bab ${String(appState.currentPage).padStart(2, "0")}`
+            : (appState.currentPage === "atlas-2" ? "Lanjutkan Kamus Badan Usaha" : "Lanjutkan Buku");
+          resumeBtn.textContent = label;
+        }
+      }
+
+      /* ----------------------------------------------------------------------
+         6. 3D PAGE TURN ANIMATION & NAVIGATION
+         ---------------------------------------------------------------------- */
+      let isFlipping = false;
+
+      function navigateToPage(targetPage, direction = "next") {
+        if (isFlipping || targetPage === appState.currentPage) return;
+        isFlipping = true;
+
+        pageFlipLeaf.classList.remove("flip-next", "flip-prev");
+        void pageFlipLeaf.offsetWidth;
+        pageFlipLeaf.classList.add(direction === "prev" ? "flip-prev" : "flip-next");
+
+        setTimeout(() => {
+          appState.currentPage = targetPage;
+          saveState();
+          renderCurrentPage();
+          document.getElementById("left-page").scrollTop = 0;
+          document.getElementById("right-page").scrollTop = 0;
+        }, 230);
+
+        setTimeout(() => {
+          pageFlipLeaf.classList.remove("flip-next", "flip-prev");
+          isFlipping = false;
+        }, 580);
+      }
+
+      function stepPage(delta) {
+        const idx = PAGE_SEQUENCE.indexOf(appState.currentPage);
+        const nextIdx = idx + delta;
+        if (nextIdx >= 0 && nextIdx < PAGE_SEQUENCE.length) {
+          navigateToPage(PAGE_SEQUENCE[nextIdx], delta > 0 ? "next" : "prev");
+        }
+      }
+
+      /* ----------------------------------------------------------------------
+         7. RENDERERS: ATLAS I, ATLAS II, AND CHAPTERS 01-25
+         ---------------------------------------------------------------------- */
+      function renderCurrentPage() {
+        updateNavigationChrome();
+        const page = appState.currentPage;
+
+        if (page === "atlas-1") {
+          renderAtlasOne();
+        } else if (page === "atlas-2") {
+          renderAtlasTwo();
+        } else {
+          const chapter = CHAPTERS.find(c => c.num === Number(page)) || CHAPTERS[0];
+          renderChapterSpread(chapter);
+        }
+      }
+
+      function updateNavigationChrome() {
+        const idx = PAGE_SEQUENCE.indexOf(appState.currentPage);
+        document.getElementById("btn-prev-page").disabled = idx <= 0;
+        document.getElementById("btn-next-page").disabled = idx >= PAGE_SEQUENCE.length - 1;
+
+        const footerIndicator = document.getElementById("footer-page-indicator");
+        const leftFolio = document.getElementById("left-folio-label");
+        const leftNum = document.getElementById("left-page-number");
+        const rightFolio = document.getElementById("right-folio-label");
+        const rightNum = document.getElementById("right-page-number");
+
+        if (appState.currentPage === "atlas-1") {
+          footerIndicator.textContent = "ATLAS I — PETA PERJALANAN BELAJAR ZERO-TO-HERO";
+          leftFolio.textContent = "PANDUAN MULAI DARI NOL";
+          leftNum.textContent = "ATLAS I-A";
+          rightFolio.textContent = "KURIKULUM 5 TAHAP (25 BAB)";
+          rightNum.textContent = "ATLAS I-B";
+        } else if (appState.currentPage === "atlas-2") {
+          footerIndicator.textContent = "ATLAS II — KAMUS BADAN USAHA (UD/CV/PT/HOLDING) & CHECKLIST SAHAM";
+          leftFolio.textContent = "PERBANDINGAN ENTITAS BISNIS";
+          leftNum.textContent = "ATLAS II-A";
+          rightFolio.textContent = "8 SYARAT MEMILIH SAHAM";
+          rightNum.textContent = "ATLAS II-B";
+        } else {
+          const ch = CHAPTERS.find(c => c.num === appState.currentPage);
+          const dept = DEPARTMENTS.find(d => d.id === ch.deptId);
+          footerIndicator.textContent = `BAB ${String(ch.num).padStart(2, "0")} / 25 — ${ch.title}`;
+          leftFolio.textContent = `${dept.code} // ${ch.stage}`;
+          leftNum.textContent = `HAL. ${ch.num * 2 - 1}`;
+          rightFolio.textContent = `WORKBENCH & KALKULATOR`;
+          rightNum.textContent = `HAL. ${ch.num * 2}`;
+        }
+
+        const isBookmarked = appState.bookmarkedPage === appState.currentPage;
+        const ribbon = document.getElementById("btn-toggle-bookmark");
+        const star = document.getElementById("bookmark-star-icon");
+        if (isBookmarked) {
+          ribbon.classList.remove("bg-red-700");
+          ribbon.classList.add("bg-amber-500", "text-slate-950");
+          star.classList.remove("opacity-60");
+          star.classList.add("opacity-100");
+        } else {
+          ribbon.classList.add("bg-red-700");
+          ribbon.classList.remove("bg-amber-500", "text-slate-950");
+          star.classList.add("opacity-60");
+          star.classList.remove("opacity-100");
+        }
+      }
+
+      /* --- ATLAS I: IDENTITAS KITAB + 5 TAHAP PERJALANAN ZERO-TO-HERO --- */
+      function renderAtlasOne() {
+        leftPageContent.innerHTML = `
+          <div class="content-reveal space-y-5">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent-gold-soft)] border border-[var(--border-strong)]">
+              <span class="font-mono-code text-[11px] font-bold text-[var(--accent-gold)] tracking-widest">PETA BELAJAR LENGKAP // ATLAS I</span>
+            </div>
+
+            <div>
+              <h2 class="font-display text-2xl sm:text-3xl font-extrabold tracking-wide text-[var(--ink-primary)]">
+                KITAB INVESTASI SAHAM &amp; ARSITEKTUR KORPORASI
+              </h2>
+              <p class="font-mono-code text-xs text-[var(--accent-gold)] font-semibold mt-1">
+                25 BAB LENGKAP • 5 DEPARTEMEN • DARI PEMULA TOTAL HINGGA MAHIR
+              </p>
+              <p class="font-serif-editorial italic text-base sm:text-lg text-[var(--ink-secondary)] mt-3 pl-3.5 border-l-2 border-[var(--accent-gold)]">
+                “Investasi saham bukan menebak grafik—melainkan memahami bisnis, legalitas perusahaan, laporan keuangan, dan disiplin risiko.”
+              </p>
+            </div>
+
+            <!-- 6 Pilar Utama -->
+            <div>
+              <h3 class="font-mono-code text-xs uppercase tracking-wider text-[var(--ink-muted)] font-semibold mb-2.5">
+                6 Pilar Ilmu yang Akan Anda Kuasai
+              </h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                ${CORE_PILLARS.map((f, i) => `
+                  <div class="p-2.5 rounded-xl bg-[var(--paper-card)] border border-[var(--border-subtle)] flex items-center gap-2.5">
+                    <span class="font-mono-code text-[11px] font-bold text-[var(--accent-gold)]">0${i + 1}</span>
+                    <span class="text-xs sm:text-sm font-semibold text-[var(--ink-primary)]">${f}</span>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+
+            <!-- Metode Pembelajaran 4 Tab Tiap Bab -->
+            <div class="p-4 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-strong)] space-y-2.5">
+              <div class="font-mono-code text-xs font-bold text-[var(--accent-gold)] uppercase tracking-wider">
+                Cara Menggunakan Buku Interaktif Ini
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[var(--ink-secondary)]">
+                <div><strong class="text-[var(--ink-primary)]">1. Klik Topik (Kiri):</strong> Membuka kartu penjelasan detail setiap istilah &amp; rumus.</div>
+                <div><strong class="text-[var(--ink-primary)]">2. Tab Teori &amp; Kasus:</strong> Memahami prinsip inti dan contoh nyata di Indonesia.</div>
+                <div><strong class="text-[var(--ink-primary)]">3. Tab Lab &amp; Grafik:</strong> Menguji kalkulator valuasi, compounding, risiko &amp; order book.</div>
+                <div><strong class="text-[var(--ink-primary)]">4. Tab Praktikum:</strong> Checklist aksi nyata &amp; catatan belajar otomatis tersimpan.</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        rightPageContent.innerHTML = `
+          <div class="content-reveal space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="font-mono-code text-[11px] text-[var(--accent-gold)] font-bold uppercase tracking-wider">ALUR BELAJAR BERTAHAP</span>
+                <h2 class="font-serif-editorial text-xl sm:text-2xl font-bold text-[var(--ink-primary)]">
+                  Peta Perjalanan Zero-to-Hero (5 Tahap)
+                </h2>
+              </div>
+              <button type="button" onclick="window.__labJump('atlas-2')"
+                class="px-3 py-1.5 rounded-xl bg-[var(--accent-gold-soft)] border border-[var(--border-strong)] text-xs font-semibold text-[var(--accent-gold)] hover:opacity-80 cursor-pointer">
+                Ke Kamus PT/CV →
+              </button>
+            </div>
+
+            <div class="space-y-2.5">
+              ${SKILL_STAGES.map(st => `
+                <button type="button" onclick="window.__labJump(${st.startChapter})"
+                  class="w-full text-left p-3.5 rounded-xl bg-[var(--paper-card)] hover:bg-[var(--paper-card-hover)] border border-[var(--border-subtle)] hover:border-[var(--accent-gold)] transition group cursor-pointer">
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="font-mono-code text-xs font-bold text-[var(--accent-gold)]">${st.stage}</span>
+                    <span class="px-2 py-0.5 rounded-md bg-[var(--accent-gold-soft)] font-mono-code text-[11px] font-semibold text-[var(--ink-primary)] group-hover:bg-amber-500 group-hover:text-slate-950 transition">
+                      ${st.range} →
+                    </span>
+                  </div>
+                  <p class="text-xs text-[var(--ink-secondary)] leading-relaxed">${st.desc}</p>
+                </button>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }
+
+      /* --- ATLAS II: KAMUS BADAN USAHA (UD, CV, PT, HOLDING) & 8 SYARAT MEMILIH SAHAM --- */
+      function renderAtlasTwo() {
+        const categories = ["ALL", "Non-Badan Hukum", "Badan Hukum", "Struktur Korporasi"];
+        const filteredEntities = appState.entityFilter === "ALL"
+          ? ENTITY_CATALOG
+          : ENTITY_CATALOG.filter(i => i.category === appState.entityFilter);
+
+        leftPageContent.innerHTML = `
+          <div class="content-reveal space-y-4">
+            <div>
+              <span class="font-mono-code text-[11px] font-bold text-[var(--accent-gold)] uppercase tracking-wider">ENSIKLOPEDIA ENTITAS BISNIS // ATLAS II</span>
+              <h2 class="font-serif-editorial text-xl sm:text-2xl font-bold text-[var(--ink-primary)]">
+                Perbandingan UD, Firma, CV, PT, Holding &amp; Konglomerasi
+              </h2>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="flex flex-wrap gap-1.5">
+              ${categories.map(cat => {
+                const active = appState.entityFilter === cat;
+                return `
+                  <button type="button" onclick="window.__setEntityFilter('${cat}')"
+                    class="px-2.5 py-1 rounded-lg text-[11px] font-semibold transition cursor-pointer ${
+                      active
+                        ? "bg-amber-500 text-slate-950 shadow-sm"
+                        : "bg-[var(--paper-card)] border border-[var(--border-subtle)] text-[var(--ink-secondary)] hover:border-[var(--accent-gold)]"
+                    }">
+                    ${cat === "ALL" ? "Semua (8 Bentuk)" : cat}
+                  </button>
+                `;
+              }).join("")}
+            </div>
+
+            <div class="space-y-2.5">
+              ${filteredEntities.map(ent => `
+                <div class="p-3 rounded-xl bg-[var(--paper-card)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] transition space-y-1">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class="font-mono-code text-xs sm:text-sm font-bold text-[var(--accent-gold)]">${ent.name}</span>
+                    <span class="px-2 py-0.5 rounded-md bg-[var(--accent-gold-soft)] font-mono-code text-[10px] font-semibold text-[var(--ink-primary)]">
+                      ${ent.category}
+                    </span>
+                  </div>
+                  <p class="text-[11px] sm:text-xs text-[var(--ink-secondary)] leading-relaxed">${ent.detail}</p>
+                  <div class="pt-1.5 border-t border-[var(--border-subtle)] grid grid-cols-1 sm:grid-cols-2 gap-1 text-[10px] text-[var(--ink-muted)]">
+                    <div><strong class="text-[var(--ink-primary)]">Modal:</strong> ${ent.capital}</div>
+                    <div><strong class="text-[var(--ink-primary)]">Risiko:</strong> ${ent.liability}</div>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `;
+
+        rightPageContent.innerHTML = `
+          <div class="content-reveal space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="font-mono-code text-[11px] font-bold text-[var(--accent-gold)] uppercase tracking-wider">PANDUAN SELEKSI // ATLAS II</span>
+                <h2 class="font-serif-editorial text-xl sm:text-2xl font-bold text-[var(--ink-primary)]">
+                  8 Syarat Emas Memilih Saham Berkualitas
+                </h2>
+              </div>
+              <button type="button" onclick="window.__labJump(1)"
+                class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 text-xs font-bold hover:bg-amber-400 cursor-pointer shadow">
+                Mulai Bab 01 →
+              </button>
+            </div>
+
+            <p class="text-xs text-[var(--ink-secondary)]">
+              Gunakan 8 kriteria kuantitatif dan kualitatif berikut untuk menyaring emiten yang layak disimpan dalam jangka panjang:
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              ${STOCK_PICKING_CHECKLIST.map(item => `
+                <div class="p-3 rounded-xl bg-[var(--paper-card)] border border-[var(--border-subtle)] hover:border-[var(--accent-gold)] transition flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between gap-2 mb-1">
+                      <span class="font-mono-code text-[11px] font-bold text-[var(--accent-gold)]">KRITERIA #${item.code}</span>
+                      <span class="px-1.5 py-0.5 rounded bg-[var(--accent-gold-soft)] font-mono-code text-[9px] font-semibold text-[var(--ink-primary)]">
+                        ${item.metric}
+                      </span>
+                    </div>
+                    <h3 class="font-bold text-xs sm:text-sm text-[var(--ink-primary)] leading-snug mb-1">${item.title}</h3>
+                    <p class="text-[11px] text-[var(--ink-secondary)] leading-relaxed">${item.desc}</p>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }
+
+      /* --- CHAPTER SPREAD (BAB 01 - BAB 25) --- */
+      function renderChapterSpread(chapter) {
+        const dept = DEPARTMENTS.find(d => d.id === chapter.deptId);
+        const isCompleted = appState.completedChapters.includes(chapter.num);
+        const babCode = `BAB ${String(chapter.num).padStart(2, "0")}`;
+
+        leftPageContent.innerHTML = `
+          <div class="content-reveal space-y-5">
+            <!-- Department & Stage Breadcrumb -->
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="px-2.5 py-1 rounded-lg bg-[var(--accent-gold-soft)] border border-[var(--border-strong)] font-mono-code text-[10px] sm:text-[11px] font-bold text-[var(--accent-gold)]">
+                ${dept.code} — ${dept.name}
+              </span>
+              <span class="font-mono-code text-[10px] uppercase tracking-wider text-[var(--ink-muted)]">
+                ${chapter.stage}
+              </span>
+            </div>
+
+            <!-- Chapter Title & Completion Checkbox -->
+            <div class="pb-4 border-b border-[var(--border-subtle)]">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="font-mono-code text-xs sm:text-sm font-bold text-[var(--accent-gold)] tracking-widest">
+                    ${babCode} // SILABUS MATERI LENGKAP
+                  </div>
+                  <h1 class="font-serif-editorial text-xl sm:text-3xl font-bold text-[var(--ink-primary)] mt-1 leading-tight">
+                    ${chapter.title}
+                  </h1>
+                </div>
+
+                <button type="button" onclick="window.__toggleChapterComplete(${chapter.num})"
+                  class="shrink-0 px-3 py-2 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
+                    isCompleted
+                      ? "bg-emerald-600/20 border-emerald-500 text-emerald-700 dark:text-emerald-300"
+                      : "bg-[var(--paper-card)] border-[var(--border-strong)] text-[var(--ink-secondary)] hover:border-[var(--accent-gold)]"
+                  }">
+                  <span>${isCompleted ? "✓ Paham & Selesai" : "○ Tandai Selesai"}</span>
+                </button>
+              </div>
+              <p class="text-xs text-[var(--ink-muted)] mt-2">
+                Klik salah satu dari <strong>${chapter.topics.length} topik pembahasan</strong> di bawah untuk membuka kartu penjelasan lengkap:
+              </p>
+            </div>
+
+            <!-- Interactive Topic Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              ${chapter.topics.map((topic, idx) => `
+                <button type="button" onclick="window.__openTopicModal(${chapter.num}, ${idx})"
+                  class="group text-left p-2.5 rounded-xl bg-[var(--paper-card)] hover:bg-[var(--paper-card-hover)] border border-[var(--border-subtle)] hover:border-[var(--accent-gold)] transition flex items-center justify-between gap-2 cursor-pointer shadow-xs">
+                  <div class="flex items-center gap-2.5 min-w-0">
+                    <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] shrink-0">
+                      ${String(idx + 1).padStart(2, "0")}
+                    </span>
+                    <span class="text-xs sm:text-[13px] font-medium text-[var(--ink-primary)] leading-snug group-hover:text-[var(--accent-gold)] transition">
+                      ${topic}
+                    </span>
+                  </div>
+                  <span class="text-[11px] text-[var(--ink-muted)] group-hover:translate-x-0.5 transition shrink-0">↗</span>
+                </button>
+              `).join("")}
+            </div>
+          </div>
+        `;
+
+        const tabs = [
+          { id: "theory", label: "01 // Teori Inti" },
+          { id: "case", label: "02 // Studi Kasus" },
+          { id: "data", label: "03 // Lab & Grafik" },
+          { id: "research", label: "04 // Praktikum" }
+        ];
+
+        rightPageContent.innerHTML = `
+          <div class="content-reveal space-y-4">
+            <!-- 4 Standard Workbench Tabs -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 rounded-xl bg-[var(--paper-card)] border border-[var(--border-subtle)]">
+              ${tabs.map(t => {
+                const active = appState.activeTab === t.id;
+                return `
+                  <button type="button" onclick="window.__switchResearchTab('${t.id}')"
+                    class="py-2 px-2 rounded-lg font-mono-code text-[11px] font-semibold transition cursor-pointer ${
+                      active
+                        ? "bg-amber-500 text-slate-950 shadow-sm"
+                        : "text-[var(--ink-secondary)] hover:text-[var(--ink-primary)]"
+                    }">
+                    ${t.label}
+                  </button>
+                `;
+              }).join("")}
+            </div>
+
+            <!-- Active Tab Panel Body -->
+            <div id="workbench-tab-body" class="space-y-4">
+              ${renderWorkbenchTabHTML(chapter)}
+            </div>
+          </div>
+        `;
+
+        if (appState.activeTab === "data") {
+          setTimeout(() => renderChapterVisualization(chapter), 25);
+        }
+      }
+
+      function renderWorkbenchTabHTML(chapter) {
+        if (appState.activeTab === "theory") {
+          return `
+            <div class="p-4 sm:p-5 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-3.5">
+              <div class="font-mono-code text-xs font-bold text-[var(--accent-gold)] uppercase tracking-wider">
+                Penjelasan Mendalam &amp; Prinsip Utama
+              </div>
+              <p class="text-xs sm:text-sm text-[var(--ink-primary)] leading-relaxed">
+                ${chapter.theory}
+              </p>
+              <div class="pt-3 border-t border-[var(--border-subtle)] grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                <div class="p-3 rounded-xl bg-[var(--accent-gold-soft)]">
+                  <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">Fokus Bab ${String(chapter.num).padStart(2, "0")}</div>
+                  <div class="text-[var(--ink-primary)] font-medium mt-0.5">${chapter.title}</div>
+                </div>
+                <div class="p-3 rounded-xl bg-[var(--accent-gold-soft)]">
+                  <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">Total Sub-Materi</div>
+                  <div class="text-[var(--ink-primary)] font-medium mt-0.5">${chapter.topics.length} Konsep Komplit (Klik di Halaman Kiri)</div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        if (appState.activeTab === "case") {
+          return `
+            <div class="p-4 sm:p-5 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-3.5">
+              <div class="flex items-center justify-between">
+                <span class="font-mono-code text-xs font-bold text-[var(--accent-gold)] uppercase tracking-wider">
+                  Studi Kasus &amp; Simulasi Nyata
+                </span>
+                <span class="px-2 py-0.5 rounded bg-[var(--accent-gold-soft)] font-mono-code text-[10px] text-[var(--accent-gold)]">
+                  CASE ARCHIVE
+                </span>
+              </div>
+              <h3 class="font-serif-editorial text-lg font-bold text-[var(--ink-primary)] leading-snug">
+                ${chapter.caseStudy.title}
+              </h3>
+              <p class="text-xs sm:text-sm text-[var(--ink-secondary)] leading-relaxed">
+                ${chapter.caseStudy.summary}
+              </p>
+              <div class="p-3.5 rounded-xl bg-[var(--accent-gold-soft)] border-l-4 border-[var(--accent-gold)]">
+                <div class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase mb-1">Intisari Pelajaran Investor</div>
+                <p class="text-xs text-[var(--ink-primary)] font-medium leading-relaxed">${chapter.caseStudy.lesson}</p>
+              </div>
+            </div>
+          `;
+        }
+
+        if (appState.activeTab === "data") {
+          let interactiveControls = "";
+          if (chapter.vizType === "compounding") {
+            interactiveControls = `
+              <div class="grid grid-cols-3 gap-2 text-[11px]">
+                <div>
+                  <label class="block text-[var(--ink-muted)] font-mono-code text-[10px]">Setor/Bulan (Rp)</label>
+                  <input type="number" step="250000" min="100000" value="${appState.calcMonthly}"
+                    onchange="window.__updateLabCalc('calcMonthly', this.value)"
+                    class="w-full mt-0.5 px-2 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+                <div>
+                  <label class="block text-[var(--ink-muted)] font-mono-code text-[10px]">Return/Thn (%)</label>
+                  <input type="number" step="1" min="1" max="35" value="${appState.calcRate}"
+                    onchange="window.__updateLabCalc('calcRate', this.value)"
+                    class="w-full mt-0.5 px-2 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+                <div>
+                  <label class="block text-[var(--ink-muted)] font-mono-code text-[10px]">Durasi (Tahun)</label>
+                  <input type="number" step="1" min="1" max="30" value="${appState.calcYears}"
+                    onchange="window.__updateLabCalc('calcYears', this.value)"
+                    class="w-full mt-0.5 px-2 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+              </div>
+            `;
+          } else if (chapter.vizType === "valuation") {
+            interactiveControls = `
+              <div class="grid grid-cols-4 gap-1.5 text-[11px]">
+                <div>
+                  <label class="block text-[var(--ink-muted)] font-mono-code text-[9px]">Harga Pasar</label>
+                  <input type="number" step="100" min="50" value="${appState.valPrice}"
+                    onchange="window.__updateLabCalc('valPrice', this.value)"
+                    class="w-full mt-0.5 px-1.5 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+                <div>
+                  <label class="block text-[var(--ink-muted)] font-mono-code text-[9px]">EPS (Rp)</label>
+                  <input type="number" step="10" min="1" value="${appState.valEps}"
+                    onchange="window.__updateLabCalc('valEps', this.value)"
+                    class="w-full mt-0.5 px-1.5 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+                <div>
+                  <label class="block text-[var(--ink-muted)] font-mono-code text-[9px]">BVPS (Rp)</label>
+                  <input type="number" step="50" min="1" value="${appState.valBvps}"
+                    onchange="window.__updateLabCalc('valBvps', this.value)"
+                    class="w-full mt-0.5 px-1.5 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+                <div>
+                  <label class="block text-[var(--ink-muted)] font-mono-code text-[9px]">Growth (%)</label>
+                  <input type="number" step="1" min="1" max="50" value="${appState.valGrowth}"
+                    onchange="window.__updateLabCalc('valGrowth', this.value)"
+                    class="w-full mt-0.5 px-1.5 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+              </div>
+            `;
+          } else if (chapter.vizType === "risk") {
+            interactiveControls = `
+              <div class="grid grid-cols-3 gap-2 text-[11px]">
+                <div>
+                  <label class="block text-[var(--ink-muted)] font-mono-code text-[10px]">Total Modal (Rp)</label>
+                  <input type="number" step="1000000" min="500000" value="${appState.riskCapital}"
+                    onchange="window.__updateLabCalc('riskCapital', this.value)"
+                    class="w-full mt-0.5 px-2 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+                <div>
+                  <label class="block text-[var(--ink-muted)] font-mono-code text-[10px]">Risiko Modal (%)</label>
+                  <input type="number" step="0.5" min="0.5" max="10" value="${appState.riskPct}"
+                    onchange="window.__updateLabCalc('riskPct', this.value)"
+                    class="w-full mt-0.5 px-2 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+                <div>
+                  <label class="block text-[var(--ink-muted)] font-mono-code text-[10px]">Batas Rugi/SL (%)</label>
+                  <input type="number" step="1" min="2" max="30" value="${appState.riskSlPct}"
+                    onchange="window.__updateLabCalc('riskSlPct', this.value)"
+                    class="w-full mt-0.5 px-2 py-1 rounded-lg bg-transparent border border-[var(--border-strong)] font-mono-code text-xs text-[var(--ink-primary)]" />
+                </div>
+              </div>
+            `;
+          }
+
+          return `
+            <div class="p-4 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <span class="font-mono-code text-[10px] font-bold text-[var(--accent-gold)] uppercase">LABORATORIUM INTERAKTIF</span>
+                  <h3 class="font-bold text-xs sm:text-sm text-[var(--ink-primary)]">${chapter.vizTitle}</h3>
+                </div>
+                <button type="button" onclick="window.__regenerateViz()"
+                  class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono-code text-[11px] font-bold transition cursor-pointer shadow-xs">
+                  ↻ Acak / Simulasi Ulang
+                </button>
+              </div>
+
+              ${interactiveControls}
+
+              <div class="w-full h-52 sm:h-60 rounded-xl border border-[var(--border-subtle)] bg-slate-950/5 dark:bg-slate-950/40 relative overflow-hidden">
+                <canvas id="lab-data-canvas" class="w-full h-full block"></canvas>
+              </div>
+
+              <div id="viz-caption-metrics" class="grid grid-cols-3 gap-2 text-center font-mono-code text-[11px]">
+              </div>
+            </div>
+          `;
+        }
+
+        if (appState.activeTab === "research") {
+          const noteVal = appState.researchNotes[chapter.num] || "";
+          return `
+            <div class="space-y-3.5">
+              <div class="p-4 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-2.5">
+                <div class="font-mono-code text-xs font-bold text-[var(--accent-gold)] uppercase tracking-wider">
+                  Checklist Praktik &amp; Tugas Mandiri Bab ${String(chapter.num).padStart(2, "0")}
+                </div>
+                <div class="space-y-2">
+                  ${chapter.practical.map((step, i) => {
+                    const key = `${chapter.num}-${i}`;
+                    const checked = !!appState.researchChecks[key];
+                    return `
+                      <label class="flex items-start gap-2.5 p-2.5 rounded-xl border border-[var(--border-subtle)] hover:border-[var(--accent-gold)] cursor-pointer transition bg-[var(--paper-card-hover)]/40">
+                        <input type="checkbox" ${checked ? "checked" : ""}
+                          onchange="window.__toggleResearchCheck('${key}')"
+                          class="mt-0.5 accent-amber-500 w-4 h-4 rounded cursor-pointer" />
+                        <span class="text-xs text-[var(--ink-primary)] leading-relaxed ${checked ? "line-through opacity-60" : ""}">
+                          ${step}
+                        </span>
+                      </label>
+                    `;
+                  }).join("")}
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-[var(--paper-card)] border border-[var(--border-subtle)] space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-mono-code text-[11px] font-bold text-[var(--accent-gold)] uppercase">
+                    Catatan Belajar Pribadi (Tersimpan Otomatis)
+                  </span>
+                  <span class="font-mono-code text-[10px] text-emerald-600 dark:text-emerald-400">✓ Tersimpan</span>
+                </div>
+                <textarea rows="3"
+                  oninput="window.__saveResearchNote(${chapter.num}, this.value)"
+                  placeholder="Catat poin penting, rumus valuasi, atau daftar saham incaran Anda dari Bab ${String(chapter.num).padStart(2, "0")}..."
+                  class="w-full p-2.5 rounded-xl bg-transparent border border-[var(--border-strong)] focus:border-[var(--accent-gold)] focus:outline-none text-xs text-[var(--ink-primary)] placeholder-[var(--ink-muted)]">${noteVal}</textarea>
+              </div>
+            </div>
+          `;
+        }
+        return "";
+      }
+
+      /* ----------------------------------------------------------------------
+         8. INTERACTIVE CANVAS VISUALIZATION & CALCULATOR ENGINE
+         ---------------------------------------------------------------------- */
+      function formatRupiahShort(num) {
+        if (num >= 1e9) return "Rp " + (num / 1e9).toFixed(2) + " M";
+        if (num >= 1e6) return "Rp " + (num / 1e6).toFixed(1) + " Jt";
+        return "Rp " + Math.round(num).toLocaleString("id-ID");
+      }
+
+      function seededRandom(seed) {
+        let s = seed % 2147483647;
+        if (s <= 0) s += 2147483646;
+        return function () {
+          s = (s * 16807) % 2147483647;
+          return (s - 1) / 2147483646;
+        };
+      }
+
+      function renderChapterVisualization(chapter) {
+        const canvas = document.getElementById("lab-data-canvas");
+        const metricsEl = document.getElementById("viz-caption-metrics");
+        if (!canvas || !metricsEl) return;
+
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = Math.max(300, rect.width * dpr);
+        canvas.height = Math.max(200, rect.height * dpr);
+
+        const ctx = canvas.getContext("2d");
+        ctx.scale(dpr, dpr);
+        const W = rect.width;
+        const H = rect.height;
+
+        const isNight = appState.theme === "night";
+        const gridColor = isNight ? "rgba(148,163,184,0.14)" : "rgba(120,113,102,0.16)";
+        const textColor = isNight ? "#cbd5e1" : "#4a453e";
+        const goldColor = isNight ? "#e5b94c" : "#b48628";
+
+        ctx.clearRect(0, 0, W, H);
+
+        // Background Grid
+        ctx.strokeStyle = gridColor;
+        ctx.lineWidth = 1;
+        for (let x = 36; x < W; x += 55) {
+          ctx.beginPath(); ctx.moveTo(x, 14); ctx.lineTo(x, H - 22); ctx.stroke();
+        }
+        for (let y = 24; y < H - 20; y += 38) {
+          ctx.beginPath(); ctx.moveTo(16, y); ctx.lineTo(W - 16, y); ctx.stroke();
+        }
+
+        const rand = seededRandom(chapter.num * 83 + appState.vizSeed * 29);
+        const type = chapter.vizType;
+
+        if (type === "compounding") {
+          const m = Math.max(100000, Number(appState.calcMonthly) || 1500000);
+          const r = Math.max(1, Number(appState.calcRate) || 12) / 100 / 12;
+          const yrs = Math.max(1, Math.min(35, Number(appState.calcYears) || 10));
+          const months = yrs * 12;
+
+          const modalPts = [];
+          const totalPts = [];
+          let bal = 0;
+          for (let i = 0; i <= months; i++) {
+            modalPts.push(m * i);
+            totalPts.push(bal);
+            bal = (bal + m) * (1 + r);
+          }
+          const maxVal = Math.max(...totalPts, 1);
+
+          // Draw Total Compounded Curve (Gold)
+          ctx.beginPath();
+          ctx.strokeStyle = goldColor;
+          ctx.lineWidth = 2.6;
+          totalPts.forEach((v, i) => {
+            const x = 28 + (i / months) * (W - 52);
+            const y = H - 26 - (v / maxVal) * (H - 48);
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          });
+          ctx.stroke();
+
+          // Draw Principal Only Line (Slate/Blue)
+          ctx.beginPath();
+          ctx.strokeStyle = "#38bdf8";
+          ctx.setLineDash([5, 4]);
+          ctx.lineWidth = 1.8;
+          modalPts.forEach((v, i) => {
+            const x = 28 + (i / months) * (W - 52);
+            const y = H - 26 - (v / maxVal) * (H - 48);
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          });
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          ctx.fillStyle = textColor;
+          ctx.font = "600 10px 'JetBrains Mono'";
+          ctx.fillText(`KURVA COMPOUNDING ${yrs} TAHUN (EMAS = TOTAL ASET | BIRU = MODAL POKOK)`, 28, 18);
+
+          const finalModal = m * months;
+          const finalTotal = totalPts[totalPts.length - 1];
+          const profitOnly = finalTotal - finalModal;
+
+          metricsEl.innerHTML = `
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">TOTAL MODAL SETOR</span><strong class="text-sky-600 dark:text-sky-400">${formatRupiahShort(finalModal)}</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">KEUNTUNGAN BUNGA</span><strong class="text-emerald-600 dark:text-emerald-400">+${formatRupiahShort(profitOnly)}</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">HASIL AKHIR (${yrs} THN)</span><strong class="text-[var(--accent-gold)]">${formatRupiahShort(finalTotal)}</strong></div>
+          `;
+        } else if (type === "valuation") {
+          const price = Math.max(50, Number(appState.valPrice) || 3200);
+          const eps = Math.max(1, Number(appState.valEps) || 320);
+          const bvps = Math.max(1, Number(appState.valBvps) || 1850);
+          const growth = Math.max(1, Number(appState.valGrowth) || 14);
+
+          const per = price / eps;
+          const pbv = price / bvps;
+          const peg = per / growth;
+          const grahamFair = Math.sqrt(22.5 * eps * bvps);
+          const mosPct = ((grahamFair - price) / grahamFair) * 100;
+
+          // Draw comparison bar chart: Harga Pasar vs Nilai Wajar Graham
+          const maxBar = Math.max(price, grahamFair) * 1.2;
+          const barW = 70;
+          const pH = (price / maxBar) * (H - 64);
+          const gH = (grahamFair / maxBar) * (H - 64);
+
+          const x1 = W * 0.28 - barW / 2;
+          const x2 = W * 0.68 - barW / 2;
+
+          ctx.fillStyle = price <= grahamFair ? "#10b981" : "#f59e0b";
+          ctx.fillRect(x1, H - 32 - pH, barW, pH);
+
+          ctx.fillStyle = goldColor;
+          ctx.fillRect(x2, H - 32 - gH, barW, gH);
+
+          ctx.fillStyle = textColor;
+          ctx.font = "700 11px 'JetBrains Mono'";
+          ctx.textAlign = "center";
+          ctx.fillText(`HARGA PASAR`, x1 + barW / 2, H - 14);
+          ctx.fillText(`Rp ${price.toLocaleString("id-ID")}`, x1 + barW / 2, H - 38 - pH);
+
+          ctx.fillText(`HARGA WAJAR (GRAHAM)`, x2 + barW / 2, H - 14);
+          ctx.fillText(`Rp ${Math.round(grahamFair).toLocaleString("id-ID")}`, x2 + barW / 2, H - 38 - gH);
+          ctx.textAlign = "left";
+
+          const statusText = mosPct >= 15
+            ? `Diskon ${mosPct.toFixed(0)}% (Murah)`
+            : (mosPct >= -10 ? "Harga Wajar" : `Premium ${Math.abs(mosPct).toFixed(0)}%`);
+
+          metricsEl.innerHTML = `
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">PER / PBV</span><strong class="text-[var(--ink-primary)]">${per.toFixed(1)}x / ${pbv.toFixed(2)}x</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">PEG RATIO</span><strong class="text-[var(--accent-gold)]">${peg.toFixed(2)}x</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">STATUS VALUASI</span><strong class="${mosPct >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-amber-500"}">${statusText}</strong></div>
+          `;
+        } else if (type === "corporate") {
+          // Corporate Holding & Subsidiary Ownership Hierarchy Diagram
+          const nodes = [
+            { x: W * 0.5, y: 38, title: "HOLDING COMPANY (PT INDUK)", sub: "Pengendali & Alokasi Modal", color: goldColor },
+            { x: W * 0.22, y: 112, title: "SUBSIDIARY A (PT)", sub: "Kepemilikan 80% • Konsolidasi", color: "#10b981" },
+            { x: W * 0.5, y: 112, title: "SUBSIDIARY B (PT Tbk)", sub: "65% Induk • 35% Publik BEI", color: "#38bdf8" },
+            { x: W * 0.78, y: 112, title: "ASOSIASI / JV (PT)", sub: "Kepemilikan 30% • Metode Ekuitas", color: "#f59e0b" }
+          ];
+
+          nodes.slice(1).forEach(child => {
+            ctx.beginPath();
+            ctx.strokeStyle = goldColor;
+            ctx.lineWidth = 1.6;
+            ctx.moveTo(nodes[0].x, nodes[0].y + 18);
+            ctx.lineTo(child.x, child.y - 18);
+            ctx.stroke();
+          });
+
+          nodes.forEach(n => {
+            const boxW = Math.min(165, W * 0.28);
+            const boxH = 38;
+            ctx.fillStyle = isNight ? "#0f172a" : "#ffffff";
+            ctx.strokeStyle = n.color;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.roundRect(n.x - boxW / 2, n.y - boxH / 2, boxW, boxH, 8);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = textColor;
+            ctx.font = "700 9px 'JetBrains Mono'";
+            ctx.textAlign = "center";
+            ctx.fillText(n.title, n.x, n.y - 2);
+            ctx.font = "500 8.5px 'Plus Jakarta Sans'";
+            ctx.fillText(n.sub, n.x, n.y + 11);
+          });
+          ctx.textAlign = "left";
+
+          metricsEl.innerHTML = `
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">STATUS HUKUM</span><strong class="text-[var(--ink-primary)]">Badan Hukum PT</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">ISOLASI RISIKO</span><strong class="text-[var(--accent-gold)]">Ring-Fenced</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">HAK PUBLIK</span><strong class="text-emerald-600 dark:text-emerald-400">Dividen &amp; RUPS</strong></div>
+          `;
+        } else if (type === "orderbook") {
+          // IDX Order Book Bid vs Offer Visualizer
+          const basePrice = 2450 + Math.round(rand() * 10) * 10;
+          const rows = 6;
+          const rowH = (H - 42) / rows;
+          ctx.fillStyle = textColor;
+          ctx.font = "700 10px 'JetBrains Mono'";
+          ctx.fillText("ANTREAN BELI (BID LOT)", 24, 18);
+          ctx.fillText("HARGA", W * 0.46, 18);
+          ctx.fillText("ANTREAN JUAL (OFFER LOT)", W * 0.62, 18);
+
+          for (let i = 0; i < rows; i++) {
+            const y = 26 + i * rowH;
+            const bidLot = Math.round(120 + rand() * 880);
+            const offLot = Math.round(110 + rand() * 850);
+            const bidP = basePrice - i * 10;
+            const offP = basePrice + 10 + i * 10;
+
+            const bidBarW = (bidLot / 1000) * (W * 0.34);
+            const offBarW = (offLot / 1000) * (W * 0.34);
+
+            ctx.fillStyle = "rgba(16, 185, 129, 0.25)";
+            ctx.fillRect(W * 0.42 - bidBarW, y + 2, bidBarW, rowH - 5);
+
+            ctx.fillStyle = "rgba(239, 68, 68, 0.25)";
+            ctx.fillRect(W * 0.62, y + 2, offBarW, rowH - 5);
+
+            ctx.fillStyle = "#10b981";
+            ctx.font = "600 10px 'JetBrains Mono'";
+            ctx.fillText(`${bidLot} Lot`, 26, y + rowH * 0.65);
+
+            ctx.fillStyle = goldColor;
+            ctx.fillText(`${bidP} | ${offP}`, W * 0.44, y + rowH * 0.65);
+
+            ctx.fillStyle = "#ef4444";
+            ctx.fillText(`${offLot} Lot`, W - 76, y + rowH * 0.65);
+          }
+
+          metricsEl.innerHTML = `
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">BEST BID (BELI)</span><strong class="text-emerald-600 dark:text-emerald-400">Rp ${basePrice}</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">BEST OFFER (JUAL)</span><strong class="text-rose-500">Rp ${basePrice + 10}</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">1 LOT MINIMAL</span><strong class="text-[var(--accent-gold)]">${formatRupiahShort((basePrice + 10) * 100)}</strong></div>
+          `;
+        } else if (type === "candlestick") {
+          // Candlestick + Moving Average + Support/Resistance
+          const count = 24;
+          const candleW = Math.max(5, (W - 60) / count - 4);
+          let price = 1400 + rand() * 200;
+          const candles = [];
+          for (let i = 0; i < count; i++) {
+            const open = price;
+            const drift = i > 13 ? (rand() - 0.36) * 45 : (rand() - 0.52) * 40;
+            const close = open + drift;
+            const high = Math.max(open, close) + rand() * 22;
+            const low = Math.min(open, close) - rand() * 22;
+            candles.push({ open, close, high, low });
+            price = close;
+          }
+          const minP = Math.min(...candles.map(c => c.low)) - 15;
+          const maxP = Math.max(...candles.map(c => c.high)) + 15;
+          const mapY = p => H - 26 - ((p - minP) / (maxP - minP)) * (H - 46);
+
+          // Support line
+          const supY = mapY(minP + 25);
+          ctx.strokeStyle = "#10b981";
+          ctx.setLineDash([4, 4]);
+          ctx.beginPath(); ctx.moveTo(26, supY); ctx.lineTo(W - 24, supY); ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle = "#10b981";
+          ctx.font = "600 9.5px 'JetBrains Mono'";
+          ctx.fillText("ZONA SUPPORT (AREA PANTULAN BELI)", 30, supY - 4);
+
+          candles.forEach((c, i) => {
+            const x = 30 + i * ((W - 60) / count);
+            const bull = c.close >= c.open;
+            ctx.strokeStyle = bull ? "#10b981" : "#ef4444";
+            ctx.fillStyle = bull ? "#10b981" : "#ef4444";
+            ctx.lineWidth = 1.4;
+            ctx.beginPath();
+            ctx.moveTo(x + candleW / 2, mapY(c.high));
+            ctx.lineTo(x + candleW / 2, mapY(c.low));
+            ctx.stroke();
+
+            const top = mapY(Math.max(c.open, c.close));
+            const h = Math.max(2, Math.abs(mapY(c.open) - mapY(c.close)));
+            ctx.fillRect(x, top, candleW, h);
+          });
+
+          metricsEl.innerHTML = `
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">STRUKTUR TREN</span><strong class="text-emerald-600 dark:text-emerald-400">Uptrend Sehat</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">AREA SUPPORT</span><strong class="text-[var(--accent-gold)]">Rp ${Math.round(minP + 25)}</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">AREA RESISTANCE</span><strong class="text-[var(--ink-primary)]">Rp ${Math.round(maxP - 15)}</strong></div>
+          `;
+        } else {
+          // Risk & Position Sizing + Drawdown Recovery Curve
+          const cap = Math.max(500000, Number(appState.riskCapital) || 20000000);
+          const rPct = Math.max(0.5, Number(appState.riskPct) || 1.5);
+          const slPct = Math.max(2, Number(appState.riskSlPct) || 8);
+
+          const maxLossRp = cap * (rPct / 100);
+          const maxPositionRp = Math.min(cap, maxLossRp / (slPct / 100));
+
+          const ddSteps = [0, 10, 20, 30, 40, 50, 60];
+          ctx.beginPath();
+          ctx.strokeStyle = "#ef4444";
+          ctx.lineWidth = 2.4;
+          ddSteps.forEach((dd, i) => {
+            const reqGain = (dd / (100 - dd)) * 100;
+            const x = 36 + (i / (ddSteps.length - 1)) * (W - 72);
+            const y = H - 28 - (Math.min(reqGain, 160) / 160) * (H - 48);
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            ctx.fillStyle = goldColor;
+            ctx.fillRect(x - 3, y - 3, 6, 6);
+          });
+          ctx.stroke();
+
+          ctx.fillStyle = textColor;
+          ctx.font = "600 10px 'JetBrains Mono'";
+          ctx.fillText("KURVA ASIMETRI KERUGIAN (RUGI -50% BUTUH UNTUNG +100%)", 34, 18);
+
+          metricsEl.innerHTML = `
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">BATAS RUGI (${rPct}%)</span><strong class="text-rose-500">${formatRupiahShort(maxLossRp)}</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">ALOKASI PER SAHAM</span><strong class="text-[var(--accent-gold)]">${formatRupiahShort(maxPositionRp)}</strong></div>
+            <div class="p-2 rounded-lg bg-[var(--accent-gold-soft)]"><span class="text-[var(--ink-muted)] block text-[9px]">BOBOT PORTOFOLIO</span><strong class="text-emerald-600 dark:text-emerald-400">${((maxPositionRp / cap) * 100).toFixed(1)}%</strong></div>
+          `;
+        }
+      }
+
+      /* ----------------------------------------------------------------------
+         9. TABLE OF CONTENTS DRAWER & INSTANT SEARCH
+         ---------------------------------------------------------------------- */
+      function renderTOCDrawer() {
+        const container = document.getElementById("toc-list-container");
+        container.innerHTML = DEPARTMENTS.map(dept => {
+          const deptChapters = CHAPTERS.filter(c => c.deptId === dept.id);
+          return `
+            <div class="space-y-2">
+              <div class="px-2">
+                <div class="font-mono-code text-[10px] text-amber-400 font-bold tracking-wider">${dept.code} • ${dept.level}</div>
+                <div class="text-xs font-bold text-slate-200">${dept.name}</div>
+              </div>
+              <div class="space-y-1">
+                ${deptChapters.map(ch => {
+                  const active = appState.currentPage === ch.num;
+                  const done = appState.completedChapters.includes(ch.num);
+                  return `
+                    <button type="button" onclick="window.__labJump(${ch.num}); window.__closeTOC();"
+                      class="w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between gap-2 transition cursor-pointer ${
+                        active
+                          ? "bg-amber-500 text-slate-950 font-bold"
+                          : "bg-slate-900/80 hover:bg-slate-800 text-slate-300"
+                      }">
+                      <span class="truncate">
+                        <span class="font-mono-code mr-1.5 ${active ? "text-slate-950" : "text-amber-400"}">
+                          ${String(ch.num).padStart(2, "0")}
+                        </span>
+                        ${ch.title}
+                      </span>
+                      <span class="shrink-0 text-[11px]">${done ? "✓" : ""}</span>
+                    </button>
+                  `;
+                }).join("")}
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        const bmBanner = document.getElementById("drawer-bookmark-banner");
+        if (appState.bookmarkedPage) {
+          bmBanner.classList.remove("hidden");
+          const label = typeof appState.bookmarkedPage === "number"
+            ? `Pita Pembatas: Bab ${String(appState.bookmarkedPage).padStart(2, "0")}`
+            : `Pita Pembatas: ${appState.bookmarkedPage.toUpperCase()}`;
+          document.getElementById("drawer-bookmark-label").textContent = label;
+        } else {
+          bmBanner.classList.add("hidden");
+        }
+      }
+
+      function handleInstantSearch(query) {
+        const dropdown = document.getElementById("search-results-dropdown");
+        const clearBtn = document.getElementById("btn-clear-search");
+        const q = query.trim().toLowerCase();
+
+        if (!q) {
+          dropdown.classList.add("hidden");
+          clearBtn.classList.add("hidden");
+          return;
+        }
+        clearBtn.classList.remove("hidden");
+
+        const matches = [];
+        CHAPTERS.forEach(ch => {
+          const babStr = `bab ${String(ch.num).padStart(2, "0")}`;
+          if (ch.title.toLowerCase().includes(q) || babStr.includes(q)) {
+            matches.push({ chapter: ch.num, label: `BAB ${String(ch.num).padStart(2, "0")} // ${ch.title}`, sub: "Judul Bab Kurikulum" });
+          }
+          ch.topics.forEach((topic, tIdx) => {
+            if (topic.toLowerCase().includes(q)) {
+              matches.push({
+                chapter: ch.num,
+                topicIdx: tIdx,
+                label: topic,
+                sub: `BAB ${String(ch.num).padStart(2, "0")} — ${ch.title}`
+              });
+            }
+          });
+        });
+
+        if (matches.length === 0) {
+          dropdown.innerHTML = `<div class="p-3.5 text-xs text-slate-400">Tidak ditemukan topik yang cocok dengan "${query}".</div>`;
+        } else {
+          dropdown.innerHTML = matches.slice(0, 14).map(m => `
+            <button type="button"
+              onclick="window.__selectSearchResult(${m.chapter}, ${m.topicIdx !== undefined ? m.topicIdx : -1})"
+              class="w-full text-left px-3.5 py-2.5 hover:bg-slate-800 transition flex flex-col cursor-pointer">
+              <span class="text-xs font-semibold text-amber-300">${m.label}</span>
+              <span class="font-mono-code text-[10px] text-slate-400">${m.sub}</span>
+            </button>
+          `).join("");
+        }
+        dropdown.classList.remove("hidden");
+      }
+
+      function updateProgressUI() {
+        const count = appState.completedChapters.length;
+        const pct = Math.round((count / CHAPTERS.length) * 100);
+        document.getElementById("progress-bar-fill").style.width = `${pct}%`;
+        document.getElementById("progress-text").textContent = `${count}/${CHAPTERS.length} Bab`;
+      }
+
+      /* ----------------------------------------------------------------------
+         10. GLOBAL WINDOW INTERACTION HANDLERS
+         ---------------------------------------------------------------------- */
+      window.__labJump = function (page) {
+        const curIdx = PAGE_SEQUENCE.indexOf(appState.currentPage);
+        const nxtIdx = PAGE_SEQUENCE.indexOf(page);
+        navigateToPage(page, nxtIdx >= curIdx ? "next" : "prev");
+      };
+
+      window.__setEntityFilter = function (cat) {
+        appState.entityFilter = cat;
+        renderAtlasTwo();
+      };
+
+      window.__toggleChapterComplete = function (chNum) {
+        const idx = appState.completedChapters.indexOf(chNum);
+        if (idx >= 0) appState.completedChapters.splice(idx, 1);
+        else appState.completedChapters.push(chNum);
+        saveState();
+        updateProgressUI();
+        const ch = CHAPTERS.find(c => c.num === chNum);
+        if (ch) renderChapterSpread(ch);
+      };
+
+      window.__switchResearchTab = function (tabId) {
+        appState.activeTab = tabId;
+        saveState();
+        const ch = CHAPTERS.find(c => c.num === appState.currentPage);
+        if (ch) renderChapterSpread(ch);
+      };
+
+      window.__updateLabCalc = function (field, val) {
+        appState[field] = Number(val);
+        saveState();
+        const ch = CHAPTERS.find(c => c.num === appState.currentPage);
+        if (ch) renderChapterVisualization(ch);
+      };
+
+      window.__regenerateViz = function () {
+        appState.vizSeed += 1;
+        const ch = CHAPTERS.find(c => c.num === appState.currentPage);
+        if (ch) renderChapterVisualization(ch);
+      };
+
+      window.__toggleResearchCheck = function (key) {
+        appState.researchChecks[key] = !appState.researchChecks[key];
+        saveState();
+        const ch = CHAPTERS.find(c => c.num === appState.currentPage);
+        if (ch) renderChapterSpread(ch);
+      };
+
+      window.__saveResearchNote = function (chNum, val) {
+        appState.researchNotes[chNum] = val;
+        saveState();
+      };
+
+      window.__openTopicModal = function (chNum, topicIdx) {
+        const ch = CHAPTERS.find(c => c.num === chNum);
+        if (!ch) return;
+        const topic = ch.topics[topicIdx];
+        const info = getTopicDetail(ch, topic);
+
+        document.getElementById("topic-modal-badge").textContent = `BAB ${String(ch.num).padStart(2, "0")} // ${ch.title}`;
+        document.getElementById("topic-modal-title").textContent = topic;
+        document.getElementById("topic-modal-def").textContent = info.def;
+        document.getElementById("topic-modal-mech").textContent = info.mech;
+        document.getElementById("topic-modal-ind").textContent = info.ind;
+
+        const modal = document.getElementById("topic-modal-backdrop");
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      };
+
+      window.__closeTOC = function () {
+        document.getElementById("toc-drawer-backdrop").classList.add("hidden");
+      };
+
+      window.__selectSearchResult = function (chNum, topicIdx) {
+        document.getElementById("search-results-dropdown").classList.add("hidden");
+        window.__labJump(chNum);
+        if (topicIdx >= 0) {
+          setTimeout(() => window.__openTopicModal(chNum, topicIdx), 300);
+        }
+      };
+
+      /* ----------------------------------------------------------------------
+         11. EVENT LISTENERS (COVER, NAVIGATION, KEYBOARD, TOUCH SWIPE, RESIZE)
+         ---------------------------------------------------------------------- */
+      document.getElementById("btn-open-book").addEventListener("click", () => openBook("atlas-1"));
+      document.getElementById("btn-resume-book").addEventListener("click", () => openBook(appState.currentPage));
+      document.getElementById("btn-close-book").addEventListener("click", closeBookToCover);
+
+      document.getElementById("btn-prev-page").addEventListener("click", () => stepPage(-1));
+      document.getElementById("btn-next-page").addEventListener("click", () => stepPage(1));
+
+      document.getElementById("btn-goto-atlas1").addEventListener("click", () => window.__labJump("atlas-1"));
+      document.getElementById("btn-goto-atlas2").addEventListener("click", () => window.__labJump("atlas-2"));
+
+      document.getElementById("btn-toggle-bookmark").addEventListener("click", () => {
+        appState.bookmarkedPage = appState.bookmarkedPage === appState.currentPage ? null : appState.currentPage;
+        saveState();
+        updateNavigationChrome();
+      });
+
+      document.getElementById("btn-open-toc").addEventListener("click", () => {
+        renderTOCDrawer();
+        document.getElementById("toc-drawer-backdrop").classList.remove("hidden");
+      });
+      document.getElementById("btn-close-toc").addEventListener("click", window.__closeTOC);
+      document.getElementById("toc-backdrop-clickarea").addEventListener("click", window.__closeTOC);
+
+      document.querySelectorAll(".toc-jump-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const target = btn.getAttribute("data-jump-page");
+          window.__labJump(target);
+          window.__closeTOC();
+        });
+      });
+
+      document.getElementById("btn-jump-bookmark").addEventListener("click", () => {
+        if (appState.bookmarkedPage) {
+          window.__labJump(appState.bookmarkedPage);
+          window.__closeTOC();
+        }
+      });
+
+      const searchInput = document.getElementById("global-search-input");
+      searchInput.addEventListener("input", e => handleInstantSearch(e.target.value));
+      document.getElementById("btn-clear-search").addEventListener("click", () => {
+        searchInput.value = "";
+        handleInstantSearch("");
+      });
+
+      function closeTopicModal() {
+        const modal = document.getElementById("topic-modal-backdrop");
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      }
+      document.getElementById("btn-close-topic-modal").addEventListener("click", closeTopicModal);
+      document.getElementById("btn-done-topic-modal").addEventListener("click", closeTopicModal);
+      document.getElementById("topic-modal-backdrop").addEventListener("click", e => {
+        if (e.target.id === "topic-modal-backdrop") closeTopicModal();
+      });
+
+      document.querySelectorAll(".theme-btn").forEach(btn => {
+        btn.addEventListener("click", () => applyTheme(btn.getAttribute("data-theme-btn")));
+      });
+
+      document.addEventListener("keydown", e => {
+        if (!appState.isOpen) return;
+        const tag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
+        if (tag === "input" || tag === "textarea") return;
+
+        if (e.key === "ArrowRight") stepPage(1);
+        else if (e.key === "ArrowLeft") stepPage(-1);
+        else if (e.key === "Escape") {
+          closeTopicModal();
+          window.__closeTOC();
+        }
+      });
+
+      let touchStartX = 0;
+      let touchStartY = 0;
+      const spreadContainer = document.getElementById("book-spread-container");
+      spreadContainer.addEventListener("touchstart", e => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+      }, { passive: true });
+
+      spreadContainer.addEventListener("touchend", e => {
+        const dx = e.changedTouches[0].screenX - touchStartX;
+        const dy = e.changedTouches[0].screenY - touchStartY;
+        if (Math.abs(dx) > 65 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+          if (dx < 0) stepPage(1);
+          else stepPage(-1);
+        }
+      }, { passive: true });
+
+      window.addEventListener("resize", () => {
+        if (appState.isOpen && typeof appState.currentPage === "number" && appState.activeTab === "data") {
+          const ch = CHAPTERS.find(c => c.num === appState.currentPage);
+          if (ch) renderChapterVisualization(ch);
+        }
+      });
+
+      window.onload = function () {
+        applyTheme(appState.theme || "ivory");
+        updateResumeButton();
+        updateProgressUI();
+      };
+    })();
+  </script>
+</body>
+</html>
