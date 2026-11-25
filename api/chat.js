@@ -1,6 +1,9 @@
+
 // api/chat.js
+// ORIXTRON — Gemini AI Backend
 
 export default async function handler(req, res) {
+
   // Hanya izinkan POST
   if (req.method !== "POST") {
     return res.status(405).json({
@@ -9,69 +12,115 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { messages } = req.body;
+    const { messages } = req.body || {};
 
-    // Ambil API Key Qwen dari Vercel Environment Variable
-    const apiKey = process.env.DASHSCOPE_API_KEY;
-
-    if (!apiKey) {
-      return res.status(500).json({
-        error: "Qwen API Key not configured in Vercel"
+    // Validasi input
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return res.status(400).json({
+        error: "Invalid messages"
       });
     }
 
+    // Ambil API Key dari Vercel
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
+      return res.status(500).json({
+        error: "Gemini API key not configured"
+      });
+    }
+
+    // Model Gemini
+    const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+
     // Instruksi sistem ORIXTRON
     const systemInstruction = {
-      role: "system",
-      content:
-        "You are ORIXTRON. Provide ONLY the final answer. " +
-        "Do not output internal reasoning, chain-of-thought, or hidden analysis. " +
-        "Answer directly and clearly."
+      parts: [{
+        text:
+          "You are ORIXTRON, an advanced AI financial and technology analyst. " +
+          "Provide only the final answer. " +
+          "Never reveal internal reasoning or hidden chain-of-thought. " +
+          "Be accurate, analytical, objective, and clear. " +
+          "Never fabricate financial data or market information."
+      }]
     };
 
-    const enhancedMessages = [
-      systemInstruction,
-      ...messages
-    ];
+    // Konversi format OpenAI ke format Gemini
+    const contents = messages
+      .filter(msg =>
+        msg &&
+        ["user", "assistant"].includes(msg.role) &&
+        typeof msg.content === "string"
+      )
+      .map(msg => ({
+        role: msg.role === "assistant" ? "model" : "user",
+        parts: [{
+          text: msg.content
+        }]
+      }));
 
-    // Panggil Qwen/DashScope
+    if (contents.length === 0) {
+      return res.status(400).json({
+        error: "No valid messages"
+      });
+    }
+
+    // Request Gemini API
     const response = await fetch(
-      "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
       {
         method: "POST",
-
         headers: {
-          "Authorization": `Bearer ${apiKey}`,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey
         },
-
         body: JSON.stringify({
-          model: "qwen3-max",
-
-          messages: enhancedMessages,
-
-          temperature: 0.4,
-
-          max_tokens: 1024
+          systemInstruction,
+          contents,
+          generationConfig: {
+            temperature: 0.4,
+            maxOutputTokens: 2048
+          }
         })
       }
     );
 
     const data = await response.json();
 
+    // Tangani error Gemini
     if (!response.ok) {
-      console.error("Qwen Error:", data);
+      console.error("Gemini API Error:", response.status);
 
-      return res.status(response.status).json({
-        error: data.error || data
+      return res.status(502).json({
+        error: "Gemini API request failed",
+        status: response.status
       });
     }
 
-    // Kirim hasil Qwen ke frontend
-    return res.status(200).json(data);
+    // Ambil jawaban AI
+    const answer = data.candidates?.[0]?.content?.parts
+      ?.map(part => part.text || "")
+      .join("");
+
+    if (!answer) {
+      return res.status(502).json({
+        error: "Gemini returned an empty response"
+      });
+    }
+
+    // Format respons kompatibel dengan frontend OpenAI
+    return res.status(200).json({
+      choices: [{
+        message: {
+          role: "assistant",
+          content: answer
+        }
+      }]
+    });
 
   } catch (error) {
-    console.error("Server Error:", error);
+
+    console.error("ORIXTRON Server Error:", error.message);
 
     return res.status(500).json({
       error: "Internal Server Error"
