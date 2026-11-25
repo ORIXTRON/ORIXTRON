@@ -1,0 +1,2582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ORIXTRON | AI Terminal</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <meta name="description" content="ORIXTRON adalah platform analisa trading modern berbasis AI">
+    <meta name="theme-color" content="#07090e">
+    <link rel="icon" href="/logo.png" type="image/png">
+
+    <style>
+        :root {
+            --bg-primary: #07090e;
+            --bg-secondary: #0d111a;
+            --bg-tertiary: #131926;
+            --bg-elevated: #182030;
+            --surface-1: rgba(255, 255, 255, 0.03);
+            --surface-2: rgba(255, 255, 255, 0.06);
+            --surface-3: rgba(255, 255, 255, 0.1);
+
+            --border-subtle: rgba(255, 255, 255, 0.07);
+            --border-medium: rgba(255, 255, 255, 0.12);
+            --border-strong: rgba(255, 255, 255, 0.18);
+
+            --accent-emerald: #10b981;
+            --accent-cyan: #06b6d4;
+            --accent-gold: #f59e0b;
+            --accent-gradient: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            --accent-glow: rgba(16, 185, 129, 0.28);
+
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-tertiary: #64748b;
+
+            --success: #10b981;
+            --danger: #f43f5e;
+            --warning: #f59e0b;
+
+            --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+            --shadow-xl: 0 24px 60px rgba(0, 0, 0, 0.7);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            font-size: 15px;
+            line-height: 1.65;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ============ AMBIENT BACKGROUND ============ */
+        .ambient-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.9s ease;
+        }
+        body.loaded .ambient-bg { opacity: 1; }
+
+        .ambient-glow-top {
+            position: absolute;
+            top: -180px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 780px;
+            height: 360px;
+            background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.09) 0%, rgba(6, 182, 212, 0.04) 45%, transparent 75%);
+            filter: blur(40px);
+        }
+
+        .subtle-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 56px 56px;
+            mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, black 15%, transparent 85%);
+            -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, black 15%, transparent 85%);
+        }
+
+        /* ============ SPLASH SCREEN ============ */
+        .splash-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-primary);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            transition: opacity 0.55s ease, visibility 0.55s ease;
+        }
+        .splash-screen.hidden { opacity: 0; visibility: hidden; }
+
+        .splash-logo-wrap {
+            position: relative;
+            width: 84px;
+            height: 84px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .splash-ring {
+            position: absolute;
+            inset: -8px;
+            border-radius: 26px;
+            border: 1.5px solid transparent;
+            background: conic-gradient(from 0deg, var(--accent-emerald), var(--accent-cyan), transparent 70%) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: spinSlow 2.4s linear infinite;
+        }
+        @keyframes spinSlow { to { transform: rotate(360deg); } }
+
+        .logo-core {
+            width: 72px;
+            height: 72px;
+            background: var(--accent-gradient);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 32px;
+            color: #031510;
+            box-shadow: 0 0 40px var(--accent-glow);
+        }
+        .logo-core img { width: 100%; height: 100%; object-fit: cover; }
+
+        .splash-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            background: linear-gradient(135deg, #fff 20%, #6ee7b7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .splash-subtitle {
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+            text-align: center;
+        }
+        .splash-bar {
+            width: 180px;
+            height: 3px;
+            background: var(--surface-2);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+        .splash-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-gradient);
+            transition: width 0.25s ease;
+        }
+
+        /* ============ TOP NAVBAR ============ */
+        header {
+            position: relative;
+            z-index: 100;
+            height: 64px;
+            padding: 0 24px;
+            background: rgba(7, 9, 14, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        body.loaded header { opacity: 1; transform: translateY(0); }
+
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent-gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 16px;
+            color: #031510;
+            overflow: hidden;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+        .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
+
+        .brand-info { display: flex; align-items: center; gap: 8px; }
+        .brand-info h1 {
+            font-family: var(--font-display);
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            color: var(--text-primary);
+        }
+        .model-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 9px;
+            background: var(--surface-2);
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-full);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-emerald);
+            box-shadow: 0 0 8px var(--accent-emerald);
+        }
+        .status-dot.locked {
+            background: var(--warning);
+            box-shadow: 0 0 8px var(--warning);
+        }
+
+        /* ============ HEADER CONTROLS & 10-TOKEN REGEN METER ============ */
+        .header-actions { display: flex; align-items: center; gap: 10px; }
+
+        .token-pill {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 6px 13px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-full);
+            cursor: help;
+            position: relative;
+            transition: all 0.25s ease;
+        }
+        .token-pill:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: var(--bg-tertiary);
+        }
+        .token-pill.pulse { animation: pillPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes pillPop {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); border-color: var(--accent-emerald); }
+        }
+        .token-pill.warning { border-color: rgba(245, 158, 11, 0.4); }
+        .token-pill.danger { border-color: rgba(244, 63, 94, 0.45); }
+        .token-pill.auth-locked {
+            border-color: rgba(245, 158, 11, 0.35);
+            cursor: pointer;
+        }
+
+        .token-bolt {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.14);
+            color: var(--accent-emerald);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+        .token-pill.warning .token-bolt,
+        .token-pill.auth-locked .token-bolt { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .token-pill.danger .token-bolt { background: rgba(244, 63, 94, 0.15); color: var(--danger); }
+
+        .token-meter-wrap { display: flex; flex-direction: column; gap: 3px; }
+        .token-top-line {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+        .token-regen-tag {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.1);
+            padding: 1px 6px;
+            border-radius: 4px;
+        }
+        .token-regen-tag.full {
+            color: var(--accent-emerald);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        .token-regen-tag.locked {
+            color: var(--warning);
+            background: rgba(245, 158, 11, 0.12);
+        }
+
+        .token-bar-track {
+            width: 76px;
+            height: 3.5px;
+            background: var(--surface-3);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+        .token-bar-fill {
+            height: 100%;
+            width: 100%;
+            background: var(--accent-gradient);
+            border-radius: var(--radius-full);
+            transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease;
+        }
+        .token-pill.warning .token-bar-fill,
+        .token-pill.auth-locked .token-bar-fill { background: var(--warning); }
+        .token-pill.danger .token-bar-fill { background: var(--danger); }
+
+        /* Tooltip */
+        .tooltip-bubble {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 240px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-6px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+        .token-pill:hover .tooltip-bubble { opacity: 1; transform: translateY(0); }
+        .tooltip-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .tooltip-sub { font-size: 11px; color: var(--text-tertiary); line-height: 1.45; }
+        .tooltip-timer {
+            margin-top: 8px;
+            padding-top: 7px;
+            border-top: 1px solid var(--border-subtle);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--accent-cyan);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* New Chat / Reset Button */
+        .btn-new-chat {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 13px;
+            background: var(--surface-1);
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-full);
+            color: var(--text-secondary);
+            font-size: 12.5px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: all 0.2s ease;
+        }
+        .btn-new-chat:hover {
+            background: var(--surface-2);
+            color: var(--text-primary);
+            border-color: var(--border-strong);
+        }
+        .btn-new-chat.confirming {
+            background: rgba(244, 63, 94, 0.14);
+            border-color: var(--danger);
+            color: #fecdd3;
+        }
+
+        /* Google Auth Button */
+        .btn-google-login {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background: #f8fafc;
+            border: none;
+            border-radius: var(--radius-full);
+            color: #0f172a;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-family: var(--font-sans);
+            box-shadow: 0 2px 12px rgba(255, 255, 255, 0.14);
+        }
+        .btn-google-login:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.28);
+        }
+        .btn-google-login svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+        .user-profile-wrapper { position: relative; }
+        .user-avatar-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(16, 185, 129, 0.55);
+            background: var(--bg-elevated);
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+        .user-avatar-btn:hover { transform: scale(1.05); }
+        .user-avatar-btn img { width: 100%; height: 100%; object-fit: cover; }
+        .user-avatar-btn .fallback-initial {
+            font-weight: 700;
+            font-size: 14px;
+            color: #031510;
+            background: var(--accent-gradient);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            width: 250px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius-md);
+            padding: 8px;
+            box-shadow: var(--shadow-xl);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-6px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+        .profile-dropdown.active { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-header { padding: 10px 12px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 4px; }
+        .dropdown-name { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+        .dropdown-email { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; }
+        .dropdown-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 7px;
+            padding: 2px 8px;
+            background: rgba(16, 185, 129, 0.12);
+            border-radius: var(--radius-full);
+            font-size: 10px;
+            color: #6ee7b7;
+            font-weight: 600;
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            font-family: var(--font-sans);
+        }
+        .dropdown-item:hover { background: var(--surface-2); color: var(--text-primary); }
+        .dropdown-item.danger { color: var(--danger); }
+        .dropdown-item.danger:hover { background: rgba(244, 63, 94, 0.12); }
+
+        /* ============ MAIN CHAT STREAM ============ */
+        #chat-container {
+            position: relative;
+            z-index: 10;
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 20px 155px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            scroll-behavior: smooth;
+            opacity: 0;
+            transition: opacity 0.5s ease 0.15s;
+        }
+        body.loaded #chat-container { opacity: 1; }
+        #chat-container::-webkit-scrollbar { width: 5px; }
+        #chat-container::-webkit-scrollbar-track { background: transparent; }
+        #chat-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: var(--radius-full); }
+
+        /* Centered Welcome Screen */
+        .empty-state-welcome {
+            margin: auto 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 16px 8px;
+            animation: fadeScaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeScaleIn {
+            from { opacity: 0; transform: translateY(14px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .hero-emblem {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 24px;
+            color: #031510;
+            box-shadow: 0 10px 30px var(--accent-glow);
+            margin-bottom: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+        .hero-emblem img { width: 100%; height: 100%; object-fit: cover; }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .hero-subtitle {
+            font-size: 14.5px;
+            color: var(--text-secondary);
+            max-width: 520px;
+            margin-bottom: 22px;
+        }
+
+        /* LOCK ALERT BANNER (SHOWN WHEN NOT LOGGED IN) */
+        .auth-lock-banner {
+            width: 100%;
+            max-width: 660px;
+            background: linear-gradient(145deg, rgba(245, 158, 11, 0.11) 0%, rgba(13, 17, 26, 0.96) 100%);
+            border: 1px solid rgba(245, 158, 11, 0.38);
+            border-radius: 18px;
+            padding: 18px 20px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            text-align: left;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            animation: lockBannerGlow 3s ease-in-out infinite;
+        }
+        @keyframes lockBannerGlow {
+            0%, 100% { border-color: rgba(245, 158, 11, 0.36); }
+            50% { border-color: rgba(245, 158, 11, 0.65); }
+        }
+        .auth-lock-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex: 1;
+            min-width: 0;
+        }
+        .auth-lock-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
+            background: rgba(245, 158, 11, 0.16);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            color: #fbbf24;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .auth-lock-title {
+            font-family: var(--font-display);
+            font-size: 14.5px;
+            font-weight: 700;
+            color: #fef3c7;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .auth-lock-desc {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            margin-top: 3px;
+            line-height: 1.45;
+        }
+        .btn-banner-google {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px 18px;
+            background: #ffffff;
+            color: #0f172a;
+            border: none;
+            border-radius: 12px;
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+        }
+        .btn-banner-google:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(16, 185, 129, 0.3);
+        }
+        .btn-banner-google:active { transform: scale(0.97); }
+        .btn-banner-google svg { width: 16px; height: 16px; }
+
+        /* Starter Grid */
+        .starter-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 660px;
+        }
+        .starter-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 14px 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.22s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-family: var(--font-sans);
+            position: relative;
+        }
+        .starter-card:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--border-strong);
+            transform: translateY(-2px);
+        }
+        .starter-card.locked-preview {
+            opacity: 0.72;
+        }
+        .starter-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .starter-card-top i {
+            font-size: 13px;
+            color: var(--accent-emerald);
+        }
+        .starter-card.locked-preview .starter-card-top i {
+            color: var(--warning);
+        }
+        .starter-card-desc {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .sync-caption {
+            margin-top: 18px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        /* ============ LOCK ALERT MODAL (POPUP WHEN USER TRIES TO CHAT LOGGED OUT) ============ */
+        .auth-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 5, 9, 0.78);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+        .auth-modal-backdrop.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .auth-modal-card {
+            width: 100%;
+            max-width: 410px;
+            background: linear-gradient(165deg, #131926 0%, #0b0f17 100%);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            border-radius: 22px;
+            padding: 28px 24px 24px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 28px 70px rgba(0, 0, 0, 0.8), 0 0 40px rgba(245, 158, 11, 0.12);
+            transform: scale(0.92) translateY(14px);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .auth-modal-backdrop.open .auth-modal-card {
+            transform: scale(1) translateY(0);
+        }
+        .modal-close-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--surface-2);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+        .modal-close-btn:hover { background: var(--surface-3); color: var(--text-primary); }
+
+        .modal-lock-emblem {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 16px;
+            border-radius: 18px;
+            background: rgba(245, 158, 11, 0.14);
+            border: 1px solid rgba(245, 158, 11, 0.38);
+            color: #fbbf24;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 0 28px rgba(245, 158, 11, 0.2);
+            animation: lockShake 0.5s ease;
+        }
+        @keyframes lockShake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-8deg); }
+            50% { transform: rotate(8deg); }
+            75% { transform: rotate(-4deg); }
+        }
+        .modal-alert-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 10px;
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.28);
+            border-radius: var(--radius-full);
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .modal-desc {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.55;
+            margin-bottom: 20px;
+        }
+        .modal-perks {
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 11px 14px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            text-align: left;
+            font-size: 12px;
+            color: #cbd5e1;
+        }
+        .modal-perks div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .modal-perks i { color: var(--accent-emerald); font-size: 12px; }
+
+        .btn-modal-google {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 13px 18px;
+            background: #ffffff;
+            color: #0f172a;
+            border: none;
+            border-radius: 13px;
+            font-family: var(--font-sans);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn-modal-google:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(16, 185, 129, 0.35);
+        }
+        .btn-modal-google svg { width: 18px; height: 18px; }
+
+        /* ============ CONVERSATION MESSAGES ============ */
+        .message {
+            display: flex;
+            gap: 14px;
+            width: 100%;
+            animation: msgSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes msgSlideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user { justify-content: flex-end; }
+        .message.user .user-bubble {
+            max-width: 78%;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-medium);
+            color: var(--text-primary);
+            padding: 12px 18px;
+            border-radius: 20px 20px 4px 20px;
+            font-size: 15px;
+            line-height: 1.6;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+        }
+
+        .message.ai { align-items: flex-start; }
+        .ai-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: var(--accent-gradient);
+            color: #031510;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            box-shadow: 0 4px 14px var(--accent-glow);
+        }
+        .message.ai.speaking .ai-avatar {
+            animation: pulseAvatar 1.5s ease-in-out infinite;
+        }
+        @keyframes pulseAvatar {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45); }
+            50% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+        }
+
+        .ai-body {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .ai-header-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .ai-header-line span.time {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--text-tertiary);
+        }
+
+        .ai-markdown {
+            color: #e2e8f0;
+            font-size: 15.2px;
+            line-height: 1.75;
+            word-wrap: break-word;
+        }
+        .ai-markdown p { margin: 0 0 12px 0; }
+        .ai-markdown p:last-child { margin-bottom: 0; }
+        .ai-markdown h1, .ai-markdown h2, .ai-markdown h3 {
+            font-family: var(--font-display);
+            color: #ffffff;
+            margin: 18px 0 8px 0;
+            font-weight: 700;
+        }
+        .ai-markdown h3 { font-size: 1.05rem; color: #6ee7b7; }
+        .ai-markdown strong { color: #ffffff; font-weight: 600; }
+        .ai-markdown ul, .ai-markdown ol { padding-left: 22px; margin: 10px 0; }
+        .ai-markdown li { margin-bottom: 6px; color: #cbd5e1; }
+        .ai-markdown li::marker { color: var(--accent-emerald); }
+        .ai-markdown blockquote {
+            border-left: 3px solid var(--accent-emerald);
+            background: rgba(16, 185, 129, 0.06);
+            padding: 10px 14px;
+            border-radius: 0 10px 10px 0;
+            margin: 12px 0;
+            color: #cbd5e1;
+        }
+        .ai-markdown code {
+            font-family: var(--font-mono);
+            background: rgba(255, 255, 255, 0.07);
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            color: #67e8f9;
+        }
+
+        .code-block-wrapper {
+            margin: 14px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-medium);
+            background: #0a0d14;
+        }
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 7px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid var(--border-subtle);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        .btn-copy-code {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: var(--font-sans);
+            font-size: 11.5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 2px 6px;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+        }
+        .btn-copy-code:hover { background: var(--surface-2); color: var(--text-primary); }
+        .code-block-wrapper pre {
+            margin: 0;
+            padding: 14px 16px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.55;
+        }
+        .code-block-wrapper pre code {
+            background: transparent;
+            padding: 0;
+            color: #e2e8f0;
+        }
+
+        .ai-markdown table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 13.5px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-medium);
+        }
+        .ai-markdown th {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-medium);
+        }
+        .ai-markdown td {
+            padding: 9px 12px;
+            border-bottom: 1px solid var(--border-subtle);
+            color: #cbd5e1;
+        }
+
+        .crypto-up {
+            color: #34d399;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            background: rgba(16, 185, 129, 0.12);
+            padding: 1px 8px;
+            border-radius: 5px;
+            display: inline-block;
+            font-size: 0.9em;
+        }
+        .crypto-down {
+            color: #fb7185;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            background: rgba(244, 63, 94, 0.12);
+            padding: 1px 8px;
+            border-radius: 5px;
+            display: inline-block;
+            font-size: 0.9em;
+        }
+        .forex-tag {
+            background: rgba(245, 158, 11, 0.12);
+            color: #fbbf24;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .ai-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .message.ai:hover .ai-toolbar,
+        .ai-toolbar.show { opacity: 1; }
+
+        .toolbar-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-tertiary);
+            padding: 5px 9px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: var(--font-sans);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.18s ease;
+        }
+        .toolbar-btn:hover {
+            background: var(--surface-2);
+            border-color: var(--border-subtle);
+            color: var(--text-primary);
+        }
+        .toolbar-btn.success { color: var(--accent-emerald); }
+
+        .thinking-row {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-size: 13.5px;
+            padding: 4px 0;
+        }
+        .pulse-dots { display: inline-flex; gap: 4px; }
+        .pulse-dots span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-emerald);
+            animation: dotWave 1.2s infinite ease-in-out;
+        }
+        .pulse-dots span:nth-child(2) { animation-delay: 0.15s; background: var(--accent-cyan); }
+        .pulse-dots span:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes dotWave {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.35; }
+            40% { transform: scale(1.15); opacity: 1; }
+        }
+
+        .typewriter-cursor {
+            display: inline-block;
+            width: 2.5px;
+            height: 1.05em;
+            background: var(--accent-emerald);
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: blinkCursor 0.8s step-end infinite;
+        }
+        @keyframes blinkCursor { 50% { opacity: 0; } }
+
+        /* ============ LIMIT NOTICE CARD ============ */
+        .limit-notice {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(244, 63, 94, 0.32);
+            border-radius: 16px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            animation: msgSlideUp 0.35s ease;
+        }
+        .limit-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            background: rgba(244, 63, 94, 0.14);
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .limit-info { flex: 1; }
+        .limit-title { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+        .limit-desc { font-size: 12.5px; color: var(--text-secondary); margin-top: 2px; }
+        .limit-countdown {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin-top: 5px;
+        }
+
+        /* ============ SCROLL TO BOTTOM BUTTON ============ */
+        .scroll-bottom-btn {
+            position: fixed;
+            bottom: 114px;
+            left: 50%;
+            transform: translateX(-50%) translateY(12px);
+            z-index: 85;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-strong);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.22s ease;
+        }
+        .scroll-bottom-btn.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+        .scroll-bottom-btn:hover {
+            border-color: var(--accent-emerald);
+            color: var(--accent-emerald);
+        }
+
+        /* ============ MODERN CHAT COMPOSER ============ */
+        .composer-area {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 12px 20px 18px;
+            background: linear-gradient(to top, var(--bg-primary) 75%, rgba(7, 9, 14, 0));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 90;
+            pointer-events: none;
+        }
+        .composer-container {
+            width: 100%;
+            max-width: 780px;
+            pointer-events: auto;
+            position: relative;
+        }
+
+        .quick-menu {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 0;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-strong);
+            border-radius: 14px;
+            padding: 6px;
+            box-shadow: var(--shadow-xl);
+            display: none;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 230px;
+            animation: msgSlideUp 0.2s ease;
+        }
+        .quick-menu.open { display: flex; }
+        .quick-item {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 9px 12px;
+            border-radius: 9px;
+            font-size: 13px;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-sans);
+            transition: all 0.15s ease;
+        }
+        .quick-item:hover {
+            background: var(--surface-2);
+            color: var(--text-primary);
+        }
+        .quick-item i { color: var(--accent-emerald); width: 15px; text-align: center; }
+
+        .composer-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-medium);
+            border-radius: 22px;
+            padding: 8px 10px 8px 12px;
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            box-shadow: var(--shadow-xl);
+            transition: border-color 0.22s ease, box-shadow 0.22s ease;
+            position: relative;
+        }
+        .composer-box:focus-within {
+            border-color: rgba(16, 185, 129, 0.48);
+            box-shadow: var(--shadow-xl), 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        .composer-box.locked-state {
+            border-color: rgba(245, 158, 11, 0.35);
+            background: rgba(13, 17, 26, 0.92);
+            cursor: pointer;
+        }
+
+        .btn-attach-prompt {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+        .btn-attach-prompt:hover, .btn-attach-prompt.active {
+            background: var(--surface-2);
+            color: var(--text-primary);
+        }
+
+        #prompt {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 15px;
+            line-height: 1.5;
+            padding: 7px 4px;
+            outline: none;
+            resize: none;
+            max-height: 140px;
+            min-height: 36px;
+            overflow-y: auto;
+        }
+        #prompt::placeholder { color: var(--text-tertiary); }
+        #prompt:disabled { cursor: pointer; }
+
+        #send-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: none;
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        #send-btn:hover:not(:disabled) {
+            background: var(--accent-emerald);
+            color: #031510;
+            transform: scale(1.06);
+        }
+        #send-btn:active:not(:disabled) { transform: scale(0.94); }
+        #send-btn:disabled {
+            background: var(--surface-3);
+            color: var(--text-tertiary);
+            cursor: not-allowed;
+        }
+        #send-btn.auth-lock-btn {
+            background: rgba(245, 158, 11, 0.18);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fbbf24;
+            cursor: pointer;
+        }
+        #send-btn.auth-lock-btn:hover {
+            background: rgba(245, 158, 11, 0.28);
+            transform: scale(1.05);
+        }
+
+        .composer-footer {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-tertiary);
+            margin-top: 7px;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 680px) {
+            header { padding: 0 14px; height: 60px; }
+            .model-badge { display: none; }
+            .token-bar-track { display: none; }
+            .btn-new-chat span { display: none; }
+            .btn-new-chat { padding: 8px 10px; }
+            .btn-new-chat.confirming span { display: inline; }
+            .starter-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 21px; }
+            .auth-lock-banner {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 16px;
+            }
+            .btn-banner-google { justify-content: center; }
+            .message.user .user-bubble { max-width: 86%; }
+            .composer-area { padding: 10px 14px 14px; }
+            .composer-footer { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- SPLASH SCREEN -->
+    <div class="splash-screen" id="splash">
+        <div class="splash-logo-wrap">
+            <div class="splash-ring"></div>
+            <div class="logo-core">
+                <img src="logo.png" alt="ORIXTRON" onerror="this.style.display='none'; this.parentElement.textContent='O';">
+            </div>
+        </div>
+        <div>
+            <div class="splash-title">ORIXTRON</div>
+            <div class="splash-subtitle" id="typing-text">Memuat Terminal AI...</div>
+        </div>
+        <div class="splash-bar"><div class="splash-bar-fill" id="splash-bar-fill"></div></div>
+    </div>
+
+    <!-- AMBIENT BACKGROUND -->
+    <div class="ambient-bg">
+        <div class="ambient-glow-top"></div>
+        <div class="subtle-grid"></div>
+    </div>
+
+    <!-- LOCK ALERT MODAL -->
+    <div class="auth-modal-backdrop" id="auth-lock-modal" onclick="closeAuthModalOnBackdrop(event)">
+        <div class="auth-modal-card">
+            <button class="modal-close-btn" onclick="closeAuthModal()" title="Tutup">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="modal-lock-emblem">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <div class="modal-alert-pill">
+                <i class="fa-solid fa-shield-halved"></i> Akses Terkunci
+            </div>
+            <h3 class="modal-title">Login Diperlukan untuk Chat</h3>
+            <p class="modal-desc">Silakan masuk menggunakan akun Google Anda terlebih dahulu untuk membuka akses percakapan dengan <b>ORIXTRON AI</b>.</p>
+            <div class="modal-perks">
+                <div><i class="fa-solid fa-bolt"></i><span>Mendapatkan <b>10 Token</b> analisis real-time</span></div>
+                <div><i class="fa-solid fa-clock-rotate-left"></i><span>Isi ulang otomatis <b>+1 token setiap 5 menit</b></span></div>
+                <div><i class="fa-solid fa-cloud"></i><span>Sinkronisasi kuota lintas perangkat</span></div>
+            </div>
+            <button class="btn-modal-google" onclick="loginWithGoogle()">
+                <svg viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                <span>Login dengan Google</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="brand">
+            <div class="logo-icon">
+                <img src="logo.png" alt="ORIXTRON" onerror="this.style.display='none'; this.parentElement.textContent='O';">
+            </div>
+            <div class="brand-info">
+                <h1>ORIXTRON</h1>
+                <span class="model-badge"><span class="status-dot locked" id="header-status-dot"></span>Edge v5.0</span>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <!-- 10 TOKEN + 5 MIN REGEN PILL -->
+            <div class="token-pill auth-locked" id="token-pill" onclick="handleTokenPillClick()">
+                <div class="token-bolt"><i class="fa-solid fa-lock" id="token-bolt-icon"></i></div>
+                <div class="token-meter-wrap">
+                    <div class="token-top-line">
+                        <span id="token-count-text">TERKUNCI</span>
+                        <span class="token-regen-tag locked" id="token-regen-badge">LOGIN</span>
+                    </div>
+                    <div class="token-bar-track">
+                        <div class="token-bar-fill" id="token-bar-fill"></div>
+                    </div>
+                </div>
+                <div class="tooltip-bubble">
+                    <div class="tooltip-title">
+                        <span>Kuota Energi AI</span>
+                        <span id="tooltip-fraction" style="color:var(--warning);">Terkunci</span>
+                    </div>
+                    <div class="tooltip-sub" id="tooltip-desc">Login dengan Google untuk membuka akses chat dan 10 token (+1 tiap 5 menit).</div>
+                    <div class="tooltip-timer">
+                        <span>Status:</span>
+                        <span id="token-countdown">Wajib Login</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-new-chat" id="reset-btn" onclick="handleReset()" title="Chat Baru">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span id="reset-text">Chat Baru</span>
+            </button>
+
+            <div id="auth-section"></div>
+        </div>
+    </header>
+
+    <!-- CHAT STREAM -->
+    <div id="chat-container"></div>
+
+    <!-- SCROLL TO BOTTOM BUTTON -->
+    <button class="scroll-bottom-btn" id="scroll-bottom-btn" onclick="scrollToBottom()" title="Ke bawah">
+        <i class="fa-solid fa-arrow-down"></i>
+    </button>
+
+    <!-- COMPOSER INPUT -->
+    <div class="composer-area">
+        <div class="composer-container">
+            <div class="quick-menu" id="quick-menu">
+                <button class="quick-item" onclick="pickQuick('BTC')"><i class="fa-brands fa-bitcoin"></i> Harga & Pivot Bitcoin</button>
+                <button class="quick-item" onclick="pickQuick('GOTO')"><i class="fa-solid fa-chart-line"></i> Analisis Saham GOTO</button>
+                <button class="quick-item" onclick="pickQuick('USD ke IDR')"><i class="fa-solid fa-dollar-sign"></i> Kurs USD ke IDR</button>
+                <button class="quick-item" onclick="pickQuick('Berita crypto hari ini')"><i class="fa-solid fa-newspaper"></i> Berita Pasar Hari Ini</button>
+            </div>
+
+            <div class="composer-box locked-state" id="composer-box" onclick="handleLockedComposerClick()">
+                <button type="button" class="btn-attach-prompt" id="quick-btn" onclick="toggleQuickMenu(event)" title="Perintah Cepat">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+                <textarea id="prompt" rows="1" placeholder="🔒 Login dengan Google terlebih dahulu untuk mulai chat..." disabled autocomplete="off"></textarea>
+                <button id="send-btn" class="auth-lock-btn" onclick="handleSendClick(event)" title="Login untuk Kirim">
+                    <i class="fa-solid fa-lock" id="send-btn-icon"></i>
+                </button>
+            </div>
+            <div class="composer-footer">
+                ORIXTRON AI dapat memberikan analisis pasar real-time. Selalu lakukan riset mandiri sebelum bertransaksi.
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+    <script>
+        // ============ FIREBASE INIT ============
+        const firebaseConfig = {
+            apiKey: "AIzaSyCJzvlEOPnsaHGqBDOI6HO2iuzHFX08OXA",
+            authDomain: "orixtron-chat.firebaseapp.com",
+            databaseURL: "https://orixtron-chat-default-rtdb.firebaseio.com",
+            projectId: "orixtron-chat",
+            storageBucket: "orixtron-chat.firebasestorage.app",
+            messagingSenderId: "1076288082994",
+            appId: "1:1076288082994:web:a26f88330b43b3314a582b",
+            measurementId: "G-ZZ05S1STGB"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const auth = firebase.auth();
+        const googleProvider = new firebase.auth.GoogleAuthProvider();
+        googleProvider.setCustomParameters({ prompt: 'select_account' });
+
+        // ============ 10-TOKEN + 5-MINUTE REGEN SYSTEM ============
+        const MAX_TOKENS = 10;
+        const REGEN_INTERVAL_MS = 5 * 60 * 1000; // 5 menit
+
+        let currentUser = null;
+        let authInitialized = false;
+        let tokenState = { tokens: MAX_TOKENS, lastUpdated: Date.now() };
+        let SYSTEM_PROMPT = "";
+        let messageHistory = [];
+        let isGenerating = false;
+
+        // ============ AUTH LOCK MODAL CONTROLS ============
+        function showAuthLockAlert() {
+            const modal = document.getElementById('auth-lock-modal');
+            modal.classList.add('open');
+        }
+
+        function closeAuthModal() {
+            const modal = document.getElementById('auth-lock-modal');
+            modal.classList.remove('open');
+        }
+
+        function closeAuthModalOnBackdrop(e) {
+            if (e.target.id === 'auth-lock-modal') {
+                closeAuthModal();
+            }
+        }
+
+        function handleLockedComposerClick() {
+            if (!currentUser) {
+                showAuthLockAlert();
+            }
+        }
+
+        function handleTokenPillClick() {
+            if (!currentUser) {
+                showAuthLockAlert();
+            }
+        }
+
+        function handleSendClick(e) {
+            if (e) e.stopPropagation();
+            if (!currentUser) {
+                showAuthLockAlert();
+                return;
+            }
+            sendMessage();
+        }
+
+        function recalculateRegen(state) {
+            const now = Date.now();
+            let tokens = typeof state.tokens === 'number' ? state.tokens : MAX_TOKENS;
+            let lastUpdated = typeof state.lastUpdated === 'number' ? state.lastUpdated : now;
+
+            if (tokens >= MAX_TOKENS) {
+                return { tokens: MAX_TOKENS, lastUpdated: now, changed: tokens !== state.tokens };
+            }
+
+            const elapsed = Math.max(0, now - lastUpdated);
+            const gained = Math.floor(elapsed / REGEN_INTERVAL_MS);
+
+            if (gained > 0) {
+                const newTokens = Math.min(MAX_TOKENS, tokens + gained);
+                const newLastUpdated = newTokens >= MAX_TOKENS
+                    ? now
+                    : lastUpdated + (gained * REGEN_INTERVAL_MS);
+                return { tokens: newTokens, lastUpdated: newLastUpdated, changed: true };
+            }
+
+            return { tokens, lastUpdated, changed: false };
+        }
+
+        async function loadTokens() {
+            if (!currentUser) {
+                updateTokenUI();
+                return;
+            }
+            try {
+                const snapshot = await db.ref(`users/${currentUser.uid}/tokenState`).once('value');
+                const data = snapshot.val();
+                if (data && typeof data.tokens === 'number') {
+                    tokenState = recalculateRegen(data);
+                } else {
+                    tokenState = { tokens: MAX_TOKENS, lastUpdated: Date.now() };
+                }
+                if (tokenState.changed || !data) {
+                    await saveTokens();
+                }
+            } catch (err) {
+                console.error("Error loading cloud tokens:", err);
+                tokenState = { tokens: MAX_TOKENS, lastUpdated: Date.now() };
+            }
+            updateTokenUI();
+        }
+
+        async function saveTokens() {
+            if (!currentUser) return;
+            const payload = {
+                tokens: tokenState.tokens,
+                lastUpdated: tokenState.lastUpdated
+            };
+            try {
+                await db.ref(`users/${currentUser.uid}/tokenState`).set(payload);
+                await db.ref(`users/${currentUser.uid}/profile`).set({
+                    name: currentUser.displayName || 'User',
+                    email: currentUser.email,
+                    photo: currentUser.photoURL,
+                    lastSeen: firebase.database.ServerValue.TIMESTAMP
+                });
+            } catch (err) {
+                console.error("Error saving cloud tokens:", err);
+            }
+        }
+
+        async function consumeToken() {
+            if (!currentUser) return;
+            tokenState = recalculateRegen(tokenState);
+            if (tokenState.tokens >= MAX_TOKENS) {
+                tokenState.lastUpdated = Date.now();
+            }
+            tokenState.tokens = Math.max(0, tokenState.tokens - 1);
+            await saveTokens();
+            updateTokenUI();
+        }
+
+        function formatCountdownMs(ms) {
+            const totalSec = Math.ceil(ms / 1000);
+            const m = Math.floor(totalSec / 60);
+            const s = totalSec % 60;
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        function updateTokenUI() {
+            const pill = document.getElementById('token-pill');
+            const boltIcon = document.getElementById('token-bolt-icon');
+            const countText = document.getElementById('token-count-text');
+            const regenBadge = document.getElementById('token-regen-badge');
+            const barFill = document.getElementById('token-bar-fill');
+            const tooltipFraction = document.getElementById('tooltip-fraction');
+            const tooltipDesc = document.getElementById('tooltip-desc');
+            const tooltipCountdown = document.getElementById('token-countdown');
+            const composerBox = document.getElementById('composer-box');
+            const sendBtn = document.getElementById('send-btn');
+            const sendBtnIcon = document.getElementById('send-btn-icon');
+            const promptInput = document.getElementById('prompt');
+            const statusDot = document.getElementById('header-status-dot');
+
+            pill.classList.remove('warning', 'danger', 'auth-locked');
+
+            // STATE 1: BELUM LOGIN (TERKUNCI)
+            if (!currentUser) {
+                pill.classList.add('auth-locked');
+                boltIcon.className = 'fa-solid fa-lock';
+                countText.textContent = 'TERKUNCI';
+                regenBadge.textContent = 'LOGIN';
+                regenBadge.className = 'token-regen-tag locked';
+                barFill.style.width = '100%';
+                tooltipFraction.textContent = 'Terkunci';
+                tooltipFraction.style.color = 'var(--warning)';
+                tooltipDesc.innerHTML = 'Silakan login dengan Google untuk membuka chat dan mendapatkan <b>10 token</b>.';
+                tooltipCountdown.textContent = 'Wajib Login';
+
+                if (statusDot) statusDot.classList.add('locked');
+
+                composerBox.classList.add('locked-state');
+                promptInput.disabled = true;
+                promptInput.placeholder = "🔒 Login dengan Google terlebih dahulu untuk mulai chat...";
+                sendBtn.disabled = false;
+                sendBtn.classList.add('auth-lock-btn');
+                sendBtn.title = "Login dengan Google";
+                sendBtnIcon.className = 'fa-solid fa-lock';
+                return;
+            }
+
+            // STATE 2: SUDAH LOGIN
+            if (statusDot) statusDot.classList.remove('locked');
+            boltIcon.className = 'fa-solid fa-bolt';
+            sendBtn.classList.remove('auth-lock-btn');
+            sendBtn.title = "Kirim";
+            sendBtnIcon.className = 'fa-solid fa-arrow-up';
+            tooltipDesc.innerHTML = 'Setiap pesan menggunakan 1 token. Otomatis terisi <b>+1 token setiap 5 menit</b>.';
+
+            const current = tokenState.tokens;
+            const pct = (current / MAX_TOKENS) * 100;
+
+            countText.textContent = `${current}/${MAX_TOKENS}`;
+            tooltipFraction.textContent = `${current} / ${MAX_TOKENS}`;
+            tooltipFraction.style.color = 'var(--accent-emerald)';
+            barFill.style.width = `${pct}%`;
+
+            if (current >= MAX_TOKENS) {
+                regenBadge.textContent = 'PENUH';
+                regenBadge.className = 'token-regen-tag full';
+                tooltipCountdown.textContent = 'Maksimal (10/10)';
+            } else {
+                const remainingMs = Math.max(0, (tokenState.lastUpdated + REGEN_INTERVAL_MS) - Date.now());
+                const formatted = formatCountdownMs(remainingMs);
+                regenBadge.textContent = `+1 · ${formatted}`;
+                regenBadge.className = 'token-regen-tag';
+                tooltipCountdown.textContent = `+1 token dalam ${formatted}`;
+            }
+
+            if (current === 0) {
+                pill.classList.add('danger');
+                composerBox.classList.add('locked-state');
+                sendBtn.disabled = true;
+                promptInput.disabled = true;
+                const remainingMs = Math.max(0, (tokenState.lastUpdated + REGEN_INTERVAL_MS) - Date.now());
+                promptInput.placeholder = `Token habis — +1 token otomatis dalam ${formatCountdownMs(remainingMs)}...`;
+            } else {
+                if (current <= 3) pill.classList.add('warning');
+                composerBox.classList.remove('locked-state');
+                if (!isGenerating) {
+                    sendBtn.disabled = false;
+                    promptInput.disabled = false;
+                    promptInput.placeholder = "Kirim pesan ke ORIXTRON...";
+                }
+            }
+        }
+
+        function animateTokenPill() {
+            const pill = document.getElementById('token-pill');
+            pill.classList.remove('pulse');
+            void pill.offsetWidth;
+            pill.classList.add('pulse');
+        }
+
+        setInterval(async () => {
+            if (!currentUser) return;
+            if (tokenState.tokens < MAX_TOKENS) {
+                const updated = recalculateRegen(tokenState);
+                if (updated.changed) {
+                    const wasZero = tokenState.tokens === 0;
+                    tokenState = updated;
+                    await saveTokens();
+                    animateTokenPill();
+                    if (wasZero && tokenState.tokens > 0) {
+                        const notice = document.querySelector('.limit-notice');
+                        if (notice) notice.remove();
+                    }
+                }
+                updateTokenUI();
+            }
+        }, 1000);
+
+        // ============ UI HELPERS ============
+        function toggleQuickMenu(e) {
+            e.stopPropagation();
+            if (!currentUser) {
+                showAuthLockAlert();
+                return;
+            }
+            document.getElementById('quick-menu').classList.toggle('open');
+            document.getElementById('quick-btn').classList.toggle('active');
+        }
+
+        function pickQuick(text) {
+            document.getElementById('quick-menu').classList.remove('open');
+            document.getElementById('quick-btn').classList.remove('active');
+            sendSuggestion(text);
+        }
+
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('quick-menu');
+            const btn = document.getElementById('quick-btn');
+            if (menu && !menu.contains(e.target) && !btn.contains(e.target)) {
+                menu.classList.remove('open');
+                btn.classList.remove('active');
+            }
+            const wrapper = document.querySelector('.user-profile-wrapper');
+            if (wrapper && !wrapper.contains(e.target)) {
+                closeProfileDropdown();
+            }
+        });
+
+        // ============ RESET / NEW CHAT ============
+        let resetConfirmTimeout = null;
+        let resetConfirmState = false;
+
+        function handleReset() {
+            if (!currentUser) {
+                showAuthLockAlert();
+                return;
+            }
+            const btn = document.getElementById('reset-btn');
+            const text = document.getElementById('reset-text');
+            if (!resetConfirmState) {
+                resetConfirmState = true;
+                btn.classList.add('confirming');
+                text.textContent = "Yakin?";
+                resetConfirmTimeout = setTimeout(() => {
+                    resetConfirmState = false;
+                    btn.classList.remove('confirming');
+                    text.textContent = "Chat Baru";
+                }, 3000);
+            } else {
+                clearTimeout(resetConfirmTimeout);
+                resetConfirmState = false;
+                btn.classList.remove('confirming');
+                text.textContent = "Chat Baru";
+                clearChat();
+            }
+        }
+
+        // ============ GOOGLE AUTH ============
+        async function loginWithGoogle() {
+            try {
+                await auth.signInWithPopup(googleProvider);
+                closeAuthModal();
+            } catch (error) {
+                if (error.code !== 'auth/popup-closed-by-user') {
+                    alert(`Login gagal: ${error.message}`);
+                }
+            }
+        }
+
+        async function logoutUser() {
+            try {
+                await auth.signOut();
+                closeProfileDropdown();
+                messageHistory = [{ role: "system", content: SYSTEM_PROMPT }];
+            } catch (error) {
+                console.error("Logout error:", error);
+            }
+        }
+
+        function closeProfileDropdown() {
+            const dropdown = document.getElementById('profile-dropdown');
+            if (dropdown) dropdown.classList.remove('active');
+        }
+
+        function toggleProfileDropdown(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('profile-dropdown');
+            if (dropdown) dropdown.classList.toggle('active');
+        }
+
+        auth.onAuthStateChanged(async (user) => {
+            const prevUser = currentUser;
+            currentUser = user;
+            authInitialized = true;
+            renderAuthUI();
+            await loadTokens();
+
+            if (user) {
+                closeAuthModal();
+                // Jika baru saja login dari layar terkunci, perbarui tampilan welcome agar terbuka
+                if (!prevUser) {
+                    showWelcomeMessage();
+                }
+            } else {
+                // Jika logout atau belum login, tampilkan layar welcome terkunci
+                showWelcomeMessage();
+            }
+        });
+
+        function renderAuthUI() {
+            const authSection = document.getElementById('auth-section');
+            authSection.innerHTML = '';
+            if (currentUser) {
+                const photoURL = currentUser.photoURL;
+                const name = currentUser.displayName || 'User';
+                const email = currentUser.email || '';
+                const initial = name.charAt(0).toUpperCase();
+                const avatarContent = photoURL
+                    ? `<img src="${photoURL}" alt="${name}" referrerpolicy="no-referrer">`
+                    : `<div class="fallback-initial">${initial}</div>`;
+                authSection.innerHTML = `
+                    <div class="user-profile-wrapper">
+                        <button class="user-avatar-btn" onclick="toggleProfileDropdown(event)" title="${name}">
+                            ${avatarContent}
+                        </button>
+                        <div class="profile-dropdown" id="profile-dropdown">
+                            <div class="dropdown-header">
+                                <div class="dropdown-name">${name}</div>
+                                <div class="dropdown-email">${email}</div>
+                                <div class="dropdown-badge"><i class="fa-solid fa-cloud"></i> Cloud Sync Aktif</div>
+                            </div>
+                            <button class="dropdown-item danger" onclick="logoutUser()">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                authSection.innerHTML = `
+                    <button class="btn-google-login" onclick="loginWithGoogle()" title="Masuk dengan Google">
+                        <svg viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        <span>Login</span>
+                    </button>
+                `;
+            }
+        }
+
+        // ============ SPLASH SEQUENCE ============
+        (function bootSequence() {
+            const barFill = document.getElementById('splash-bar-fill');
+            const typingEl = document.getElementById('typing-text');
+            setTimeout(() => { barFill.style.width = '45%'; typingEl.textContent = 'Memverifikasi Sesi Keamanan...'; }, 180);
+            setTimeout(() => { barFill.style.width = '85%'; typingEl.textContent = 'Menyiapkan Terminal AI...'; }, 450);
+            setTimeout(() => {
+                barFill.style.width = '100%';
+                document.getElementById('splash').classList.add('hidden');
+                document.body.classList.add('loaded');
+                renderAuthUI();
+                updateTokenUI();
+                if (!authInitialized) {
+                    showWelcomeMessage();
+                }
+                setTimeout(() => {
+                    const splash = document.getElementById('splash');
+                    if (splash) splash.remove();
+                }, 600);
+            }, 780);
+        })();
+
+        // ============ API & CHAT ENGINE ============
+        const BINANCE_API_URL = "https://api.binance.com/api/v3/ticker/24hr";
+        const FRANKFURTER_API_URL = "https://api.frankfurter.dev/v2";
+        const DATASECTORS_API_KEY = "ds_live_pGrOGRZ6AXFTxMDcPhAb38UyN3xYHle0";
+        const GOOGLE_API_KEY = "AIzaSyDQ7U_nHjY_3J_XK7Zq_jLg_vG_lQz_x_k";
+        const GOOGLE_CSE_CX = "752569e06cc174123";
+
+        const chatContainer = document.getElementById("chat-container");
+        const promptInput = document.getElementById("prompt");
+        const sendBtn = document.getElementById("send-btn");
+        const scrollBottomBtn = document.getElementById("scroll-bottom-btn");
+
+        promptInput.addEventListener('input', function () {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 140) + 'px';
+        });
+
+        chatContainer.addEventListener('scroll', () => {
+            const dist = chatContainer.scrollHeight - chatContainer.scrollTop - chatContainer.clientHeight;
+            scrollBottomBtn.classList.toggle('visible', dist > 160);
+        });
+
+        function scrollToBottom() {
+            chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' });
+        }
+
+        const COIN_MAP = {
+            "bitcoin": "BTC", "btc": "BTC", "ethereum": "ETH", "eth": "ETH",
+            "tether": "USDT", "usdt": "USDT", "binance coin": "BNB", "bnb": "BNB",
+            "solana": "SOL", "sol": "SOL", "ripple": "XRP", "xrp": "XRP",
+            "dogecoin": "DOGE", "doge": "DOGE", "cardano": "ADA", "ada": "ADA",
+            "pepe": "PEPE", "shiba": "SHIB", "ton": "TON", "near": "NEAR"
+        };
+        const FOREX_MAP = {
+            "dolar": "USD", "amerika": "USD", "usd": "USD", "$": "USD",
+            "rupiah": "IDR", "indonesia": "IDR", "idr": "IDR", "rp": "IDR",
+            "euro": "EUR", "eropa": "EUR", "eur": "EUR",
+            "yen": "JPY", "jepang": "JPY", "jpy": "JPY",
+            "pound": "GBP", "inggris": "GBP", "gbp": "GBP",
+            "won": "KRW", "korea": "KRW", "ringgit": "MYR", "malaysia": "MYR"
+        };
+        const STOCK_KEYWORDS = ["GOTO", "BBCA", "BBRI", "TLKM", "ASII", "ADRO", "BMRI", "BBNI", "UNVR", "ICBP"];
+
+        function cleanAiText(text) {
+            if (!text) return text;
+            let clean = text;
+            clean = clean.replace(/Here's a thinking process:[\s\S]*?(\n\n|$)/i, '');
+            clean = clean.replace(/\d+\.\s+\*\*(Analyze|Identify|Check|Draft|Refine|Final Output|Self-Correction|Output Generation).*?[\s\S]*?(?=\n\n\d+\.|\n\n✅|\n\nHalo|\n\nSelamat|$)/gi, '');
+            clean = clean.replace(/✅.*?\n/gi, '');
+            clean = clean.replace(/Done.*?\n/gi, '');
+            clean = clean.replace(/\*Self-Correction.*?\*/gi, '');
+            clean = clean.replace(/```thinking[\s\S]*?```/gi, '');
+            const parts = clean.split('---');
+            if (parts.length > 1) clean = parts[parts.length - 1];
+            return clean.trim();
+        }
+
+        function enhanceCodeBlocks(container) {
+            container.querySelectorAll('pre').forEach((pre) => {
+                if (pre.parentElement.classList.contains('code-block-wrapper')) return;
+                const codeEl = pre.querySelector('code');
+                const langClass = codeEl ? Array.from(codeEl.classList).find(c => c.startsWith('language-')) : null;
+                const lang = langClass ? langClass.replace('language-', '') : 'code';
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'code-block-wrapper';
+
+                const header = document.createElement('div');
+                header.className = 'code-block-header';
+                header.innerHTML = `<span>${lang}</span>`;
+
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'btn-copy-code';
+                copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Salin kode';
+                copyBtn.onclick = () => {
+                    navigator.clipboard.writeText(pre.innerText).then(() => {
+                        copyBtn.innerHTML = '<i class="fa-solid fa-check" style="color:var(--accent-emerald);"></i> Tersalin';
+                        setTimeout(() => { copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Salin kode'; }, 2000);
+                    });
+                };
+
+                header.appendChild(copyBtn);
+                pre.parentNode.insertBefore(wrapper, pre);
+                wrapper.appendChild(header);
+                wrapper.appendChild(pre);
+            });
+        }
+
+        function smartTypewriter(element, html, callback) {
+            element.innerHTML = '';
+            const tokens = html.match(/(<[^>]+>|[^<\s]+|\s+)/g) || [];
+            let idx = 0;
+            let currentHtml = '';
+
+            function step() {
+                for (let b = 0; b < 3 && idx < tokens.length; b++, idx++) {
+                    currentHtml += tokens[idx];
+                }
+                element.innerHTML = currentHtml + '<span class="typewriter-cursor"></span>';
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+
+                if (idx < tokens.length) {
+                    setTimeout(step, 14);
+                } else {
+                    element.innerHTML = html;
+                    enhanceCodeBlocks(element);
+                    if (callback) callback();
+                }
+            }
+            step();
+        }
+
+        function appendMessage(role, text, withTypewriter = false, originalUserPrompt = null) {
+            const welcomeEl = document.getElementById('empty-state-welcome');
+            if (welcomeEl) welcomeEl.remove();
+
+            const message = document.createElement("div");
+            message.className = `message ${role}`;
+
+            if (role === 'user') {
+                const bubble = document.createElement("div");
+                bubble.className = "user-bubble";
+                bubble.textContent = text;
+                message.appendChild(bubble);
+                chatContainer.appendChild(message);
+            } else {
+                const avatar = document.createElement("div");
+                avatar.className = "ai-avatar";
+                avatar.innerHTML = '<i class="fa-solid fa-microchip"></i>';
+
+                const body = document.createElement("div");
+                body.className = "ai-body";
+
+                const timeStr = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                const headerLine = document.createElement("div");
+                headerLine.className = "ai-header-line";
+                headerLine.innerHTML = `ORIXTRON <span class="time">${timeStr}</span>`;
+
+                const markdownDiv = document.createElement("div");
+                markdownDiv.className = "ai-markdown";
+
+                let cleanText = cleanAiText(text);
+                if (!cleanText && text.includes("Halo")) {
+                    const lines = text.split('\n');
+                    cleanText = lines[lines.length - 1];
+                }
+
+                let htmlContent = marked.parse(cleanText);
+                htmlContent = htmlContent.replace(/Bullish\s*📈/gi, '<span class="crypto-up">Bullish 📈</span>');
+                htmlContent = htmlContent.replace(/Bearish\s*📉/gi, '<span class="crypto-down">Bearish 📉</span>');
+                htmlContent = htmlContent.replace(/\b(IDR|USD|EUR|JPY|GBP)\b/g, '<span class="forex-tag">$1</span>');
+
+                const toolbar = document.createElement("div");
+                toolbar.className = "ai-toolbar";
+
+                const copyBtn = document.createElement("button");
+                copyBtn.className = "toolbar-btn";
+                copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Salin';
+                copyBtn.onclick = () => {
+                    navigator.clipboard.writeText(cleanText).then(() => {
+                        copyBtn.classList.add('success');
+                        copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Tersalin';
+                        setTimeout(() => {
+                            copyBtn.classList.remove('success');
+                            copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Salin';
+                        }, 2000);
+                    });
+                };
+                toolbar.appendChild(copyBtn);
+
+                if (originalUserPrompt) {
+                    const retryBtn = document.createElement("button");
+                    retryBtn.className = "toolbar-btn";
+                    retryBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Ulangi';
+                    retryBtn.onclick = () => sendSuggestion(originalUserPrompt);
+                    toolbar.appendChild(retryBtn);
+                }
+
+                body.appendChild(headerLine);
+                body.appendChild(markdownDiv);
+                message.appendChild(avatar);
+                message.appendChild(body);
+                chatContainer.appendChild(message);
+
+                if (withTypewriter) {
+                    message.classList.add('speaking');
+                    smartTypewriter(markdownDiv, htmlContent, () => {
+                        message.classList.remove('speaking');
+                        body.appendChild(toolbar);
+                        toolbar.classList.add('show');
+                        scrollToBottom();
+                    });
+                } else {
+                    markdownDiv.innerHTML = htmlContent;
+                    enhanceCodeBlocks(markdownDiv);
+                    body.appendChild(toolbar);
+                    toolbar.classList.add('show');
+                }
+            }
+
+            setTimeout(() => scrollToBottom(), 40);
+        }
+
+        function showWelcomeMessage() {
+            chatContainer.innerHTML = '';
+            const isLoggedIn = !!currentUser;
+            const firstName = isLoggedIn ? (currentUser.displayName?.split(' ')[0] || 'Trader') : '';
+            const greeting = isLoggedIn
+                ? `Halo ${firstName}, ada yang bisa dibantu?`
+                : `Selamat Datang di ORIXTRON AI`;
+
+            const lockBannerHtml = !isLoggedIn ? `
+                <div class="auth-lock-banner">
+                    <div class="auth-lock-left">
+                        <div class="auth-lock-icon-box">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <div>
+                            <div class="auth-lock-title">
+                                <span>Sistem Chat Terkunci</span>
+                            </div>
+                            <div class="auth-lock-desc">Login dengan akun Google Anda untuk membuka akses AI dan mengaktifkan <b>10 token</b> (+1 tiap 5 menit).</div>
+                        </div>
+                    </div>
+                    <button class="btn-banner-google" onclick="loginWithGoogle()">
+                        <svg viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        <span>Login dengan Google</span>
+                    </button>
+                </div>
+            ` : '';
+
+            const cardClass = isLoggedIn ? 'starter-card' : 'starter-card locked-preview';
+            const cardIcon = (defaultIcon) => isLoggedIn ? defaultIcon : 'fa-solid fa-lock';
+
+            const syncHtml = isLoggedIn
+                ? `<i class="fa-solid fa-cloud" style="color:var(--accent-emerald);"></i> Cloud Sync aktif &bull; Kapasitas 10 token (+1 tiap 5 menit)`
+                : `<i class="fa-solid fa-shield-halved" style="color:var(--warning);"></i> Autentikasi Google diperlukan untuk menjaga keamanan & sinkronisasi kuota token`;
+
+            const welcome = document.createElement('div');
+            welcome.className = 'empty-state-welcome';
+            welcome.id = 'empty-state-welcome';
+            welcome.innerHTML = `
+                <div class="hero-emblem">
+                    <img src="logo.png" alt="ORIXTRON" onerror="this.style.display='none'; this.parentElement.textContent='O';">
+                </div>
+                <h2 class="hero-title">${greeting}</h2>
+                <p class="hero-subtitle">Asisten AI untuk analisis harga kripto real-time, level teknikal saham IDX, konversi forex, dan riset berita pasar.</p>
+                ${lockBannerHtml}
+                <div class="starter-grid">
+                    <button class="${cardClass}" onclick="sendSuggestion('BTC')">
+                        <div class="starter-card-top"><span>Harga & Pivot Bitcoin</span><i class="${cardIcon('fa-brands fa-bitcoin')}"></i></div>
+                        <div class="starter-card-desc">Cek harga 24H serta area Support & Resisten</div>
+                    </button>
+                    <button class="${cardClass}" onclick="sendSuggestion('GOTO')">
+                        <div class="starter-card-top"><span>Analisis Saham GOTO</span><i class="${cardIcon('fa-solid fa-chart-line')}"></i></div>
+                        <div class="starter-card-desc">Pantau pergerakan IDX & level teknikal</div>
+                    </button>
+                    <button class="${cardClass}" onclick="sendSuggestion('USD ke IDR')">
+                        <div class="starter-card-top"><span>Kurs USD ke IDR</span><i class="${cardIcon('fa-solid fa-dollar-sign')}"></i></div>
+                        <div class="starter-card-desc">Nilai tukar mata uang global terkini</div>
+                    </button>
+                    <button class="${cardClass}" onclick="sendSuggestion('Berita crypto hari ini')">
+                        <div class="starter-card-top"><span>Berita Pasar Hari Ini</span><i class="${cardIcon('fa-solid fa-newspaper')}"></i></div>
+                        <div class="starter-card-desc">Rangkuman sentimen & update web terbaru</div>
+                    </button>
+                </div>
+                <div class="sync-caption">${syncHtml}</div>
+            `;
+            chatContainer.appendChild(welcome);
+
+            if (isLoggedIn && tokenState.tokens === 0) {
+                showLimitNotice();
+            }
+        }
+
+        function showLimitNotice() {
+            const existing = document.querySelector('.limit-notice');
+            if (existing) existing.remove();
+            const remainingMs = Math.max(0, (tokenState.lastUpdated + REGEN_INTERVAL_MS) - Date.now());
+            const notice = document.createElement('div');
+            notice.className = 'limit-notice';
+            notice.innerHTML = `
+                <div class="limit-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                <div class="limit-info">
+                    <div class="limit-title">Kuota Token Sementara Habis (0/10)</div>
+                    <div class="limit-desc">Sistem mengisi ulang <b>+1 token setiap 5 menit</b> secara otomatis.</div>
+                    <div class="limit-countdown">Token berikutnya tersedia dalam ${formatCountdownMs(remainingMs)}</div>
+                </div>
+            `;
+            chatContainer.appendChild(notice);
+            scrollToBottom();
+        }
+
+        function sendSuggestion(text) {
+            if (!currentUser) {
+                showAuthLockAlert();
+                return;
+            }
+            if (tokenState.tokens === 0) {
+                showLimitNotice();
+                return;
+            }
+            promptInput.value = text;
+            sendMessage();
+        }
+
+        function showLoading() {
+            const message = document.createElement("div");
+            message.className = "message ai speaking";
+            message.id = "loading-msg";
+            message.innerHTML = `
+                <div class="ai-avatar"><i class="fa-solid fa-microchip"></i></div>
+                <div class="ai-body">
+                    <div class="ai-header-line">ORIXTRON</div>
+                    <div class="thinking-row">
+                        <div class="pulse-dots"><span></span><span></span><span></span></div>
+                        <span>Menganalisis data...</span>
+                    </div>
+                </div>
+            `;
+            chatContainer.appendChild(message);
+            scrollToBottom();
+        }
+
+        function removeLoading() {
+            const loader = document.getElementById("loading-msg");
+            if (loader) loader.remove();
+        }
+
+        // ============ MARKET & SEARCH APIS ============
+        async function fetchCryptoData(symbol) {
+            try {
+                const pair = symbol.endsWith("USDT") ? symbol : symbol + "USDT";
+                const response = await fetch(`${BINANCE_API_URL}?symbol=${pair}`);
+                if (!response.ok) throw new Error("Crypto API Error");
+                const data = await response.json();
+                return {
+                    symbol: data.symbol.replace("USDT", ""),
+                    price_usd: parseFloat(data.lastPrice),
+                    high_24h: parseFloat(data.highPrice),
+                    low_24h: parseFloat(data.lowPrice),
+                    change_percent: parseFloat(data.priceChangePercent).toFixed(2)
+                };
+            } catch (error) { return null; }
+        }
+
+        async function fetchForexRate(from, to) {
+            try {
+                const response = await fetch(`${FRANKFURTER_API_URL}/rate/${from}/${to}`);
+                if (!response.ok) return null;
+                const data = await response.json();
+                return data.rate;
+            } catch (error) { return null; }
+        }
+
+        async function fetchStockData(symbol) {
+            try {
+                const formattedSymbol = symbol.startsWith("IDX:") ? symbol : `IDX:${symbol.toUpperCase()}`;
+                const res = await fetch(`https://api.datasectors.com/api/chart/price?symbol=${formattedSymbol}&limit=1`,
+                    { headers: { "X-API-Key": DATASECTORS_API_KEY } });
+                if (!res.ok) throw new Error("Stock API Error");
+                const rawData = await res.json();
+                let price = 0, change = 0, high = 0, low = 0;
+                if (rawData && Array.isArray(rawData) && rawData.length > 0) {
+                    const latestCandle = rawData[rawData.length - 1];
+                    price = latestCandle.close || latestCandle[4];
+                    high = latestCandle.high || latestCandle[2];
+                    low = latestCandle.low || latestCandle[3];
+                    if (rawData.length > 1) {
+                        const prevCandle = rawData[rawData.length - 2];
+                        const prevPrice = prevCandle.close || prevCandle[4];
+                        change = ((price - prevPrice) / prevPrice) * 100;
+                    }
+                } else if (rawData.data && rawData.data.length > 0) {
+                    const latest = rawData.data[0];
+                    price = latest.close; high = latest.high; low = latest.low;
+                    change = latest.change_percent || 0;
+                }
+                return { symbol: symbol.toUpperCase(), price_idr: price, high, low, change_percent: change.toFixed(2) };
+            } catch (err) { return null; }
+        }
+
+        async function fetchGoogleResults(query) {
+            try {
+                const url = `https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CSE_CX}&q=${encodeURIComponent(query)}&num=3`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error("Google API Limit/Error");
+                const data = await response.json();
+                if (!data.items) return null;
+                let contextString = "[WEB_SEARCH_DATA]:\n";
+                data.items.forEach((item, index) => {
+                    contextString += `${index + 1}. Judul: ${item.title}\nSnippet: ${item.snippet}\nLink: ${item.link}\n\n`;
+                });
+                return contextString;
+            } catch (error) { return null; }
+        }
+
+        function calculateTechnicals(price, high24, low24) {
+            const range = high24 - low24;
+            const pivot = (high24 + low24 + price) / 3;
+            const r1 = pivot + (0.382 * range), r2 = pivot + (0.618 * range);
+            const s1 = pivot - (0.382 * range), s2 = pivot - (0.618 * range);
+            return {
+                r1: r1.toFixed(2), r2: r2.toFixed(2), s1: s1.toFixed(2), s2: s2.toFixed(2),
+                supply: `${r1.toFixed(2)} - ${r2.toFixed(2)}`, demand: `${s2.toFixed(2)} - ${s1.toFixed(2)}`
+            };
+        }
+
+        function formatCurrency(value, currency) {
+            if (currency === "IDR") return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(value);
+            if (currency === "USD") return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+            return value.toLocaleString();
+        }
+
+        function analyzeIntent(text) {
+            const lowerText = text.toLowerCase();
+            if (lowerText.includes("developer") || lowerText.includes("pembuat") || lowerText.includes("creator") || lowerText.includes("instagram") || lowerText.includes("akio") || lowerText.includes("awi")) {
+                return { mode: "DEVELOPER_INFO" };
+            }
+            if (lowerText.includes("berita") || lowerText.includes("news") || lowerText.includes("info") ||
+                lowerText.includes("siapa") || lowerText.includes("apa itu") || lowerText.includes("bagaimana") ||
+                lowerText.includes("kenapa") || lowerText.includes("cari") || lowerText.includes("prediksi")) {
+                let asset = null;
+                for (const [name, code] of Object.entries(COIN_MAP)) {
+                    if (lowerText.includes(name)) { asset = code; break; }
+                }
+                if (!asset) {
+                    for (const stock of STOCK_KEYWORDS) {
+                        if (lowerText.includes(stock.toLowerCase())) { asset = stock; break; }
+                    }
+                }
+                let query = asset ? `${asset} news update` : text;
+                return { mode: "WEB_SEARCH", query };
+            }
+            let detectedStock = null;
+            for (const stock of STOCK_KEYWORDS) {
+                if (lowerText.includes(stock.toLowerCase())) { detectedStock = stock; break; }
+            }
+            if (!detectedStock && lowerText.match(/saham\s([a-z]{4})/)) {
+                detectedStock = lowerText.match(/saham\s([a-z]{4})/)[1].toUpperCase();
+            }
+            if (detectedStock) return { mode: "STOCK_ONLY", symbol: detectedStock };
+
+            let detectedCoin = null;
+            for (const [name, code] of Object.entries(COIN_MAP)) {
+                if (lowerText.includes(name)) { detectedCoin = code; break; }
+            }
+            let targetFiat = null;
+            const forexKeywords = Object.keys(FOREX_MAP).sort((a, b) => b.length - a.length);
+            for (const keyword of forexKeywords) {
+                if (lowerText.includes(keyword)) { targetFiat = FOREX_MAP[keyword]; break; }
+            }
+            if (detectedCoin && targetFiat && targetFiat !== "USD") return { mode: "HYBRID_CALC", coin: detectedCoin, fiat: targetFiat };
+            if (detectedCoin) return { mode: "CRYPTO_ONLY", coin: detectedCoin };
+            if (targetFiat) return { mode: "FOREX_ONLY", target: targetFiat };
+            return { mode: "CHAT" };
+        }
+
+        // ============ SEND MESSAGE ============
+        async function sendMessage() {
+            if (!currentUser) {
+                showAuthLockAlert();
+                return;
+            }
+
+            const text = promptInput.value.trim();
+            if (!text || isGenerating) return;
+
+            tokenState = recalculateRegen(tokenState);
+            updateTokenUI();
+
+            if (tokenState.tokens <= 0) {
+                showLimitNotice();
+                return;
+            }
+
+            appendMessage("user", text);
+            promptInput.value = "";
+            promptInput.style.height = "auto";
+            isGenerating = true;
+            toggleInput(false);
+            showLoading();
+
+            const intent = analyzeIntent(text);
+            let finalPrompt = text;
+
+            try {
+                if (intent.mode === "DEVELOPER_INFO") {
+                    finalPrompt = `User meminta info developer. Tampilkan kartu profil Akio Yuki.`;
+                } else if (intent.mode === "WEB_SEARCH") {
+                    const searchData = await fetchGoogleResults(intent.query);
+                    if (searchData) {
+                        finalPrompt = `Pertanyaan User: "${text}"\n\nSaya telah mengambil data terbaru dari Google Search:\n${searchData}\n\nTugasmu: Jawab pertanyaan user dengan merangkum data di atas.`;
+                    } else {
+                        finalPrompt = `${text} (System Note: Web search failed)`;
+                    }
+                } else if (intent.mode === "STOCK_ONLY") {
+                    const stockData = await fetchStockData(intent.symbol);
+                    if (stockData) {
+                        const formattedPrice = formatCurrency(stockData.price_idr, "IDR");
+                        const trend = parseFloat(stockData.change_percent) >= 0 ? "Naik" : "Turun";
+                        const tech = calculateTechnicals(stockData.price_idr, stockData.high, stockData.low);
+                        finalPrompt = `${text}\n\n[DATA_RESULT]:\nSaham: ${stockData.symbol}\nHarga: ${formattedPrice}\nPerubahan: ${stockData.change_percent}% (${trend})\n[TECHNICAL_ANALYSIS]:\nR1: Rp ${tech.r1}\nR2: Rp ${tech.r2}\nS1: Rp ${tech.s1}\nS2: Rp ${tech.s2}`;
+                    }
+                } else if (intent.mode === "HYBRID_CALC") {
+                    const cryptoData = await fetchCryptoData(intent.coin);
+                    const usdToFiatRate = await fetchForexRate("USD", intent.fiat);
+                    if (cryptoData && usdToFiatRate) {
+                        const finalPriceInFiat = cryptoData.price_usd * usdToFiatRate;
+                        const formattedCrypto = formatCurrency(cryptoData.price_usd, "USD");
+                        const formattedFiat = formatCurrency(finalPriceInFiat, intent.fiat);
+                        const tech = calculateTechnicals(finalPriceInFiat, finalPriceInFiat * 1.02, finalPriceInFiat * 0.98);
+                        finalPrompt = `${text}\n\n[DATA]: ${cryptoData.symbol} USD: ${formattedCrypto} / ${intent.fiat}: ${formattedFiat} R1: ${tech.r1} S1: ${tech.s1}`;
+                    }
+                } else if (intent.mode === "CRYPTO_ONLY") {
+                    const cryptoData = await fetchCryptoData(intent.coin);
+                    if (cryptoData) {
+                        const formattedPrice = formatCurrency(cryptoData.price_usd, "USD");
+                        const trend = parseFloat(cryptoData.change_percent) >= 0 ? "Naik" : "Turun";
+                        const tech = calculateTechnicals(cryptoData.price_usd, cryptoData.high_24h, cryptoData.low_24h);
+                        finalPrompt = `${text}\n\n[DATA]: ${cryptoData.symbol} ${formattedPrice} ${cryptoData.change_percent}% (${trend}) R1:$${tech.r1} R2:$${tech.r2} S1:$${tech.s1} S2:$${tech.s2}`;
+                    }
+                } else if (intent.mode === "FOREX_ONLY") {
+                    let base = intent.target === "USD" ? "EUR" : "USD";
+                    const rate = await fetchForexRate(base, intent.target);
+                    if (rate) finalPrompt = `${text}\n\nKurs ${base}/${intent.target}: ${rate}`;
+                }
+
+                const currentMessages = [...messageHistory, { role: "user", content: finalPrompt }];
+                const response = await fetch("/api/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ messages: currentMessages })
+                });
+                const data = await response.json();
+                removeLoading();
+
+                if (data.error) {
+                    appendMessage("ai", `⚠️ **System Error**: ${data.error.message || data.error}`, false, text);
+                } else {
+                    const aiResponse = data.choices[0].message.content;
+                    appendMessage("ai", aiResponse, true, text);
+                    await consumeToken();
+                    animateTokenPill();
+                    messageHistory.push({ role: "user", content: text });
+                    messageHistory.push({ role: "assistant", content: aiResponse });
+                    if (messageHistory.length > 10) messageHistory.splice(1, 2);
+                    if (tokenState.tokens === 0) {
+                        setTimeout(() => showLimitNotice(), 700);
+                    }
+                }
+            } catch (err) {
+                removeLoading();
+                appendMessage("ai", `⚠️ **Connection Error**: Tidak dapat menghubungi server analisis.`, false, text);
+            } finally {
+                isGenerating = false;
+                toggleInput(true);
+            }
+        }
+
+        function toggleInput(enable) {
+            if (!currentUser || (enable && tokenState.tokens === 0)) {
+                updateTokenUI();
+                return;
+            }
+            promptInput.disabled = !enable;
+            sendBtn.disabled = !enable;
+            if (enable && tokenState.tokens > 0) promptInput.focus();
+        }
+
+        function clearChat() {
+            messageHistory = [{ role: "system", content: SYSTEM_PROMPT }];
+            showWelcomeMessage();
+        }
+
+        promptInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        window.addEventListener('load', function () {
+            const promptRef = db.ref('config/system_prompt');
+            promptRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                SYSTEM_PROMPT = data || "Nama kamu adalah ORIXTRON...";
+                messageHistory = [{ role: "system", content: SYSTEM_PROMPT }];
+            });
+        });
+    </script>
+</body>
+</html>
